@@ -46,8 +46,12 @@ namespace HaloDocWeb.Controllers
                     User user = _context.Users.FirstOrDefault(Au => Au.Email == userdetails.Email);
                     HttpContext.Session.SetInt32("userId", user.UserId);
                     return RedirectToAction("Dashboard", "PatientDashboard");
-                }
 
+                }
+                else
+                {
+                    ViewData["error"] = "Invalid Id/Password";
+                }
 
             }
             return View(userdetails);

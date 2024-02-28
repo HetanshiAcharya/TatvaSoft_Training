@@ -6,6 +6,8 @@ using HaloDocDataAccess.ViewModels;
 using HaloDocRepository.Repositories;
 using HaloDocRepository.Interface;
 using Microsoft.AspNetCore.Http;
+using HaloDocWeb.Models;
+using System.Diagnostics;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -39,8 +41,14 @@ namespace HaloDocDataAccess.Controllers
             {
                 if (_adminservice.AdminAuthentication(adminLogin))
                 {
+                    AspNetUser aspuser = _context.AspNetUsers.FirstOrDefault(Au => Au.Email == adminLogin.Email);
+                    HttpContext.Session.SetString("userId", aspuser.Id);
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    ViewData["error"] = "Invalid Id/Password";
 
-                    return RedirectToAction("Index","Admin");
                 }
             }
             return View(adminLogin);
@@ -50,13 +58,7 @@ namespace HaloDocDataAccess.Controllers
         {
             return View();
         }
-        //////////////////////////////////
-        //GET
-        //public IActionResult AdminDashboard()
-        //{
-        //    return View();
-        //}
-        //POST
+
         public IActionResult Index()
         {
             CountStatusWiseRequestModel sm = _adminservice.Indexdata();
@@ -103,15 +105,29 @@ namespace HaloDocDataAccess.Controllers
 
             return PartialView("../Admin/_New", contacts);
         }
-        //GET
-        public IActionResult ViewCase()
+
+        public IActionResult ViewCase(int? RId, int? RTId)
+        {
+            ViewCaseData vdvc = _adminservice.NewRequestData(RId, RTId);
+            return View(vdvc);
+        }
+
+        [HttpPost]
+        public IActionResult ViewCase(ViewCaseData vdvc, int? RId, int? RTId)
+        {
+            ViewCaseData vc = _adminservice.Edit(vdvc, RId, RTId);
+            return View(vc);
+        }
+
+        public IActionResult ViewNotes(int? id)
         {
             return View();
         }
-        //GET
-        public IActionResult ViewNotes()
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
         {
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
