@@ -19,36 +19,36 @@
     </div>
     <div class="form-group row  p-3 card-form">
         <h4 class="mt-2 mb-6">Patient Information</h4>
+        <input type="hidden" asp-for="RequestID" />
         <h6 class="mt-2 mb-6">Confirmation Number</h6>
         <h6 class="text-info">MDQ12KI8HT6</h6>
         <div class="col-w-100 col-sm-12">
             <textarea asp-for="PatientNotes" class="form-control"
                       id="exampleFormControlTextarea1"
                       rows="3"
-                      placeholder="Enter Brief Details of Symptoms"   >
+                      placeholder="Enter Brief Details of Symptoms"  required disabled>
             </textarea>
         </div>
 
         <div class="col-sm-6">
             <input asp-for="FirstName" class="form-control col-md mt-4"
                    type="text"
-                   placeholder="First Name" required  />
+                   placeholder="First Name" required disabled />
         </div>
         <div class="col-sm-6">
             <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
                    type="text"
-                   placeholder="Last Name" required  />
+                   placeholder="Last Name" required disabled />
         </div>
 
         <div class="col-sm-6">
             <input asp-for="Dob" type="date"
                    class="form-control form-control-md col-md mt-4"
-                   placeholder="Select Date" required  />
+                   placeholder="Select Date" required disabled />
         </div>
         <div class="col-sm-5">
             <input asp-for="PhoneNumber" id="phone1"
                    type="tel"
-                   name="phone"
                    class="form-control form-control-md col-md mt-4 iti"  />
         </div>
         <div class="col-sm-3 mt-4 small-btns">
@@ -59,23 +59,23 @@
         </div>
         <div class="col-sm-6">
             <input asp-for="Email" class="form-control form-control-md col-md mt-4"
-                   type="email"
-                   placeholder="Enter Email" required  />
+                   type="email" id="email"
+                   placeholder="Enter Email" required disabled />
         </div>
         <div class="col-sm-3 mt-4 small-btns">
             <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded p-2">Edit</a>
-            <input type="submit" id="submit" class="btn bg-info text-white rounded p-2" value="Save">
+            <input type="submit" id="submit" class="btn bg-info text-white rounded p-2" value="Save" style="display:none;">
             </div>        
         <h4 class="mt-4 mb-6">Location Information</h4>
         <div class="col-sm-6">
             <input asp-for="Region" class="form-control form-control-md col-md mt-4"
                    type="text"
-                   placeholder="Region"  />
+                   placeholder="Region" disabled />
         </div>
         <div class="col-sm-5">
             <input asp-for="Address" class="form-control form-control-md col-md mt-4"
                    type="text"
-                   placeholder="Business/Property Name"  />
+                   placeholder="Business/Property Name" disabled />
         </div>
         <div class="col-sm-3 mt-4 small-btns">
             <button type="button" class="btn btn-outline-info">
@@ -129,6 +129,14 @@
     </div>
 </div>
 <script>
+    function enable_disable() {
+        $("#email").removeAttr('disabled');
+        $("#phone1").removeAttr('disabled');
+        $("#submit").css("display", "block");
+        $("#edit").css("display", "none");
+    }
+</script>
+@* <script>
     $(document).ready(function () {
         $("input").prop("readonly", true);
         $("textarea").prop("readonly", true);
@@ -146,4 +154,4 @@
         $("input").css("background-color", "transparent");
         $("textarea").css("background-color", "transparent");
     }
-</script>
+</script> *@
