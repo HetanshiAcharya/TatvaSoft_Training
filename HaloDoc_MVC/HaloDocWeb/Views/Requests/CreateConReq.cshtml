@@ -1,0 +1,165 @@
+﻿@model HaloDocDataAccess.ViewModels.ConciergeSubmitRequests;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Request by Concierge</title>
+    <link rel="stylesheet" href="~/css/request.css" />
+
+</head>
+<body>
+    <!-- navigation  -->
+    <header>
+        <img src="~/images/HaloDoc-Logo.png"
+             alt=""
+             class="logo-img" />
+        <div class="toggle-btn border-secondary" onclick="myFunction()">
+            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+        </div>
+    </header>
+    <!-- main form  -->
+    <form class="container-fluid" asp-controller="Requests" asp-action="CreateConReq" onsubmit="customValidation()">
+        <div class="form-group row">
+            <div class="col-sm-12 d-flex justify-content-end">
+                <button class="btn btn-outline-primary mr-4" type="submit">
+                    <a asp-controller="RequestHome" asp-action="PatientSubmitReq" class="link-color">Back</a>
+                </button>
+            </div>
+            <h4 class="mt-4 mb-6">Concierge Information</h4>
+            <div class="col-sm-6">
+                <input asp-for="CON_FirstName" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="First Name" required />
+            </div>
+
+            <div class="col-sm-6">
+                <input asp-for="CON_LastName" class="form-control form-control-md col-md col-sm mt-4"
+                       type="text"
+                       placeholder="Last Name" required />
+            </div>
+            <span asp-validation-for="CON_FirstName" class="text-danger validate col-6"></span>
+            <span asp-validation-for="CON_LastName" class="text-danger validate col-6"></span>
+
+            <div class="col-sm">
+                <input asp-for="CON_Email" class="form-control form-control-md col-md mt-4"
+                       type="email"
+                       id="email"
+                       placeholder="Enter Email" required />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="CON_PhoneNumber" id="phone1"
+                       type="tel"
+                       name="phone"
+                       class="form-control form-control-md col-md mt-4 iti" />
+            </div>
+            <span asp-validation-for="CON_Email" class="text-danger validate col-6"></span>
+            <span asp-validation-for="CON_PhoneNumber" class="text-danger validate col-6"></span>
+
+
+            <div class="col-sm-6">
+                <input asp-for="CON_PropertyName" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Hotel/Property Name" />
+            </div>
+            <h4 class="mt-4 mb-6">Concierge Location</h4>
+            <div class="col-sm-6">
+                <input asp-for="CON_Street" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Street" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="CON_City" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="City" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="CON_State" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="State" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="CON_ZipCode" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Zip Code" />
+            </div>
+
+            <h4 class="mt-4 mb-6">Patient Information</h4>
+            <div class="col-w-100 col-sm-12">
+                <textarea asp-for="Symptoms" class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          placeholder="Enter Brief Details of Symptoms" required></textarea>
+            </div>
+            <span asp-validation-for="Symptoms" class="text-danger validate col-12"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="FirstName" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="First Name" required />
+            </div>
+
+            <div class="col-sm-6">
+                <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
+                       type="text"
+                       placeholder="Last Name" required />
+            </div>
+            <span asp-validation-for="FirstName" class="text-danger validate col-6"></span>
+            <span asp-validation-for="LastName" class="text-danger validate col-6"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="BirthDate" type="date"
+                       class="form-control form-control-md col-md mt-4"
+                       placeholder="Select Date" required />
+            </div>
+
+            <h4 class="mt-4 mb-6">Patient Contact Information</h4>
+            <div class="col-sm">
+                <input asp-for="Email" class="form-control form-control-md col-md mt-4"
+                       type="email"
+                       placeholder="Enter Email" required />
+            </div>
+
+            <div class="col-sm-6">
+                <input asp-for="PhoneNumber" id="phone2"
+                       type="tel"
+                       name="phone"
+                       class="form-control form-control-md col-md mt-4 iti" />
+            </div>
+            <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
+            <span asp-validation-for="Email" class="text-danger validate col-6"></span>
+
+            <h4 class="mt-4 mb-6">Patient Location</h4>
+
+            <div class="col-sm-6">
+                <input asp-for="RoomSuite" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Room/ Suite (Optional)" />
+            </div>
+            <h4 class="mt-4 mb-6">(Optional) Upload Photo or Document</h4>
+            <div class="file-input col-sm">
+                <input type="file"
+                       id="file"
+                       class="file form-control form-control-md" />
+                <label for="file">Upload</label>
+            </div>
+            <div class="col-sm-12 d-flex justify-content-end">
+                <button class="btn btn-primary mr-4" type="submit">Submit</button>
+                <button class="btn btn-outline-primary mr-4" type="submit">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+    <!-- //////  -->
+    <!-- footer  -->
+    <footer>
+        <div class="footerDiv">
+            <a href="" class="footerLinks tnC">Terms and Condition</a>
+            <a href="" class="footerLinks">Privacy</a>
+        </div>
+    </footer>
+</body>
+<script src="~/js/dark.js"></script>
+</html>

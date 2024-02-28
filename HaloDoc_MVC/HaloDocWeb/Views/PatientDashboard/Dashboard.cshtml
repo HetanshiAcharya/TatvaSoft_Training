@@ -1,0 +1,140 @@
+﻿@model HaloDocDataAccess.ViewModels.PatientDashboard;
+@{
+    Layout = "_PatientDashboardLayout";
+    ViewData["Title"] = "Dashboard";
+    ViewData["User Name"] = Model.UserName;
+}
+
+<div class="tab-content px-4" id="myTabContent">
+    <div class="tab-pane fade active show " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="dashboard">
+            <p class="medHis">
+                <b>Medical History</b>
+                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Create New Request
+                </button>
+            </p>
+            <table class="table shadow mt-4 " id="table_dashboard">
+                <colgroup>
+                    <col span="1" style="width: 15%;">
+                    <col span="1" style="width: 70%;">
+                    <col span="1" style="width: 15%;">
+                </colgroup>
+
+                <thead class="table-head align-middle table-secondary">
+                    <tr>
+                        <th>Created Date</th>
+                        <th>Current Status</th>
+                        <th>Document</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body align-middle">
+                    @for (int i = 0; i < Model.Requests.Count; i++)
+                    {
+                        <tr class="table-row">
+                            <td>
+                                @Model.Requests[i].CreatedDate
+                            </td>
+                            <td>@Model.Requests[i].Status</td>
+                            <td>
+                                @if (Model.DocumentCount[i] >= 0)
+                                {
+                                    <a asp-controller="PatientDashboard" asp-action="ViewDocument" asp-route-requestId="@Model.Requests[i].RequestId" class="btn btn-outline-info shadow-none night-mode-btn">
+                                        <span>(@Model.DocumentCount[i]) Documents</span>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Create New Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Here I want to create a new request for...</p>
+                            <button type="button" class="btn btn-outline-primary"><a class="modal-link sec-btn" asp-controller="PatientDashboard" asp-action="SubmitForSomeOneElse">Some one Else</a></button>
+                            <button type="button" class="btn btn-primary"><a class="modal-link " asp-controller="PatientDashboard" asp-action="SubmitForMe">Me</a></button>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/site.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous">
+</script>
+
+<script>
+    setTimeout(function () {
+        console.log("null successfull");
+        TempData["success"] = null;
+    }, 5000);
+</script>
+
+<script>
+
+    var isMeRequest = true;
+
+    function toggleCreateRequest(element) {
+        if (element.classList.contains("someone-else-btn")) {
+            isMeRequest = false;
+        }
+        else {
+            isMeRequest = true;
+        }
+
+        if (!element.classList.contains("create-request-active")) {
+            $(".create-request-btn").removeClass("create-request-active");
+            element.classList.add("create-request-active");
+        }
+    }
+
+    function redirect() {
+
+        if (isMeRequest) {
+            console.log("hi");
+            document.getElementById("request-me-anchor").click();
+        }
+        else {
+            document.getElementById("request-someone-else-anchor").click();
+        }
+
+    }
+
+
+</script>
+<script>
+    var profile = document.getElementById("profile-tab");
+    var dashboard = document.getElementById("dashboard-tab");
+
+    profile.classList.remove("active");
+    dashboard.classList.add("active");
+</script>
+
+
+<script type="text/javascript">
+
+    $(window).on('load', function () {
+        new DataTable('#table_dashboard', {
+            paging: true,
+            ordering: false,
+            scrollX: false,
+            searching: false
+        });
+    });
+
+</script>

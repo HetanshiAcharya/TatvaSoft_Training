@@ -1,0 +1,81 @@
+.logo-img {
+  position: relative;
+  height: 80px;
+}
+header {
+  z-index: 3;
+  background-color: white;
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  box-shadow: 0 4px 7px -2px rgb(0 0 0 / 20%);
+}
+.link {
+  text-decoration: none;
+}
+.logout-btn {
+  background-color: white;
+  color: #02bbe9;
+  height: 45px;
+  width: 75px;
+  border: 0.5px solid #02bbe9;
+  border-radius: 5px;
+}
+.darkmode {
+  height: 40px;
+  width: 40px;
+  padding: 4px;
+}
+.header-div {
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.taskbar-div {
+  top: 13%;
+  background-color: white;
+  position: fixed;
+  /* display: flex; */
+  width: 100%;
+
+  align-items: center;
+  padding: 10px;
+  box-shadow: 0 4px 7px -2px rgb(0 0 0 / 20%);
+}
+li {
+  margin-left: 5px;
+  margin-right: 35px;
+}
+
+/* /////////////// */
+.tab-container {
+  display: flex;
+  column-gap: 2vw;
+}
+
+.tab {
+  cursor: pointer;
+  transition: background 0.5s;
+}
+.tab:hover {
+  background-color: black;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.active-content {
+  display: block;
+}
+.active-tab {
+  text-decoration: underline #ff0000;
+  text-decoration-thickness: 3px;
+}

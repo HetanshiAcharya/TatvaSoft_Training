@@ -1,0 +1,153 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = HaloDocWeb
+build_property.RootNamespace = HaloDocWeb
+build_property.ProjectDir = C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/IndexForgotPass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXhGb3Jnb3RQYXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/IndexPlatformLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXhQbGF0Zm9ybUxvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/ViewCase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmlld0Nhc2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/ViewNotes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmlld05vdGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_Active.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0FjdGl2ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_Conclude.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX0NvbmNsdWRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_New.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX05ldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_Pending.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1BlbmRpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_StatesofAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1N0YXRlc29mQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_ToClose.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1RvQ2xvc2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/_UnPaid.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cX1VuUGFpZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Home/PatientDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQYXRpZW50RGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Home/PatientForgotPass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQYXRpZW50Rm9yZ290UGFzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Home/PatientLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQYXRpZW50TG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Home/ResetPass.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZXNldFBhc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Home/SubmitReq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdWJtaXRSZXEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/PatientDashboard/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudERhc2hib2FyZFxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/PatientDashboard/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudERhc2hib2FyZFxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/PatientDashboard/SubmitForMe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudERhc2hib2FyZFxTdWJtaXRGb3JNZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/PatientDashboard/SubmitForSomeOneElse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudERhc2hib2FyZFxTdWJtaXRGb3JTb21lT25lRWxzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/PatientDashboard/ViewDocument.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudERhc2hib2FyZFxWaWV3RG9jdW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Requests/CreateBusReq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVxdWVzdHNcQ3JlYXRlQnVzUmVxLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Requests/CreateConReq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVxdWVzdHNcQ3JlYXRlQ29uUmVxLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Requests/CreateFamReq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVxdWVzdHNcQ3JlYXRlRmFtUmVxLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Requests/CreatePatientReq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVxdWVzdHNcQ3JlYXRlUGF0aWVudFJlcS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-2ijezsc7b7
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Shared/_PatientDashboardLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QYXRpZW50RGFzaGJvYXJkTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-66sgqwpdlk

@@ -1,0 +1,79 @@
+﻿@using static HaloDocDataAccess.ViewModels.Constant;
+<form id="filterForm" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
+      asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
+    <input type="hidden" name="Status" id="hiddenfirst" />
+    <div class="row mb-2" style="--bs-gutter-x: 0rem;">
+        <button type="submit" value="1" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+
+            <div class="p-1 rounded new ps-2 pt-3">
+                <div class="d-inline-flex">
+                    <i class="fa-solid fa-circle-plus me-2 align-self-center d-none d-sm-block"></i>
+                    NEW
+                </div>
+                <div class="mt-2">
+                    <span class="h4 fw-bold">@Model.NewRequest</span>
+                </div>
+            </div>
+        </button>
+
+        <button type="submit" value="2" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+            <div class="p-1 rounded pending ps-2 pt-3">
+                <div class="d-inline-flex">
+                    <i class="fa-solid fa-user-clock me-2 align-self-center d-none d-sm-block"></i>
+                    PENDING
+                </div>
+                <div class="mt-2">
+                    <span class="h4 fw-bold">@Model.PendingRequest</span>
+                </div>
+            </div>
+        </button>
+
+        <button type="submit" value="4,5" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
+            <div class="p-1 rounded active ps-2 pt-3 activetext">
+                <div class="d-inline-flex">
+                    <i class="fa-solid fa-circle-check me-2 align-self-center d-none d-sm-block"></i>
+                    ACTIVE
+                </div>
+                <div class="mt-2">
+                    <span class="h4 fw-bold">@Model.ActiveRequest</span>
+                </div>
+            </div>
+        </button>
+
+        <button type="submit" value="6" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+            <div class="p-1 rounded conclude ps-2 pt-3">
+                <div class="d-inline-flex">
+                    <i class="fa-solid fa-clock-rotate-left me-2 align-self-center d-none d-sm-block"></i>
+                    CONCLUDE
+                </div>
+                <div class="mt-2">
+                    <span class="h4 fw-bold">@Model.ConcludeRequest</span>
+                </div>
+            </div>
+        </button>
+
+        <button type="submit" value="3,7,8" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+            <div class="p-1 rounded toClose ps-2 pt-3 toclose">
+                <div class="d-inline-flex">
+                    <i class="fa-solid fa-user-xmark me-2 align-self-center d-none d-sm-block"></i>
+                    TO CLOSE
+                </div>
+                <div class="mt-2">
+                    <span class="h4 fw-bold">@Model.ToCloseRequest</span>
+                </div>
+            </div>
+        </button>
+
+        <button type="submit" value="9" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+            <div class="p-1 rounded unpaid ps-2 pt-3">
+                <div class="d-inline-flex">
+                    <i class="fa-solid fa-circle-dollar-to-slot me-2 align-self-center d-none d-sm-block"></i>
+                    UNPAID
+                </div>
+                <div class="mt-2">
+                    <span class="h4 fw-bold">@Model.UnpaidRequest</span>
+                </div>
+            </div>
+        </button>
+    </div>
+</form>

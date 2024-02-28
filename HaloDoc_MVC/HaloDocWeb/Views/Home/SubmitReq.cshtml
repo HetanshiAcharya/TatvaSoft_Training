@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Submit Request";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Submit Request</title>
+    <link rel="stylesheet" href="~/css/patientSubmitReq.css" />
+</head>
+<body>
+    <!-- navigation  -->
+    <header>
+        <img src="~/images/HaloDoc-Logo.png"
+             alt=""
+             class="logo-img" />
+        <div class="toggle-btn border-secondary" onclick="myFunction()">
+            <i class="fa fa-2x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+        </div>
+    </header>
+    <!-- main body -->
+    <section>
+        <button class="btn btn-primary">
+            <a asp-controller="Home" asp-action="Index" class="link-color">Back</a>
+        </button>
+        <h2>I am a ...</h2>
+        <div class="sectionLinksDiv">
+            <div class="sectionLinksSubdiv pt">
+                <a asp-controller="Requests" asp-action="CreatePatientReq" class="sectionLinks pt1">Patient</a>
+            </div>
+            <div class="sectionLinksSubdiv fam">
+                <a asp-controller="Requests" asp-action="CreateFamReq" class="sectionLinks fam1">
+                    Family/Friend
+                </a>
+            </div>
+            <div class="sectionLinksSubdiv con">
+                <a asp-controller="Requests" asp-action="CreateConReq" class="sectionLinks con1">Conceirge</a>
+            </div>
+            <div class="sectionLinksSubdiv bp">
+                <a asp-controller="Requests" asp-action="CreateBusReq" class="sectionLinks bp1">
+                    Business Partner
+                </a>
+            </div>
+        </div>
+    </section>
+    <!---- footer-- -->
+    <footer>
+        <div class="footerDiv">
+            <a href="" class="footerLinks tnC">Terms and Condition</a>
+            <a href="" class="footerLinks">Privacy</a>
+        </div>
+    </footer>
+</body>
+<script src="~/js/patientSite.js"></script>
+</html>

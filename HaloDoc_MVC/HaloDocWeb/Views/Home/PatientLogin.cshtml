@@ -1,0 +1,64 @@
+﻿@model HaloDocDataAccess.ViewModels.PatientLoginDetails;
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/pLogin.css" />
+    <title>Patient Login Page</title>
+</head>
+<body class="het">
+    <div class="toggle-btn border-secondary" onclick="myFunction()">
+        <i class="fa fa-2x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+    </div>
+
+    <div class="container d-flex align-items-center blurcard">
+        <div class="row d-flex align-items-center row-main">
+            <div class="col-sm">
+                <div class="col-sm d-flex justify-content-center">
+                    <img src="~/images/HaloDoc-Logo.png" alt="" />
+                </div>
+                <div class="col-sm-12 mt-4 mb-4">
+                    <button class="btn btn-outline-primary mr-4" type="submit">
+                        <a asp-controller="Home" asp-action="Index" class="link-color">Back</a>
+                    </button>
+                </div>
+                <h3>Log into your Account</h3>
+                @* ------------Form------------ *@
+                <form method="post">
+                    <div class="text-danger">@ViewData["error"]</div>
+                    <div class="col-sm-12 justify-content-center mt-4">
+                        <input asp-for="Email" name="Email" type="email" placeholder="Username" class="form-control" required />
+                    </div>
+                    <span @* asp-validation-for="Email" *@ class="text-danger validate col-12"></span>
+
+                    <div class="col-sm-12 justify-content-center mt-4">
+                        <input asp-for="Password" type="password"
+                               placeholder="Password"
+                               class="form-control" required />
+                    </div>
+                    <span @* asp-validation-for="PasswordHash" *@ class="text-danger validate col-12"></span>
+
+                    <div class="col-w-100">
+                        <button class="btn btn-primary mt-4 w-100" type="submit">Log in</button>
+                    </div>
+                </form>
+
+                <div class="col-sm-12 d-flex justify-content-center mt-4">
+                    <a asp-controller="Home" asp-action="PatientForgotPass" class="link-color">
+                        Forgot password?
+                    </a>
+                </div>
+            </div>
+            <footer class="footer mt-5 d-flex justify-content-center">
+                <a href="" class="link footerLinks">Terms and Condition</a>
+                <a href="" class="link footerLinks">Privacy</a>
+            </footer>
+        </div>
+    </div>
+    }
+</body>
+<script src="~/js/events.js"></script>
+
+</html>
+

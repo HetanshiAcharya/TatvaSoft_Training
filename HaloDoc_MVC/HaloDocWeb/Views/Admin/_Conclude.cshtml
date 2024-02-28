@@ -1,0 +1,278 @@
+﻿@model List<HaloDocDataAccess.ViewModels.AdminDashboardList>
+@using static HaloDocDataAccess.ViewModels.Constant
+
+<!--End Desktop Screen View of table-->
+<!--Important links-->
+<div class="d-flex justify-content-between mx-2 imp-links">
+    <div>
+        <strong class="fs-6">Patients</strong> <small>(Conclude)</small>
+    </div>
+    <div>
+        <button class="btn btn-info text-white shadow-none mb-2">
+            <small>
+                <i class="bi bi-send"></i>
+                <span class="adminIcon">Send Link</span>
+            </small>
+        </button>
+        <button class="btn btn-info text-white shadow-none mb-2">
+            <small>
+                <i class="bi bi-file-earmark-plus"></i>
+                <span class="adminIcon">Create Requests</span>
+            </small>
+        </button>
+        <button class="btn btn-info text-white shadow-none mb-2">
+            <small>
+                <i class="fa-solid fa-share"></i>
+                <span class="adminIcon">Export</span>
+            </small>
+        </button>
+        <button class="btn btn-info text-white shadow-none mb-2">
+            <small>
+                <i class="fa-solid fa-share-from-square"></i>
+                <span class="adminIcon">Export All</span>
+            </small>
+        </button>
+        <button class="btn btn-info text-white shadow-none mb-2">
+            <small>
+                <i class="fa-solid fa-user-nurse"></i>
+                <span class="adminIcon">Request DIY Support</span>
+            </small>
+        </button>
+    </div>
+</div>
+<!--End Important links-->
+<!--Searchbar-->
+<div class="mt-2 mx-2 bg-white">
+    <div class="d-flex justify-content-between align-items-center  px-2">
+        <div class="d-flex py-2">
+            <div class="d-flex align-items-center search m-1 border-secondary">
+                <div>
+                    <i class="fa fa-search"></i>
+                </div>
+                <div>
+                    <input type="text" class="form-control border-0" placeholder="Search Patients">
+
+                </div>
+            </div>
+            <div class="d-flex align-items-center search m-1">
+                <div>
+                    <i class="fa fa-search"></i>
+                </div>
+                <div>
+                    <select class="form-select shadow-none border-0" id="floatingSelectGrid">
+                        <option selected class="text-secondary">All Regions</option>
+                        <option value="1">Maryland</option>
+                        <option value="2">New York</option>
+                        <option value="3">Virginia</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex requestType">
+            <div class="me-3">
+                <i class="fa-solid fa-circle fa-xs" style="color:#5fbc61;"></i>
+                <small>Patient</small>
+            </div>
+            <div class="me-3">
+                <i class="fa-solid fa-circle fa-xs" style="color:#ed9124;"></i>
+                <small>Family / Friend</small>
+            </div>
+            <div class="me-3">
+                <i class="fa-solid fa-circle fa-xs" style="color:#cd697b;"></i>
+                <small>Business</small>
+            </div>
+            <div class="me-2">
+                <i class="fa-solid fa-circle fa-xs" style="color:#0a7cb9;"></i>
+                <small>Concierge</small>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Searchbar-->
+<!--Mobile Screen View of table-->
+<!--Desktop Screen View of table-->
+<div class="table-responsive m-2 mb-5 d-none d-sm-block">
+    <table class="w-100">
+        <thead class="py-2">
+            <tr>
+                <th scope="col">
+                    <small>Name</small>
+                </th>
+                <th></th>
+                <th scope="col">
+                    <small>Date Of Birth</small>
+                </th>
+                <th scope="col">
+                    <small>Physician Name</small>
+                </th>
+                <th scope="col">
+                    <small>Date Of Service</small>
+                </th>
+                <th scope="col">
+                    <small>Phone</small>
+                </th>
+                <th scope="col">
+                    <small>Address</small>
+                </th>
+                <th scope="col">
+                    <small>Chat With</small>
+                </th>
+                <th scope="col">
+                    <small>Actions</small>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white mb-5">
+            @foreach (var item in Model)
+            {
+                <tr class="@Enum.GetName(typeof(RequestType), item.RequestTypeID) text-white border-bottom border-white">
+                    <td><small>@item.PatientName</small></td>
+                    <td>
+                        <button class="btn border-white text-white">
+                            <i class="fa-regular fa-envelope"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <small>@item.Dob</small>
+                    </td>
+                    <td><small>@item.ProviderName</small></td>
+                    <td><small>@item.RequestedDate.ToString("MMM d , yyyy")</small></td>
+                    <td>
+                        <button class="btn border border-white text-white mt-2">
+                            <i class="fa-solid fa-phone pe-2"></i>
+                            <small>@item.PhoneNumber</small>
+                        </button>
+                        <div>
+                            <small>(Patient)</small>
+                        </div>
+
+                        @if (item.RequestTypeID != 2)
+                        {
+                            <button class="btn border border-white text-white mt-2">
+                                <i class="fa-solid fa-phone pe-2"></i>
+                                <small>@item.RequestorPhoneNumber</small>
+                            </button>
+                            <div>
+                                <small>
+                                    (@Enum.GetName(typeof(RequestType), item.RequestTypeID))
+                                </small>
+                            </div>
+                        }
+                    </td>
+                    <td><small>@item.Address</small></td>
+                    <td>
+                        <button class="btn border border-white text-white my-2">
+                            <small>Patient</small>
+                        </button>
+                        <button class="btn border border-white text-white my-2">
+                            <small>Provider</small>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn border border-white text-white my-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <small>Actions</small>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text"></i> View Case</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-card-checklist"></i> View Uploads</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-journals"></i> View Notes</a></li>
+                        </ul>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="accordion mt-3 d-block d-sm-none" id="accordionExample">
+
+
+    <div class="dBlock">
+        @foreach (var item in Model)
+        {
+            <div class="accordion-item btn-i text-secondary">
+                <h2 class="accordion-header" id="flush-heading-@item.RequestID">
+                    <div class="h5 p-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@item.RequestID" aria-expanded="false" aria-controls="collapse_@item.RequestID">
+                        <div class="row w-100">
+                            <div class="col-6 mb-3 h4">
+                                <small>@item.PatientName</small>
+                            </div>
+                            <div class="col-6 mb-3 text-end">
+                                <small>@Enum.GetName(typeof(RequestType), item.RequestTypeID)</small>
+                                <i class="fa-solid fa-circle fa-xs ms-2 txt-@Enum.GetName(typeof(RequestType), item.RequestTypeID)"></i>
+                                <span class="rounded-circle @Enum.GetName(typeof(RequestType), item.RequestTypeID)"></span>
+                            </div>
+                            <div class="col-6 h6">
+                                @item.Address
+                            </div>
+                            <div class="col-6  text-end">
+                                <button class="btn btn-sm btn-white border-info text-info rounded-pill 2px">
+                                    <small>Map Location</small>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </h2>
+                <div id="flush-@item.RequestID" class="accordion-collapse collapse mb-3 border-top" data-bs-parent="#accordionExample">
+                    <div class="accordion-body container-fluid">
+                        <p> <i class="fa fa-calendar border border-info rounded-pill p-1 me-2" aria-hidden="true"></i>Date of Birth: @item.Dob</p>
+                        <p> <i class="fa fa-envelope border border-info rounded-pill p-1 me-2"></i> Email : @item.Email</p>
+                        <p> <i class="fa fa-phone border  border-info rounded-pill p-1 me-2"></i> Patient : @item.PhoneNumber</p>
+                        <p><i class="fa fa-calendar border border-info rounded-pill p-1 me-2"></i>Date of service : @item.RequestedDate</p>
+                        <p><i class="fa fa-user border border-info rounded-pill p-1 me-2"></i>Physician : @item.ProviderName</p>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #3ecc4e;">
+                                    <small>View Notes</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-success text-white rounded-pill 2px w-100">
+                                    <small>Doctors Note</small>
+                                </button>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #3ecc4e;">
+                                    <small>View Uploads</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #3ecc4e;">
+                                    <small>Encounter</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #FFD43B;">
+                                    <small>Orders</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3 ">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #3ecc4e;">
+                                    <small>Email</small>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-end d-md-flex justify-content-md-end">
+                            <span>Chat With:</span>
+                            <button class="btn btn-white border-info text-info me-md-2 mb-2" type="button">
+                                <i class="fa-regular fa-user me-1"></i>
+                                Patient
+                            </button>
+                            <button class="btn btn-white border-info text-info mb-2" type="button">
+                                <i class="fa-solid fa-user-doctor me-1"></i>
+                                Provider
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+
+    <!--End Mobile Screen View of table-->
+
+</div>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Patient Login";
+}
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Site</title>
+    <link rel="stylesheet" href="~/css/mainLogin.css"/>
+</head>
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="row w-50 ">
+            <div class="toggle-btn border-secondary" onclick="myFunction()">           
+                <i class="fa fa-2x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+            </div>
+            <div class="col-sm-12 d-flex justify-content-center">
+                <a asp-controller="Home" asp-action="Index" class="link-color">
+                    <img src="~/images/HaloDoc-Logo.png"
+                         alt=""
+                         class="mt-4" />
+                </a>
+            </div>
+            <div class="col-sm-12 d-flex justify-content-center">
+                <button class="btn1 btn btn-primary btn-pSite mt-4">
+                    <a asp-controller="Home" asp-action="SubmitReq" class="link-color">
+                        Submit A Request
+                    </a>
+                </button>
+            </div>
+            <div class="col-sm-12 d-flex justify-content-center">
+                <button class="btn2 btn btn-primary btn-pSite mt-4">
+                    <a asp-controller="Home" asp-action="PatientLogin" class="link-color">
+                        Registered Patients
+                    </a>
+                </button>
+            </div>
+        </div>
+        <a asp-controller="Admin" asp-action="IndexPlatformLogin">AdminPage</a>
+        <a asp-controller="Admin" asp-action="ViewCase">ViewCasePage</a>
+
+    </div>
+</body>
+<script src="~/js/patientSite.js"></script>
+</html>

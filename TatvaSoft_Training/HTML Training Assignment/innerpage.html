@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/innerpage.css" />
+    <link rel="stylesheet" href="innerpage.js" />
+    <title>innerpage</title>
+  </head>
+  <body>
+    <!-- ----------------navbar----------------------  -->
+    <nav class="navbar">
+      <div class="nav-item">
+        <button onclick="sidebar()">
+          <img
+            src="images/menu-bar.svg"
+            alt="hamburger-menu"
+            class="hamburger-menu" />
+        </button>
+      </div>
+      <div class="nav-item">
+        <img src="images/logo.svg" alt="company-logo" class="company-logo" />
+      </div>
+      <div class="nav-item search">
+        <img src="images/search-icon.svg" alt="search" class="search-icon" />
+        <textarea name="search-text" class="search-text">Search</textarea>
+      </div>
+
+      <div class="nav-item noti">
+        <img src="images/notification-icon.svg" alt="" class="noti" />
+      </div>
+      <div class="profile-btn">
+        <div class="profile-btn-item">
+          <img src="images/profile.png" alt="" class="profile" />
+        </div>
+        <div class="profile-btn-item">
+          <p class="profile-content">John Doe</p>
+        </div>
+        <div class="profile-btn-item">
+          <img src="images/downward-arrow.svg" alt="" class="arrow" />
+        </div>
+      </div>
+    </nav>
+    <!-- --------------- sidebar ---------------------------------------- -->
+    <div id="sidebar">
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/dashboard-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Dashboard</span>
+        </div>
+      </div>
+      <div class="sidebar-list dash-btn">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/graph-active.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Analysis</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/inbox-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Inbox</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/clock-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">History</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/user-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Users</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/maintenance-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Maintenance</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/setting-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Settings</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- --------------------main body ---------------------- -->
+    <h2 class="main-body-text">Analysis</h2>
+    <div class="main-body-div">
+      <h3 class="main-body-sub-text">One Column</h3>
+      <h3 class="two-col-sub-body-text">Two Column</h3>
+      <h3 class="three-col-sub-body-text">Three Column</h3>
+      <h3 class="four-col-sub-body-text">Four Column</h3>
+      <h3 class="other-main-body-text">Other Design Elements</h3>
+      <h4 class="other-sub-body-text">File Upload</h4>
+      <input type="text" class="input-col1" placeholder="Name" />
+
+      <select class="input-col2" aria-label="Default select example">
+        <option selected>Dropdown</option>
+        <option value="1">Option-1</option>
+        <option value="2">Option-2</option>
+        <option value="3">Option-3</option>
+      </select>
+
+      <textarea
+        name=""
+        id=""
+        cols="30"
+        rows="50"
+        placeholder="Multiple Line"
+        class="input-col3"></textarea>
+
+      <div class="two-col-div">
+        <input type="text" class="col2-ip" placeholder="Name" />
+        <input type="text" class="col2-ip" placeholder="Username" />
+        <input type="text" class="col2-ip" placeholder="Password" />
+        <select class="col2-ip" aria-label="Default select example">
+          <option selected>Dropdown</option>
+          <option value="1">Option-1</option>
+          <option value="2">Option-2</option>
+          <option value="3">Option-3</option>
+        </select>
+      </div>
+
+      <div class="three-col-div">
+        <input
+          type="text"
+          class="col3-ip focus-chg"
+          placeholder="Focus changes here" />
+        <input
+          type="text"
+          class="col3-ip"
+          placeholder="Type to see password effect" />
+        <input type="text" class="col3-ip" placeholder="johnDoe" />
+      </div>
+
+      <div class="four-col-div">
+        <input type="text" class="col4-ip" placeholder="Name" />
+        <input type="text" class="col4-ip" placeholder="Username" />
+        <input type="text" class="col4-ip" placeholder="Password" />
+        <select class="col4-ip" aria-label="Default select example">
+          <option selected>Dropdown</option>
+          <option value="1">Option-1</option>
+          <option value="2">Option-2</option>
+          <option value="3">Option-3</option>
+        </select>
+      </div>
+      <button class="btn-upload">
+        <img src="images/cloud-upload-icon.svg" alt="upload" />
+        Upload
+      </button>
+
+      <h3 class="radio">Radio Button</h3>
+      <input
+        type="radio"
+        name="option1"
+        id="opt-1"
+        value="option-1"
+        class="radio-ip" />
+      <label for="opt-1" class="radio-ip">option-1</label>
+      <input
+        type="radio"
+        name="option2"
+        class="radio-ip"
+        id="opt-2"
+        value="option-2" />
+      <label for="opt-1" class="radio-ip">option-2</label>
+      <h3 class="checkbox">CheckBox</h3>
+      <input
+        type="checkbox"
+        name=""
+        id="opt-1"
+        value="option-1"
+        class="checkbox-ip" />
+      <label for="opt-1" class="checkbox-ip">option-1</label>
+      <input
+        type="checkbox"
+        name=""
+        class="checkbox-ip"
+        id="opt-2"
+        value="option-2" />
+      <label for="opt-1" class="checkbox-ip">option-2</label>
+      <h3 class="snackbar">Snackbar</h3>
+      <div class="snack-div">
+        <!-- <input type="text" class="snack-ip" placeholder="Name"> -->
+        <div class="snack-ip error-m">
+          <img src="images/error-icon.svg" alt="" class="img-ip-snack" />
+          <div class="msg">This is an error message</div>
+        </div>
+        <div class="snack-ip info-m">
+          <img src="images/info-icon.svg" alt="info" class="img-ip-snack" />
+          <div class="msg">This is an information message</div>
+        </div>
+        <div class="snack-ip warning-m">
+          <img src="images/warning-icon.svg" alt="" class="img-ip-snack" />
+          <div class="msg">This is an warning message</div>
+        </div>
+        <div class="snack-ip success-m">
+          <img src="images/success-icon.svg" alt="" class="img-ip-snack" />
+          <div class="msg">This is an success message</div>
+        </div>
+      </div>
+      <h3 class="call2act">Call to action</h3>
+      <button class="btn-pri btn">Primary</button>
+      <button class="btn-sec btn">Secondary</button>
+
+      <h3 class="tab1">Tabs</h3>
+      <!-- -------------tab---------------  -->
+
+      <!-- Tab links -->
+      <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Home')">Home</button>
+        <button class="tablinks" onclick="openTab(event, 'About')">
+          About
+        </button>
+        <button class="tablinks" onclick="openTab(event, 'Contact')">
+          Contact
+        </button>
+      </div>
+
+      <!-- Tab content -->
+      <div id="Home" class="tabcontent">
+        <h3>Home</h3>
+        <p>Welcome to our website.</p>
+      </div>
+
+      <div id="About" class="tabcontent">
+        <h3>About</h3>
+        <p>We are a team of web developers.</p>
+      </div>
+
+      <div id="Contact" class="tabcontent">
+        <h3>Contact</h3>
+        <p>You can reach us at example@example.com.</p>
+      </div>
+
+      <p class="lorem">
+        Lorem ipsum Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Animi incidunt, totam accusantium dolore asperiores tempora officiis
+        numquam repellat, sequi accusamus odit similique nulla, harum optio.
+        Eligendi et ab aperiam sunt. dolor sit amet consefdgghctetur adipisicing
+        elit. Quaerat temporibus eum esse mollitia dolorum unde ea perspiciatis
+        odit exercitationem sequi, voluptas, veniam dolore laborum reiciendis
+        consectetur labore eos quisquam soluta?
+      </p>
+    </div>
+  </body>
+</html>

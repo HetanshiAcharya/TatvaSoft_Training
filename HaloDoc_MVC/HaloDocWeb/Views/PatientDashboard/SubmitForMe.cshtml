@@ -1,0 +1,136 @@
+﻿@model HaloDocDataAccess.ViewModels.PatientSubmitRequests;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Patient Request</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/request.css"/>
+</head>
+<body>
+    <!-- navigation  -->
+    <header class="align-items-center">
+        <img src="~/images/HaloDoc-Logo.png"
+             alt=""
+             class="logo-img" />
+        <div class="toggle-btn border-secondary" onclick="myFunction()">
+            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+        </div>
+    </header>
+    <h4 class="mt-4 posheader">Submit Information</h4>
+    <div class="container-fluid">
+        <form class="form-group row" method="post" enctype="multipart/form-data">
+            <div class="col-sm-12 d-flex justify-content-end">
+                <button class="btn btn-outline-primary mr-4" type="submit">
+                    <a asp-controller="PatientDashBoard" asp-action="DashBoard" class="link-color">Back</a>
+                </button>
+            </div>
+            <h4 class="mt-4 m">Patient Information</h4>
+
+            <div class="col-w-100 col-sm-12">
+                <textarea asp-for="Symptoms" class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          placeholder="Enter Brief Details of Symptoms"></textarea>
+            </div>
+
+            <div class="col-sm-6">
+                <input asp-for="FirstName" asp-validation-for="Name" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="First Name" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
+                       type="text"
+                       placeholder="Last Name" />
+            </div>
+            <div class="w-100"></div>
+            <div class="col-sm-6">
+                <input asp-for="BirthDate" type="date"
+                       class="form-control form-control-md col-md mt-4"
+                       placeholder="Select Date" />
+            </div>
+            <h4 class="mt-4 mb-2">Patient Contact Information</h4>
+            <div class="col-sm-6">
+                <input asp-for="Email" class="form-control form-control-md col-md mt-4"
+                       type="email"
+                       placeholder="Enter Email" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="PhoneNumber" id="phone"
+                       type="tel"
+                       name="phone"
+                       class="form-control form-control-md col-md mt-4 iti" />
+            </div>
+            <h4 class="mt-4 mb-2">Patient Location</h4>
+            <div class="col-sm-6">
+                <input asp-for="Street" class="form-control form-control-md col-md "
+                       type="text"
+                       placeholder="Street" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="City" class="form-control form-control-md col-md "
+                       type="text"
+                       placeholder="City" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="State" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="State" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="ZipCode" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Zip Code" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="RoomSite" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Room/ Suite (Optional)" />
+            </div>
+            <div class="col mt-4">
+                <button type="button" class="btn btn-outline-info shadow-none night-mode-btn h-100 d-flex align-items-center">
+                    <i class="fa fa-map-marker test-info mx-1" aria-hidden="true"></i>
+                    <div class="d-flex">
+                        <span>Map</span>
+                    </div>
+                </button>
+
+            </div>
+            <h4 class="mt-4 mb-6">(Optional) Upload Photo or Document</h4>
+            <div class="file-input col">
+                <input asp-for="UploadFile"
+                       type="file"
+                       id="file"
+                       class="file form-control form-control-md" />
+                <label for="file">Upload</label>
+            </div>
+            <div class="col-sm-12 d-flex justify-content-end">
+                <button class="btn btn-primary mr-4" type="submit">Submit</button>
+                <button class="btn btn-outline-primary mr-4" type="submit">
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- footer  -->
+    <footer>
+        <div class="footerDiv">
+            <a href="" class="footerLinks tnC">Terms and Condition</a>
+            <a href="" class="footerLinks">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/js/dark.js"></script>
+    <script>
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+    </script>
+</body>
+
+</html>

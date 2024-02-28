@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HaloDocWeb", "HaloDocWeb.csproj", "{BB84C2FC-322E-46DB-B50C-6713592336FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaloDocDataAccess", "..\HaloDocDataAccess\HaloDocDataAccess.csproj", "{D5B7253C-15ED-4180-92B6-C4288E2872B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaloDocRepository", "..\HaloDocRepository\HaloDocRepository.csproj", "{6AE756A0-094A-4DA3-AC25-016DD22D46D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB84C2FC-322E-46DB-B50C-6713592336FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB84C2FC-322E-46DB-B50C-6713592336FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB84C2FC-322E-46DB-B50C-6713592336FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB84C2FC-322E-46DB-B50C-6713592336FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5B7253C-15ED-4180-92B6-C4288E2872B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5B7253C-15ED-4180-92B6-C4288E2872B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5B7253C-15ED-4180-92B6-C4288E2872B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5B7253C-15ED-4180-92B6-C4288E2872B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AE756A0-094A-4DA3-AC25-016DD22D46D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE756A0-094A-4DA3-AC25-016DD22D46D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE756A0-094A-4DA3-AC25-016DD22D46D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE756A0-094A-4DA3-AC25-016DD22D46D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0F24326-19B5-4D1B-A8C8-5F0297AA18C5}
+	EndGlobalSection
+EndGlobal

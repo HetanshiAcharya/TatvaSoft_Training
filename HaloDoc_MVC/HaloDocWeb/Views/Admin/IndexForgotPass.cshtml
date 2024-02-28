@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Platform Login Page</title>
+
+    <link rel="stylesheet" href="~/css/mainLogin.css" />
+
+</head>
+<body>
+    <section class="vh-100">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 px-0 d-none d-sm-block">
+                    <img src="~/images/Login-doc-image.jpg"
+                         alt="Login image"
+                         class="w-100 vh-100 docImg"
+                         style="object-fit: cover; object-position: left" />
+                </div>
+
+                <!-- right side  -->
+                <div class="col-sm-6 align-items-center d-flex flex-column right-side">
+                    <img src="~/images/HaloDoc-Logo.png"
+                         alt=""
+                         class="logo-img-platformLogin" />
+                    <h2>Reset Your Password</h2>
+                    <form action="" class="form-group form-platformLogin">
+                        <input type="text"
+                               class="form-group form-control mt-4"
+                               placeholder="Username"
+                               required />
+
+                        <button class="form-group btn btn-primary loginbtn mt-4">
+                            <a href="" class="link-color">Reset Password</a>
+                        </button>
+                    </form>
+                    <a asp-controller="Admin" asp-action="Index" class="fpasslink mt-4">Back to Login</a>
+                    <footer class="bottom">
+                        <a href="" class="link1">Terms and Conditions</a>
+                        <a href="" class="">Privacy</a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="~/js/validation.js"></script>
+</html>

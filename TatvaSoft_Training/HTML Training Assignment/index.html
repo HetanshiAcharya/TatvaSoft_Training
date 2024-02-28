@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Website</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="./js/events.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous" />
+  </head>
+  <body>
+    <div class="parent">
+      <div class="left">
+        <img
+          src="images/hero-image.png"
+          alt=""
+          class="rounded-circle img"
+          id="hero-image" />
+      </div>
+      <div class="right">
+        <img
+          src="images/header-logo.svg"
+          alt=""
+          id="header-logo"
+          class="right-img" />
+        <header class="content">
+          We are
+          <span class="clr-red"><b>experts</b></span>
+          in business, marketing, growth and sale.
+        </header>
+        <p class="para">Login into your account</p>
+        <input type="text" placeholder="Username" class="user-ip color" />
+        <br />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          class="user-ip color" />
+        <br />
+
+        <div class="sub-div">
+          <!-- <input type="button" value="Login" class="btn-login" target /> -->
+          <button class="btn-login" onclick="dashboard()">Login</button>
+          <a
+            href="http://"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="forgotpass"
+            style="color: #adadad">
+            Forgot password?
+          </a>
+        </div>
+        <p class="regLink color">
+          Are you a new member?
+          <a href="http://" class="clr-red">Register Here</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

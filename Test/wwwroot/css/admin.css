@@ -1,0 +1,136 @@
+﻿body {
+    background-color: #f0f0f0;
+}
+/*@*Tabs*@*/
+.activeNav {
+    color: #8dcaf0 !important;
+    font-weight: 600;
+    border-bottom: 2px solid #8dcaf0;
+}
+header {
+    background-color: white;
+    border-bottom: 0.5px solid #f4f4f4;
+}
+.logo-img {
+    position: relative;
+    height: 80px;
+}
+.moon {
+    height: 40px;
+    width: 40px;
+    padding: 4px;
+   
+}
+.link {
+    text-decoration: none;
+    color: #02bbe9;
+}
+.btn-outline-primary {
+    border-color: #02bbe9;
+}
+div .row {
+    height: 75px;
+    font-size:20px;
+}
+/*States  admin*/ 
+.new {
+    background-color: #e9eaef;
+    color: #566ea7;
+    border: 1px solid #475e97;
+}
+    .new:hover {
+        background-color: #566ea7;
+        color: #e9eaef;
+        border: 1px solid #475e97;
+    }
+.activetext {
+    background-color: #e9f1e8;
+    border: 1px solid #3c843a;
+    color: #3c843a;
+}
+    .activetext:hover {
+        background-color: #3c843a;
+        border: 1px solid #3c843a;
+        color: #e9f1e8;
+    }
+.pending {
+    background-color: #e5f3f9;
+    color: #02bbe9;
+    border: 1px solid #02bbe9;
+}
+    .pending:hover {
+        background-color: #02bbe9;
+        color: #e5f3f9;
+        border: 1px solid #02bbe9;
+    }
+.toclose {
+    background-color: #e5eef5;
+    color: #3c8bd4;
+    border: 1px solid #3c8bd4;
+}
+    .toclose:hover {
+        background-color: #3c8bd4;
+        color: #e5eef5;
+        border: 1px solid #3c8bd4;
+    }
+.unpaid {
+    background-color: #efeef5;
+    color: #a17abf;
+    border: 1px solid #a17abf;
+}
+    .unpaid:hover {
+        background-color: #a17abf;
+        color: #efeef5;
+        border: 1px solid #a17abf;
+    }
+.conclude {
+    background-color: #f8e6ee;
+    color: #d1539a;
+    border: 1px solid #d1539a;
+}
+    .conclude:hover {
+        background-color: #d1539a;
+        color: #f8e6ee;
+        border: 1px solid #d1539a;
+    }
+.btn-primary {
+    background-color: #02bbe9;
+    border: 0.5px solid #02bbe9;
+    height:50px;
+}
+.btn-outline-primary {
+    border: 0.5px solid #02bbe9;
+}
+.subnav {
+    background-color: white;
+    height: 56px;
+    align-items: center;
+}
+.ipbox{
+    border:unset;
+}
+.subnav-item {
+    height: 32px;
+    border: 1px solid grey;
+}
+.patient {
+    color: #3c843a;
+}
+.list{
+    color:grey;
+}
+.Fam {
+    color: #e4a11b;
+}
+.bus {
+    color: #cf154c;
+}
+.con {
+    color: #54b4d3;
+}
+.vip {
+    color: #be69f0;
+}
+.states{
+    font-weight:400;
+}

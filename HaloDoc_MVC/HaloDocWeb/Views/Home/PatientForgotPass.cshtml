@@ -1,0 +1,47 @@
+﻿@model HaloDocDataAccess.ViewModels.PatientLoginDetails;
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/pLogin.css" />
+    <title>Patient Forgot Password Page</title>
+</head>
+<body class="het">
+    <div class="toggle-btn border-secondary" onclick="myFunction()">
+        <i class="fa fa-2x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+    </div>
+    <div class="container d-flex align-items-center justify-content-center blurcard">
+        <form class="form-group row d-flex align-items-center justify-content-center row-main " asp-controller="Home" asp-action="PatientForgotPass">
+            <div class="col-sm-12">
+                <div class="col-sm d-flex justify-content-center">
+                    <img src="~/images/HaloDoc-Logo.png" alt="" />
+                </div>
+                <div class="col-sm-12 mt-4 mb-4">
+                    <button class="btn btn-outline-primary back">
+                        <a asp-controller="Home" asp-action="PatientLogin" class="link-color">Back</a>
+                    </button>
+                </div>
+                <h3>Reset your Password</h3>
+                <div class="col-sm-12 w-100 justify-content-center mt-4">
+                    <input asp-for="Email" type="email" placeholder="Username" class="form-control form-control-md col-md col-sm mt-4" />
+                </div>
+
+                <div class="col-w-100">
+                    <button class="btn btn-primary mt-4 w-100">Reset Password</button>
+                </div>
+                <div class="col-sm-12 d-flex justify-content-center mt-4">
+                    <a asp-controller="Home" asp-action="PatientLogin" class="link-color">Back to Login</a>
+                </div>
+            </div>
+            <footer class="footer mt-5 d-flex justify-content-center">
+                <a href="" class="link footerLinks">Terms and Condition</a>
+                <a href="" class="link footerLinks">Privacy</a>
+            </footer>
+        </form>
+    </div>
+</body>
+<script src="~/js/events.js"></script>
+</html>
+

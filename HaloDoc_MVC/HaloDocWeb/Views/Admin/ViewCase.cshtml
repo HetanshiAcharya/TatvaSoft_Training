@@ -1,0 +1,152 @@
+﻿@model HaloDocDataAccess.ViewModels.PatientSubmitRequests;
+@{
+    Layout = "_AdminLayout";
+}
+
+@* <div class="tab-content px-4 dashboard" id="myTabContent">
+    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab"> *@
+<form class="container mt-5 viewcasecard" asp-controller="Admin" asp-action="Index">
+    <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-evenly">
+            <h3 class="">New Request</h3>
+            <button class=" btn btn-success rounded-pill mx-2">Patient</button>
+        </div>
+        <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
+            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
+        </button>
+    </div>
+    <div class="form-group row  p-3 card-form">
+        <h4 class="mt-2 mb-6">Patient Information</h4>
+        <h6 class="mt-2 mb-6">Confirmation Number</h6>
+        <h6 class="text-info">MDQ12KI8HT6</h6>
+        <div class="col-w-100 col-sm-12">
+            <textarea asp-for="Symptoms" class="form-control"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      placeholder="Enter Brief Details of Symptoms" required disabled></textarea>
+        </div>   
+
+        <div class="col-sm-6">
+            <input asp-for="FirstName" class="form-control col-md mt-4"
+                   type="text"
+                   placeholder="First Name" required disabled />
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
+                   type="text"
+                   placeholder="Last Name" required disabled />
+        </div>
+      
+        <div class="col-sm-6">
+            <input asp-for="BirthDate" type="date"
+                   class="form-control form-control-md col-md mt-4"
+                   placeholder="Select Date" required disabled />
+        </div>
+        <div class="col-sm-5">
+            <input asp-for="PhoneNumber" id="phone1"
+                   type="tel"
+                   name="phone"
+                   class="form-control form-control-md col-md mt-4 iti" disabled />
+        </div>
+        <div class="col-sm-3 mt-4 small-btns">
+            <button type="button" class="btn btn-outline-info ">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="Email" class="form-control form-control-md col-md mt-4"
+                   type="email"
+                   placeholder="Enter Email" required disabled />
+        </div>
+        <h4 class="mt-4 mb-6">Location Information</h4>
+        <div class="col-sm-6">
+            <input asp-for="Street" class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="Region" disabled />
+        </div>
+        <div class="col-sm-5">
+            <input @* asp-for="prop" *@ class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="Business/Property Name" disabled />
+        </div>
+        <div class="col-sm-3 mt-4 small-btns">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa fa-map-marker test-info mx-1" aria-hidden="true"></i>
+               
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="City" class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="Room #" disabled/>
+        </div>
+        <div class="col-sm-12 d-flex justify-content-end ">
+            <button class="btn btn-primary mx-2" type="submit" id="editBtn">Assign Case</button>
+            <button class="btn btn-primary mx-2" type="" asp-controller="Admin" asp-action="ViewNotes"> View Notes</button>
+            <button class="btn btn-danger mx-2" type=""> Cancel</button>
+            </div>
+        </div>
+</form>
+<script>
+
+    const phoneInputField = document.getElementById("patient-phone");
+    var patientPhoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        preferredCountries: ["in"],
+        separateDialCode: true,
+        initialCountry: "in"
+    });
+
+
+    function changeCountryCode() {
+        var countryCode = document.getElementById("patient-phone-country");
+        countryCode.value = patientPhoneInput.getSelectedCountryData().dialCode;
+        console.log(countryCode.value);
+    }
+
+</script>
+<script>
+
+
+    function editDetails() {
+
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = false;
+        }
+
+        var selects = document.getElementsByTagName("select");
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].disabled = false;
+        }
+
+        var editBtn = document.getElementById("editBtn");
+        editBtn.style.display = "none";
+
+        var saveBtn = document.getElementById("saveBtn");
+        saveBtn.style.display = "block";
+
+    }
+
+    function saveDetails() {
+
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].disabled = true;
+        }
+
+        var selects = document.getElementsByTagName("select");
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].disabled = true;
+        }
+
+
+        var editBtn = document.getElementById("editBtn");
+        editBtn.style.display = "block";
+
+        var saveBtn = document.getElementById("saveBtn");
+        saveBtn.style.display = "none";
+
+    }

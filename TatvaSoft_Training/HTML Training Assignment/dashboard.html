@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <script src="js/events.js"></script>
+    K
+
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <!-------------- nav bar ---------- -->
+    <nav class="navbar">
+      <div class="nav-item">
+        <button onclick="sidebar()">
+          <img
+            src="images/menu-bar.svg"
+            alt="hamburger-menu"
+            class="hamburger-menu" />
+        </button>
+      </div>
+      <div class="nav-item">
+        <img src="images/logo.svg" alt="company-logo" class="company-logo" />
+      </div>
+      <div class="nav-item search">
+        <img src="images/search-icon.svg" alt="search" class="search-icon" />
+        <textarea name="search-text" class="search-text">Search</textarea>
+      </div>
+
+      <div class="nav-item noti">
+        <img src="images/notification-icon.svg" alt="" class="noti" />
+      </div>
+      <div class="profile-btn">
+        <div class="profile-btn-item">
+          <img src="images/profile.png" alt="" class="profile" />
+        </div>
+        <div class="profile-btn-item">
+          <p class="profile-content">John Doe</p>
+        </div>
+        <div class="profile-btn-item">
+          <img src="images/downward-arrow.svg" alt="" class="arrow" />
+        </div>
+      </div>
+    </nav>
+    <!-- --------------- sidebar ---------------------------------------- -->
+    <div id="sidebar">
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/dashboard-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Dashboard</span>
+        </div>
+      </div>
+      <div class="sidebar-list dash-btn">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/graph-active.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Analysis</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/inbox-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Inbox</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/clock-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">History</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/user-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Users</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/maintenance-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Maintenance</span>
+        </div>
+      </div>
+      <div class="sidebar-list">
+        <div class="sidebaritem dashboard-img">
+          <img src="images/setting-default.svg" alt="dashboard" />
+        </div>
+        <div class="sidebaritem">
+          <span class="dashboard-ctnt">Settings</span>
+        </div>
+      </div>
+    </div>
+    <!-- --------------main body ----------------- -->
+    <div class="main-body">
+      <!-- ---------------dashboard content ------------ -->
+      <p class="dashboard"><b>Dashboard</b></p>
+      <div class="main-div">
+        <div class="sub-div">
+          <img src="images/star.svg" alt="star-img" class="img" />
+          <div class="dash-content">
+            <h2 class="num">23658</h2>
+            <span class="text">New Booking</span>
+          </div>
+        </div>
+        <div class="sub-div">
+          <img src="images/new-product.svg" alt="star-img" class="img" />
+          <div class="dash-content">
+            <h2 class="num">2345</h2>
+            <span class="text">Added Products</span>
+          </div>
+        </div>
+        <div class="sub-div">
+          <img src="images/total-product.svg" alt="star-img" class="img" />
+          <div class="dash-content">
+            <h2 class="num">32569</h2>
+            <span class="text">Total Products</span>
+          </div>
+        </div>
+        <div class="sub-div">
+          <img src="images/dollar-filled.svg" alt="star-img" class="img" />
+          <div class="dash-content">
+            <h2 class="num">2196</h2>
+            <span class="text">Today's Sale</span>
+          </div>
+        </div>
+        <div class="sub-div">
+          <img src="images/money-bag.svg" alt="star-img" class="img" />
+          <div class="dash-content">
+            <h2 class="num">50000</h2>
+            <span class="text">Total Sale</span>
+          </div>
+        </div>
+      </div>
+      <div class="graph-main-div">
+        <div class="graph-sub-div1">
+          <span class="grph-text1">Sales</span>
+          <img
+            src="images/data-graph.png"
+            alt="nanlysis-graph"
+            class="grph-img" />
+        </div>
+        <div class="graph-sub-div2">
+          <span class="grph-text2">Sales by Country</span>
+          <img
+            src="images/pie-chart.svg"
+            alt="nanlysis-graph"
+            class="pie-img" />
+          <div class="pie">
+            <div class="pie-country">
+              <img
+                src="images/radio-checked-icon.svg"
+                alt=""
+                class="radio-img" />
+              <span class="pie-text">United States of America</span>
+            </div>
+            <div class="pie-country">
+              <img
+                src="images/radio-checked-icon.svg"
+                alt=""
+                class="radio-img" />
+              <span class="pie-text">Russia</span>
+            </div>
+            <div class="pie-country">
+              <img
+                src="images/radio-checked-icon.svg"
+                alt=""
+                class="radio-img" />
+              <span class="pie-text">India</span>
+            </div>
+            <div class="pie-country">
+              <img
+                src="images/radio-checked-icon.svg"
+                alt=""
+                class="radio-img" />
+              <span class="pie-text">United Kingdom</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-------------------- Invoice ------------------ -->
+      <div class="invoice-main">
+        <span class="invoice-text"><b>Invoice</b></span>
+        <table class="table">
+          <tr class="t-head">
+            <td>INVOICE</td>
+            <td>COMPANY NAME</td>
+            <td>EMAIL</td>
+            <td>DUE DATE</td>
+            <td>STATUS</td>
+            <td>AMOUNT</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn-none">Pending</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn-neg">Failed</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn-neg">Failed</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+          <tr class="t-row">
+            <td>65123</td>
+            <td>Public Adhusting Funds</td>
+            <td>georgie.young@example.com</td>
+            <td>24 May 2020</td>
+            <td><div class="status-btn">Paid</div></td>
+            <td>$48000</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

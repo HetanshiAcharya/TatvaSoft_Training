@@ -1,0 +1,1085 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\HaloDocWeb.bundle.scp.css",
+      "PackagePath": "staticwebassets\\HaloDocWeb.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (10).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (10).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (11).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (11).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (13).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (13).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (14).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (14).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (15).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (15).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (4).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (4).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (7).png",
+      "PackagePath": "staticwebassets\\Upload\\Screenshot (7).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\admin.css",
+      "PackagePath": "staticwebassets\\css\\admin.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\mainLogin.css",
+      "PackagePath": "staticwebassets\\css\\mainLogin.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\pLogin.css",
+      "PackagePath": "staticwebassets\\css\\pLogin.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\patientSubmitReq.css",
+      "PackagePath": "staticwebassets\\css\\patientSubmitReq.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\request.css",
+      "PackagePath": "staticwebassets\\css\\request.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\7768657_3763028.jpg",
+      "PackagePath": "staticwebassets\\images\\7768657_3763028.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\7774236_3736765.jpg",
+      "PackagePath": "staticwebassets\\images\\7774236_3736765.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Blue-bg.jpg",
+      "PackagePath": "staticwebassets\\images\\Blue-bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig Contact your Provider.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig Contact your Provider.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig1. Platform login page.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig1. Platform login page.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig10. View case.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig10. View case.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig11. View Notes.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig11. View Notes.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig12. Cancel Case pop-up.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig12. Cancel Case pop-up.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig13. Assign case.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig13. Assign case.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig14. Block case.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig14. Block case.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig15.View Uploads-PatientsConclude.png",
+      "PackagePath": "staticwebassets\\images\\Fig15.View Uploads-PatientsConclude.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig16. Orders.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig16. Orders.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig17.Transfer.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig17.Transfer.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig18.Clear Case.png",
+      "PackagePath": "staticwebassets\\images\\Fig18.Clear Case.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig19.Send Agreement pop-up.png",
+      "PackagePath": "staticwebassets\\images\\Fig19.Send Agreement pop-up.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig2. Forgot Password.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig2. Forgot Password.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig20.Close case.png",
+      "PackagePath": "staticwebassets\\images\\Fig20.Close case.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig21. Admin My profile..jpg",
+      "PackagePath": "staticwebassets\\images\\Fig21. Admin My profile..jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig22 Regions menu.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig22 Regions menu.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig23.Request Support.png",
+      "PackagePath": "staticwebassets\\images\\Fig23.Request Support.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig24. Provider Menu.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig24. Provider Menu.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig25. Contact your Provider.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig25. Contact your Provider.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig26. Edit Physician Account.png",
+      "PackagePath": "staticwebassets\\images\\Fig26. Edit Physician Account.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig27. Roles.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig27. Roles.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig28. Create Role All.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig28. Create Role All.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig29. Create Role Admin.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig29. Create Role Admin.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig3. Admin Dashboard.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig3. Admin Dashboard.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig30. Create Role Physician.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig30. Create Role Physician.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig31. 1 Create Role Patient.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig31. 1 Create Role Patient.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig31.2 Create Role Patient UserAccess.png",
+      "PackagePath": "staticwebassets\\images\\Fig31.2 Create Role Patient UserAccess.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig32. Day wise Scheduling.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig32. Day wise Scheduling.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig33. Month wise Scheduling.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig33. Month wise Scheduling.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig34. Week wise Scheduling.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig34. Week wise Scheduling.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig35. Provider on call (MDs On Call).jpg",
+      "PackagePath": "staticwebassets\\images\\Fig35. Provider on call (MDs On Call).jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig36. Requested Shift.png",
+      "PackagePath": "staticwebassets\\images\\Fig36. Requested Shift.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig37. Create Shift.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig37. Create Shift.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig38. View Shift.png",
+      "PackagePath": "staticwebassets\\images\\Fig38. View Shift.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig39. Provider Location.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig39. Provider Location.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig4. Admin dashboard in New state.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig4. Admin dashboard in New state.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig40. Profession menu Vendors.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig40. Profession menu Vendors.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig41.Add business page.png",
+      "PackagePath": "staticwebassets\\images\\Fig41.Add business page.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig42.Edit business page.png",
+      "PackagePath": "staticwebassets\\images\\Fig42.Edit business page.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig43. Patient history.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig43. Patient history.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig44. Patient Record Explore.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig44. Patient Record Explore.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig45. Search Records.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig45. Search Records.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig45.Email Logs.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig45.Email Logs.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig46. SMS Logs.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig46. SMS Logs.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig47. Block History.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig47. Block History.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig48. Create Requests.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig48. Create Requests.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig49. Provider dashboard.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig49. Provider dashboard.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig5. Admin dashboard in pending state.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig5. Admin dashboard in pending state.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig50.Encounter (Type Of care).png",
+      "PackagePath": "staticwebassets\\images\\Fig50.Encounter (Type Of care).png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig51.Conclude State  Action  Encounter Form.png",
+      "PackagePath": "staticwebassets\\images\\Fig51.Conclude State  Action  Encounter Form.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig52. Encounter Finalize popup.png",
+      "PackagePath": "staticwebassets\\images\\Fig52. Encounter Finalize popup.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig53. Provider transfer request pop-up.png",
+      "PackagePath": "staticwebassets\\images\\Fig53. Provider transfer request pop-up.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig54. Provider My Profile.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig54. Provider My Profile.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig55. Provider My Profile Request to Admin.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig55. Provider My Profile Request to Admin.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig56. Patient site.png",
+      "PackagePath": "staticwebassets\\images\\Fig56. Patient site.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig57.Submit request screen.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig57.Submit request screen.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig58. Create Patient request.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig58. Create Patient request.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig59.1.FamilyFriend Information1.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig59.1.FamilyFriend Information1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig59.FamilyFriend Information2.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig59.FamilyFriend Information2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig6. Admin dashboard in Active state.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig6. Admin dashboard in Active state.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig60.Concierge Information.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig60.Concierge Information.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig61.Business Information.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig61.Business Information.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig62.Login Patient Account Registered Patient.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig62.Login Patient Account Registered Patient.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig63.Reset Your Password Patient.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig63.Reset Your Password Patient.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig64. Patient Dashboard ,Patient Medical History.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig64. Patient Dashboard ,Patient Medical History.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig65.Patient Create New Request.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig65.Patient Create New Request.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig66.Submit Information me.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig66.Submit Information me.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig67.Submit Information Some one else.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig67.Submit Information Some one else.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig68. View Documents.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig68. View Documents.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig7. Admin dashboard in Conclude state.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig7. Admin dashboard in Conclude state.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig8. Admin dashboard in To Close state.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig8. Admin dashboard in To Close state.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Fig9. Admin dashboard in Unpaid state.jpg",
+      "PackagePath": "staticwebassets\\images\\Fig9. Admin dashboard in Unpaid state.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\HaloDoc-Logo.png",
+      "PackagePath": "staticwebassets\\images\\HaloDoc-Logo.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\LesfImage.png",
+      "PackagePath": "staticwebassets\\images\\LesfImage.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Login-doc-image.jpg",
+      "PackagePath": "staticwebassets\\images\\Login-doc-image.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\Patient-login-img.jpg",
+      "PackagePath": "staticwebassets\\images\\Patient-login-img.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\hide.png",
+      "PackagePath": "staticwebassets\\images\\hide.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\moon.png",
+      "PackagePath": "staticwebassets\\images\\moon.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\images\\sun.png",
+      "PackagePath": "staticwebassets\\images\\sun.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\js\\dark.js",
+      "PackagePath": "staticwebassets\\js\\dark.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\js\\events.js",
+      "PackagePath": "staticwebassets\\js\\events.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\js\\patientSite.js",
+      "PackagePath": "staticwebassets\\js\\patientSite.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\js\\validation.js",
+      "PackagePath": "staticwebassets\\js\\validation.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\bootbox\\LICENSE.md",
+      "PackagePath": "staticwebassets\\plugins\\bootbox\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\bootbox\\README.md",
+      "PackagePath": "staticwebassets\\plugins\\bootbox\\README.md"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\bootbox\\bootbox.min.js",
+      "PackagePath": "staticwebassets\\plugins\\bootbox\\bootbox.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\ckeditor\\ckeditor-balloon-block.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\ckeditor\\ckeditor-balloon-block.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\ckeditor\\ckeditor-balloon.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\ckeditor\\ckeditor-balloon.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\ckeditor\\ckeditor-classic.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\ckeditor\\ckeditor-classic.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\ckeditor\\ckeditor-document.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\ckeditor\\ckeditor-document.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\ckeditor\\ckeditor-inline.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\ckeditor\\ckeditor-inline.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\cookiealert\\cookiealert.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\cookiealert\\cookiealert.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\cookiealert\\cookiealert.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\cookiealert\\cookiealert.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\cropper\\cropper.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\cropper\\cropper.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\cropper\\cropper.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\cropper\\cropper.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\datatables\\datatables.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\datatables\\datatables.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\datatables\\datatables.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\datatables\\datatables.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\draggable\\draggable.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\draggable\\draggable.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\flotcharts\\flotcharts.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\flotcharts\\flotcharts.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\formrepeater\\formrepeater.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\formrepeater\\formrepeater.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\fslightbox\\fslightbox.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\fslightbox\\fslightbox.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\fullcalendar\\fullcalendar.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\fullcalendar\\fullcalendar.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\fullcalendar\\fullcalendar.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\fullcalendar\\fullcalendar.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\jkanban\\jkanban.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\jkanban\\jkanban.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\jkanban\\jkanban.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\jkanban\\jkanban.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\jstree\\images\\jstree\\32px.png",
+      "PackagePath": "staticwebassets\\plugins\\custom\\jstree\\images\\jstree\\32px.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\jstree\\images\\jstree\\throbber.gif",
+      "PackagePath": "staticwebassets\\plugins\\custom\\jstree\\images\\jstree\\throbber.gif"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\jstree\\jstree.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\jstree\\jstree.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\jstree\\jstree.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\jstree\\jstree.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\leaflet\\leaflet.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\leaflet\\leaflet.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\leaflet\\leaflet.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\leaflet\\leaflet.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\prismjs\\prismjs.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\prismjs\\prismjs.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\prismjs\\prismjs.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\prismjs\\prismjs.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\dark\\content.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\dark\\content.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\dark\\content.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\dark\\content.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\default\\content.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\default\\content.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\default\\content.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\default\\content.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\document\\content.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\document\\content.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\document\\content.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\document\\content.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\writer\\content.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\writer\\content.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\content\\writer\\content.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\content\\writer\\content.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.inline.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.inline.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.inline.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.inline.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.mobile.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.mobile.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.mobile.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\content.mobile.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.mobile.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.mobile.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.mobile.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.mobile.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.shadowdom.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.shadowdom.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.shadowdom.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide-dark\\skin.shadowdom.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.inline.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.inline.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.inline.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.inline.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.mobile.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.mobile.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.mobile.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\content.mobile.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.mobile.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.mobile.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.mobile.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.mobile.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.shadowdom.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.shadowdom.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.shadowdom.min.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\skins\\ui\\oxide\\skin.shadowdom.min.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\tinymce\\tinymce.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\tinymce\\tinymce.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\typedjs\\typedjs.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\typedjs\\typedjs.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\vis-timeline\\vis-timeline.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\custom\\vis-timeline\\vis-timeline.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\custom\\vis-timeline\\vis-timeline.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\custom\\vis-timeline\\vis-timeline.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-v4compatibility.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-v4compatibility.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\@fortawesome\\fa-v4compatibility.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\@fortawesome\\fa-v4compatibility.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\bootstrap-icons\\bootstrap-icons.woff",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\bootstrap-icons\\bootstrap-icons.woff"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\bootstrap-icons\\bootstrap-icons.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\bootstrap-icons\\bootstrap-icons.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\fonticon\\fonticon.css",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\fonticon\\fonticon.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\fonticon\\fonticon.eot",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\fonticon\\fonticon.eot"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\fonticon\\fonticon.svg",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\fonticon\\fonticon.svg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\fonticon\\fonticon.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\fonticon\\fonticon.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\fonticon\\fonticon.woff",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\fonticon\\fonticon.woff"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\fonticon\\fonticon.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\fonticon\\fonticon.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-brands-400.eot",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-brands-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-brands-400.svg",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-brands-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-brands-400.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-brands-400.woff",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-brands-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-brands-400.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-regular-400.eot",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-regular-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-regular-400.svg",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-regular-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-regular-400.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-regular-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-regular-400.woff",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-regular-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-regular-400.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-regular-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-solid-900.eot",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-solid-900.eot"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-solid-900.svg",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-solid-900.svg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-solid-900.ttf",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-solid-900.woff",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-solid-900.woff"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\fonts\\line-awesome\\la-solid-900.woff2",
+      "PackagePath": "staticwebassets\\plugins\\global\\fonts\\line-awesome\\la-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\plugins.bundle.css",
+      "PackagePath": "staticwebassets\\plugins\\global\\plugins.bundle.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\plugins.bundle.js",
+      "PackagePath": "staticwebassets\\plugins\\global\\plugins.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\global\\sourcemaps\\tiny-slider.css.map",
+      "PackagePath": "staticwebassets\\plugins\\global\\sourcemaps\\tiny-slider.css.map"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\mvc-jquery-ajax\\jquery.unobtrusive-ajax.js",
+      "PackagePath": "staticwebassets\\plugins\\mvc-jquery-ajax\\jquery.unobtrusive-ajax.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\mvc-jquery-ajax\\jquery.unobtrusive-ajax.min.js",
+      "PackagePath": "staticwebassets\\plugins\\mvc-jquery-ajax\\jquery.unobtrusive-ajax.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\mvc-jquery-validate\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\plugins\\mvc-jquery-validate\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\mvc-jquery-validate\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\plugins\\mvc-jquery-validate\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\mvc-jquery-validate\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\plugins\\mvc-jquery-validate\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDocWeb\\wwwroot\\plugins\\mvc-jquery-validate\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\plugins\\mvc-jquery-validate\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.HaloDocWeb.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.HaloDocWeb.props",
+      "PackagePath": "build\\HaloDocWeb.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.HaloDocWeb.props",
+      "PackagePath": "buildMultiTargeting\\HaloDocWeb.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.HaloDocWeb.props",
+      "PackagePath": "buildTransitive\\HaloDocWeb.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

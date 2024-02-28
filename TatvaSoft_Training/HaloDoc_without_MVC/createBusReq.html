@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Request by Business</title>
+    <link rel="stylesheet" href="./css/request.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+  </head>
+  <body>
+    <!-- navigation  -->
+    <header>
+      <img
+        src="./images/ScreenShots/HaloDoc-Logo.png"
+        alt=""
+        class="logo-img" />
+      <div class="toggle-btn" onclick="myFunction()">
+        <img
+          src="./images/ScreenShots/moon.png"
+          alt="dark-mode-button"
+          class="darkmode"
+          id="moon-img" />
+      </div>
+    </header>
+    <!-- main form  -->
+    <div class="container-fluid">
+      <div class="form-group row">
+        <div class="col-sm-12 d-flex justify-content-end">
+          <button class="btn btn-outline-primary mr-4" type="submit">
+            <a href="./patientSubmitReq.html" class="link-color">Back</a>
+          </button>
+        </div>
+        <h4 class="mt-4 mb-6">Concierge Information</h4>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="First Name" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md col-sm mt-4"
+            type="text"
+            placeholder="Last Name" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            id="phone1"
+            type="tel"
+            name="phone"
+            class="form-control form-control-md col-md mt-4 iti" />
+        </div>
+        <div class="col-sm">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="email"
+            placeholder="Enter Email" />
+        </div>
+
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="Business/Property Name" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="Case Number(Optional) " />
+        </div>
+        <h4 class="mt-4 mb-6">Patient Information</h4>
+        <div class="col-w-100 col-sm">
+          <textarea
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            placeholder="Enter Brief Details of Symptoms"></textarea>
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="First Name" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md col-sm mt-4"
+            type="text"
+            placeholder="Last Name Name" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            type="date"
+            class="form-control form-control-md col-md mt-4"
+            placeholder="Select Date" />
+        </div>
+        <h4 class="mt-4 mb-6">Patient Contact Information</h4>
+        <div class="col-sm">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="email"
+            placeholder="Enter Email" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            id="phone2"
+            type="tel"
+            name="phone"
+            class="form-control form-control-md col-md mt-4 iti" />
+        </div>
+        <h4 class="mt-4 mb-6">Patient Location</h4>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="Street" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="City" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="State" />
+        </div>
+        <div class="col-sm-6">
+          <input
+            class="form-control form-control-md col-md mt-4"
+            type="text"
+            placeholder="Zip Code" />
+        </div>
+
+        <div class="col-sm-12 d-flex justify-content-end">
+          <button class="btn btn-primary mr-4" type="submit">Submit</button>
+          <button class="btn btn-outline-primary mr-4" type="submit">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer  -->
+    <footer>
+      <div class="footerDiv">
+        <a href="" class="footerLinks tnC">Terms and Condition</a>
+        <a href="" class="footerLinks">Privacy</a>
+      </div>
+    </footer>
+  </body>
+  <script src="./js/dark.js"></script>
+</html>

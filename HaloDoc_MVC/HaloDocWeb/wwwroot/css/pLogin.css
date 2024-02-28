@@ -1,0 +1,85 @@
+.het {
+    background: linear-gradient(rgba(255,255,255,.60), rgba(255,255,255,.60)), url("../images/Login-doc-image.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: 68% 100%;
+}
+div .blurcard {
+    height: 850px;
+    display: flex;
+    justify-content: center;
+}
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .blurcard {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    left: 50%;
+  }
+}
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+div .btn-primary {
+  width: 92%;
+  background-color: #02bbe9;
+  border: none;
+  position: relative;
+}
+
+strong {
+  font-weight: 300;
+}
+
+/*-------------- link'c css --------- */
+.link {
+  color: #02bbe9;
+}
+.link-color {
+  padding: 5px;
+  width: max-content;
+  color: #02bbe9;
+  text-decoration: none;
+}
+.link-color-w {
+    padding: 5px;
+    width: max-content;
+    color: white;
+    text-decoration: none;
+}
+.link-color-w:hover {
+    padding: 5px;
+    width: max-content;
+    color: white;
+    text-decoration: none;
+}
+.footerLinks {
+  padding: 5px;
+  text-decoration: none;
+  color: grey;
+  margin-bottom: 50%;
+}
+
+/*--------- darkmode and toggle button ------ */
+.toggle-btn {
+  padding: 2px;
+  position: absolute;
+  width: 4%;
+  height: 4%;
+  left: 90%;
+  top: 2%;
+}
+
+.darkmode {
+  height: 30px;
+  width: 30px;
+}
+div .row {
+  margin-top: 12%;
+}
+div .back {
+  background-color: white;
+  border-color: 0.5px solid #02bbe9;
+}

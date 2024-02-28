@@ -1,0 +1,57 @@
+﻿@model HaloDocDataAccess.ViewModels.AdminLogin
+@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Platform Login Page</title>
+    <link rel="stylesheet" href="~/css/mainLogin.css" />
+</head>
+<body>
+    <section class="vh-100">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 px-0 d-none d-sm-block">
+                    <img src="~/images/Login-doc-image.jpg"
+                         alt="Login image"
+                         class="w-100 vh-100"
+                         style="object-fit: cover; object-position: left" />
+                </div>
+
+                <!-- right side  -->
+                <div class="col-sm-6 align-items-center d-flex flex-column right-side">
+                    <img src="~/images/HaloDoc-Logo.png"
+                         alt=""
+                         class="logo-img-platformLogin" />
+                    <h2>Log into your Account</h2>
+                    <form asp-controller="Admin" asp-action="Index" class="form-group form-platformLogin" method="post">
+                        <input asp-for="Email" type="text"
+                               class="form-group form-control mt-4"
+                               placeholder="Enter Email"
+                               required />
+                        <input asp-for="Password" type="password"
+                               class="form-control form-group mt-4"
+                               placeholder="Password" />
+                        <button class="form-group btn btn-primary mt-4 loginbtn">
+                            <a class="link-color">Log in</a>
+                        </button>
+                    </form>
+                    <a asp-controller="Admin" asp-action="IndexForgotPass" class="fpasslink mt-4">
+                        Forgot Password?
+                    </a>
+                    <footer class="bottom">
+                        <a href="" class="link1">Terms and Conditions</a>
+                        <a href="">Privacy</a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="~/js/validation.js"></script>
+</html>
+

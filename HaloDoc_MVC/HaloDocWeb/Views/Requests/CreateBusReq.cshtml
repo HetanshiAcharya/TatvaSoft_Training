@@ -1,0 +1,156 @@
+﻿@model HaloDocDataAccess.ViewModels.BusinessSubmitRequests;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Request by Business</title>
+    <link rel="stylesheet" href="~/css/request.css" />
+</head>
+<body>
+    <!-- navigation  -->
+    <header>
+        <img src="~/images/HaloDoc-Logo.png"
+             alt=""
+             class="logo-img" />
+        <div class="toggle-btn border-secondary" onclick="myFunction()">
+            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
+        </div>
+    </header>
+    <!-- main form  -->
+    <form class="container-fluid" asp-controller="Requests" asp-action="CreateBusReq">
+        <div class="form-group row">
+            <div class="col-sm-12 d-flex justify-content-end">
+                <button class="btn btn-outline-primary mr-4" type="submit">
+                    <a asp-controller="RequestHome" asp-action="PatientSubmitReq" class="link-color">Back</a>
+                </button>
+            </div>
+            <h4 class="mt-2 mb-6">Business Information</h4>
+            <div class="col-sm-6">
+                <input asp-for="bus_FirstName" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="First Name" required />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="bus_LastName" class="form-control form-control-md col-md col-sm mt-4"
+                       type="text"
+                       placeholder="Last Name" required />
+            </div>
+            <span asp-validation-for="bus_FirstName" class="text-danger validate col-6"></span>
+            <span asp-validation-for="bus_LastName" class="text-danger validate col-6"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="bus_PhoneNumber" id="phone1"
+                       type="tel"
+                       name="phone"
+                       class="form-control form-control-md col-md mt-4 iti" />
+            </div>
+            <div class="col-sm">
+                <input asp-for="bus_Email" class="form-control form-control-md col-md mt-4"
+                       type="email"
+                       placeholder="Enter Email" required />
+            </div>
+            <span asp-validation-for="bus_Email" class="text-danger validate col-6"></span>
+            <span class="col-6"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="bus_PropertyName" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Business/Property Name" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="bus_CaseNum" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Case Number(Optional) " />
+            </div>
+            <h4 class="mt-4 mb-6">Patient Information</h4>
+            <div class="col-w-100 col-sm-12">
+                <textarea asp-for="Symptoms" class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          placeholder="Enter Brief Details of Symptoms" required></textarea>
+            </div>
+            <span asp-validation-for="Symptoms" class="text-danger validate col-12"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="FirstName" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="First Name" required />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
+                       type="text"
+                       placeholder="Last Name" required />
+            </div>
+            <span asp-validation-for="FirstName" class="text-danger validate col-6"></span>
+            <span asp-validation-for="LastName" class="text-danger validate col-6"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="BirthDate" type="date"
+                       class="form-control form-control-md col-md mt-4"
+                       placeholder="Select Date" required />
+            </div>
+            <h4 class="mt-4 mb-6">Patient Contact Information</h4>
+            <div class="col-sm">
+                <input asp-for="Email" class="form-control form-control-md col-md mt-4"
+                       type="email"
+                       placeholder="Enter Email" required />
+            </div>
+            <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
+            <span asp-validation-for="FirstName" class="text-danger validate col-6"></span>
+
+            <div class="col-sm-6">
+                <input asp-for="PhoneNumber" id="phone2"
+                       type="tel"
+                       name="phone"
+                       class="form-control form-control-md col-md mt-4 iti" />
+            </div>
+            <h4 class="mt-4 mb-6">Patient Location</h4>
+            <div class="col-sm-6">
+                <input asp-for="Street" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Street" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="City" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="City" />
+            </div>
+            <div class="col-sm-6">
+                <input asp-for="State" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="State" />
+            </div>
+            <div class="col-sm-6 mb-3">
+                <input asp-for="ZipCode" class="form-control form-control-md col-md mt-4"
+                       type="text"
+                       placeholder="Zip Code" />
+            </div>
+
+            <div class="col-sm-12 d-flex justify-content-end">
+                <button class="btn btn-primary mr-4" type="submit">Submit</button>
+                <button class="btn btn-outline-primary mr-4" type="submit">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- footer  -->
+    <footer>
+        <div class="footerDiv">
+            <a href="" class="footerLinks tnC">Terms and Condition</a>
+            <a href="" class="footerLinks">Privacy</a>
+        </div>
+    </footer>
+</body>
+<script src="~/js/dark.js"></script>
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>
+</html>

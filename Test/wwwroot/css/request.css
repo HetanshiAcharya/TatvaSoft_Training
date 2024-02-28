@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+@media (max-width: 574px) {
+  div button {
+    margin-top: 5%;
+  }
+}
+body {
+  padding: 25px;
+  background-color: white;
+  color: black;
+  font-size: 25px;
+}
+div .validate {
+    font-size: 13px;
+}
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+/*----- header -------- */
+.darkmode {
+  height: 40px;
+  width: 40px;
+  padding: 4px;
+  position: relative;
+  top: 20%;
+  right: 60%;
+}
+.logo-img {
+  position: relative;
+  height: 80px;
+}
+header {
+  z-index: 12;
+  background-color: white;
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px;
+  box-shadow: 0 4px 7px -2px rgb(0 0 0 / 20%);
+}
+
+/*------- footer--------  */
+footer {
+  z-index: 3;
+  left: 0;
+  text-align: end;
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  bottom: 0;
+  background-color: rgb(45, 45, 45);
+}
+.footerLinks {
+  text-decoration: none;
+  color: white;
+  font-size:16px;
+  padding: 10px;
+}
+.footerDiv {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+.tnC {
+  border-right: 1px solid white;
+}
+
+/* main section  */
+ .iti__country {
+    font-size: 16px;
+}
+.container-fluid {
+  margin-top: 8vh;
+  margin-bottom: 6vh;
+}
+.iti {
+  display: block;
+  margin-top: 24px;
+  width: 100%;
+  z-index: 2;
+}
+
+.file-input label {
+  top: -50%;
+  display: block;
+  position: relative;
+  width: 107px;
+  height: 37px;
+  border-radius: 3px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #02bbe9;
+  /* box-shadow: 0 4px 7px rgb(0 0 0 / 40%); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size:16px;
+  /* font-weight: bold; */
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+}
+div .btn-primary {
+  background-color: #02bbe9;
+  border: none;
+  margin-right: 15px;
+}
+div .btn-outline-primary {
+  border-color: #02bbe9;
+  color: #02bbe9;
+}
+
+div .form-control:focus {
+  border-color: #02bbe9;
+}
+div .link-color {
+  padding: 5px;
+  width: max-content;
+  color: #02bbe9;
+  text-decoration: none;
+}
+.link-color:hover {
+  color: white;
+}
+div .logout-btn {
+    height: 50px;
+    width: 100px;
+    padding: 4px;
+    align-self: center;
+    justify-content:right;
+    position:relative;
+    right:5%;
+}
+.nav {
+    z-index: 3;
+    background-color: white;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0 4px 7px -2px rgb(0 0 0 / 20%);
+    top: 11%;
+}
+.nav-link {
+    font-size: 16px;
+  
+}
+div .tab-content {
+    margin-top:4%;
+    font-size: 16px;
+}
+div .modal-header {
+    background-color: #02bbe9;
+    color:white;
+}
+div .modal-body{
+    font-size:16px;
+
+}
+.modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+}
+.headerDiv{
+    font-size:16px;
+}
+.modal-link{
+    text-decoration:none;
+    color:white;
+}
+.modal-link:hover {
+    text-decoration: none;
+    color: white;
+}
+.medHis{
+    font-size:20px;
+}
+div .map-btn{
+    width:100px;
+    font-size:16px;
+
+}
+.posheader {
+    position: relative;
+    top: 100px;
+    left: 13px;
+}
+.sec-btn {
+    color: #02bbe9;
+}
+.docbody{
+    position:relative;
+    top:160px;
+}
+.activeNav {
+    color: #8dcaf0 !important;
+    font-weight: 600;
+    border-bottom: 2px solid #8dcaf0;
+}
