@@ -1,1 +1,69 @@
-﻿
+﻿﻿<!-- Modal -->
+@model List<HaloDocDataAccess.DataModels.Region>;
+<button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Create New Request
+</button>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog p-2 modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header  bg-info text-white">
+                <h5 class="modal-title" id="staticBackdropLabel">Assign Case</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-2">
+                <p>Patient Name</p>
+                <form method="post">
+                    <select class="form-select mb-3" id="region" onchange="AssignPhysician()">
+                        <option value="">Search by Region</option>
+                        @foreach (var items in Model)
+                        {
+                            <option value="@items.RegionId">@items.Name</option>
+                        }
+                    </select>
+                    <select class="form-select mb-3" id="provider">
+                        <option value="" name="PhysicianId">Search Physician</option>
+
+                    </select>
+                    <textarea class="form-control text-"
+                              id="exampleFormControlTextarea1"
+                              rows="3"
+                              placeholder="Notes" name="Notes"
+                              required>
+                </textarea>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function AssignPhysician() {
+        var region = $("#region").val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("PhysicianbyRegion", "Admin")?Regionid=' + region,
+            cache: false,
+            success: function (response) {
+                console.log(response);
+                var select = '<option value="">Please Select</option>';
+                for (var i = 0; i < response.length; i++) {
+                    select += '<option value="' + response[i].physicianId + '">' + response[i].firstName + " " + response[i].lastName + '</option>';
+                }
+
+                $("#provider").html(select);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+
+</script>

@@ -1,7 +1,6 @@
 ﻿@model List<HaloDocDataAccess.ViewModels.AdminDashboardList>
 @using static HaloDocDataAccess.ViewModels.Constant
 
-<!--End Desktop Screen View of table-->
 <!--Important links-->
 <div class="d-flex justify-content-between mx-2 imp-links">
     <div>
@@ -152,9 +151,7 @@
                         @if (item.RequestTypeID != 2)
                         {
                             <button class="btn border border-white text-white mt-2 justify-content-center align-items-center">
-                                <div>
-                                    <i class="fa-solid fa-phone pe-2"></i>
-                                </div>
+                                <i class="fa-solid fa-phone pe-2"></i>
                                 <small>@item.RequestorPhoneNumber</small>
                             </button>
                             <div>
@@ -179,7 +176,7 @@
                             <small>Actions</small>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assigncase"><i class="bi bi-card-checklist me-1"></i>Assign Case</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="AssignCase" ><i class="bi bi-card-checklist me-1"></i>Assign Case</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-x-circle me-1"></i>Cancel Case</a></li>
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="fa-regular fa-rectangle-list"></i> View Case</a></li>
                             <li><a class="dropdown-item" href="#"><i class="bi bi-journals me-1"></i>View Notes</a></li>
@@ -194,8 +191,6 @@
 </div>
 
 <div class="accordion mt-3 d-block d-sm-none" id="accordionExample">
-
-
     <div class="dBlock">
         @foreach (var item in Model)
         {
@@ -278,72 +273,7 @@
             </div>
         }
     </div>
-
     <!--End Mobile Screen View of table-->
-
-</div>
-﻿<!-- Modal -->
-<div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog p-2 modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header  bg-info text-white">
-                <h5 class="modal-title" id="staticBackdropLabel">Assign Case</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-2">
-                <p>Patient Name</p>
-                <select class="form-select mb-2" id="floatingSelectGrid">
-                    <option selected class="text-secondary">All Regions</option>
-                    <option value="1">Maryland</option>
-                    <option value="2">New York</option>
-                    <option value="3">Virginia</option>
-                </select>
-                <textarea class="form-control"
-                          id="exampleFormControlTextarea1"
-                          rows="3"
-                          placeholder="Enter Brief Details of Symptoms" required>
-                                </textarea>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Confirm</button>
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-           
-
-               
-            </div>
-        </div>
-    </div>
 </div>
 
 
-@* @foreach (var item in Model.Where(n => n.RequestID == 113))
-{
-    <div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header  bg-info text-white">
-                    <h5 class="modal-title" id="staticBackdropLabel">Create New Request</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Patient Name</p>  @* <small>@item.PatientName</small> *@
-@* <select class="form-select shadow-none border-0" id="floatingSelectGrid">
-                        <option selected class="text-secondary">All Regions</option>
-                        <option value="1">Maryland</option>
-                        <option value="2">New York</option>
-                        <option value="3">Virginia</option>
-                    </select>
-                    <textarea class="form-control"
-                              id="exampleFormControlTextarea1"
-                              rows="3"
-                              placeholder="Enter Brief Details of Symptoms" required>
-                                </textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Confirm</button>
-                </div>
-            </div>
-        </div>
-    </div> *@
-@* } *@ 

@@ -129,5 +129,21 @@ namespace HaloDocDataAccess.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult PhysicianbyRegion(int Regionid)
+        {
+            var v = _adminservice.ProviderbyRegion(Regionid);
+            return Json(v);
+        }
+        public IActionResult AssignCase()
+        {
+            var dropdown = _adminservice.getdropdownregion();
+            return View(dropdown);
+        }
+        [HttpPost]
+        public IActionResult AssignCase(int RequestId, int PhysicianId, string Notes)
+        {
+            _adminservice.AssignDropdown(RequestId,  PhysicianId,  Notes);
+            return View();
+        }
     }
 }
