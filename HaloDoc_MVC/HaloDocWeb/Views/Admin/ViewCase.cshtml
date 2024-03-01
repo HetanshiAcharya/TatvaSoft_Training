@@ -1,13 +1,13 @@
 ﻿﻿@{
     Layout = "_AdminLayout";
 }
+@using HaloDocDataAccess.ViewModels;
 @model HaloDocDataAccess.ViewModels.ViewCaseData
 @using static HaloDocDataAccess.ViewModels.Constant
-
-
-
+@Html.Partial("AssignCase.cshtml")
 
 <form class="container mt-5 viewcasecard" method="post">
+
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex justify-content-evenly">
             <h3 class="">New Request</h3>
@@ -89,7 +89,7 @@
                    placeholder="Room #" disabled />
         </div>
        <div class="d-flex justify-content-end">
-            <a class="btn btn-info text-white rounded me-2 " data-bs-toggle="modal" data-bs-target="#assigncase">Assign</a>
+            <a class="btn btn-info text-white rounded me-1" data-bs-toggle="modal" onclick="Assigncaseid(@Model.RequestID)" data-bs-target=" #assigncase" data-id="@Model.RequestID">Assign Case</a>
             <a class="btn btn-info text-white rounded me-1" asp-controller="Admin" asp-action="ViewNotes">View Notes</a>
             <a class="btn btn-danger text-white rounded">Cancel</a>
        </div> 
@@ -102,5 +102,10 @@
         $("#phone1").removeAttr('disabled');
         $("#submit").css("display", "block");
         $("#edit").css("display", "none");
+    }
+    function Assigncaseid(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelAssignCase').value = RequestId;
     }
 </script>

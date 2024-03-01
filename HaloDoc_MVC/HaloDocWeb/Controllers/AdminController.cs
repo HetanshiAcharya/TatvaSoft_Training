@@ -110,6 +110,8 @@ namespace HaloDocDataAccess.Controllers
 
         public IActionResult ViewCase(int? RId, int? RTId)
         {
+            ViewBag.AssignCase = _adminservice.AssignCase();
+
             ViewCaseData vdvc = _adminservice.NewRequestData(RId, RTId);
             return View(vdvc);
         }
