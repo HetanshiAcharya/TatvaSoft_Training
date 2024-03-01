@@ -41,7 +41,7 @@ namespace HaloDocDataAccess.Controllers
             {
                 if (_adminservice.AdminAuthentication(adminLogin))
                 {
-                    AspNetUser aspuser = _context.AspNetUsers.FirstOrDefault(Au => Au.Email == adminLogin.Email);
+                    AspNetUser? aspuser = _context.AspNetUsers.FirstOrDefault(Au => Au.Email == adminLogin.Email);
                     HttpContext.Session.SetString("userId", aspuser.Id);
                     return RedirectToAction("Index", "Admin");
                 }
@@ -61,6 +61,8 @@ namespace HaloDocDataAccess.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.CancelCase = _adminservice.CancelCase();
+            ViewBag.AssignCase = _adminservice.AssignCase();
             CountStatusWiseRequestModel sm = _adminservice.Indexdata();
 
             return View(sm);
@@ -134,16 +136,22 @@ namespace HaloDocDataAccess.Controllers
             var v = _adminservice.ProviderbyRegion(Regionid);
             return Json(v);
         }
-        public IActionResult AssignCase()
-        {
-            var dropdown = _adminservice.getdropdownregion();
-            return View(dropdown);
-        }
         [HttpPost]
         public IActionResult AssignCase(int RequestId, int PhysicianId, string Notes)
         {
-            _adminservice.AssignDropdown(RequestId,  PhysicianId,  Notes);
-            return View();
+            _adminservice.AssignCaseInfo(RequestId, PhysicianId, Notes);
+            return RedirectToAction("Index", "Admin");
+        }
+        [HttpPost]
+        public IActionResult CancelCase(int casetagId, int RequestId, string Notes)
+        {
+            _adminservice.CancelCaseInfo(casetagId, Notes, RequestId);
+            return RedirectToAction("Index", "Admin");
+        }
+        public IActionResult BlockCase(int RequestId, string Notes)
+        {
+            var res =_adminservice.BlockCaseInfo(RequestId, Notes);
+            return RedirectToAction("Index", "Admin");
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿
+<div class="modal fade" id="cancelcase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-white bg-info" id="staticBackdropLabel"> Cancel Request</h5>
+                <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-action="CancelCase" asp-controller="Admin" id="">
+                <input type="hidden" name="requestid" id="RequestID_ModelCancelCase" />
+                <div class="modal-body">
+                    <p><small>Patient Name:</small><span id="RequestID_PatientNameCancelCase" class="text-info"></span> </p>
+                    <div>
+                        <select class="form-select mb-3" id="" onchange="()" name="" asp-items="@(new SelectList(ViewBag.CancelCase,"CaseTagId","Name"))">
+                            <option value="">Reason for Cancellation</option>
+                        </select>
+                    </div>
+                    <textarea name="Notes" class="form-control" id="exampleFormControlTextarea1" rows="4"
+                              placeholder="Description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-info">Submit</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@* <script type="text/javascript">
+    function AssignPhysician() {
+        var region = $("#region").val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("PhysicianbyRegion", "Admin")?Regionid=' + region,
+            cache: false,
+            success: function (response) {
+                console.log(response);
+                var select = '<option value="">Please Select</option>';
+                for (var i = 0; i < response.length; i++) {
+                    select += '<option value="' + response[i].physicianId + '">' + response[i].firstName + " " + response[i].lastName + '</option>';
+                }
+
+                $("#provider").html(select);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+</script> *@

@@ -95,39 +95,7 @@
        </div> 
     </div>
 </form>
-@* <---Modal--> *@
-<div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog p-2 modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header  bg-info text-white">
-                <h5 class="modal-title" id="staticBackdropLabel">Assign Case</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-2">
-                <p>Patient Name</p>
-                <select class="form-select mb-2" id="floatingSelectGrid">
-                    <option selected class="text-secondary">All Regions</option>
-                    <option value="1">Maryland</option>
-                    <option value="2">New York</option>
-                    <option value="3">Virginia</option>
-                </select>
-                <textarea class="form-control"
-                          id="exampleFormControlTextarea1"
-                          rows="3"
-                          placeholder="Enter Brief Details of Symptoms" required>
-                                </textarea>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Confirm</button>
 
-                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
 <script>
     function enable_disable() {
         $("#email").removeAttr('disabled');
@@ -136,22 +104,3 @@
         $("#edit").css("display", "none");
     }
 </script>
-@* <script>
-    $(document).ready(function () {
-        $("input").prop("readonly", true);
-        $("textarea").prop("readonly", true);
-        $("input").css("background-color", "#e9ecef");
-        $("textarea").css("background-color", "#e9ecef");
-        $("#submit").css("display", "none");
-    });
-</script>
-<script>
-    function enable_disable() {
-        $("input").prop("readonly", false);
-        $("#submit").prop("readonly", false);
-        $("#submit").css("display", "block");
-        $("#edit").css("display", "none");
-        $("input").css("background-color", "transparent");
-        $("textarea").css("background-color", "transparent");
-    }
-</script> *@

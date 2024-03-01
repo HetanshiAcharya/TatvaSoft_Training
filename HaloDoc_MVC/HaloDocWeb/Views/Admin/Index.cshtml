@@ -1,9 +1,15 @@
-﻿﻿
-@model HaloDocDataAccess.ViewModels.CountStatusWiseRequestModel;
+﻿@model HaloDocDataAccess.ViewModels.CountStatusWiseRequestModel;
 @using static HaloDocDataAccess.ViewModels.Constant;
 @{
     Layout = "_AdminLayout";
+   
 }
+
+@Html.Partial("AssignCase.cshtml")
+@Html.Partial("CancelCase.cshtml")
+@Html.Partial("BlockCase.cshtml")
+
+
 <div class="tab-contents">
 </div>
 <div class="mx-sm-1 mx-md-2 mx-xxl-4 mt-0 bg-light">
