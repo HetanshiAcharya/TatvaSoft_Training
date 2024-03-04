@@ -1,5 +1,5 @@
 ﻿@using HaloDocDataAccess.DataModels;
-@model IEnumerable<RequestWiseFile>
+@model HaloDocDataAccess.ViewModels.ViewDocument;
 @{
     Layout = "_PatientDashboardLayout";
     ViewData["Title"] = "View Documents";
@@ -23,22 +23,32 @@
                         <h5 class="ms-2">(Confirmation_Number)</h5>
                     </div>
                     <span>Check here for any files that you or the doctors of your subsequents requestors have attached for you to review.</span>\
-                     <form method="post" asp-action="UploadDoc" asp-controller="PatientDashboard" enctype="multipart/form-data">
-                  
-                       
-                            <div class="d-flex justify-content-between bg-light border border-secondary rounded">
-                                <button type="button" id="choosenfile" class="col btn text-start text-secondary" onclick="document.getElementById('files').click()">
-                                    Select File
-                                </button>
-                                <input id="files" type="file" class="d-none form-control doc_uploder" name="UploadFile">
-                                <input name="RequestId"  class="d-none" />
-                                <button type="submit" class="btn btn-info text-white py-2" value="Upload">
-                                    <i class="fa fa-cloud-upload"></i>
-                                    Upload
-                                </button>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="row mt-2 mx-1">
+                            <input asp-for="RequestId" hidden />
+                            <input asp-for="File" class="form-control" type="file" id="file_input_id" style="opacity:0;height:0;">
+
+                            <div class="input-group mb-3">
+                                <input type="text" id='text_input_id' class="form-control" placeholder="Select File" style="caret-color: transparent" autocomplete="off">
+
+                                <span class="input-group-text" id="text_input_span_id " style="background-color: #10bce9;">
+                                    <div>
+                                        <span class="ms-1 text-white">Upload</span>
+                                    </div>
+                                </span>
+
                             </div>
+                            <div class="">
+
+                                <button type="submit" class="px-4 py-2 btn btn-primary" style="background-color:#10bce9">
+                                    <span class="ms-1 text-white">Save File</span>
+                                </button>
+
+                            </div>
+
+                        </div>
                     </form>
-                 
+
                     <div class="d-flex justify-content-between mt-2">
                         <h4>Documents</h4>
                         <button onclick="" class="btn btn-outline-info shadow-none night-mode-btn">
@@ -67,7 +77,7 @@
                                 </tr>
                             </thead>
                             <tbody class="table-body align-middle">
-                                @foreach (var file in Model)
+                                @foreach (var file in Model.requestwisefiles)
                                 {
                                     <tr class="table-row">
                                         <td>
@@ -79,7 +89,7 @@
                                                 <path style="fill:#E2574C;" d="M38.658,0h164.23l87.049,86.711v203.227c0,10.679-8.659,19.329-19.329,19.329H38.658 c-10.67,0-19.329-8.65-19.329-19.329V19.329C19.329,8.65,27.989,0,38.658,0z" />
                                                 <path style="fill:#B53629;" d="M289.658,86.981h-67.372c-10.67,0-19.329-8.659-19.329-19.329V0.193L289.658,86.981z" />
                                                 <path style="fill:#FFFFFF;" d="M217.434,146.544c3.238,0,4.823-2.822,4.823-5.557c0-2.832-1.653-5.567-4.823-5.567h-18.44 c-3.605,0-5.615,2.986-5.615,6.282v45.317c0,4.04,2.3,6.282,5.412,6.282c3.093,0,5.403-2.242,5.403-6.282v-12.438h11.153 c3.46,0,5.19-2.832,5.19-5.644c0-2.754-1.73-5.49-5.19-5.49h-11.153v-16.903C204.194,146.544,217.434,146.544,217.434,146.544z M155.107,135.42h-13.492c-3.663,0-6.263,2.513-6.263,6.243v45.395c0,4.629,3.74,6.079,6.417,6.079h14.159 c16.758,0,27.824-11.027,27.824-28.047C183.743,147.095,173.325,135.42,155.107,135.42z M155.755,181.946h-8.225v-35.334h7.413 c11.221,0,16.101,7.529,16.101,17.918C171.044,174.253,166.25,181.946,155.755,181.946z M106.33,135.42H92.964 c-3.779,0-5.886,2.493-5.886,6.282v45.317c0,4.04,2.416,6.282,5.663,6.282s5.663-2.242,5.663-6.282v-13.231h8.379 c10.341,0,18.875-7.326,18.875-19.107C125.659,143.152,117.425,135.42,106.33,135.42z M106.108,163.158h-7.703v-17.097h7.703 c4.755,0,7.78,3.711,7.78,8.553C113.878,159.447,110.863,163.158,106.108,163.158z" /></g>
-                                                    </svg>
+                                                            </svg>
                                                 <span>@file.FileName</span>
                                             </div>
                                         </td>
@@ -108,17 +118,31 @@
 </div><script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
 
-<script>
+@* <script>
     $(function () {
         $("#btnRedirect").click(function () {
             window.location.href = "@Url.Action("UploadDoc", "PatientDashboard")";
         });
     });
-</script>
+</script> *@
 <script>
     var clicked = false; $("#checkall").on("click", function () {
         $(".checkbox").prop("checked", !clicked);
         clicked = !clicked; this.innerHTML = clicked ? 'Deselect' : 'Select';
     });
+</script>
+<script>
+    // bind file-input-form click action to text-input-span
+    $('#text_input_span_id').click(function () {
+        $("#file_input_id").trigger('click');
+    })
+    // bind file-input-form click action to text-input-form
+    $('#text_input_id').click(function () {
+        $("#file_input_id").trigger('click');
+    })
+    // display file name in text-input-form
+    $("#file_input_id").change(function () {
+        $('#text_input_id').val(this.value.replace(/C:\\fakepath\\/i, ''))
+    })
 </script>
 <script src="~/js/patientSite.js"></script>

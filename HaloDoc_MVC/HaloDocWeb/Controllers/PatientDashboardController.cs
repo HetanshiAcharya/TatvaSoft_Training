@@ -100,39 +100,56 @@ namespace HaloDocWeb.Controllers
         {
             return View();
         }
-        public IActionResult ViewDocument(int RequestId)
+        //public IActionResult ViewDocument(int RequestId)
+        //{
+        //    IEnumerable<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == RequestId);
+        //    return View(fileList);
+        //}
+        public IActionResult ViewDocument(int requestId)
         {
-            IEnumerable<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == RequestId);
-            return View(fileList);
+            int? userid = HttpContext.Session.GetInt32("userId");
+            User user = _context.Users.FirstOrDefault(u => u.UserId == userid);
+            Request request = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
+            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId).ToList();
+
+            ViewDocument document = new()
+            {
+                requestwisefiles = fileList,
+                RequestId = requestId,
+
+                ConfirmationNumber = request.ConfirmationNumber,
+                UserName = user.FirstName + " " + user.LastName,
+            };
+            return View(document);
         }
-
-
-        public IActionResult UploadDoc(int Requestid, IFormFile? UploadFile)
+        [HttpPost]
+        public IActionResult ViewDocument(ViewDocument viewdata)
         {
-            string UploadImage;
-            if (UploadFile != null)
+
+            string UploadImage="";
+            if (viewdata.File !=null)
             {
                 string FilePath = "wwwroot\\Upload";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
-                string fileNameWithPath = Path.Combine(path, UploadFile.FileName);
-                UploadImage = UploadFile.FileName;
+                string fileNameWithPath = Path.Combine(path, viewdata.File.FileName);
+                UploadImage = viewdata.File.FileName;
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
-                    UploadFile.CopyTo(stream);
+                    viewdata.File.CopyTo(stream);
                 }
                 var requestwisefile = new RequestWiseFile
                 {
-                    RequestId = Requestid,
-                    FileName = UploadFile.FileName,
+                    RequestId = viewdata.RequestId,
+                    FileName = viewdata.File.FileName,
                     CreatedDate = DateTime.Now,
                 };
                 _context.RequestWiseFiles.Add(requestwisefile);
                 _context.SaveChanges();
             }
 
-            return View("ViewDocument","PatientDashboard");
+            return ViewDocument(viewdata.RequestId);
         }
     }
 }

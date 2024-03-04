@@ -2,7 +2,7 @@
 @{
     Layout = "_AdminLayout";
 }
-<form class="container w-50 mt-5 viewcasecard" method="post">
+<form class="container w-50 mt-5 viewcasecard" method="post" action="@Url.Action("ViewNotesUpdate","Admin")">
     <input asp-for="Requestclientid" hidden />
     <div class="d-flex justify-content-between ">
         <div class="d-flex justify-content-evenly">

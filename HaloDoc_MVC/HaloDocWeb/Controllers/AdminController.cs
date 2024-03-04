@@ -156,6 +156,18 @@ namespace HaloDocDataAccess.Controllers
             var obj = _adminservice.ViewNotes(reqClientId);
             return View(obj);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ViewNotesUpdate(ViewNotes viewNotes)
+        {
+            if (ModelState.IsValid)
+            {
+                int? adminId = HttpContext.Session.GetInt32("adminId");
+                _adminservice.ViewNotesUpdate(viewNotes);
+                return ViewNotes(viewNotes.Requestclientid);
+            }
+            return View(viewNotes);
+        }
 
     }
 }
