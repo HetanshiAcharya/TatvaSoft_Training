@@ -122,12 +122,7 @@ namespace HaloDocDataAccess.Controllers
             ViewCaseData vc = _adminservice.Edit(vdvc, RId, RTId);
             return View(vc);
         }
-
-        public IActionResult ViewNotes(int? id)
-        {
-            return View();
-        }
-
+      
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -155,5 +150,12 @@ namespace HaloDocDataAccess.Controllers
             var res =_adminservice.BlockCaseInfo(RequestId, Notes);
             return RedirectToAction("Index", "Admin");
         }
+        public IActionResult ViewNotes(int reqClientId)
+        {
+            int? adminId = HttpContext.Session.GetInt32("adminId");
+            var obj = _adminservice.ViewNotes(reqClientId);
+            return View(obj);
+        }
+
     }
 }

@@ -12,6 +12,8 @@ using HaloDocDataAccess.ViewModels;
 using HaloDocRepository.Interface;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
+using System.IO;
+using System.Reflection.Emit;
 
 
 namespace HaloDocRepository.Repositories
@@ -19,6 +21,8 @@ namespace HaloDocRepository.Repositories
     public class PatientService : IPatientService
     {
         private readonly HaloDocDbContext _context;
+        private int IntDate;
+        private int IntYear;
 
         public PatientService(HaloDocDbContext context)
         {
@@ -37,7 +41,7 @@ namespace HaloDocRepository.Repositories
                 // Aspnetuser
                 Guid g = Guid.NewGuid();
                 Aspnetuser.Id = g.ToString();
-                Aspnetuser.UserName = viewpatientcreaterequest.Email;
+                Aspnetuser.UserName = (viewpatientcreaterequest.FirstName + ' ' + viewpatientcreaterequest.LastName);
                 Aspnetuser.PasswordHash = viewpatientcreaterequest.LastName;
                 Aspnetuser.CreatedDate = DateTime.Now;
                 Aspnetuser.Email = viewpatientcreaterequest.Email;
@@ -61,7 +65,7 @@ namespace HaloDocRepository.Repositories
                 _context.Users.Add(User);
                 _context.SaveChanges();
             }
-            Request.RequestTypeId = 2;
+            Request.RequestTypeId = 1;
             Request.Status = 1;
 
             if (isexist == null)
@@ -88,7 +92,13 @@ namespace HaloDocRepository.Repositories
             Requestclient.Email = viewpatientcreaterequest.Email;
             Requestclient.PhoneNumber = viewpatientcreaterequest.PhoneNumber;
             Requestclient.Notes = viewpatientcreaterequest.Symptoms;
-
+            Requestclient.StrMonth = (viewpatientcreaterequest.BirthDate.Month).ToString();
+            Requestclient.IntDate = viewpatientcreaterequest.BirthDate.Day;
+            Requestclient.IntYear = viewpatientcreaterequest.BirthDate.Year;
+            Requestclient.Street = viewpatientcreaterequest.Street;
+            Requestclient.City = viewpatientcreaterequest.City;
+            Requestclient.State = viewpatientcreaterequest.State;
+            Requestclient.ZipCode = viewpatientcreaterequest.ZipCode;
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
@@ -149,9 +159,13 @@ namespace HaloDocRepository.Repositories
                 LastName = viewdata.LastName,
                 PhoneNumber = viewdata.PhoneNumber,
                 Email = viewdata.Email,
+                Street = viewdata.Street,
                 State = viewdata.State,
                 City = viewdata.City,
-                ZipCode = viewdata.ZipCode
+                ZipCode = viewdata.ZipCode,
+                StrMonth = (viewdata.BirthDate.Month).ToString(),
+                IntDate = viewdata.BirthDate.Day,
+                IntYear = viewdata.BirthDate.Year
             };
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
@@ -195,6 +209,13 @@ namespace HaloDocRepository.Repositories
             Requestclient.LastName = viewdata.LastName;
             Requestclient.Email = viewdata.Email;
             Requestclient.PhoneNumber = viewdata.PhoneNumber;
+            Requestclient.Street = viewdata.Street;
+            Requestclient.State = viewdata.State;
+            Requestclient.City = viewdata.City;
+            Requestclient.ZipCode = viewdata.ZipCode;
+            Requestclient.StrMonth = (viewdata.BirthDate.Month).ToString();
+            Requestclient.IntDate = viewdata.BirthDate.Day;
+            Requestclient.IntYear = viewdata.BirthDate.Year;
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
@@ -224,7 +245,7 @@ namespace HaloDocRepository.Repositories
             int id1 = Business.BusinessId;
 
 
-            Request.RequestTypeId = 3;
+            Request.RequestTypeId = 2;
             Request.Status = 1;
             Request.FirstName = viewdata.FirstName;
             Request.LastName = viewdata.LastName;
@@ -241,6 +262,13 @@ namespace HaloDocRepository.Repositories
             Requestclient.LastName = viewdata.LastName;
             Requestclient.Email = viewdata.Email;
             Requestclient.PhoneNumber = viewdata.PhoneNumber;
+            Requestclient.Street = viewdata.Street;
+            Requestclient.State = viewdata.State;
+            Requestclient.City = viewdata.City;
+            Requestclient.ZipCode = viewdata.ZipCode;
+            Requestclient.StrMonth = (viewdata.BirthDate.Month).ToString();
+            Requestclient.IntDate = viewdata.BirthDate.Day;
+            Requestclient.IntYear = viewdata.BirthDate.Year;
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
@@ -281,11 +309,11 @@ namespace HaloDocRepository.Repositories
             return new List<PatientDashboard> { };
         }
 
-        public void ProfileData(PatientProfile newdetails, int ?id)
+        public void ProfileData(PatientProfile newdetails, int? id)
         {
             try
             {
-               
+
                 User userToUpdate = _context.Users.Find(id);
 
                 userToUpdate.FirstName = newdetails.FirstName;
@@ -296,10 +324,10 @@ namespace HaloDocRepository.Repositories
                 userToUpdate.Street = newdetails.Street;
                 userToUpdate.City = newdetails.City;
                 userToUpdate.ZipCode = newdetails.ZipCode;
-                //userToUpdate.IntDate = newdetails.Date.Day;
-                //userToUpdate.IntYear = newdetails.DOB.Year;
-                //userToUpdate.StrMonth = newdetails.DOB.Month.ToString();
-                //userToUpdate.ModifiedBy = newdetails.CreatedBy;
+                userToUpdate.IntDate = newdetails.DOB.Day;
+                userToUpdate.IntYear = newdetails.DOB.Year;
+                userToUpdate.StrMonth = newdetails.DOB.Month.ToString();
+                userToUpdate.ModifiedBy = newdetails.CreatedBy;
                 userToUpdate.ModifiedDate = DateTime.Now;
                 _context.Update(userToUpdate);
                 _context.SaveChanges();

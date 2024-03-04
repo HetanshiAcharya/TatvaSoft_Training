@@ -12,3 +12,17 @@ C:\Users\pci68\source\repos\HaloDocDataAccess\obj\Debug\net7.0\ref\HaloDocDataAc
 C:\Users\pci68\source\repos\HaloDocDataAccess\bin\Debug\net7.0\HaloDocDataAccess.runtimeconfig.json
 C:\Users\pci68\source\repos\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.csproj.AssemblyReference.cache
 C:\Users\pci68\source\repos\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.genruntimeconfig.cache
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\bin\Debug\net7.0\HaloDocDataAccess.deps.json
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\bin\Debug\net7.0\HaloDocDataAccess.runtimeconfig.json
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\bin\Debug\net7.0\HaloDocDataAccess.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\bin\Debug\net7.0\HaloDocDataAccess.pdb
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.csproj.AssemblyReference.cache
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.AssemblyInfoInputs.cache
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.AssemblyInfo.cs
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.csproj.CoreCompileInputs.cache
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\refint\HaloDocDataAccess.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.pdb
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\HaloDocDataAccess.genruntimeconfig.cache
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocDataAccess\obj\Debug\net7.0\ref\HaloDocDataAccess.dll

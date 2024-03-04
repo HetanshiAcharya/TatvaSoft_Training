@@ -13,6 +13,8 @@ using HaloDocRepository.Interface;
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using System.Globalization;
+using System.Net.Http;
 
 namespace HaloDocRepository.Repositories
 {
@@ -59,6 +61,7 @@ namespace HaloDocRepository.Repositories
                             RequestID = req.Request.RequestId,
                             PatientName = req.Requestclient.FirstName + " " + req.Requestclient.LastName,
                             Email = req.Requestclient.Email,
+                            Dob = new DateTime((int)req.Requestclient.IntYear, int.Parse(req.Requestclient.StrMonth), (int)req.Requestclient.IntDate),
                             //DateOfBirth = new DateTime((int)req.Requestclient.Intyear, Convert.ToInt32(req.Requestclient.Strmonth.Trim()), (int)req.Requestclient.Intdate),
                             RequestTypeID = req.Request.RequestTypeId,
                             Requestor = req.Request.FirstName + " " + req.Request.LastName,
@@ -70,14 +73,6 @@ namespace HaloDocRepository.Repositories
                         })
                         .OrderByDescending(req => req.RequestedDate)
                         .ToList();
-            //var list2 = req.Select(r => new AdminDashboardList
-            //{
-            //    RequestId = r.RequestId,
-            //    PatientName= r.RequestClients.Select(s=> s.FirstName).First(),
-
-
-            //}
-            //    );;
             return list;
         }
         public CountStatusWiseRequestModel Indexdata()
@@ -104,7 +99,7 @@ namespace HaloDocRepository.Repositories
                                                 on req.PhysicianId equals phys.PhysicianId into physGroup
                                                 from p in physGroup.DefaultIfEmpty()
                                                 join reg in _context.Regions
-                                               on rc.RegionId equals reg.RegionId into RegGroup
+                                                on rc.RegionId equals reg.RegionId into RegGroup
                                                 from rg in RegGroup.DefaultIfEmpty()
                                                 where statusdata.Contains(req.Status)
                                                 orderby req.CreatedDate descending
@@ -114,10 +109,15 @@ namespace HaloDocRepository.Repositories
                                                     RequestTypeID = req.RequestTypeId,
                                                     Requestor = req.FirstName + " " + req.LastName,
                                                     PatientName = rc.FirstName + " " + rc.LastName,
-                                                    //Dob = new DateOnly((int)rc.Intyear, DateTime.ParseExact(rc.Strmonth, "MMMM", new CultureInfo("en-US")).Month, (int)rc.Intdate),
+                                                    Bdate= rc.IntDate,
+                                                    BMonth=rc.StrMonth,
+                                                    BYear=rc.IntYear,
+                                                    City=rc.City,
+                                                    State=rc.State,
+                                                    Street=rc.Street,
+                                                    ZipCode=rc.ZipCode,                                                  
                                                     RequestedDate = (DateTime)req.CreatedDate,
                                                     Email = rc.Email,
-
                                                     Region = rg.Name,
                                                     ProviderName = p.FirstName + " " + p.LastName,
                                                     PhoneNumber = rc.PhoneNumber,
@@ -128,5 +128,226 @@ namespace HaloDocRepository.Repositories
                                                 }).ToList();
             return allData;
         }
+      
+
+        public ViewCaseData GetRequestForViewCase(int id)
+        {
+            var n = _context.Requests.FirstOrDefault(E => E.RequestId == id);
+
+            var l = _context.RequestClients.FirstOrDefault(E => E.RequestId == id);
+
+            var region = _context.Regions.FirstOrDefault(E => E.RegionId == l.RegionId);
+
+            ViewCaseData requestforviewcase = new ViewCaseData
+            {
+                RequestID = id,
+                //Region = region.Name,
+                FirstName = l.FirstName,
+                LastName = l.LastName,
+                PhoneNumber = l.PhoneNumber,
+                PatientNotes = l.Notes,
+                Email = l.Email,
+                RequestTypeID = n.RequestTypeId,
+                Address = l.Street + "," + l.City + "," + l.State,
+                Room = l.Address,
+                ConfirmationNumber = n.ConfirmationNumber,
+                //Dob = new DateTime((int)l.IntYear, DateTime.ParseExact(l.StrMonth, "MMMM", new CultureInfo("en-US")).Month, (int)l.IntDate)
+            };
+            return requestforviewcase;
+        }
+
+
+        public ViewCaseData NewRequestData(int? RId, int? RTId)
+        {
+            ViewCaseData? caseList = _context.RequestClients
+                                        .Where(r => r.Request.RequestId == RId)
+                                        .Select(req => new ViewCaseData()
+                                        {
+                                            UserID = req.Request.UserId,
+                                            RequestID = (int)RId,
+                                            RequestTypeID = (int)RTId,
+                                            ConfirmationNumber = req.City.Substring(0, 2) + req.IntDate.ToString() + req.StrMonth + req.IntYear.ToString() + req.LastName.Substring(0, 2) + req.FirstName.Substring(0, 2) + "002",
+                                            PatientNotes = req.Notes,
+                                            FirstName = req.FirstName,
+                                            LastName = req.LastName,
+                                            //Dob = new DateTime((int)req.IntYear, Convert.ToInt32(req.StrMonth.Trim()), (int)req.IntDate),
+                                            PhoneNumber = req.PhoneNumber,
+                                            Email = req.Email,
+                                            Address = req.Address
+                                        }).FirstOrDefault();
+            //_context.Update(caseList);
+            _context.SaveChanges();
+            return caseList;
+        }
+
+        public ViewCaseData Edit(ViewCaseData vdvc, int? RId, int? RTId)
+        {
+            try
+            {
+                RequestClient RC = _context.RequestClients.FirstOrDefault(E => E.RequestId == vdvc.RequestID);
+
+              
+                RC.PhoneNumber = vdvc.PhoneNumber;
+                RC.Email = vdvc.Email;
+             
+             
+             
+             
+                _context.Update(RC);
+                _context.SaveChanges();
+
+                ViewCaseData? caseList = _context.RequestClients
+                                        .Where(r => r.Request.RequestId == RId)
+                                        .Select(req => new ViewCaseData()
+                                        {
+                                            UserID = req.Request.UserId,
+                                            RequestID = (int)RId,
+                                            RequestTypeID = (int)RTId,
+                                            ConfirmationNumber = req.City.Substring(0, 2) + req.IntDate.ToString() + req.StrMonth + req.IntYear.ToString() + req.LastName.Substring(0, 2) + req.FirstName.Substring(0, 2) + "002",
+                                            PatientNotes = req.Notes,
+                                            FirstName = req.FirstName,
+                                            LastName = req.LastName,
+                                            Dob = new DateTime((int)req.IntYear, Convert.ToInt32(req.StrMonth.Trim()), (int)req.IntDate),
+                                            PhoneNumber = req.PhoneNumber,
+                                            Email = req.Email,
+                                            Address = req.Address
+                                        }).FirstOrDefault();
+
+                return caseList;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!RequestExists(vdvc.RequestID))
+                {
+                    throw;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+        private bool RequestExists(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Region> getdropdownregion()
+        {
+            var dropdown = _context.Regions.ToList();
+            return dropdown;
+        }
+
+        public List<Physician> ProviderbyRegion(int Regionid)
+        {
+            var result = _context.Physicians
+                        .Where(req => req.RegionId == Regionid)
+                        .Select(req => new Physician()
+                        {
+                            PhysicianId = req.PhysicianId,
+                            FirstName = req.FirstName,
+                            LastName = req.LastName
+                        }).ToList();
+            return result;
+
+        }
+        public List<Region> AssignCase()
+        {
+            var regiondata = _context.Regions.ToList();
+            return (regiondata);
+        }
+        public List<CaseTag> CancelCase()
+        {
+            var casetagdata = _context.CaseTags.ToList();
+            return (casetagdata);
+        }
+        public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.PhysicianId = PhysicianId;
+            request.Status = 2;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.PhysicianId = PhysicianId;
+            rsl.Notes = Notes;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 2;
+            _context.RequestStatusLogs.Add(rsl);
+            _context.SaveChanges();
+
+
+        }
+        public void CancelCaseInfo(int casetagId, string Notes, int RequestId)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.CaseTag = Notes;
+            request.Status = 8;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.Notes = Notes;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 8;
+            _context.RequestStatusLogs.Update(rsl);
+            _context.SaveChanges();
+
+
+        }
+        public bool BlockCaseInfo(int requestId, string notes)
+        {
+            try
+            {
+                var requestData = _context.Requests.FirstOrDefault(e => e.RequestId == requestId);
+                if (requestData != null)
+                {
+                    requestData.Status = 11;
+                    _context.Requests.Update(requestData);
+                    _context.SaveChanges();
+                    BlockRequest blc = new BlockRequest
+                    {
+                        RequestId = requestData.RequestId,
+                        PhoneNumber = requestData.PhoneNumber,
+                        Email = requestData.Email,
+                        Reason = notes,
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now
+                    };
+                    _context.BlockRequests.Add(blc);
+                    _context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public ViewNotes ViewNotes(int reqClientId)
+        {
+            RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == reqClientId);
+            RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
+            Physician physician = _context.Physicians.First(x => x.PhysicianId == 1);
+            var requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
+
+
+            ViewNotes viewNote = new()
+            {
+                PhysicianName = physician.FirstName,
+                AdminNotes = obj.AdminNotes,
+                PhysicianNotes = obj.PhysicianNotes,
+                //Statuslogs = requeststatuslog,
+            };
+            return viewNote;
+        }
     }
 }
+
