@@ -69,6 +69,7 @@ namespace HaloDocRepository.Repositories
                             PhoneNumber = req.Requestclient.PhoneNumber,
                             RequestorPhoneNumber = req.Request.PhoneNumber,
                             Notes = req.Requestclient.Notes,
+                            Requestclientid=req.Requestclient.RequestClientId,
                             Address = req.Requestclient.Address + " " + req.Requestclient.Street + " " + req.Requestclient.City + " " + req.Requestclient.State + " " + req.Requestclient.ZipCode
                         })
                         .OrderByDescending(req => req.RequestedDate)
@@ -129,7 +130,6 @@ namespace HaloDocRepository.Repositories
             return allData;
         }
       
-
         public ViewCaseData GetRequestForViewCase(int id)
         {
             var n = _context.Requests.FirstOrDefault(E => E.RequestId == id);
@@ -141,7 +141,8 @@ namespace HaloDocRepository.Repositories
             ViewCaseData requestforviewcase = new ViewCaseData
             {
                 RequestID = id,
-                //Region = region.Name,
+                //RequestClientId=l.RequestClientId,
+                Region = region.Name,
                 FirstName = l.FirstName,
                 LastName = l.LastName,
                 PhoneNumber = l.PhoneNumber,
@@ -164,13 +165,14 @@ namespace HaloDocRepository.Repositories
                                         .Select(req => new ViewCaseData()
                                         {
                                             UserID = req.Request.UserId,
+                                            RequestClientId = req.RequestClientId,
                                             RequestID = (int)RId,
                                             RequestTypeID = (int)RTId,
                                             ConfirmationNumber = req.City.Substring(0, 2) + req.IntDate.ToString() + req.StrMonth + req.IntYear.ToString() + req.LastName.Substring(0, 2) + req.FirstName.Substring(0, 2) + "002",
                                             PatientNotes = req.Notes,
                                             FirstName = req.FirstName,
                                             LastName = req.LastName,
-                                            //Dob = new DateTime((int)req.IntYear, Convert.ToInt32(req.StrMonth.Trim()), (int)req.IntDate),
+                                            Dob = new DateTime((int)req.IntYear, Convert.ToInt32(req.StrMonth.Trim()), (int)req.IntDate),
                                             PhoneNumber = req.PhoneNumber,
                                             Email = req.Email,
                                             Address = req.Address
@@ -336,7 +338,7 @@ namespace HaloDocRepository.Repositories
             RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == reqClientId);
             RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
             Physician physician = _context.Physicians.First(x => x.PhysicianId == 1);
-            var requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
+            //var requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
 
 
             ViewNotes viewNote = new()
@@ -347,6 +349,14 @@ namespace HaloDocRepository.Repositories
                 //Statuslogs = requeststatuslog,
             };
             return viewNote;
+        }
+        public void ViewNotesUpdate(ViewNotes viewNotes)
+        {
+            RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == viewNotes.Requestclientid);
+            RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
+
+            obj.AdminNotes = viewNotes.TextBox;
+
         }
     }
 }

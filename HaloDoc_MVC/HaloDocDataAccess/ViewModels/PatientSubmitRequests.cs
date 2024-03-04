@@ -39,7 +39,7 @@ namespace HaloDocDataAccess.ViewModels
         public string UserName { get; set; }
         public int RequestId { get; set; }
         public string ConfirmationNumber { get; set; }
-        public RequestWiseFile requestwisefiles { get; set; }
+        public List<RequestWiseFile> requestwisefiles { get; set; }
         public IFormFile File { get; set; }
     }
 }

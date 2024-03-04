@@ -17,6 +17,7 @@ namespace HaloDocRepository.Interface
         public ViewCaseData GetRequestForViewCase(int id);
         public ViewCaseData NewRequestData(int? RId, int? RTId);
         public ViewNotes ViewNotes(int reqClientId);
+        void ViewNotesUpdate(ViewNotes viewNotes);
 
         public ViewCaseData Edit(ViewCaseData vdvc, int? RId, int? RTId);
         public List<Physician> ProviderbyRegion(int Regionid);

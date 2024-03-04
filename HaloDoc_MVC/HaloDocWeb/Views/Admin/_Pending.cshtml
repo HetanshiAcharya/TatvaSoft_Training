@@ -141,7 +141,7 @@
                         </button>
                     </td>
                     <td>
-                        <small>@item.Dob</small>
+                        <small>>@item.Bdate/@item.BMonth/@item.BYear</small>
                     </td>
                     <td><small>@item.Requestor</small></td>
                     <td><small>@item.ProviderName</small></td>
@@ -183,9 +183,14 @@
                             <small>Actions</small>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text"></i> View Case</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-card-checklist"></i> View Uploads</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-journals"></i> View Notes</a></li>
+
+                            <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="fa-regular fa-rectangle-list"></i> View Case</a></li>
+                            <li><a class="dropdown-item" asp-action="ViewUploads" asp-controller="Admin" asp-route-id="@item.RequestTypeID"><i class="bi bi-file-earmark-zip me-1"></i>View Uploads</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
+                            @*  <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#transfercase" data-bs-requestid="@item.RequestID" data-bs-patientname="@item.PatientName"><i class="bi bi-journal-text  mx-1"></i>Transfer</a></li>
+                            <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#clearcase"><i class="bi bi-x-circle me-1"></i>clear Case</a></li>
+                            <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#SendAgreement"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li> *@
+
                         </ul>
 
                     </td>
@@ -288,3 +293,26 @@
     <!--End Mobile Screen View of table-->
 
 </div>
+<script>
+    function Assigncaseid(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelAssignCase').value = RequestId;
+    }
+    function Cancelcaseid(id, patientname) {
+        var RequestId = id;
+        console.log(RequestId);
+        console.log(patientname);
+        document.getElementById('RequestID_ModelCancelCase').value = RequestId;
+        document.getElementById('RequestID_PatientNameCancelCase').innerText = patientname;
+
+    }
+    function Blockcaseid(id, patientname) {
+        var RequestId = id;
+        console.log(RequestId);
+        console.log(patientname);
+        document.getElementById('RequestID_ModelBlockCase').value = RequestId;
+        document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
+
+    }
+</script>

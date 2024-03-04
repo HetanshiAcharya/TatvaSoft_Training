@@ -48,7 +48,7 @@ div .row {
     color: #566ea7;
     border: 1px solid #475e97;
 }
-    .new:hover {
+    .new:hover, .new:active{
         background-color: #566ea7;
         color: #e9eaef;
         border: 1px solid #475e97;
@@ -58,7 +58,7 @@ div .row {
     border: 1px solid #3c843a;
     color: #3c843a;
 }
-    .activetext:hover {
+    .activetext:hover, .activetext:active {
         background-color: #3c843a;
         border: 1px solid #3c843a;
         color: #e9f1e8;

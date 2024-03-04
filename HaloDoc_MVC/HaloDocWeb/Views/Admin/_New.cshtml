@@ -136,7 +136,7 @@
                     </td>
                     <td>
                         <small>@item.Bdate/@item.BMonth/@item.BYear</small>
-                    </td>
+                    </td> 
                     <td><small>@item.Requestor</small></td>
                     <td><small>@item.RequestedDate.ToString("MMM d , yyyy")</small></td>
                     <td>
@@ -162,7 +162,7 @@
                         }
                     </td>
                     <td><small>@item.Street @item.City,@item.State-@item.ZipCode</small></td>
-                    <td><small>Admin transferred to Dr. AGOLA</small></td>
+                    <td><small>@item.Notes</small></td>
                     <td>
                         <button class="btn border border-white text-white my-2">
                             <small>Patient</small>
@@ -179,7 +179,7 @@
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i> Assign Case</a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID"><i class="bi bi-x-circle"></i> Cancel Case</a></li>
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="fa-regular fa-rectangle-list"></i> View Case</a></li>
-                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes"><i class="bi bi-journals me-1"></i>View Notes</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban"></i> Block Case</a></li>
                         </ul>
 
@@ -298,4 +298,5 @@
         document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
 
     }
+    
 </script>

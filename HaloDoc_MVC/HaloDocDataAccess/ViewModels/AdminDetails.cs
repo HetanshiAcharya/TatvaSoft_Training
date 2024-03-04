@@ -10,6 +10,7 @@ namespace HaloDocDataAccess.ViewModels
 {
     public class AdminDashboardList
     {
+        public int Requestclientid { get; set; }
         public string? PatientName { get; set; }
         public DateTime Dob { get; set; }
         public string? PatientId { get; set; }
@@ -75,6 +76,7 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class ViewCaseData
     {
+        public int? RequestClientId { get; set; }
         public int? RequestID { get; set; }
         public string? PatientNotes { get; set; }
         public string? ConfirmationNumber { get; set; }

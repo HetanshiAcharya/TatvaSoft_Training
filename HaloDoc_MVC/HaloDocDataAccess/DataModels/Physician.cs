@@ -81,7 +81,7 @@ public partial class Physician
     public short? Status { get; set; }
 
     [StringLength(100)]
-    public string BusinessName { get; set; } = null!;
+    public string? BusinessName { get; set; } = null!;
 
     [StringLength(200)]
     public string BusinessWebsite { get; set; } = null!;

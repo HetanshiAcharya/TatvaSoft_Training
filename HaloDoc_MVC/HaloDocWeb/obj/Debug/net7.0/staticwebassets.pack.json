@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\HaloDocWeb.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig1. Platform login page.jpg",
+      "PackagePath": "staticwebassets\\Upload\\Fig1. Platform login page.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig53. Provider transfer request pop-up.png",
+      "PackagePath": "staticwebassets\\Upload\\Fig53. Provider transfer request pop-up.png"
+    },
+    {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (10).png",
       "PackagePath": "staticwebassets\\Upload\\Screenshot (10).png"
     },
