@@ -3,8 +3,8 @@
       asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
     <input type="hidden" name="Status" id="hiddenfirst" />
     <div class="row mb-2" style="--bs-gutter-x: 0rem;">
+        @* --------------- New --------------------------  *@
         <button type="submit" value="1" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
-
             <div class="p-1 rounded new ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-plus me-2 align-self-center d-none d-sm-block"></i>
@@ -15,6 +15,7 @@
                 </div>
             </div>
         </button>
+        @* --------------- Pending --------------------------  *@
         <button type="submit" value="2" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded pending ps-2 pt-3">
                 <div class="d-inline-flex">
@@ -26,6 +27,7 @@
                 </div>
             </div>
         </button>
+        @* ---------------Active --------------------------  *@
         <button type="submit" value="4,5" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded active ps-2 pt-3 activetext">
                 <div class="d-inline-flex">
@@ -37,6 +39,7 @@
                 </div>
             </div>
         </button>
+        @* --------------- Conclude --------------------------  *@
         <button type="submit" value="6" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded conclude ps-2 pt-3">
                 <div class="d-inline-flex">
@@ -48,6 +51,7 @@
                 </div>
             </div>
         </button>
+        @* --------------- To Close --------------------------  *@
         <button type="submit" value="3,7,8" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded toClose ps-2 pt-3 toclose">
                 <div class="d-inline-flex">
@@ -59,6 +63,7 @@
                 </div>
             </div>
         </button>
+        @* --------------- Unpaid --------------------------  *@
         <button type="submit" value="9" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded unpaid ps-2 pt-3">
                 <div class="d-inline-flex">

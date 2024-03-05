@@ -1,22 +1,11 @@
-﻿﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-    //Layout = null;
-}
-@*@using HalloDoc.Entity.DataModels;
-@model List<Region>*@
-
-@*<button type="button" class="btn btn-outline-info rounded p-2 m-4 dNone" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Create New Request
-</button>*@
-<div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+﻿<div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <h5 class="modal-title text-white bg-info" id="staticBackdropLabel"> Assign Request</h5>
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            @* --------------- Main Form --------------------------  *@
 
             <form method="post" asp-action="AssignCase" asp-controller="Admin" id="AssignForm">
                 <input type="hidden" name="requestid" id="RequestID_ModelAssignCase" />
@@ -25,10 +14,6 @@
                     <div>
                         <select class="form-select mb-3" id="region" onchange="AssignPhysician()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))">
                             <option value="">Search by Region</option>
-                            @* @foreach( var items in Model)
-                            {
-                            <option value="@items.RegionId"> @items.Name </option>
-                            }*@
                         </select>
                         <select class="form-select mb-3" id="provider" name="PhysicianId">
                             <option value="">Please Select</option>
@@ -37,8 +22,6 @@
                     </div>
                     <textarea name="Notes" class="form-control" id="exampleFormControlTextarea1" rows="4"
                               placeholder="Description"></textarea>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-outline-info">Submit</button>
@@ -48,6 +31,8 @@
         </div>
     </div>
 </div>
+@* --------------- Script and Ajax for Assign Case --------------------------  *@
+
 <script type="text/javascript">
     function AssignPhysician() {
         var region = $("#region").val();

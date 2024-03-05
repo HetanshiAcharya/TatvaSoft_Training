@@ -4,12 +4,12 @@
     Layout = "_AdminLayout";
    
 }
-
+@* --------------- Action's Partial View --------------------------  *@
 @Html.Partial("AssignCase.cshtml")
 @Html.Partial("CancelCase.cshtml")
 @Html.Partial("BlockCase.cshtml")
 
-
+@* --------------- States of Admin resultant div --------------------------  *@
 <div class="tab-contents">
 </div>
 <div class="mx-sm-1 mx-md-2 mx-xxl-4 mt-0 bg-light">
@@ -18,7 +18,7 @@
     </div>
 
 </div>
-
+@* --------------- Script to call default NEW state --------------------------  *@
 <script>
     $(function () {
         var val = 1;

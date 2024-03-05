@@ -5,9 +5,10 @@
 @model HaloDocDataAccess.ViewModels.ViewCaseData
 @using static HaloDocDataAccess.ViewModels.Constant
 @Html.Partial("AssignCase.cshtml")
+@* --------------- Main Form --------------------------  *@
 
-<form class="container mt-5 viewcasecard" method="post">
-
+<form class="container viewcasecard" method="post">
+    @* --------------- Modal Header --------------------------  *@
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex justify-content-evenly">
             <h3 class="">New Request</h3>
@@ -26,10 +27,9 @@
             <textarea asp-for="PatientNotes" class="form-control"
                       id="exampleFormControlTextarea1"
                       rows="3"
-                      placeholder="Enter Brief Details of Symptoms"  required disabled>
+                      placeholder="Enter Brief Details of Symptoms" required disabled>
             </textarea>
         </div>
-
         <div class="col-sm-6">
             <input asp-for="FirstName" class="form-control col-md mt-4"
                    type="text"
@@ -40,7 +40,6 @@
                    type="text"
                    placeholder="Last Name" required disabled />
         </div>
-
         <div class="col-sm-6">
             <input asp-for="Dob" type="date"
                    class="form-control form-control-md col-md mt-4"
@@ -63,9 +62,9 @@
                    placeholder="Enter Email" required disabled />
         </div>
         @* <div class="col-sm-3 mt-4 small-btns">
-            <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded p-2">Edit</a>
-            <input type="submit" id="submit" class="btn bg-info text-white rounded p-2" value="Save" style="display:none;">
-            </div>   *@      
+        <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded p-2">Edit</a>
+        <input type="submit" id="submit" class="btn bg-info text-white rounded p-2" value="Save" style="display:none;">
+        </div>   *@
         <h4 class="mt-4 mb-6">Location Information</h4>
         <div class="col-sm-6">
             <input asp-for="Region" class="form-control form-control-md col-md mt-4"
@@ -88,14 +87,13 @@
                    type="text"
                    placeholder="Room #" disabled />
         </div>
-       <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end">
             <a class="btn btn-info text-white rounded me-1" data-bs-toggle="modal" onclick="Assigncaseid(@Model.RequestID)" data-bs-target=" #assigncase" data-id="@Model.RequestID">Assign Case</a>
             <a class="btn btn-info text-white rounded me-1" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = Model.RequestClientId})'">View Notes</a>
             <a class="btn btn-danger text-white rounded">Cancel</a>
-       </div> 
+        </div>
     </div>
 </form>
-
 <script>
     function enable_disable() {
         $("#email").removeAttr('disabled');

@@ -168,27 +168,26 @@ namespace HaloDocDataAccess.Controllers
             }
             return View(viewNotes);
         }
-        public IActionResult ViewUploads(int requestId)
+        public IActionResult ViewUploads(int requestId, int userid)
         {
-            int? userid = HttpContext.Session.GetInt32("userId");
-            User user = _context.Users.FirstOrDefault(u => u.UserId == userid);
-            Request request = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
+            //int? userid = HttpContext.Session.GetInt32("userId");
+            RequestClient user = _context.RequestClients.FirstOrDefault(u => u.RequestClientId == userid);
+            RequestClient request = _context.RequestClients.FirstOrDefault(r => r.RequestId == requestId);
+            Request req = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
             List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId).ToList();
 
             ViewDocument document = new()
             {
                 requestwisefiles = fileList,
                 RequestId = requestId,
-
-                ConfirmationNumber = request.ConfirmationNumber,
+                ConfirmationNumber = req.ConfirmationNumber,
                 UserName = user.FirstName + " " + user.LastName,
             };
             return View(document);
         }
         [HttpPost]
-        public IActionResult ViewUploads(ViewDocument viewdata)
+        public IActionResult ViewUploads(ViewDocument viewdata, int userid)
         {
-
             string UploadImage = "";
             if (viewdata.File != null)
             {
@@ -212,7 +211,7 @@ namespace HaloDocDataAccess.Controllers
                 _context.SaveChanges();
             }
 
-            return ViewUploads(viewdata.RequestId);
+            return ViewUploads(viewdata.RequestId, userid);
         }
     }
 }

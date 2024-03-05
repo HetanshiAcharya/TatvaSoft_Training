@@ -3,7 +3,7 @@
     Layout = "_AdminLayout";
 }
 <form class="container w-50 mt-5 viewcasecard" method="post" action="@Url.Action("ViewNotesUpdate","Admin")">
-    <input asp-for="Requestclientid" hidden />
+    <input asp-for="Requestclientid" hidden/>
     <div class="d-flex justify-content-between ">
         <div class="d-flex justify-content-evenly">
             <h3 class="">Notes</h3>
@@ -14,7 +14,6 @@
         </button>
     </div>
     <div class="d-flex justify-content-between mt-3">
-
         <div class="form-group align-items-center m-2 p-4 shadow col-6">
             <div>
                 <div class="d-flex">
@@ -56,6 +55,5 @@
          </textarea>
     </div>
     <button class="btn btn-info text-white mt-2" type="submit"><small>Save Changes</small></button>
-
 </form>
 

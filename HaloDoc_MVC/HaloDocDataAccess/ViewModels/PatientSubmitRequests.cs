@@ -35,7 +35,6 @@ namespace HaloDocDataAccess.ViewModels
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-
         public string UserName { get; set; }
         public int RequestId { get; set; }
         public string ConfirmationNumber { get; set; }

@@ -182,3 +182,7 @@ main .viewcasecard{
 a:hover{
     color:white;
 }
+.main {
+    position: relative;
+    top: 32px;
+}

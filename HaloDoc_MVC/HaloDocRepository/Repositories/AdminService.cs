@@ -106,6 +106,7 @@ namespace HaloDocRepository.Repositories
                                                 orderby req.CreatedDate descending
                                                 select new AdminDashboardList
                                                 {
+                                                    Requestclientid= rc.RequestClientId,
                                                     RequestID = req.RequestId,
                                                     RequestTypeID = req.RequestTypeId,
                                                     Requestor = req.FirstName + " " + req.LastName,

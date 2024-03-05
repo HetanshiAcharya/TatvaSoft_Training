@@ -1,8 +1,8 @@
 ﻿@model List<HaloDocDataAccess.ViewModels.AdminDashboardList>
 @using static HaloDocDataAccess.ViewModels.Constant
 
-<!--End Desktop Screen View of table-->
-<!--Important links-->
+@* --------------- 5 buttons --------------------------  *@
+
 <div class="d-flex justify-content-between mx-2 imp-links">
     <div>
         <strong class="fs-6">Patients</strong> <small>(UnPaid)</small>
@@ -40,8 +40,8 @@
         </button>
     </div>
 </div>
-<!--End Important links-->
-<!--Searchbar-->
+@* --------------- Searchbar --------------------------  *@
+
 <div class="mt-2 mx-2 bg-white">
     <div class="d-flex justify-content-between align-items-center  px-2">
         <div class="d-flex py-2">
@@ -88,9 +88,8 @@
         </div>
     </div>
 </div>
-<!--End Searchbar-->
-<!--Mobile Screen View of table-->
-<!--Desktop Screen View of table-->
+@* --------------- Table Head --------------------------  *@
+
 <div class="table-responsive m-2 mb-5 d-none d-sm-block">
     <table class="w-100">
         <thead class="py-2">
@@ -119,6 +118,8 @@
                 </th>
             </tr>
         </thead>
+        @* --------------- Table Content --------------------------  *@
+
         <tbody class="bg-white mb-5">
             @foreach (var item in Model)
             {
@@ -180,8 +181,6 @@
 </div>
 
 <div class="accordion mt-3 d-block d-sm-none" id="accordionExample">
-
-
     <div class="dBlock">
         @foreach (var item in Model)
         {
@@ -249,7 +248,4 @@
             </div>
         }
     </div>
-
-    <!--End Mobile Screen View of table-->
-
 </div>
