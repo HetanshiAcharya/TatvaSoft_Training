@@ -116,7 +116,6 @@ namespace HaloDocWeb.Controllers
             {
                 requestwisefiles = fileList,
                 RequestId = requestId,
-
                 ConfirmationNumber = request.ConfirmationNumber,
                 UserName = user.FirstName + " " + user.LastName,
             };

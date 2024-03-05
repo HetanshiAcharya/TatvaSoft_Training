@@ -8,6 +8,7 @@ using HaloDocRepository.Interface;
 using Microsoft.AspNetCore.Http;
 using HaloDocWeb.Models;
 using System.Diagnostics;
+using System.Collections;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -168,25 +169,24 @@ namespace HaloDocDataAccess.Controllers
             }
             return View(viewNotes);
         }
-        public IActionResult ViewUploads(int requestId, int userid)
+        public IActionResult ViewUploads(int requestId)
         {
             //int? userid = HttpContext.Session.GetInt32("userId");
-            RequestClient user = _context.RequestClients.FirstOrDefault(u => u.RequestClientId == userid);
             RequestClient request = _context.RequestClients.FirstOrDefault(r => r.RequestId == requestId);
             Request req = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
-            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId).ToList();
+            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId && reqFile.IsDeleted== new BitArray(1)).ToList();
 
             ViewDocument document = new()
             {
                 requestwisefiles = fileList,
                 RequestId = requestId,
                 ConfirmationNumber = req.ConfirmationNumber,
-                UserName = user.FirstName + " " + user.LastName,
+                UserName = request.FirstName + " " + request.LastName,
             };
             return View(document);
         }
         [HttpPost]
-        public IActionResult ViewUploads(ViewDocument viewdata, int userid)
+        public IActionResult ViewUploads(ViewDocument viewdata)
         {
             string UploadImage = "";
             if (viewdata.File != null)
@@ -206,12 +206,18 @@ namespace HaloDocDataAccess.Controllers
                     RequestId = viewdata.RequestId,
                     FileName = viewdata.File.FileName,
                     CreatedDate = DateTime.Now,
+                    IsDeleted= new BitArray(1)
                 };
                 _context.RequestWiseFiles.Add(requestwisefile);
                 _context.SaveChanges();
             }
 
-            return ViewUploads(viewdata.RequestId, userid);
+            return ViewUploads(viewdata.RequestId);
+        }
+        public IActionResult DeleteFile(int requestid, int reqwisefileid)
+        {
+             _adminservice.DeleteFile(requestid, reqwisefileid);
+            return RedirectToAction("ViewUploads",new {requestId= requestid } );
         }
     }
 }

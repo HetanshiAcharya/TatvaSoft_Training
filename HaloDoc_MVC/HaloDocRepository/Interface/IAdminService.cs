@@ -25,6 +25,7 @@ namespace HaloDocRepository.Interface
         public List<CaseTag> CancelCase();
         public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes);
         public void CancelCaseInfo(int casetagId, string Notes, int RequestId);
-       public bool BlockCaseInfo(int requestId, string notes);
+        public bool BlockCaseInfo(int requestId, string notes);
+        public void DeleteFile(int requestid, int reqwisefileid);
     }
 }

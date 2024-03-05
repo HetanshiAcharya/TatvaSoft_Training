@@ -62,7 +62,7 @@ namespace HaloDocRepository.Repositories
                 User.IntYear = viewpatientcreaterequest.BirthDate.Year;
                 User.CreatedBy = Aspnetuser.Id;
                 User.CreatedDate = DateTime.Now;
-                _context.Users.Add(User);
+                              _context.Users.Add(User);
                 _context.SaveChanges();
             }
             Request.RequestTypeId = 1;
@@ -82,6 +82,8 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewpatientcreaterequest.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
+            Request.ConfirmationNumber = viewpatientcreaterequest.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewpatientcreaterequest.LastName.Substring(0, 2) + viewpatientcreaterequest.FirstName.Substring(0, 2) + "002";
+
             _context.Requests.Add(Request);
             _context.SaveChanges();
 
@@ -99,6 +101,10 @@ namespace HaloDocRepository.Repositories
             Requestclient.City = viewpatientcreaterequest.City;
             Requestclient.State = viewpatientcreaterequest.State;
             Requestclient.ZipCode = viewpatientcreaterequest.ZipCode;
+            Requestclient.StrMonth = (viewpatientcreaterequest.BirthDate.Month).ToString();
+            Requestclient.IntDate = viewpatientcreaterequest.BirthDate.Day;
+            Requestclient.IntYear = viewpatientcreaterequest.BirthDate.Year;
+
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
@@ -124,6 +130,8 @@ namespace HaloDocRepository.Repositories
                     RequestId = Request.RequestId,
                     FileName = viewpatientcreaterequest.UploadFile.FileName,
                     CreatedDate = DateTime.Now,
+                    IsDeleted = new BitArray(1)
+
                 };
                 _context.RequestWiseFiles.Add(requestwisefile);
                 _context.SaveChanges();
@@ -169,6 +177,34 @@ namespace HaloDocRepository.Repositories
             };
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
+            if (viewdata.UploadFile != null)
+            {
+                string FilePath = "wwwroot\\Upload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string fileNameWithPath = Path.Combine(path, viewdata.UploadFile.FileName);
+                viewdata.UploadImage = "~" + FilePath.Replace("wwwroot\\", "/") + "/" + viewdata.UploadFile.FileName;
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    viewdata.UploadFile.CopyTo(stream);
+                }
+
+                var requestwisefile = new RequestWiseFile
+                {
+                    RequestId = Request.RequestId,
+                    FileName = viewdata.UploadFile.FileName,
+                    CreatedDate = DateTime.Now,
+                    IsDeleted = new BitArray(1)
+
+                };
+                _context.RequestWiseFiles.Add(requestwisefile);
+                _context.SaveChanges();
+            }
         }
 
         //REQUEST SUBMIT BY concierge//
@@ -200,6 +236,8 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
+            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
+
             _context.Requests.Add(Request);
             _context.SaveChanges();
             int id2 = Request.RequestId;
@@ -224,6 +262,34 @@ namespace HaloDocRepository.Repositories
 
             _context.RequestConcierges.Add(Requestconcierge);
             _context.SaveChanges();
+            if (viewdata.UploadFile != null)
+            {
+                string FilePath = "wwwroot\\Upload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string fileNameWithPath = Path.Combine(path, viewdata.UploadFile.FileName);
+                viewdata.UploadImage = "~" + FilePath.Replace("wwwroot\\", "/") + "/" + viewdata.UploadFile.FileName;
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    viewdata.UploadFile.CopyTo(stream);
+                }
+
+                var requestwisefile = new RequestWiseFile
+                {
+                    RequestId = Request.RequestId,
+                    FileName = viewdata.UploadFile.FileName,
+                    CreatedDate = DateTime.Now,
+                    IsDeleted = new BitArray(1)
+
+                };
+                _context.RequestWiseFiles.Add(requestwisefile);
+                _context.SaveChanges();
+            }
         }
 
         //REQUEST SUBMIT BY Business//
@@ -253,6 +319,8 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
+            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
+
             _context.Requests.Add(Request);
             _context.SaveChanges();
             int id2 = Request.RequestId;

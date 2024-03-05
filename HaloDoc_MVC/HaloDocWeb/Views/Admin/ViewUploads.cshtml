@@ -105,7 +105,7 @@
                                                 </svg>
                                             </a>
                                             @* --------Delete button-------  *@
-                                            <a href="~/UploadFiles/@file.FileName" class="btn px-2 py-1 btn-outline-info shadow-none night-mode-btn" >
+                                            <a asp-controller="Admin" asp-action="DeleteFile" asp-route-requestid="@file.RequestId" asp-route-reqwisefileid="@file.RequestWiseFileId" asp-route-userid="@file.RequestId" class="btn px-2 py-1 btn-outline-info shadow-none night-mode-btn" >
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
 
                                             </a>

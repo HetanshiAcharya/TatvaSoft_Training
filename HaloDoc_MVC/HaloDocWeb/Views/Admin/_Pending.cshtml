@@ -183,7 +183,7 @@
                         <ul class="dropdown-menu">
 
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="fa-regular fa-rectangle-list"></i> View Case</a></li>
-                            <li><a class="dropdown-item" asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestID" asp-route-userid="@item.Requestclientid"><i class="bi bi-file-earmark-zip me-1"></i>View Uploads</a></li>
+                            <li><a class="dropdown-item" asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestID"><i class="bi bi-file-earmark-zip me-1"></i>View Uploads</a></li>
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
                             @*  <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#transfercase" data-bs-requestid="@item.RequestID" data-bs-patientname="@item.PatientName"><i class="bi bi-journal-text  mx-1"></i>Transfer</a></li>
                         <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#clearcase"><i class="bi bi-x-circle me-1"></i>clear Case</a></li>

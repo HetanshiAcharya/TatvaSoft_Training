@@ -18,7 +18,7 @@ using System.Net.Http;
 
 namespace HaloDocRepository.Repositories
 {
-    public class AdminService: IAdminService
+    public class AdminService : IAdminService
     {
         private readonly HaloDocDbContext _context;
 
@@ -69,7 +69,7 @@ namespace HaloDocRepository.Repositories
                             PhoneNumber = req.Requestclient.PhoneNumber,
                             RequestorPhoneNumber = req.Request.PhoneNumber,
                             Notes = req.Requestclient.Notes,
-                            Requestclientid=req.Requestclient.RequestClientId,
+                            Requestclientid = req.Requestclient.RequestClientId,
                             Address = req.Requestclient.Address + " " + req.Requestclient.Street + " " + req.Requestclient.City + " " + req.Requestclient.State + " " + req.Requestclient.ZipCode
                         })
                         .OrderByDescending(req => req.RequestedDate)
@@ -106,18 +106,18 @@ namespace HaloDocRepository.Repositories
                                                 orderby req.CreatedDate descending
                                                 select new AdminDashboardList
                                                 {
-                                                    Requestclientid= rc.RequestClientId,
+                                                    Requestclientid = rc.RequestClientId,
                                                     RequestID = req.RequestId,
                                                     RequestTypeID = req.RequestTypeId,
                                                     Requestor = req.FirstName + " " + req.LastName,
                                                     PatientName = rc.FirstName + " " + rc.LastName,
-                                                    Bdate= rc.IntDate,
-                                                    BMonth=rc.StrMonth,
-                                                    BYear=rc.IntYear,
-                                                    City=rc.City,
-                                                    State=rc.State,
-                                                    Street=rc.Street,
-                                                    ZipCode=rc.ZipCode,                                                  
+                                                    Bdate = rc.IntDate,
+                                                    BMonth = rc.StrMonth,
+                                                    BYear = rc.IntYear,
+                                                    City = rc.City,
+                                                    State = rc.State,
+                                                    Street = rc.Street,
+                                                    ZipCode = rc.ZipCode,
                                                     RequestedDate = (DateTime)req.CreatedDate,
                                                     Email = rc.Email,
                                                     Region = rg.Name,
@@ -130,7 +130,7 @@ namespace HaloDocRepository.Repositories
                                                 }).ToList();
             return allData;
         }
-      
+
         public ViewCaseData GetRequestForViewCase(int id)
         {
             var n = _context.Requests.FirstOrDefault(E => E.RequestId == id);
@@ -189,13 +189,13 @@ namespace HaloDocRepository.Repositories
             {
                 RequestClient RC = _context.RequestClients.FirstOrDefault(E => E.RequestId == vdvc.RequestID);
 
-              
+
                 RC.PhoneNumber = vdvc.PhoneNumber;
                 RC.Email = vdvc.Email;
-             
-             
-             
-             
+
+
+
+
                 _context.Update(RC);
                 _context.SaveChanges();
 
@@ -357,6 +357,14 @@ namespace HaloDocRepository.Repositories
             RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
 
             obj.AdminNotes = viewNotes.TextBox;
+
+        }
+        public void DeleteFile(int requestid, int reqwisefileid)
+        {
+            var requestData = _context.RequestWiseFiles.FirstOrDefault(e => e.RequestWiseFileId == reqwisefileid);
+            requestData.IsDeleted[0] = true;
+            _context.RequestWiseFiles.Update(requestData);
+            _context.SaveChanges();
 
         }
     }
