@@ -62,6 +62,12 @@ namespace HaloDocDataAccess.Controllers
 
         public IActionResult Index()
         {
+            string? userId = HttpContext.Session.GetString("userId");
+            if (userId == null)
+            {
+                return View("Error");
+
+            }
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
             CountStatusWiseRequestModel sm = _adminservice.Indexdata();

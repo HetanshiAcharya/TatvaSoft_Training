@@ -46,7 +46,7 @@
 
                     <div class="d-flex justify-content-between mt-2">
                         <h4>Documents</h4>
-                        <button onclick="" class="btn btn-outline-info shadow-none night-mode-btn">
+                        <button onclick="" class="downloadAll btn btn-outline-info shadow-none night-mode-btn">
                             <span>Download All</span>
                         </button>
                     </div>
@@ -139,5 +139,29 @@
     $("#file_input_id").change(function () {
         $('#text_input_id').val(this.value.replace(/C:\\fakepath\\/i, ''))
     })
+</script>
+<script>
+    document.getElementById('downloadAll').addEventListener('click', function () {
+        var rows = document.querySelectorAll('table tbody tr');
+
+        rows.forEach(function (row) {
+            var checkbox = row.querySelector('input[type="checkbox"]');
+            var downloadLink = row.querySelector('a.download-button');
+
+            if (checkbox.checked) {
+                // Trigger the download for the file in the row
+                var fileUrl = downloadLink.getAttribute('href');
+                downloadFile(fileUrl);
+            }
+        });
+    });
+
+    function downloadFile(fileUrl) {
+        // Create a temporary link element to trigger the file download
+        var link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = fileUrl.substr(fileUrl.lastIndexOf('/') + 1);
+        link.click();
+    }
 </script>
 <script src="~/js/patientSite.js"></script>

@@ -92,3 +92,11 @@ C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\refint\HaloD
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\HaloDocWeb.pdb
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\HaloDocWeb.genruntimeconfig.cache
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\ref\HaloDocWeb.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

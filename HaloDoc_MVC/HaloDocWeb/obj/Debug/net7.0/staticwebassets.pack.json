@@ -49,8 +49,16 @@
       "PackagePath": "staticwebassets\\Upload\\Fig33. Month wise Scheduling.jpg"
     },
     {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig34. Week wise Scheduling.jpg",
+      "PackagePath": "staticwebassets\\Upload\\Fig34. Week wise Scheduling.jpg"
+    },
+    {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig36. Requested Shift.png",
       "PackagePath": "staticwebassets\\Upload\\Fig36. Requested Shift.png"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig4. Admin dashboard in New state.jpg",
+      "PackagePath": "staticwebassets\\Upload\\Fig4. Admin dashboard in New state.jpg"
     },
     {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig53. Provider transfer request pop-up.png",
@@ -63,6 +71,14 @@
     {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig57.Submit request screen.jpg",
       "PackagePath": "staticwebassets\\Upload\\Fig57.Submit request screen.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig66.Submit Information me.jpg",
+      "PackagePath": "staticwebassets\\Upload\\Fig66.Submit Information me.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig9. Admin dashboard in Unpaid state.jpg",
+      "PackagePath": "staticwebassets\\Upload\\Fig9. Admin dashboard in Unpaid state.jpg"
     },
     {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Screenshot (10).png",
