@@ -19,7 +19,7 @@ namespace HaloDocRepository.Interface
         public ViewNotes ViewNotes(int reqClientId);
         void ViewNotesUpdate(ViewNotes viewNotes);
         public List<HealthProfessional> VendorByProfession(int Professionid);
-
+        public HealthProfessional SendOrdersInfo(int selectedValue);
         public ViewCaseData Edit(ViewCaseData vdvc, int? RId, int? RTId);
         public List<Physician> ProviderbyRegion(int Regionid);
         public List<Region> AssignCase();

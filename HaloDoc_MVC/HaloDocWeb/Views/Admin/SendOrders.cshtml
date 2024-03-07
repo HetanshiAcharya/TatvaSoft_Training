@@ -24,7 +24,7 @@
                     </select>
                 </div>
                 <div class="col-lg-6">
-                    <select class="form-select mb-3" id="businesspersons" name="PhysicianId">
+                    <select class="form-select mb-3" id="businesspersons" onchange="GetData()">
                         <option value="">Select Professionals</option>
 
                     </select>
@@ -35,12 +35,14 @@
                     <input class="form-control form-control-md col-md col-sm mt-4"
                            type="text"
                            asp-for="BusinessContact"
+                           id="BusinessContact"
                            placeholder="Business contact" required />
                 </div>
                 <div class="col-sm-6">
                     <input class="form-control form-control-md col-md col-sm mt-4"
                            type="email"
                            asp-for="Email"
+                           id="Email"
                            placeholder="Email contact" required />
                 </div>
             </div>
@@ -48,6 +50,7 @@
                 <input class="form-control form-control-md col-md col-sm mt-4"
                        type="text"
                        asp-for="FaxNumber"
+                       id="FaxNo"
                        placeholder="Fax Number" required />
             </div>
             <div class="col-sm-12 mt-4">
@@ -90,6 +93,23 @@
                 }
 
                 $("#businesspersons").html(select);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+    function GetData() {
+        var selectedValue = $("#businesspersons option:selected").val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SendOrdersData", "Admin")?selectedValue=' + selectedValue,
+            cache: false,
+            success: function (response) {
+                console.log(response);
+                $("#BusinessContact").val(response.businessContact);
+                $("#Email").val(response.email);
+                $("#FaxNo").val(response.faxNumber);
             },
             error: function () {
                 alert("Error");

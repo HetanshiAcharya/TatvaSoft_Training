@@ -252,6 +252,13 @@ namespace HaloDocRepository.Repositories
                         .ToList();
             return result;
         }
+        public HealthProfessional SendOrdersInfo(int selectedValue)
+        {
+            var result = _context.HealthProfessionals
+                        .FirstOrDefault(req => req.VendorId == selectedValue);
+
+            return result;
+        }
         public List<Physician> ProviderbyRegion(int Regionid)
         {
             var result = _context.Physicians

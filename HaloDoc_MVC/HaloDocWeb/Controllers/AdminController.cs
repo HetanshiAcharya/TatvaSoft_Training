@@ -270,5 +270,11 @@ namespace HaloDocDataAccess.Controllers
             var v = _adminservice.VendorByProfession(Professionid);
             return Json(v);
         }
+        public IActionResult SendOrdersData(int selectedValue)
+        {
+            var v = _adminservice.SendOrdersInfo(selectedValue);
+
+            return Json(v);
+        }
     }
 }
