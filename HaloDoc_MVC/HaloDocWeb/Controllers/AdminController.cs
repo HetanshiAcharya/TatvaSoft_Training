@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Http;
 using HaloDocWeb.Models;
 using System.Diagnostics;
 using System.Collections;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Npgsql;
+using System.Data;
+using Microsoft.AspNetCore.Identity;
+using HalloDoc.Controllers.Admin;
+using System;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -36,40 +42,69 @@ namespace HaloDocDataAccess.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult IndexPlatformLogin(AdminLogin adminLogin)
+        public async Task<IActionResult> IndexPlatformLogin(string Email, string Password)
         {
-            if (ModelState.IsValid)
+            NpgsqlConnection connection = new NpgsqlConnection("Server=localhost;Database=HaloDoc_db;User Id=postgres;Password=1234;Include Error Detail=True");
+            string Query = "select * from \"AspNetUsers\" au inner join \"AspNetUserRoles\" aur on au.\"Id\" = aur.\"UserId\" inner join \"AspNetRoles\" roles on aur.\"RoleId\"= roles.\"Id\" where \"Email\"=@Email and \"PasswordHash\"=@Password";
+            connection.Open();
+            NpgsqlCommand command = new NpgsqlCommand(Query, connection);
+            command.Parameters.AddWithValue("@Email", Email);
+            command.Parameters.AddWithValue("@Password", Password);
+            NpgsqlDataReader reader = command.ExecuteReader();
+            DataTable dataTable = new DataTable();
+            dataTable.Load(reader);
+            int numRows = dataTable.Rows.Count;
+            if (numRows > 0)
             {
-                if (_adminservice.AdminAuthentication(adminLogin))
+                foreach (DataRow row in dataTable.Rows)
                 {
-                    AspNetUser? aspuser = _context.AspNetUsers.FirstOrDefault(Au => Au.Email == adminLogin.Email);
-                    HttpContext.Session.SetString("userId", aspuser.Id);
-                    return RedirectToAction("Index", "Admin");
+                    HttpContext.Session.SetString("UserName", row["username"].ToString());
+                    HttpContext.Session.SetString("UserID", row["Id"].ToString());
+                    HttpContext.Session.SetString("RoleId", row["roleid"].ToString());
                 }
-                else
-                {
-                    ViewData["error"] = "Invalid Id/Password";
-
-                }
+                return RedirectToAction("Index", "Admin");
             }
-            return View(adminLogin);
+            else
+            {
+                ViewData["error"] = "Invalid Id Pass";
+                return View("../Admin/IndexPlatformLogin");
+            }
         }
-        
+        //public IActionResult IndexPlatformLogin(AdminLogin adminLogin)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (_adminservice.AdminAuthentication(adminLogin))
+        //        {
+        //            AspNetUser? aspuser = _context.AspNetUsers.FirstOrDefault(Au => Au.Email == adminLogin.Email);
+        //            HttpContext.Session.SetString("userId", aspuser.Id);
+        //            return RedirectToAction("Index", "Admin");
+        //        }
+        //        else
+        //        {
+        //            ViewData["error"] = "Invalid Id/Password";
+
+        //        }
+        //    }
+        //    return View(adminLogin);
+        //}
+
         public IActionResult IndexForgotPass()
         {
             return View();
         }
-
+        [CheckAdminAccess]
         public IActionResult Index()
         {
-            string? userId = HttpContext.Session.GetString("userId");
-            if (userId == null)
-            {
-                return View("Error");
+            //string? userId = HttpContext.Session.GetString("userId");
+            //if (userId == null)
+            //{
+            //    return View("Error");
 
-            }
+            //}
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
+
             CountStatusWiseRequestModel sm = _adminservice.Indexdata();
 
             return View(sm);
@@ -224,6 +259,16 @@ namespace HaloDocDataAccess.Controllers
         {
              _adminservice.DeleteFile(requestid, reqwisefileid);
             return RedirectToAction("ViewUploads",new {requestId= requestid } );
+        }
+        public IActionResult SendOrders()
+        {
+            ViewBag.Professions = _adminservice.Professions();
+            return View();
+        }
+        public IActionResult VendorByProfession(int Professionid)
+        {
+            var v = _adminservice.VendorByProfession(Professionid);
+            return Json(v);
         }
     }
 }

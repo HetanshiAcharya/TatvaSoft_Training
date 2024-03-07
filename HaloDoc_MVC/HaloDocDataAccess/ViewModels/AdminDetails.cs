@@ -40,11 +40,6 @@ namespace HaloDocDataAccess.ViewModels
         public string? Region { get; set; }
         public short ADStatus { get; set; }
     }
-    public class AdminLogin
-    {
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-    }
     public class CountStatusWiseRequestModel
     {
         public int NewRequest { get; set; }
@@ -102,5 +97,16 @@ namespace HaloDocDataAccess.ViewModels
         public string? TransferNotes { get; set; }
         public string? TextBox { get; set; }
         public List<RequestStatusLog>? Statuslogs { get; set; }
+    }
+    public class Orders
+    {
+        public int? Requestclientid { get; set; }
+        public List<HealthProfessionalType> ProfessionTypes { get; set; }
+        public List<HealthProfessional> HealthProfessionals { get; set; }
+        public string? BusinessContact { get; set; }
+        public string? Email { get; set; }
+        public string? FaxNumber { get; set; }
+        public string? Prescription { get; set; }
+        public string? NumberOfRefills { get; set; }
     }
 }

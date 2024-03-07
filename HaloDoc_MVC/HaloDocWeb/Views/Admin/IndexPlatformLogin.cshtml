@@ -1,4 +1,4 @@
-﻿@model HaloDocDataAccess.ViewModels.AdminLogin
+﻿@* @model HaloDocDataAccess.ViewModels.AdminLogin *@
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -30,19 +30,19 @@
                     <h2>Log into your Account</h2>
                     <form class="form-group form-platformLogin" method="post">
                         <div class="text-danger">@ViewData["error"]</div>
-                        <input asp-for="Email" type="email"
+                        <input name="Email" type="email"
                                class="form-group form-control mt-4"
                                placeholder="Enter Email"
                                required />
-                        <span asp-validation-for="Email" class="text-danger validate col-12"></span>
+                        <span  class="text-danger validate col-12"></span>
 
-                        <input asp-for="Password" type="password"
+                        <input name="Password" type="password"
                                class="form-control form-group mt-4"
                                placeholder="Password" />
-                        <span asp-validation-for="Password" class="text-danger validate col-12"></span>
+                        <span class="text-danger validate col-12"></span>
 
-                        <button class="form-group btn btn-primary mt-4 loginbtn">
-                            <a class="link-color">Log in</a>
+                        <button type="submit" class="form-group btn btn-primary mt-4 loginbtn">
+                            Log in
                         </button>
                     </form>
                     <a asp-controller="Admin" asp-action="IndexForgotPass" class="fpasslink mt-4">

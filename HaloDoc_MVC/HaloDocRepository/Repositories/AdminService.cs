@@ -41,11 +41,11 @@ namespace HaloDocRepository.Repositories
                 return sb.ToString();
             }
         }
-        public bool AdminAuthentication(AdminLogin adminDetails)
+        /*public bool AdminAuthentication(AdminLogin adminDetails)
         {
             string hashPassword = GenerateSHA256(adminDetails.Password);
             return _context.AspNetUsers.Any(Au => Au.Email == adminDetails.Email && Au.PasswordHash == hashPassword);
-        }
+        }*/
 
         public List<AdminDashboardList> NewRequestData()
         {
@@ -240,7 +240,18 @@ namespace HaloDocRepository.Repositories
             var dropdown = _context.Regions.ToList();
             return dropdown;
         }
-
+        public List<HealthProfessionalType> Professions()
+        {
+            var data = _context.HealthProfessionalTypes.ToList();
+            return (data);
+        }
+        public List<HealthProfessional> VendorByProfession(int Professionid)
+        {
+            var result = _context.HealthProfessionals
+                        .Where(req => req.Profession == Professionid)
+                        .ToList();
+            return result;
+        }
         public List<Physician> ProviderbyRegion(int Regionid)
         {
             var result = _context.Physicians
