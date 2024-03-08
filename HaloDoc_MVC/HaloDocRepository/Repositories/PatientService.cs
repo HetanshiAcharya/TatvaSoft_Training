@@ -43,6 +43,7 @@ namespace HaloDocRepository.Repositories
                 Aspnetuser.Id = g.ToString();
                 Aspnetuser.UserName = (viewpatientcreaterequest.FirstName + ' ' + viewpatientcreaterequest.LastName);
                 Aspnetuser.PasswordHash = viewpatientcreaterequest.LastName;
+                Aspnetuser.PhoneNumber = viewpatientcreaterequest.PhoneNumber;
                 Aspnetuser.CreatedDate = DateTime.Now;
                 Aspnetuser.Email = viewpatientcreaterequest.Email;
                 _context.AspNetUsers.Add(Aspnetuser);

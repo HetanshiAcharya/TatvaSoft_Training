@@ -290,10 +290,16 @@
 @* --------------- Scripts of Pending State --------------------------  *@
 <script src="~/js/events.js"></script>
 <script>
+    function Assigncaseid(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelAssignCase').value = RequestId;
+    }
     function Transfercase(id) {
         var RequestId = id;
         console.log(RequestId);
         document.getElementById('RequestID_ModelTransferCase').value = RequestId;
+
     }
     function Cancelcaseid(id, patientname) {
         var RequestId = id;
@@ -311,52 +317,5 @@
         document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
 
     }
-    function clearcasepopup(id) {
-        swal({
-            title: "Confirmation for clear case",
-            text: "Are you sure you want to clear this request? Once clear this request then you are not able to see this request.",
-            icon: "warning",
-            buttons: {
-                cancel:{
-                    text: "Cancel",
-                    value: "cancel",
-                },
-                clear: {
-                    text: "Clear",
-                    value: "clear",
-                },
- 
-            },
-        }).then((value => {
-            switch (value) {
-                case "cancel":
-                    swal("Pikachu fainted! You gained 500 XP!");
-                    break;
-
-                case "clear":
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("ClearCase", "Admin")?RequestId=' + id,
-                        cache: false,
-                        success: function (response) {
-                            console.log(response);
-                            swal("Information", "Case has been cleared succesfully", "success").then((value)=>{
-                                window.location = "./Index"
-
-                            });
-                        },
-                        // error: function () {
-                        //     alert("Error");
-                        // }
-                    });
-                    
-                    break;
-
-                default:
-                    swal("Got away safely!");
-            }
-        }
-        ));
-            
-    };
+    
 </script>

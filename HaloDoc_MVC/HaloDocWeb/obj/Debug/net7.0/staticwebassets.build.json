@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M39fMLFHHIdTbupC5d2qHbAYgxmg/y49YNIw34rw2Pg=",
+  "Hash": "kyRGhOn7/4pC+Lwc3l725ipkjamOKkduhFUeIPOeeqE=",
   "Source": "HaloDocWeb",
   "BasePath": "_content/HaloDocWeb",
   "Mode": "Default",
@@ -4452,6 +4452,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\7768657_3763028.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\7774236_3736765.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/7774236_3736765.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\7774236_3736765.jpg"
     },
     {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Blue-bg.jpg",

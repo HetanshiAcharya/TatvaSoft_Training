@@ -25,5 +25,38 @@
         $("#hiddenfirst").val(val);
         $("#filterForm").submit();
     });
+    function clearcasepopup(id) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-info m-2 shadow-none text-white",
+                cancelButton: "btn btn-outline-info m-2"
+            },
+            buttonsStyling: false
+        });
 
+        swalWithBootstrapButtons.fire({
+            title: "Confirmation For Clear Case",
+            text: "Are sure you want to clear this request? Once clear this request then you not able to see this request.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Clear",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Admin/ClearCase',
+                    type: 'Post',
+                    data: { RequestId: id },
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            }
+            
+        });
+
+    };
 </script>

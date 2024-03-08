@@ -60,6 +60,7 @@ namespace HaloDocRepository.Repositories
                         {
                             RequestID = req.Request.RequestId,
                             PatientName = req.Requestclient.FirstName + " " + req.Requestclient.LastName,
+                            //ProviderID=req.Request.PhysicianId,
                             Email = req.Requestclient.Email,
                             Dob = new DateTime((int)req.Requestclient.IntYear, int.Parse(req.Requestclient.StrMonth), (int)req.Requestclient.IntDate),
                             //DateOfBirth = new DateTime((int)req.Requestclient.Intyear, Convert.ToInt32(req.Requestclient.Strmonth.Trim()), (int)req.Requestclient.Intdate),
@@ -321,7 +322,7 @@ namespace HaloDocRepository.Repositories
             rsl.Notes = Notes;
             rsl.CreatedDate = DateTime.Now;
             rsl.Status = 2;
-            _context.RequestStatusLogs.Add(rsl);
+            _context.RequestStatusLogs.Update(rsl);
             _context.SaveChanges();
 
 
@@ -336,11 +337,12 @@ namespace HaloDocRepository.Repositories
 
             RequestStatusLog rsl = new RequestStatusLog();
             rsl.RequestId = RequestId;
+            //rsl.PhysicianId = providerid;
             rsl.TransToPhysicianId = PhysicianId;
             rsl.Notes = Notes;
             rsl.CreatedDate = DateTime.Now;
             rsl.Status = 2;
-            _context.RequestStatusLogs.Add(rsl);
+            _context.RequestStatusLogs.Update(rsl);
             _context.SaveChanges();
         }
 
