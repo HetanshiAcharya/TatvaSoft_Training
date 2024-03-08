@@ -139,7 +139,7 @@
                         </button>
                     </td>
                     <td>
-                        <small>>@item.Bdate/@item.BMonth/@item.BYear</small>
+                        <small>@item.Bdate/@item.BMonth/@item.BYear</small>
                     </td>
                     <td><small>@item.Requestor</small></td>
                     <td><small>@item.ProviderName</small></td>
@@ -185,10 +185,10 @@
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="fa-regular fa-rectangle-list"></i> View Case</a></li>
                             <li><a class="dropdown-item" asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestID"><i class="bi bi-file-earmark-zip me-1"></i>View Uploads</a></li>
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
-                            @*  <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#transfercase" data-bs-requestid="@item.RequestID" data-bs-patientname="@item.PatientName"><i class="bi bi-journal-text  mx-1"></i>Transfer</a></li>
-                        <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#clearcase"><i class="bi bi-x-circle me-1"></i>clear Case</a></li>
-                        <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#SendAgreement"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li> *@
-
+                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Transfercase(@item.RequestID)" data-bs-target=" #transfercase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Transfer</a></li>
+                            <li><a class="dropdown-item" onclick="clearcasepopup(@item.RequestID)" id="clearcase"><i class="bi bi-x-circle me-1"></i>clear Case</a></li>
+@*                         <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#SendAgreement"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li>
+ *@
                         </ul>
 
                     </td>
@@ -288,12 +288,12 @@
     </div>
 </div>
 @* --------------- Scripts of Pending State --------------------------  *@
-
+<script src="~/js/events.js"></script>
 <script>
-    function Assigncaseid(id) {
+    function Transfercase(id) {
         var RequestId = id;
         console.log(RequestId);
-        document.getElementById('RequestID_ModelAssignCase').value = RequestId;
+        document.getElementById('RequestID_ModelTransferCase').value = RequestId;
     }
     function Cancelcaseid(id, patientname) {
         var RequestId = id;
@@ -311,4 +311,52 @@
         document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
 
     }
+    function clearcasepopup(id) {
+        swal({
+            title: "Confirmation for clear case",
+            text: "Are you sure you want to clear this request? Once clear this request then you are not able to see this request.",
+            icon: "warning",
+            buttons: {
+                cancel:{
+                    text: "Cancel",
+                    value: "cancel",
+                },
+                clear: {
+                    text: "Clear",
+                    value: "clear",
+                },
+ 
+            },
+        }).then((value => {
+            switch (value) {
+                case "cancel":
+                    swal("Pikachu fainted! You gained 500 XP!");
+                    break;
+
+                case "clear":
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("ClearCase", "Admin")?RequestId=' + id,
+                        cache: false,
+                        success: function (response) {
+                            console.log(response);
+                            swal("Information", "Case has been cleared succesfully", "success").then((value)=>{
+                                window.location = "./Index"
+
+                            });
+                        },
+                        // error: function () {
+                        //     alert("Error");
+                        // }
+                    });
+                    
+                    break;
+
+                default:
+                    swal("Got away safely!");
+            }
+        }
+        ));
+            
+    };
 </script>

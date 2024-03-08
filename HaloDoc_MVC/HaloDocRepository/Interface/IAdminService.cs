@@ -24,11 +24,14 @@ namespace HaloDocRepository.Interface
         public List<Physician> ProviderbyRegion(int Regionid);
         public List<Region> AssignCase();
         public List<CaseTag> CancelCase();
-        public List<HealthProfessionalType> Professions();
 
+        public List<HealthProfessionalType> Professions();
+        public bool SendOrders(int requestid, OrderDetail o);
         public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes);
         public void CancelCaseInfo(int casetagId, string Notes, int RequestId);
         public bool BlockCaseInfo(int requestId, string notes);
         public void DeleteFile(int requestid, int reqwisefileid);
+        public void ClearCase(int RequestId);
+        public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes);
     }
 }

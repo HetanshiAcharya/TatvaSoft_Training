@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+﻿﻿<div class="modal fade" id="assigncase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-info">
@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <p><small>To assign this request, search and select another physician.</small> </p>
                     <div>
-                        <select class="form-select mb-3" id="region" onchange="AssignPhysician()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))">
+                        <select class="form-select mb-3" id="region1" onchange="AssignPhysician1()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))">
                             <option value="">Search by Region</option>
                         </select>
                         <select class="form-select mb-3" id="provider" name="PhysicianId">
@@ -34,8 +34,9 @@
 @* --------------- Script and Ajax for Assign Case --------------------------  *@
 
 <script type="text/javascript">
-    function AssignPhysician() {
-        var region = $("#region").val();
+    function AssignPhysician1() {
+        var region = $("#region1").val();
+        console.log(region);
         $.ajax({
             type: "POST",
             url: '@Url.Action("PhysicianbyRegion", "Admin")?Regionid=' + region,

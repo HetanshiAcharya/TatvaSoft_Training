@@ -259,6 +259,25 @@ namespace HaloDocRepository.Repositories
 
             return result;
         }
+        public bool SendOrders(int requestid, OrderDetail o)
+        {
+            OrderDetail od = new OrderDetail
+            {
+                RequestId = requestid,
+                VendorId = o.VendorId,
+                FaxNumber = o.FaxNumber,
+                Email = o.Email,
+                NoOfRefill = o.NoOfRefill,
+                BusinessContact = o.BusinessContact,
+                Prescription = o.Prescription,
+                CreatedDate = DateTime.Now,
+            };
+            _context.OrderDetails.Add(od);
+            _context.SaveChanges();
+            return true;
+
+
+        }
         public List<Physician> ProviderbyRegion(int Regionid)
         {
             var result = _context.Physicians
@@ -277,6 +296,12 @@ namespace HaloDocRepository.Repositories
             var regiondata = _context.Regions.ToList();
             return (regiondata);
         }
+        //public List<Region> TransferCase()
+        //{
+        //    var regiondata = _context.Regions.ToList();
+        //    return (regiondata);
+        //}
+
         public List<CaseTag> CancelCase()
         {
             var casetagdata = _context.CaseTags.ToList();
@@ -301,6 +326,24 @@ namespace HaloDocRepository.Repositories
 
 
         }
+        public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.PhysicianId = PhysicianId;
+            request.Status = 2;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.TransToPhysicianId = PhysicianId;
+            rsl.Notes = Notes;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 2;
+            _context.RequestStatusLogs.Add(rsl);
+            _context.SaveChanges();
+        }
+
         public void CancelCaseInfo(int casetagId, string Notes, int RequestId)
         {
             var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
@@ -314,6 +357,22 @@ namespace HaloDocRepository.Repositories
             rsl.Notes = Notes;
             rsl.CreatedDate = DateTime.Now;
             rsl.Status = 8;
+            _context.RequestStatusLogs.Update(rsl);
+            _context.SaveChanges();
+
+
+        }
+        public void ClearCase(int RequestId)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.Status = 10;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 10;
             _context.RequestStatusLogs.Update(rsl);
             _context.SaveChanges();
 

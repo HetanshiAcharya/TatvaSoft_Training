@@ -15,6 +15,7 @@ using System.Data;
 using Microsoft.AspNetCore.Identity;
 using HalloDoc.Controllers.Admin;
 using System;
+using Microsoft.AspNetCore.Routing;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -104,6 +105,7 @@ namespace HaloDocDataAccess.Controllers
             //}
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
+
 
             CountStatusWiseRequestModel sm = _adminservice.Indexdata();
 
@@ -275,6 +277,25 @@ namespace HaloDocDataAccess.Controllers
             var v = _adminservice.SendOrdersInfo(selectedValue);
 
             return Json(v);
+        }
+        [HttpPost]
+        public IActionResult SendOrders(int ReqId, OrderDetail o)
+        {
+            var v = _adminservice.SendOrders(ReqId, o);
+            return RedirectToAction("Index","Admin");
+        }
+        [HttpPost]
+        public IActionResult ClearCase( int RequestId)
+        {
+            _adminservice.ClearCase(RequestId);
+            return RedirectToAction("Index", "Admin");
+        }
+        
+        [HttpPost]
+        public IActionResult TransferCase(int RequestId, int PhysicianId, string Notes)
+        {
+            _adminservice.TransferCaseInfo(RequestId, PhysicianId, Notes);
+            return RedirectToAction("Index", "Admin");
         }
     }
 }
