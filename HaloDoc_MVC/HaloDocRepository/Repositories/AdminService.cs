@@ -15,16 +15,21 @@ using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace HaloDocRepository.Repositories
 {
     public class AdminService : IAdminService
     {
         private readonly HaloDocDbContext _context;
-
-        public AdminService(HaloDocDbContext context)
+        private readonly IConfiguration _config;
+        public AdminService(HaloDocDbContext context, IConfiguration config)
         {
             _context = context;
+            _config= config ;
+
         }
         //----------------HashKey Generation-------------------
         public static string GenerateSHA256(string input)
@@ -454,6 +459,34 @@ namespace HaloDocRepository.Repositories
             _context.RequestWiseFiles.Update(requestData);
             _context.SaveChanges();
 
+        }
+        public void SendAgreement(sendAgreement sendAgreement)
+        {
+            RequestClient reqCli = _context.RequestClients.FirstOrDefault(requestCli => requestCli.RequestId == sendAgreement.ReqId);
+
+            string? senderEmail = _config.GetSection("OutlookSMTP")["Sender"];
+            string? senderPassword = _config.GetSection("OutlookSMTP")["Password"];
+
+            SmtpClient client = new("smtp.office365.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false
+            };
+
+            MailMessage mailMessage = new()
+            {
+                From = new MailAddress(senderEmail, "HalloDoc"),
+                Subject = "Hallodoc review agreement",
+                IsBodyHtml = true,
+                Body = "<h3>Admin has sent you the agreement papers to review. Click on the link below to read the agreement.</h3>",
+            };
+
+            mailMessage.To.Add(sendAgreement.Email);
+
+            client.Send(mailMessage);
         }
     }
 }

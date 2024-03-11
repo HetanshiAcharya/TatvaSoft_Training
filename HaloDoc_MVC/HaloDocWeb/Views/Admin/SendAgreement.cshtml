@@ -1,4 +1,6 @@
-﻿﻿<div class="modal fade" id="SendAgreement" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+﻿﻿
+@model HaloDocDataAccess.ViewModels.sendAgreement;
+<div class="modal fade" id="sendAgreementModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-info">
@@ -6,49 +8,51 @@
                 <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             @* --------------- Main Form --------------------------  *@
-            <form method="post" >
-                <input type="hidden" name="requestid" id="" />
+            <form method="" >
+                <input name="requestid" id="SendAgreement_id" hidden />
                 <div class="modal-body">
                     <p><small>To Send Agreement please make sure you are uploading the correct contact information below for the responsible party</small> </p>
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <input class="form-control" id="SendAgreement_phone" value=""/>
+                            <input class="form-control" id="SendAgreement_phone"  asp-for="PhoneNumber"/>
                         </div>
                         <div class="col-lg-12 mt-4">
-                            <input class="form-control" id="SendAgreement_email" type="email" value=""/>
+                            <input class="form-control" id="SendAgreement_email" type="email" asp-for="Email"/>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-outline-info">Submit</button>
-                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
-                </div>
             </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info" id="send-agreement-submit-btn">Submit</button>
+                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+            </div>
         </div>
     </div>
 </div>
-@* --------------- Script and Ajax for Assign Case --------------------------  *@
+@* --------------- Script and Ajax for Assign Case nbn --------------------------  *@
+<script>
+    $('#send-agreement-submit-btn').click(function () {
+        var phoneNumber = $("#SendAgreement_phone").val();
+        var email = $("#SendAgreement_email").val();
+        var reqId = $("#SendAgreement_id").val();
 
-<script type="text/javascript">
-    function AssignPhysician1() {
-        var region = $("#region1").val();
-        console.log(region);
         $.ajax({
-            type: "POST",
-            url: '@Url.Action("PhysicianbyRegion", "Admin")?Regionid=' + region,
-            cache: false,
-            success: function (response) {
-                console.log(response);
-                var select = '<option value="">Please Select</option>';
-                for (var i = 0; i < response.length; i++) {
-                    select += '<option value="' + response[i].physicianId + '">' + response[i].firstName + " " + response[i].lastName + '</option>';
-                }
-
-                $("#provider").html(select);
+            url: "/Admin/SendAgreement",
+            data: {
+                Reqid: reqId,
+                PhoneNumber: phoneNumber,
+                Email: email,
             },
-            error: function () {
-                alert("Error");
-            }
+            type: 'POST',
+            success: function (result) {
+                $('#display').html(result);
+                $('#sendAgreementModal').modal('show');
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
+                alert('Error Fetching Request abcd  ')
+            },
         });
-    }
+    });
 </script>

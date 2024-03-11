@@ -32,5 +32,6 @@ namespace HaloDocRepository.Interface
         public void DeleteFile(int requestid, int reqwisefileid);
         public void ClearCase(int RequestId);
         public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes);
+        public void SendAgreement(sendAgreement sendAgreement);
     }
 }

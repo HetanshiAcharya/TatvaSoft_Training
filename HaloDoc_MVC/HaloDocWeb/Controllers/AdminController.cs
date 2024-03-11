@@ -311,5 +311,26 @@ namespace HaloDocDataAccess.Controllers
             _adminservice.TransferCaseInfo(RequestId, PhysicianId, Notes);
             return RedirectToAction("Index", "Admin");
         }
+
+        [HttpPost]
+        public IActionResult SendAgreementModal(int Reqid)
+        {
+            Request obj = _context.Requests.FirstOrDefault(x => x.RequestId==Reqid);
+            sendAgreement sendAgreement = new() { ReqId = Reqid,PhoneNumber= obj.PhoneNumber,Email= obj.Email };
+            return View("SendAgreement",sendAgreement);
+        }
+
+        [HttpPost]
+        public IActionResult SendAgreement(int Reqid, string PhoneNumber, string Email)
+        {
+            sendAgreement sendAgreement = new()
+            {
+                ReqId = Reqid,
+                PhoneNumber = PhoneNumber,
+                Email = Email
+            };
+            _adminservice.SendAgreement(sendAgreement);
+            return RedirectToAction("Index", "Admin");
+        }
     }
 }

@@ -108,5 +108,13 @@ namespace HaloDocDataAccess.ViewModels
         public string? FaxNumber { get; set; }
         public string? Prescription { get; set; }
         public string? NumberOfRefills { get; set; }
+        
+    }
+    public class sendAgreement
+        {
+        public int ReqId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+
     }
 }
