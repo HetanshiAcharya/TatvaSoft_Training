@@ -186,3 +186,18 @@ a:hover{
     position: relative;
     top: 32px;
 }
+.dNone {
+    display: none;
+}
+
+/*--------Media query--------*/ 
+
+@media (min-width: 768px) {
+    .dNone {
+        display: inline-block;
+    }
+    .topmargin {
+        margin-top: 90px;
+        margin-right: 5px;
+    }
+}

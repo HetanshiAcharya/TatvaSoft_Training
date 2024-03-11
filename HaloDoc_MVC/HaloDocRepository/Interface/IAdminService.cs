@@ -24,7 +24,6 @@ namespace HaloDocRepository.Interface
         public List<Physician> ProviderbyRegion(int Regionid);
         public List<Region> AssignCase();
         public List<CaseTag> CancelCase();
-
         public List<HealthProfessionalType> Professions();
         public bool SendOrders(int requestid, OrderDetail o);
         public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes);

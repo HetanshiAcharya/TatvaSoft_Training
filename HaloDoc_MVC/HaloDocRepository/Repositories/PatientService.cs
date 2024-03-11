@@ -237,7 +237,7 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
-            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
+            //Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
 
             _context.Requests.Add(Request);
             _context.SaveChanges();

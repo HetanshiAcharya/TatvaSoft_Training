@@ -34,7 +34,7 @@ namespace HaloDocDataAccess.Controllers
             _adminservice = adminservice;
 
         }
-
+        //--------------Admin Login-----------------
         //GET
         public IActionResult IndexPlatformLogin()
         {
@@ -71,6 +71,8 @@ namespace HaloDocDataAccess.Controllers
                 return View("../Admin/IndexPlatformLogin");
             }
         }
+        //--------------Old Admin Login-----------------
+
         //public IActionResult IndexPlatformLogin(AdminLogin adminLogin)
         //{
         //    if (ModelState.IsValid)
@@ -90,10 +92,12 @@ namespace HaloDocDataAccess.Controllers
         //    return View(adminLogin);
         //}
 
+        //--------------Admin Forgot Pass-----------------
         public IActionResult IndexForgotPass()
         {
             return View();
         }
+        //--------------Admin Dashboard-----------------
         [CheckAdminAccess]
         public IActionResult Index()
         {
@@ -151,7 +155,7 @@ namespace HaloDocDataAccess.Controllers
 
             return PartialView("../Admin/_New", contacts);
         }
-
+        //--------------View Case--------------------------
         public IActionResult ViewCase(int? RId, int? RTId)
         {
             ViewBag.AssignCase = _adminservice.AssignCase();
@@ -159,41 +163,45 @@ namespace HaloDocDataAccess.Controllers
             ViewCaseData vdvc = _adminservice.NewRequestData(RId, RTId);
             return View(vdvc);
         }
-
         [HttpPost]
         public IActionResult ViewCase(ViewCaseData vdvc, int? RId, int? RTId)
         {
             ViewCaseData vc = _adminservice.Edit(vdvc, RId, RTId);
             return View(vc);
         }
-      
+        //--------------Error-----------------
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        //--------------Physician by region-----------------
         public IActionResult PhysicianbyRegion(int Regionid)
         {
             var v = _adminservice.ProviderbyRegion(Regionid);
             return Json(v);
         }
+        //--------------Assign case-------------------------
         [HttpPost]
         public IActionResult AssignCase(int RequestId, int PhysicianId, string Notes)
         {
             _adminservice.AssignCaseInfo(RequestId, PhysicianId, Notes);
             return RedirectToAction("Index", "Admin");
         }
+        //--------------Cancel Case-------------------------
         [HttpPost]
         public IActionResult CancelCase(int casetagId, int RequestId, string Notes)
         {
             _adminservice.CancelCaseInfo(casetagId, Notes, RequestId);
             return RedirectToAction("Index", "Admin");
         }
+        //--------------Block Case---------------------------
         public IActionResult BlockCase(int RequestId, string Notes)
         {
             var res =_adminservice.BlockCaseInfo(RequestId, Notes);
             return RedirectToAction("Index", "Admin");
         }
+        //--------------View Notes----------------------------
         public IActionResult ViewNotes(int reqClientId)
         {
             int? adminId = HttpContext.Session.GetInt32("adminId");
@@ -212,6 +220,7 @@ namespace HaloDocDataAccess.Controllers
             }
             return View(viewNotes);
         }
+        //--------------View Uploads--------------------------
         public IActionResult ViewUploads(int requestId)
         {
             //int? userid = HttpContext.Session.GetInt32("userId");
@@ -257,21 +266,25 @@ namespace HaloDocDataAccess.Controllers
 
             return ViewUploads(viewdata.RequestId);
         }
+        //--------------Delete Files---------------------------
         public IActionResult DeleteFile(int requestid, int reqwisefileid)
         {
              _adminservice.DeleteFile(requestid, reqwisefileid);
             return RedirectToAction("ViewUploads",new {requestId= requestid } );
         }
+        //--------------Send Orders--------------------------
         public IActionResult SendOrders()
         {
             ViewBag.Professions = _adminservice.Professions();
             return View();
         }
+        //--------------Vendors by profession -----------------
         public IActionResult VendorByProfession(int Professionid)
         {
             var v = _adminservice.VendorByProfession(Professionid);
             return Json(v);
         }
+        //--------------Send Orders----------------------------
         public IActionResult SendOrdersData(int selectedValue)
         {
             var v = _adminservice.SendOrdersInfo(selectedValue);
@@ -284,13 +297,14 @@ namespace HaloDocDataAccess.Controllers
             var v = _adminservice.SendOrders(ReqId, o);
             return RedirectToAction("Index","Admin");
         }
+        //--------------Clear Case---------------------------
         [HttpPost]
         public IActionResult ClearCase( int RequestId)
         {
             _adminservice.ClearCase(RequestId);
             return RedirectToAction("Index", "Admin");
         }
-        
+        //--------------Transfer Case-----------------------------
         [HttpPost]
         public IActionResult TransferCase(int RequestId, int PhysicianId, string Notes)
         {

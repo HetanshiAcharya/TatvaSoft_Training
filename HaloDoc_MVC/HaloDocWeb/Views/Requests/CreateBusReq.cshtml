@@ -23,7 +23,7 @@
         <div class="form-group row">
             <div class="col-sm-12 d-flex justify-content-end">
                 <button class="btn btn-outline-primary mr-4" type="submit">
-                    <a asp-controller="RequestHome" asp-action="PatientSubmitReq" class="link-color">Back</a>
+                    <a asp-controller="Home" asp-action="SubmitReq" class="link-color">Back</a>
                 </button>
             </div>
             <h4 class="mt-2 mb-6">Business Information</h4>
@@ -96,14 +96,15 @@
                        type="email"
                        placeholder="Enter Email" required />
             </div>
-            <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
-            <span asp-validation-for="FirstName" class="text-danger validate col-6"></span>
-
             <div class="col-sm-6">
                 <input asp-for="PhoneNumber" id="phone2"
                        type="tel"
                        class="form-control form-control-md col-md mt-4 iti" />
             </div>
+            <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
+            <span asp-validation-for="FirstName" class="text-danger validate col-6"></span>
+
+          
             <h4 class="mt-4 mb-6">Patient Location</h4>
             <div class="col-sm-6">
                 <input asp-for="Street" class="form-control form-control-md col-md mt-4"

@@ -187,8 +187,8 @@
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Transfercase(@item.RequestID)" data-bs-target=" #transfercase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Transfer</a></li>
                             <li><a class="dropdown-item" onclick="clearcasepopup(@item.RequestID)" id="clearcase"><i class="bi bi-x-circle me-1"></i>clear Case</a></li>
-@*                         <li><a class="dropdown-item" onclick="model_Case(@index)" data-bs-toggle="modal" data-bs-target="#SendAgreement"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li>
- *@
+                            <li><a class="dropdown-item" onclick="SendAgreement(@item.RequestID)" data-bs-toggle="modal" data-bs-target="#SendAgreement" asp-route-reqId="@item.RequestID" asp-route-typeId="@item.RequestTypeID"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li>
+
                         </ul>
 
                     </td>
@@ -317,5 +317,11 @@
         document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
 
     }
-    
+    function SendAgreement(id) {
+        var reqId = id;
+        console.log(reqId);
+        document.getElementById('SendAgreement_phone').value = reqId[id].phoneNumber;
+        document.getElementById('SendAgreement_email').value = reqId[id].email;
+
+    }
 </script>

@@ -8,12 +8,12 @@
             </div>
             @* --------------- Main Form --------------------------  *@
 
-            <form method="post" asp-action="CancelCase" asp-controller="Admin" id="">
+            <form method="post" id="" asp-controller="Admin" asp-action="CancelCase">
                 <input type="hidden" name="requestid" id="RequestID_ModelCancelCase" />
                 <div class="modal-body">
                     <p><small>Patient Name:</small><span id="RequestID_PatientNameCancelCase" class="text-info"></span> </p>
                     <div>
-                        <select class="form-select mb-3" id="" onchange="()" name="" asp-items="@(new SelectList(ViewBag.CancelCase,"CaseTagId","Name"))">
+                        <select class="form-select mb-3" id="casetagid" onchange="()" name="CaseTagId" asp-items="@(new SelectList(ViewBag.CancelCase,"CaseTagId","Name"))">
                             <option value="">Reason for Cancellation</option>
                         </select>
                     </div>

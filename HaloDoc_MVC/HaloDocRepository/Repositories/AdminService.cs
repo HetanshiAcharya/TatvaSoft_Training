@@ -26,6 +26,7 @@ namespace HaloDocRepository.Repositories
         {
             _context = context;
         }
+        //----------------HashKey Generation-------------------
         public static string GenerateSHA256(string input)
         {
             var bytes = Encoding.UTF8.GetBytes(input);
@@ -41,12 +42,13 @@ namespace HaloDocRepository.Repositories
                 return sb.ToString();
             }
         }
+        //----------------Old code for login-------------------
         /*public bool AdminAuthentication(AdminLogin adminDetails)
         {
             string hashPassword = GenerateSHA256(adminDetails.Password);
             return _context.AspNetUsers.Any(Au => Au.Email == adminDetails.Email && Au.PasswordHash == hashPassword);
         }*/
-
+        //----------------Admin Dashboard GET Data-------------------
         public List<AdminDashboardList> NewRequestData()
         {
             var req = _context.Requests;
@@ -77,20 +79,7 @@ namespace HaloDocRepository.Repositories
                         .ToList();
             return list;
         }
-        public CountStatusWiseRequestModel Indexdata()
-        {
-            return new CountStatusWiseRequestModel
-            {
-                NewRequest = _context.Requests.Where(r => r.Status == 1).Count(),
-                PendingRequest = _context.Requests.Where(r => r.Status == 2).Count(),
-                ActiveRequest = _context.Requests.Where(r => (r.Status == 4 || r.Status == 5)).Count(),
-                ConcludeRequest = _context.Requests.Where(r => r.Status == 6).Count(),
-                ToCloseRequest = _context.Requests.Where(r => (r.Status == 3 || r.Status == 7 || r.Status == 8)).Count(),
-                UnpaidRequest = _context.Requests.Where(r => r.Status == 9).Count(),
-
-            };
-        }
-        public List<AdminDashboardList> GetRequests(string Status)
+                public List<AdminDashboardList> GetRequests(string Status)
         {
             List<int> statusdata = Status.Split(',').Select(int.Parse).ToList();
             List<AdminDashboardList> allData = (from req in _context.Requests
@@ -131,7 +120,21 @@ namespace HaloDocRepository.Repositories
                                                 }).ToList();
             return allData;
         }
+        //----------------Static Model Filling-------------------
+        public CountStatusWiseRequestModel Indexdata()
+        {
+            return new CountStatusWiseRequestModel
+            {
+                NewRequest = _context.Requests.Where(r => r.Status == 1).Count(),
+                PendingRequest = _context.Requests.Where(r => r.Status == 2).Count(),
+                ActiveRequest = _context.Requests.Where(r => (r.Status == 4 || r.Status == 5)).Count(),
+                ConcludeRequest = _context.Requests.Where(r => r.Status == 6).Count(),
+                ToCloseRequest = _context.Requests.Where(r => (r.Status == 3 || r.Status == 7 || r.Status == 8)).Count(),
+                UnpaidRequest = _context.Requests.Where(r => r.Status == 9).Count(),
 
+            };
+        }
+        //----------------View Case-------------------
         public ViewCaseData GetRequestForViewCase(int id)
         {
             var n = _context.Requests.FirstOrDefault(E => E.RequestId == id);
@@ -158,8 +161,6 @@ namespace HaloDocRepository.Repositories
             };
             return requestforviewcase;
         }
-
-
         public ViewCaseData NewRequestData(int? RId, int? RTId)
         {
             ViewCaseData? caseList = _context.RequestClients
@@ -183,7 +184,6 @@ namespace HaloDocRepository.Repositories
             _context.SaveChanges();
             return caseList;
         }
-
         public ViewCaseData Edit(ViewCaseData vdvc, int? RId, int? RTId)
         {
             try
@@ -235,17 +235,33 @@ namespace HaloDocRepository.Repositories
         {
             throw new NotImplementedException();
         }
-
+        //----------------Get Regions-------------------
         public List<Region> getdropdownregion()
         {
             var dropdown = _context.Regions.ToList();
             return dropdown;
         }
+        //----------------Physician by Regions-------------------
+        public List<Physician> ProviderbyRegion(int Regionid)
+        {
+            var result = _context.Physicians
+                        .Where(req => req.RegionId == Regionid)
+                        .Select(req => new Physician()
+                        {
+                            PhysicianId = req.PhysicianId,
+                            FirstName = req.FirstName,
+                            LastName = req.LastName
+                        }).ToList();
+            return result;
+
+        }
+        //----------------Get Health Profesionals Types-------------------
         public List<HealthProfessionalType> Professions()
         {
             var data = _context.HealthProfessionalTypes.ToList();
             return (data);
         }
+        //----------------Get Health Profesionals-------------------
         public List<HealthProfessional> VendorByProfession(int Professionid)
         {
             var result = _context.HealthProfessionals
@@ -253,6 +269,7 @@ namespace HaloDocRepository.Repositories
                         .ToList();
             return result;
         }
+        //----------------Send orders  -------------------
         public HealthProfessional SendOrdersInfo(int selectedValue)
         {
             var result = _context.HealthProfessionals
@@ -279,41 +296,18 @@ namespace HaloDocRepository.Repositories
 
 
         }
-        public List<Physician> ProviderbyRegion(int Regionid)
-        {
-            var result = _context.Physicians
-                        .Where(req => req.RegionId == Regionid)
-                        .Select(req => new Physician()
-                        {
-                            PhysicianId = req.PhysicianId,
-                            FirstName = req.FirstName,
-                            LastName = req.LastName
-                        }).ToList();
-            return result;
-
-        }
+        //----------------Assign Case-------------------
         public List<Region> AssignCase()
         {
             var regiondata = _context.Regions.ToList();
             return (regiondata);
-        }
-        //public List<Region> TransferCase()
-        //{
-        //    var regiondata = _context.Regions.ToList();
-        //    return (regiondata);
-        //}
-
-        public List<CaseTag> CancelCase()
-        {
-            var casetagdata = _context.CaseTags.ToList();
-            return (casetagdata);
         }
         public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes)
         {
             var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
             request.PhysicianId = PhysicianId;
             request.Status = 2;
-            _context.Requests.Update(request);
+            //_context.Requests.Update(request);
             _context.SaveChanges();
 
             RequestStatusLog rsl = new RequestStatusLog();
@@ -327,29 +321,18 @@ namespace HaloDocRepository.Repositories
 
 
         }
-        public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes)
+        //----------------Cancel case-------------------
+        public List<CaseTag> CancelCase()
         {
-            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
-            request.PhysicianId = PhysicianId;
-            request.Status = 2;
-            _context.Requests.Update(request);
-            _context.SaveChanges();
-
-            RequestStatusLog rsl = new RequestStatusLog();
-            rsl.RequestId = RequestId;
-            //rsl.PhysicianId = providerid;
-            rsl.TransToPhysicianId = PhysicianId;
-            rsl.Notes = Notes;
-            rsl.CreatedDate = DateTime.Now;
-            rsl.Status = 2;
-            _context.RequestStatusLogs.Update(rsl);
-            _context.SaveChanges();
+            var casetagdata = _context.CaseTags.ToList();
+            return (casetagdata);
         }
-
         public void CancelCaseInfo(int casetagId, string Notes, int RequestId)
         {
             var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
-            request.CaseTag = Notes;
+            var casetag = _context.CaseTags.FirstOrDefault(req => req.CaseTagId == casetagId);
+
+            request.CaseTag = casetag.Name;
             request.Status = 8;
             _context.Requests.Update(request);
             _context.SaveChanges();
@@ -364,6 +347,29 @@ namespace HaloDocRepository.Repositories
 
 
         }
+        //----------------Transfer case-------------------
+        public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.PhysicianId = (int)request.PhysicianId;
+            rsl.TransToPhysicianId = PhysicianId;
+            rsl.Notes = Notes;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 2;
+            _context.RequestStatusLogs.Update(rsl);
+            _context.SaveChanges();
+
+            request.PhysicianId = PhysicianId;
+            request.Status = 2;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+           
+        }
+        //----------------Clear case-------------------
         public void ClearCase(int RequestId)
         {
             var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
@@ -380,6 +386,7 @@ namespace HaloDocRepository.Repositories
 
 
         }
+        //----------------Block case-------------------
         public bool BlockCaseInfo(int requestId, string notes)
         {
             try
@@ -413,6 +420,7 @@ namespace HaloDocRepository.Repositories
                 return false;
             }
         }
+        //----------------View notes-------------------
         public ViewNotes ViewNotes(int reqClientId)
         {
             RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == reqClientId);
@@ -438,6 +446,7 @@ namespace HaloDocRepository.Repositories
             obj.AdminNotes = viewNotes.TextBox;
 
         }
+        //----------------Delete Files-------------------
         public void DeleteFile(int requestid, int reqwisefileid)
         {
             var requestData = _context.RequestWiseFiles.FirstOrDefault(e => e.RequestWiseFileId == reqwisefileid);

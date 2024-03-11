@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kyRGhOn7/4pC+Lwc3l725ipkjamOKkduhFUeIPOeeqE=",
+  "Hash": "VkGeFZyZr1J+Wd4P9B45gR3tpmLszLk6g3WOjNTouRI=",
   "Source": "HaloDocWeb",
   "BasePath": "_content/HaloDocWeb",
   "Mode": "Default",
@@ -4624,6 +4624,23 @@
       "OriginalItemSpec": "wwwroot\\Upload\\Fig24. Provider Menu.jpg"
     },
     {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig32. Day wise Scheduling.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/Fig32. Day wise Scheduling.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\Fig32. Day wise Scheduling.jpg"
+    },
+    {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig33. Month wise Scheduling.jpg",
       "SourceId": "HaloDocWeb",
       "SourceType": "Discovered",
@@ -4692,6 +4709,23 @@
       "OriginalItemSpec": "wwwroot\\Upload\\Fig4. Admin dashboard in New state.jpg"
     },
     {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig5. Admin dashboard in pending state.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/Fig5. Admin dashboard in pending state.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\Fig5. Admin dashboard in pending state.jpg"
+    },
+    {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig53. Provider transfer request pop-up.png",
       "SourceId": "HaloDocWeb",
       "SourceType": "Discovered",
@@ -4741,6 +4775,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\Fig57.Submit request screen.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig65.Patient Create New Request.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/Fig65.Patient Create New Request.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\Fig65.Patient Create New Request.jpg"
     },
     {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig66.Submit Information me.jpg",
