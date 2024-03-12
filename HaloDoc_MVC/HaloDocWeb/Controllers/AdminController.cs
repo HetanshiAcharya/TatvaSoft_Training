@@ -25,14 +25,16 @@ namespace HaloDocDataAccess.Controllers
         private readonly IPatientService _patientService;
         private readonly IAuthService _authservice;
         private readonly IAdminService _adminservice;
-
-        public AdminController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice)
+        private readonly ILoginRepository _loginRepository;
+        private readonly IJwtService _jwtService;
+        public AdminController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, ILoginRepository loginRepository,IJwtService jwtService)
         {
             _context = context;
             _patientService = patientService;
             _authservice = authService;
             _adminservice = adminservice;
-
+            _loginRepository = loginRepository;
+            _jwtService = jwtService;
         }
         //--------------Admin Login-----------------
         //GET
@@ -43,26 +45,14 @@ namespace HaloDocDataAccess.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> IndexPlatformLogin(string Email, string Password)
+        public async Task<IActionResult> IndexPlatformLogin(AspNetUser aspNetUser)
         {
-            NpgsqlConnection connection = new NpgsqlConnection("Server=localhost;Database=HaloDoc_db;User Id=postgres;Password=1234;Include Error Detail=True");
-            string Query = "select * from \"AspNetUsers\" au inner join \"AspNetUserRoles\" aur on au.\"Id\" = aur.\"UserId\" inner join \"AspNetRoles\" roles on aur.\"RoleId\"= roles.\"Id\" where \"Email\"=@Email and \"PasswordHash\"=@Password";
-            connection.Open();
-            NpgsqlCommand command = new NpgsqlCommand(Query, connection);
-            command.Parameters.AddWithValue("@Email", Email);
-            command.Parameters.AddWithValue("@Password", Password);
-            NpgsqlDataReader reader = command.ExecuteReader();
-            DataTable dataTable = new DataTable();
-            dataTable.Load(reader);
-            int numRows = dataTable.Rows.Count;
-            if (numRows > 0)
+            UserInfo u = await _loginRepository.CheckAccessLogin(aspNetUser);
+
+            if (u != null)
             {
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    HttpContext.Session.SetString("UserName", row["username"].ToString());
-                    HttpContext.Session.SetString("UserID", row["Id"].ToString());
-                    HttpContext.Session.SetString("RoleId", row["roleid"].ToString());
-                }
+                var jwttoken = _jwtService.GenerateJWTAuthetication(u);
+                Response.Cookies.Append("jwt", jwttoken);
                 return RedirectToAction("Index", "Admin");
             }
             else
@@ -71,6 +61,7 @@ namespace HaloDocDataAccess.Controllers
                 return View("../Admin/IndexPlatformLogin");
             }
         }
+
         //--------------Old Admin Login-----------------
 
         //public IActionResult IndexPlatformLogin(AdminLogin adminLogin)
@@ -97,8 +88,17 @@ namespace HaloDocDataAccess.Controllers
         {
             return View();
         }
+        //-------Logout-------
+        #region end_session
+        public async Task<IActionResult> Logout()
+        {
+            Response.Cookies.Delete("jwt");
+            return RedirectToAction("Index", "Home");
+        }
+        #endregion
+
         //--------------Admin Dashboard-----------------
-        [CheckAdminAccess]
+        [CheckPhysicianAccess("Admin")]
         public IActionResult Index()
         {
             //string? userId = HttpContext.Session.GetString("userId");
@@ -198,7 +198,7 @@ namespace HaloDocDataAccess.Controllers
         //--------------Block Case---------------------------
         public IActionResult BlockCase(int RequestId, string Notes)
         {
-            var res =_adminservice.BlockCaseInfo(RequestId, Notes);
+            var res = _adminservice.BlockCaseInfo(RequestId, Notes);
             return RedirectToAction("Index", "Admin");
         }
         //--------------View Notes----------------------------
@@ -226,7 +226,7 @@ namespace HaloDocDataAccess.Controllers
             //int? userid = HttpContext.Session.GetInt32("userId");
             RequestClient request = _context.RequestClients.FirstOrDefault(r => r.RequestId == requestId);
             Request req = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
-            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId && reqFile.IsDeleted== new BitArray(1)).ToList();
+            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId && reqFile.IsDeleted == new BitArray(1)).ToList();
 
             ViewDocument document = new()
             {
@@ -258,7 +258,7 @@ namespace HaloDocDataAccess.Controllers
                     RequestId = viewdata.RequestId,
                     FileName = viewdata.File.FileName,
                     CreatedDate = DateTime.Now,
-                    IsDeleted= new BitArray(1)
+                    IsDeleted = new BitArray(1)
                 };
                 _context.RequestWiseFiles.Add(requestwisefile);
                 _context.SaveChanges();
@@ -269,8 +269,8 @@ namespace HaloDocDataAccess.Controllers
         //--------------Delete Files---------------------------
         public IActionResult DeleteFile(int requestid, int reqwisefileid)
         {
-             _adminservice.DeleteFile(requestid, reqwisefileid);
-            return RedirectToAction("ViewUploads",new {requestId= requestid } );
+            _adminservice.DeleteFile(requestid, reqwisefileid);
+            return RedirectToAction("ViewUploads", new { requestId = requestid });
         }
         //--------------Send Orders--------------------------
         public IActionResult SendOrders()
@@ -295,11 +295,11 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult SendOrders(int ReqId, OrderDetail o)
         {
             var v = _adminservice.SendOrders(ReqId, o);
-            return RedirectToAction("Index","Admin");
+            return RedirectToAction("Index", "Admin");
         }
         //--------------Clear Case---------------------------
         [HttpPost]
-        public IActionResult ClearCase( int RequestId)
+        public IActionResult ClearCase(int RequestId)
         {
             _adminservice.ClearCase(RequestId);
             return RedirectToAction("Index", "Admin");
@@ -311,13 +311,19 @@ namespace HaloDocDataAccess.Controllers
             _adminservice.TransferCaseInfo(RequestId, PhysicianId, Notes);
             return RedirectToAction("Index", "Admin");
         }
+        //--------------Send Agreement-----------------------------
 
         [HttpPost]
         public IActionResult SendAgreementModal(int Reqid)
         {
-            Request obj = _context.Requests.FirstOrDefault(x => x.RequestId==Reqid);
-            sendAgreement sendAgreement = new() { ReqId = Reqid,PhoneNumber= obj.PhoneNumber,Email= obj.Email };
-            return View("SendAgreement",sendAgreement);
+            Request obj = _context.Requests.FirstOrDefault(x => x.RequestId == Reqid);
+            sendAgreement sendAgreement = new()
+            {
+                ReqId = Reqid,
+                PhoneNumber = obj.PhoneNumber,
+                Email = obj.Email
+            };
+            return View("SendAgreement", sendAgreement);
         }
 
         [HttpPost]

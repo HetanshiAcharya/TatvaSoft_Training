@@ -460,6 +460,7 @@ namespace HaloDocRepository.Repositories
             _context.SaveChanges();
 
         }
+        //----------------Send Agreement-------------------
         public void SendAgreement(sendAgreement sendAgreement)
         {
             RequestClient reqCli = _context.RequestClients.FirstOrDefault(requestCli => requestCli.RequestId == sendAgreement.ReqId);

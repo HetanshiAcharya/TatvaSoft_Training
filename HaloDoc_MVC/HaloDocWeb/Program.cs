@@ -15,6 +15,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddSession(options =>
 {

@@ -1,31 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-
+using HaloDocRepository.Interface;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace HalloDoc.Controllers.Admin
 {
-    public class CheckPhysicianAccess : ActionFilterAttribute, IAuthorizationFilter
+    [AttributeUsage(AttributeTargets.All)]
+    public class CheckPhysicianAccess : Attribute, IAuthorizationFilter
     {
+        private readonly string _role;
+        public CheckPhysicianAccess(string role)
+        {
+            _role = role;
+        }
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
-            var rd = filterContext.RouteData;
-            string currentAction = rd.Values["action"].ToString();
-            string currentController = rd.Values["controller"].ToString();
-            //string currentArea = rd.DataTokens["area"].ToString();
+            var jwtservice = filterContext.HttpContext.RequestServices.GetService<IJwtService>();
+            if (jwtservice == null)
+            {
+                filterContext.Result = new RedirectResult("../Admin/Index");
+                return;
+            }
+            var request = filterContext.HttpContext.Request;
+            var toket = request.Cookies["jwt"];
+            if (toket == null || !jwtservice.ValidateToken(toket, out JwtSecurityToken jwtSecurityTokenHandler))
+            {
+                filterContext.Result = new RedirectResult("../Admin/Index");
+                return;
+            }
+            var roles = jwtSecurityTokenHandler.Claims.FirstOrDefault(claiim => claiim.Type == ClaimTypes.Role);
 
-            if (filterContext.HttpContext.Session.GetString("RoleId") == "2")
+            if (roles == null)
+            {
+                filterContext.Result = new RedirectResult("../Admin/Index");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_role) || roles.Value != _role)
             {
                 filterContext.Result = new RedirectResult("../Admin/AuthError");
+
             }
+
         }
 
-        public override void OnResultExecuting(ResultExecutingContext filterContext)
-        {
-            filterContext.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            filterContext.HttpContext.Response.Headers["Expires"] = "-1";
-            filterContext.HttpContext.Response.Headers["Pragma"] = "no-cache";
-            base.OnResultExecuting(filterContext);
-        }
     }
 }

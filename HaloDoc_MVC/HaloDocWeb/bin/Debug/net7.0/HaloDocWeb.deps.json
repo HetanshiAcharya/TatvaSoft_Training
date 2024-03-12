@@ -304,6 +304,7 @@
       },
       "HaloDocDataAccess/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.16",
           "Microsoft.AspNetCore.Http.Features": "5.0.17",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
         },
@@ -314,6 +315,7 @@
       "HaloDocRepository/1.0.0": {
         "dependencies": {
           "HaloDocDataAccess": "1.0.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.16",
           "Microsoft.AspNetCore.Http.Features": "5.0.17",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "7.0.11"
         },

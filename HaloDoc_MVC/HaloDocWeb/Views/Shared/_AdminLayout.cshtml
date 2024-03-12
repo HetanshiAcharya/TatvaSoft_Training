@@ -38,10 +38,10 @@
              alt=""
              class="logo-img" />
         <div class="d-flex align-items-center justify-content-evenly">
-            <span class="d-none d-sm-block mx-3">Welcome<strong class="text-info">@ViewData["User Name"]</strong></span>
+            <span class="d-none d-sm-block mx-3">Welcome<strong class="text-info mx-2">@CV.UserName()</strong></span>
             <div class="ml-4 mx-3">
                 <button class="btn btn-outline-primary" >
-                    <a class="text-decoration-none" asp-controller="Admin" asp-action="IndexPlatformLogin">Logout</a>
+                    <a class="text-decoration-none" asp-controller="Admin" asp-action="Logout">Logout</a>
                 </button>
             </div>
             <div class="mx-2" onclick="myFunction()">

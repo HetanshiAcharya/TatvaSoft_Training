@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@model HaloDocDataAccess.DataModels.AspNetUser;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,16 +29,18 @@
                          alt=""
                          class="logo-img-platformLogin" />
                     <h2>Log into your Account</h2>
-                    <form class="form-group form-platformLogin" method="post">
+                    <form class="form-group form-platformLogin" method="post" asp-action="IndexPlatformLogin" asp-controller="Admin">
                         <div class="text-danger">@ViewData["error"]</div>
-                        <input name="Email" type="email"
+                        <input type="email"
                                class="form-group form-control mt-4"
                                placeholder="Enter Email"
+                               asp-for="Email"
                                required />
                         <span  class="text-danger validate col-12"></span>
 
-                        <input name="Password" type="password"
+                        <input type="password"
                                class="form-control form-group mt-4"
+                               asp-for="PasswordHash"
                                placeholder="Password" />
                         <span class="text-danger validate col-12"></span>
 
