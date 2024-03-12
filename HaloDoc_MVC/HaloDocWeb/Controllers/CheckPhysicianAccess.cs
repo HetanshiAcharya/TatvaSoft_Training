@@ -5,7 +5,7 @@ using HaloDocRepository.Interface;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace HalloDoc.Controllers.Admin
+namespace HaloDocWeb.Controllers.Admin
 {
     [AttributeUsage(AttributeTargets.All)]
     public class CheckPhysicianAccess : Attribute, IAuthorizationFilter
@@ -20,21 +20,21 @@ namespace HalloDoc.Controllers.Admin
             var jwtservice = filterContext.HttpContext.RequestServices.GetService<IJwtService>();
             if (jwtservice == null)
             {
-                filterContext.Result = new RedirectResult("../Admin/Index");
+                filterContext.Result = new RedirectResult("../Admin/IndexPlatformLogin");
                 return;
             }
             var request = filterContext.HttpContext.Request;
             var toket = request.Cookies["jwt"];
             if (toket == null || !jwtservice.ValidateToken(toket, out JwtSecurityToken jwtSecurityTokenHandler))
             {
-                filterContext.Result = new RedirectResult("../Admin/Index");
+                filterContext.Result = new RedirectResult("../Admin/IndexPlatformLogin");
                 return;
             }
             var roles = jwtSecurityTokenHandler.Claims.FirstOrDefault(claiim => claiim.Type == ClaimTypes.Role);
 
             if (roles == null)
             {
-                filterContext.Result = new RedirectResult("../Admin/Index");
+                filterContext.Result = new RedirectResult("../Admin/IndexPlatformLogin");
                 return;
             }
 

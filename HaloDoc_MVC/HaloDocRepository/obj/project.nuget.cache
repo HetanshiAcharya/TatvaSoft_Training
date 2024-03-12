@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "JBtwmkE6lVq4n0YMS4Vr7zdKSSQP2MAIMbwOqPx2aVeM0c2LG8ZVqJt1ZcfBZhHQOq0dkpNA+2BvsTWjoWVVag==",
+  "dgSpecHash": "Njq9NXjJa/641bIET2L04K1Mhn6RSTPkTLCsRIUK1UQRnTKGUpeGXzByiZiQj7wFKgPRRPJf92Sqi6YvPwEiRQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocRepository\\HaloDocRepository.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\pci68\\.nuget\\packages\\aspnetcorehero.toastnotification\\1.1.0\\aspnetcorehero.toastnotification.1.1.0.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.16\\microsoft.aspnetcore.authentication.jwtbearer.7.0.16.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
@@ -33,6 +34,7 @@
     "C:\\Users\\pci68\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\pci68\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\npgsql\\7.0.6\\npgsql.7.0.6.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.11\\npgsql.entityframeworkcore.postgresql.7.0.11.nupkg.sha512",
     "C:\\Users\\pci68\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",

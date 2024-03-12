@@ -48,7 +48,7 @@ div .row {
     color: #566ea7;
     border: 1px solid #475e97;
 }
-    .new:hover, .new:active{
+    .new:hover, .new.as{
         background-color: #566ea7;
         color: #e9eaef;
         border: 1px solid #475e97;
@@ -58,7 +58,7 @@ div .row {
     border: 1px solid #3c843a;
     color: #3c843a;
 }
-    .activetext:hover, .activetext:active {
+    .activetext:hover, .activetext.as {
         background-color: #3c843a;
         border: 1px solid #3c843a;
         color: #e9f1e8;
@@ -68,7 +68,7 @@ div .row {
     color: #02bbe9;
     border: 1px solid #02bbe9;
 }
-    .pending:hover {
+    .pending:hover, .pending.as{
         background-color: #02bbe9;
         color: #e5f3f9;
         border: 1px solid #02bbe9;
@@ -78,7 +78,7 @@ div .row {
     color: #3c8bd4;
     border: 1px solid #3c8bd4;
 }
-    .toclose:hover {
+    .toclose:hover, .toclose.as {
         background-color: #3c8bd4;
         color: #e5eef5;
         border: 1px solid #3c8bd4;
@@ -88,7 +88,7 @@ div .row {
     color: #a17abf;
     border: 1px solid #a17abf;
 }
-    .unpaid:hover {
+    .unpaid:hover, .unpaid.as {
         background-color: #a17abf;
         color: #efeef5;
         border: 1px solid #a17abf;
@@ -98,7 +98,7 @@ div .row {
     color: #d1539a;
     border: 1px solid #d1539a;
 }
-    .conclude:hover {
+    .conclude:hover, .conclude.as {
         background-color: #d1539a;
         color: #f8e6ee;
         border: 1px solid #d1539a;
@@ -189,6 +189,7 @@ a:hover{
 .dNone {
     display: none;
 }
+
 
 /*--------Media query--------*/ 
 

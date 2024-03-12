@@ -155,3 +155,7 @@ C:\Users\pci68\Desktop\HaloDoc_MVC\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\refin
 C:\Users\pci68\Desktop\HaloDoc_MVC\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\HaloDocWeb.pdb
 C:\Users\pci68\Desktop\HaloDoc_MVC\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\HaloDocWeb.genruntimeconfig.cache
 C:\Users\pci68\Desktop\HaloDoc_MVC\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\ref\HaloDocWeb.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\AspNetCoreHero.ToastNotification.Views.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\AspNetCoreHero.ToastNotification.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\HaloDocWeb.MvcApplicationPartsAssemblyInfo.cs

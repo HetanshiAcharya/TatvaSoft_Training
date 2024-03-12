@@ -13,9 +13,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Npgsql;
 using System.Data;
 using Microsoft.AspNetCore.Identity;
-using HalloDoc.Controllers.Admin;
+using HaloDocWeb.Controllers.Admin;
 using System;
 using Microsoft.AspNetCore.Routing;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -27,7 +28,9 @@ namespace HaloDocDataAccess.Controllers
         private readonly IAdminService _adminservice;
         private readonly ILoginRepository _loginRepository;
         private readonly IJwtService _jwtService;
-        public AdminController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, ILoginRepository loginRepository,IJwtService jwtService)
+        private readonly INotyfService _notyf;
+
+        public AdminController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, ILoginRepository loginRepository,IJwtService jwtService, INotyfService notyf)
         {
             _context = context;
             _patientService = patientService;
@@ -35,6 +38,7 @@ namespace HaloDocDataAccess.Controllers
             _adminservice = adminservice;
             _loginRepository = loginRepository;
             _jwtService = jwtService;
+            _notyf = notyf;
         }
         //--------------Admin Login-----------------
         //GET
@@ -83,12 +87,12 @@ namespace HaloDocDataAccess.Controllers
         //    return View(adminLogin);
         //}
 
-        //--------------Admin Forgot Pass-----------------
+        //--------------Admin Forgot Pass--------------
         public IActionResult IndexForgotPass()
         {
             return View();
         }
-        //-------Logout-------
+        //-------Logout--------------------------------
         #region end_session
         public async Task<IActionResult> Logout()
         {
@@ -97,7 +101,7 @@ namespace HaloDocDataAccess.Controllers
         }
         #endregion
 
-        //--------------Admin Dashboard-----------------
+        //--------------Admin Dashboard----------------
         [CheckPhysicianAccess("Admin")]
         public IActionResult Index()
         {
@@ -186,19 +190,24 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult AssignCase(int RequestId, int PhysicianId, string Notes)
         {
             _adminservice.AssignCaseInfo(RequestId, PhysicianId, Notes);
+            _notyf.Success("Case Assigned Successfully");
             return RedirectToAction("Index", "Admin");
         }
         //--------------Cancel Case-------------------------
         [HttpPost]
         public IActionResult CancelCase(int casetagId, int RequestId, string Notes)
         {
+
             _adminservice.CancelCaseInfo(casetagId, Notes, RequestId);
+            _notyf.Success("Case Cancelled Successfully");
             return RedirectToAction("Index", "Admin");
+            
         }
         //--------------Block Case---------------------------
         public IActionResult BlockCase(int RequestId, string Notes)
         {
             var res = _adminservice.BlockCaseInfo(RequestId, Notes);
+            _notyf.Success("Case Blocked Successfully");
             return RedirectToAction("Index", "Admin");
         }
         //--------------View Notes----------------------------
@@ -270,6 +279,7 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult DeleteFile(int requestid, int reqwisefileid)
         {
             _adminservice.DeleteFile(requestid, reqwisefileid);
+            _notyf.Success("File Deleted Successfully");
             return RedirectToAction("ViewUploads", new { requestId = requestid });
         }
         //--------------Send Orders--------------------------
@@ -302,6 +312,7 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult ClearCase(int RequestId)
         {
             _adminservice.ClearCase(RequestId);
+            _notyf.Success("Case Cleared Successfully");
             return RedirectToAction("Index", "Admin");
         }
         //--------------Transfer Case-----------------------------
@@ -309,6 +320,7 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult TransferCase(int RequestId, int PhysicianId, string Notes)
         {
             _adminservice.TransferCaseInfo(RequestId, PhysicianId, Notes);
+            _notyf.Success("Case Transferred Successfully");
             return RedirectToAction("Index", "Admin");
         }
         //--------------Send Agreement-----------------------------
@@ -329,14 +341,18 @@ namespace HaloDocDataAccess.Controllers
         [HttpPost]
         public IActionResult SendAgreement(int Reqid, string PhoneNumber, string Email)
         {
+            var agreementlink = Url.Action("ReviewAgreement", "Home" , new {Reqid=Reqid},Request.Scheme);
             sendAgreement sendAgreement = new()
             {
                 ReqId = Reqid,
                 PhoneNumber = PhoneNumber,
                 Email = Email
             };
-            _adminservice.SendAgreement(sendAgreement);
+            _adminservice.SendAgreement(sendAgreement,agreementlink);
+            _notyf.Success("Main Sent Successfully");
+
             return RedirectToAction("Index", "Admin");
         }
+
     }
 }

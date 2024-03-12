@@ -3,6 +3,8 @@ using HaloDocDataAccess.DataModels;
 using HaloDocRepository.Repositories;
 using HaloDocRepository.Interface;
 using Microsoft.EntityFrameworkCore;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 
 builder.Services.AddSession(options =>
 {
@@ -42,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+app.UseNotyf();
 app.UseAuthorization();
 
 app.MapControllerRoute(

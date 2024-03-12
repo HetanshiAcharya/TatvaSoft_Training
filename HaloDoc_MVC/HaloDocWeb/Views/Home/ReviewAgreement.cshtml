@@ -1,0 +1,39 @@
+﻿<link rel="stylesheet" href="~/css/patient/reviewagreement.css" asp-append-version="true" />
+
+
+@model HaloDocDataAccess.ViewModels.reviewAgreement;
+<div class="container agreement">
+
+    <p>
+        To provide best medical service, we cannot determine the cost right away. If you agree to our service, so we will provide care and follow-up until all care is completed. So with these points, if you would like us to provide care to you, Click on "Agree" and we'll get started immediately, if you do not agree simply click "Cancel".
+    </p>
+    <form method="post">
+        <input asp-for="RequestId" id="Reqid" hidden />
+        <div class="btns">
+            <button class="btn btn-success" type="submit">Agree</button>
+            <button class="btn btn-danger" type="button" onclick="cancelBtn(@Model.RequestId)">Cancel</button>
+        </div>
+    </form>
+
+</div>
+<div id="display"></div>
+
+<script>
+    function cancelBtn(reqId) {
+
+        var reqId = $("#Reqid").val();
+        $.ajax({
+            url: "/Home/CancelAgreementModal",
+            data: { RequestId: reqId },
+            type: 'GET',
+            success: function (result) {
+                $('#display').html(result);
+                $('#cancelAgreementModal').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                alert('Error Fetching Request')
+            },
+        });
+    }
+</script>

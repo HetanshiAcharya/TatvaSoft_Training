@@ -178,11 +178,11 @@
                             <small>Actions</small>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i> Assign Case</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID"><i class="bi bi-x-circle"></i> Cancel Case</a></li>
-                            <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="fa-regular fa-rectangle-list"></i> View Case</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Assign Case</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID"><i class="bi bi-x-circle me-1"></i>Cancel Case</a></li>
+                            <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="bi bi-journal-text me-1"></i>View Case</a></li>
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban"></i> Block Case</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban me-1"></i>Block Case</a></li>
                         </ul>
 
                     </td>

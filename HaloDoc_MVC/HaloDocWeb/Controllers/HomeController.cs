@@ -14,12 +14,14 @@ namespace HaloDocWeb.Controllers
         private readonly HaloDocDbContext _context;
         private readonly IPatientService _patientService;
         private readonly IAuthService _authservice;
+        private readonly IAdminService _adminservice;
 
-        public HomeController(HaloDocDbContext context, IPatientService patientService, IAuthService authService)
+        public HomeController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice)
         {
             _context = context;
             _patientService = patientService;
             _authservice = authService;
+            _adminservice = adminservice;
         }
 
         public IActionResult Index()
@@ -92,6 +94,17 @@ namespace HaloDocWeb.Controllers
             }
             return View(patientresetpass);
         }
-        
+        public IActionResult ReviewAgreement(int Reqid)
+        {
+            reviewAgreement obj = new reviewAgreement();
+            obj.RequestId = Reqid;
+            return View(obj);
+        }
+        [HttpPost]
+        public IActionResult ReviewAgreement(reviewAgreement model)
+        {
+            _adminservice.SendAgreement_accept(model.RequestId);
+            return RedirectToAction("PatientLogin");
+        }
     }
 }

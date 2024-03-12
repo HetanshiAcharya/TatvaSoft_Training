@@ -1,5 +1,4 @@
-﻿@* @model HaloDocDataAccess.ViewModels.AdminLogin *@
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 @model HaloDocDataAccess.DataModels.AspNetUser;
@@ -36,13 +35,13 @@
                                placeholder="Enter Email"
                                asp-for="Email"
                                required />
-                        <span  class="text-danger validate col-12"></span>
+                        <span asp-validation-for="Email" class="text-danger validate col-12"></span>
 
                         <input type="password"
                                class="form-control form-group mt-4"
                                asp-for="PasswordHash"
                                placeholder="Password" />
-                        <span class="text-danger validate col-12"></span>
+                        <span asp-validation-for="PasswordHash" class="text-danger validate col-12"></span>
 
                         <button type="submit" class="form-group btn btn-primary mt-4 loginbtn">
                             Log in
