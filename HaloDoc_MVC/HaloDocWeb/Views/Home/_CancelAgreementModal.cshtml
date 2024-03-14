@@ -1,0 +1,57 @@
+﻿@model HaloDocDataAccess.ViewModels.CancelAgreementModal;
+<div class="modal fade" id="cancelAgreementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00B7FF">
+                <h5 class="modal-title text-light" id="exampleModalLabel">Cancel Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <h5>@Model.PatientName,</h5>
+                <form>
+                    <input id="Reqid" asp-for="@Model.ReqId" hidden />
+                    <div class="form-floating m-1 form-div">
+                        <textarea class="form-control" id="Description" placeholder="Leave a comment here"
+                                  style="height: 100px"></textarea>
+                        <label for="">Please provide a brief explanation for your cancellation</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn text-light" id="cancel-agreement-submit-btn" style="background-color:#00B7FF" data-bs-dismiss="modal">Confirm</button>
+                <button type="button" class="btn border border-info" data-bs-dismiss="modal" style="color:#00B7FF">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .inputFields {
+        border: 0.5rem;
+        border-radius: 5px;
+    }
+</style>
+
+<script>
+    $('#cancel-agreement-submit-btn').click(function () {
+        var description = $("#Description").val();
+        var reqId = $("#Reqid").val();
+
+        $.ajax({
+            url: "/Home/CancelAgreementSubmit",
+            data: {
+                Reqid: reqId,
+                Description: description
+            },
+            type: 'POST',
+            success: function (result) {
+                $('#display').html(result);
+                $('#cancelAgreementModal').modal('show');
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
+                alert('Error Fetching Request')
+            },
+        });
+    });
+</script>

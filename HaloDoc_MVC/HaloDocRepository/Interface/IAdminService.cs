@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HaloDocDataAccess.DataModels;
 using HaloDocDataAccess.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HaloDocRepository.Interface
 {
@@ -35,5 +36,11 @@ namespace HaloDocRepository.Interface
         public void SendAgreement(sendAgreement sendAgreement, string link);
         public Boolean SendAgreement_accept(int RequestID);
         public Boolean SendAgreement_Reject(int RequestID, string Notes);
+        public void CancelAgreementSubmit(int Reqid, string Description);
+        public List<AdminDashboardList> InfoByRegion(int Regionid);
+        public ViewCloseCaseModel CloseCaseData(int RequestID);
+        public bool EditForCloseCase(ViewCloseCaseModel model);
+        public bool CloseCase(int RequestID);
     }
+
 }

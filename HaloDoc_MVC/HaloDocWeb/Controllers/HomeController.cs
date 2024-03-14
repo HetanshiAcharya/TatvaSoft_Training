@@ -106,5 +106,21 @@ namespace HaloDocWeb.Controllers
             _adminservice.SendAgreement_accept(model.RequestId);
             return RedirectToAction("PatientLogin");
         }
+        public IActionResult CancelAgreementModal(int RequestId)
+        {
+            Request? req = _context.Requests.FirstOrDefault(x => x.RequestId == RequestId);
+            CancelAgreementModal obj = new()
+            {
+                ReqId = RequestId,
+                PatientName = req.FirstName + " " + req.LastName
+            };
+
+            return PartialView("_CancelAgreementModal", obj);
+        }
+        public IActionResult CancelAgreementSubmit(int Reqid, string Description)
+        {
+            _adminservice.CancelAgreementSubmit(Reqid, Description);
+            return RedirectToAction("PatientLogin");
+        }
     }
 }

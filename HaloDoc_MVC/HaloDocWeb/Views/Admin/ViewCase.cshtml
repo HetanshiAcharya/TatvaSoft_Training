@@ -89,7 +89,7 @@
         <div class="d-flex justify-content-end">
             <a class="btn btn-info text-white rounded me-1" data-bs-toggle="modal" onclick="Assigncaseid(@Model.RequestID)" data-bs-target=" #assigncase" data-id="@Model.RequestID">Assign Case</a>
             <a class="btn btn-info text-white rounded me-1" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = Model.RequestClientId})'">View Notes</a>
-            <a class="btn btn-danger text-white rounded">Cancel</a>
+            <a class="btn btn-danger text-white rounded" asp-controller="Admin" asp-action="Index">Cancel</a>
         </div>
     </div>
 </form>

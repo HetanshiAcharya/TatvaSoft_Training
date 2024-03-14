@@ -18,6 +18,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HaloDocRepository.Repositories
 {
@@ -480,21 +481,23 @@ namespace HaloDocRepository.Repositories
             RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == reqClientId);
             RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
             Physician physician = _context.Physicians.First(x => x.PhysicianId == 1);
-            //var requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
+            List<RequestStatusLog> requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
 
 
-            ViewNotes viewNote = new()
+            ViewNotes? viewNote = new()
             {
                 PhysicianName = physician.FirstName,
                 AdminNotes = obj.AdminNotes,
                 PhysicianNotes = obj.PhysicianNotes,
-                //Statuslogs = requeststatuslog,
+                Statuslogs = requeststatuslog,
             };
             return viewNote;
         }
         #endregion
 
         #region ViewNotesUpdate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public void ViewNotesUpdate(ViewNotes viewNotes)
         {
             RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == viewNotes.Requestclientid);
@@ -546,6 +549,7 @@ namespace HaloDocRepository.Repositories
             client.Send(mailMessage);
         }
         #endregion
+
         #region SendAgreement_accept
         public Boolean SendAgreement_accept(int RequestID)
         {
@@ -596,6 +600,179 @@ namespace HaloDocRepository.Repositories
             return true;
         }
         #endregion
+
+        #region cancelagreementsubmit
+        public void CancelAgreementSubmit(int Reqid, string Description)
+        {
+            Request request = _context.Requests.FirstOrDefault(x => x.RequestId == Reqid);
+            //Request request = _context.Requests.FirstOrDefault(x => x.Requestid == requestclient.Requestid);
+
+            RequestStatusLog requeststatuslog = new()
+            {
+                RequestId = request.RequestId,
+                Status = 7,
+                CreatedDate = DateTime.Now,
+                Notes = Description
+            };
+            _context.RequestStatusLogs.Add(requeststatuslog);
+
+            request.Status = 7; //cancelled by patient
+            request.ModifiedDate = DateTime.Now;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+        }
+        #endregion
+
+        public List<AdminDashboardList> InfoByRegion(int Regionid)
+        {
+            int? statusdata = Regionid;
+            List<AdminDashboardList> allData = (from req in _context.Requests
+                                                join reqClient in _context.RequestClients
+                                                on req.RequestId equals reqClient.RequestId into reqClientGroup
+                                                from rc in reqClientGroup.DefaultIfEmpty()
+                                                join phys in _context.Physicians
+                                                on req.PhysicianId equals phys.PhysicianId into physGroup
+                                                from p in physGroup.DefaultIfEmpty()
+                                                join reg in _context.Regions
+                                                on rc.RegionId equals reg.RegionId into RegGroup
+                                                from rg in RegGroup.DefaultIfEmpty()
+                                                where statusdata== rc.RegionId
+                                                orderby req.CreatedDate descending
+                                                select new AdminDashboardList
+                                                {
+                                                    Requestclientid = rc.RequestClientId,
+                                                    RequestID = req.RequestId,
+                                                    RequestTypeID = req.RequestTypeId,
+                                                    Requestor = req.FirstName + " " + req.LastName,
+                                                    PatientName = rc.FirstName + " " + rc.LastName,
+                                                    Bdate = rc.IntDate,
+                                                    BMonth = rc.StrMonth,
+                                                    BYear = rc.IntYear,
+                                                    City = rc.City,
+                                                    State = rc.State,
+                                                    Street = rc.Street,
+                                                    ZipCode = rc.ZipCode,
+                                                    RequestedDate = (DateTime)req.CreatedDate,
+                                                    Email = rc.Email,
+                                                    Region = rg.Name,
+                                                    ProviderName = p.FirstName + " " + p.LastName,
+                                                    PhoneNumber = rc.PhoneNumber,
+                                                    Address = rc.Address + "," + rc.Street + "," + rc.City + "," + rc.State + "," + rc.ZipCode,
+                                                    Notes = rc.Notes,
+                                                    ProviderID = req.PhysicianId,
+                                                    RequestorPhoneNumber = req.PhoneNumber
+                                                }).ToList();
+            return allData;
+        }
+        public ViewCloseCaseModel CloseCaseData(int RequestID)
+        {
+            ViewCloseCaseModel alldata = new ViewCloseCaseModel();
+
+            var result = from requestWiseFile in _context.RequestWiseFiles
+                         join request in _context.Requests on requestWiseFile.RequestId equals request.RequestId
+                         join physician in _context.Physicians on request.PhysicianId equals physician.PhysicianId into physicianGroup
+                         from phys in physicianGroup.DefaultIfEmpty()
+                         join admin in _context.Admins on requestWiseFile.AdminId equals admin.AdminId into adminGroup
+                         from adm in adminGroup.DefaultIfEmpty()
+                         where request.RequestId == RequestID
+                         select new
+                         {
+
+                             Uploader = requestWiseFile.PhysicianId != null ? phys.FirstName :
+                             (requestWiseFile.AdminId != null ? adm.FirstName : request.FirstName),
+                             requestWiseFile.FileName,
+                             requestWiseFile.CreatedDate,
+                             requestWiseFile.RequestWiseFileId
+
+                         };
+            List<ViewDocument> doc = new List<ViewDocument>();
+            foreach (var item in result)
+            {
+                doc.Add(new ViewDocument
+                {
+                    CreatedDate = item.CreatedDate,
+                    FileName = item.FileName,
+                    Uploader = item.Uploader,
+                    RequestwisefilesId = item.RequestWiseFileId
+
+                });
+
+            }
+            alldata.documentslist = doc;
+            Request req = _context.Requests.FirstOrDefault(r => r.RequestId == RequestID);
+
+            alldata.FirstName = req.FirstName;
+            alldata.RequestID = req.RequestId;
+            alldata.ConfirmationNumber = req.ConfirmationNumber;
+            alldata.LastName = req.LastName;
+
+            var reqcl = _context.RequestClients.FirstOrDefault(e => e.RequestId == RequestID);
+
+            alldata.RC_Email = reqcl.Email;
+            //alldata.RC_Dob = new DateTime((int)reqcl.IntYear, DateTime.ParseExact(reqcl.StrMonth, "MMMM", new CultureInfo("en-US")).Month, (int)reqcl.IntDate);
+            alldata.RC_FirstName = reqcl.FirstName;
+            alldata.RC_LastName = reqcl.LastName;
+            alldata.RC_PhoneNumber = reqcl.PhoneNumber;
+            return alldata;
+        }
+        public bool EditForCloseCase(ViewCloseCaseModel model)
+        {
+            try
+            {
+                RequestClient client = _context.RequestClients.FirstOrDefault(E => E.RequestId == model.RequestID);
+                if (client != null)
+                {
+                    client.PhoneNumber = model.RC_PhoneNumber;
+                    client.Email = model.RC_Email;
+                    _context.RequestClients.Update(client);
+                    _context.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public bool CloseCase(int RequestID)
+        {
+            try
+            {
+                var requestData = _context.Requests.FirstOrDefault(e => e.RequestId == RequestID);
+                if (requestData != null)
+                {
+
+                    requestData.Status = 9;
+                    requestData.ModifiedDate = DateTime.Now;
+
+                    _context.Requests.Update(requestData);
+                    _context.SaveChanges();
+
+                    RequestStatusLog rsl = new RequestStatusLog
+                    {
+                        RequestId = RequestID,
+
+
+                        Status = 9,
+                        CreatedDate = DateTime.Now
+
+                    };
+                    _context.RequestStatusLogs.Add(rsl);
+                    _context.SaveChanges();
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
     }
 }
 

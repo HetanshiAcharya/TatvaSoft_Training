@@ -40,7 +40,6 @@ namespace HaloDocDataAccess.Controllers
             _jwtService = jwtService;
             _notyf = notyf;
         }
-        //--------------Admin Login-----------------
         //GET
         public IActionResult IndexPlatformLogin()
         {
@@ -159,7 +158,6 @@ namespace HaloDocDataAccess.Controllers
 
             return PartialView("../Admin/_New", contacts);
         }
-        //--------------View Case--------------------------
         public IActionResult ViewCase(int? RId, int? RTId)
         {
             ViewBag.AssignCase = _adminservice.AssignCase();
@@ -179,13 +177,11 @@ namespace HaloDocDataAccess.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        //--------------Physician by region-----------------
         public IActionResult PhysicianbyRegion(int Regionid)
         {
             var v = _adminservice.ProviderbyRegion(Regionid);
             return Json(v);
         }
-        //--------------Assign case-------------------------
         [HttpPost]
         public IActionResult AssignCase(int RequestId, int PhysicianId, string Notes)
         {
@@ -193,7 +189,6 @@ namespace HaloDocDataAccess.Controllers
             _notyf.Success("Case Assigned Successfully");
             return RedirectToAction("Index", "Admin");
         }
-        //--------------Cancel Case-------------------------
         [HttpPost]
         public IActionResult CancelCase(int casetagId, int RequestId, string Notes)
         {
@@ -203,33 +198,31 @@ namespace HaloDocDataAccess.Controllers
             return RedirectToAction("Index", "Admin");
             
         }
-        //--------------Block Case---------------------------
         public IActionResult BlockCase(int RequestId, string Notes)
         {
             var res = _adminservice.BlockCaseInfo(RequestId, Notes);
             _notyf.Success("Case Blocked Successfully");
             return RedirectToAction("Index", "Admin");
         }
-        //--------------View Notes----------------------------
         public IActionResult ViewNotes(int reqClientId)
         {
-            int? adminId = HttpContext.Session.GetInt32("adminId");
+            _ = HttpContext.Session.GetInt32("adminId");
             var obj = _adminservice.ViewNotes(reqClientId);
             return View(obj);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ViewNotesUpdate(ViewNotes viewNotes)
+        public IActionResult ViewNotes(ViewNotes viewNotes)
         {
             if (ModelState.IsValid)
             {
                 int? adminId = HttpContext.Session.GetInt32("adminId");
                 _adminservice.ViewNotesUpdate(viewNotes);
+                _notyf.Success("Note Updated Successfully", 3);
                 return ViewNotes(viewNotes.Requestclientid);
             }
             return View(viewNotes);
         }
-        //--------------View Uploads--------------------------
         public IActionResult ViewUploads(int requestId)
         {
             //int? userid = HttpContext.Session.GetInt32("userId");
@@ -275,26 +268,22 @@ namespace HaloDocDataAccess.Controllers
 
             return ViewUploads(viewdata.RequestId);
         }
-        //--------------Delete Files---------------------------
         public IActionResult DeleteFile(int requestid, int reqwisefileid)
         {
             _adminservice.DeleteFile(requestid, reqwisefileid);
             _notyf.Success("File Deleted Successfully");
             return RedirectToAction("ViewUploads", new { requestId = requestid });
         }
-        //--------------Send Orders--------------------------
         public IActionResult SendOrders()
         {
             ViewBag.Professions = _adminservice.Professions();
             return View();
         }
-        //--------------Vendors by profession -----------------
         public IActionResult VendorByProfession(int Professionid)
         {
             var v = _adminservice.VendorByProfession(Professionid);
             return Json(v);
         }
-        //--------------Send Orders----------------------------
         public IActionResult SendOrdersData(int selectedValue)
         {
             var v = _adminservice.SendOrdersInfo(selectedValue);
@@ -307,7 +296,6 @@ namespace HaloDocDataAccess.Controllers
             var v = _adminservice.SendOrders(ReqId, o);
             return RedirectToAction("Index", "Admin");
         }
-        //--------------Clear Case---------------------------
         [HttpPost]
         public IActionResult ClearCase(int RequestId)
         {
@@ -315,7 +303,6 @@ namespace HaloDocDataAccess.Controllers
             _notyf.Success("Case Cleared Successfully");
             return RedirectToAction("Index", "Admin");
         }
-        //--------------Transfer Case-----------------------------
         [HttpPost]
         public IActionResult TransferCase(int RequestId, int PhysicianId, string Notes)
         {
@@ -323,8 +310,6 @@ namespace HaloDocDataAccess.Controllers
             _notyf.Success("Case Transferred Successfully");
             return RedirectToAction("Index", "Admin");
         }
-        //--------------Send Agreement-----------------------------
-
         [HttpPost]
         public IActionResult SendAgreementModal(int Reqid)
         {
@@ -353,6 +338,34 @@ namespace HaloDocDataAccess.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
+        public IActionResult infoByregion(int Regionid)
+        {
+
+            var v = _adminservice.InfoByRegion(Regionid);
+            return Json(v);
+        }
+        #region CloseCase
+        public async Task<IActionResult> CloseCase(int RequestID)
+        {
+            ViewCloseCaseModel vc = _adminservice.CloseCaseData(RequestID);
+            return View("CloseCase", vc);
+        }
+        public IActionResult CloseCaseUnpaid(int id)
+        {
+            bool sm = _adminservice.CloseCase(id);
+            if (sm)
+            {
+                _notyf.Success("Case Closed...");
+                _notyf.Information("You can see Closed case in unpaid State...");
+
+            }
+            else
+            {
+                _notyf.Error("there is some error in CloseCase...");
+            }
+            return RedirectToAction("Index", "Admin");
+        }
+        #endregion
 
     }
 }

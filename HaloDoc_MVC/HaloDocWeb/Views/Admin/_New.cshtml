@@ -8,67 +8,58 @@
         <strong class="fs-6">Patients</strong> <small>(New) </small>
     </div>
     <div>
-        <button class="btn btn-info text-white shadow-none mb-2 ">
+        <button class="btn btn-info text-white shadow-none mb-2">
             <small>
                 <i class="bi bi-send"></i>
-                <span class="adminIcon dNone">Send Link</span>
+                <span class="adminIcon">Send Link</span>
             </small>
         </button>
-        <button class="btn btn-info text-white shadow-none mb-2 ">
+        <button class="btn btn-info text-white shadow-none mb-2">
             <small>
                 <i class="bi bi-file-earmark-plus"></i>
-                <span class="adminIcon dNone">Create Requests</span>
+                <span class="adminIcon">Create Requests</span>
             </small>
         </button>
-        <button class="btn btn-info text-white shadow-none mb-2 ">
+        <button class="btn btn-info text-white shadow-none mb-2">
             <small>
                 <i class="fa-solid fa-share"></i>
-                <span class="adminIcon dNone">Export</span>
+                <span class="adminIcon">Export</span>
             </small>
         </button>
-        <button class="btn btn-info text-white shadow-none mb-2 ">
+        <button class="btn btn-info text-white shadow-none mb-2">
             <small>
                 <i class="fa-solid fa-share-from-square"></i>
-                <span class="adminIcon dNone">Export All</span>
+                <span class="adminIcon">Export All</span>
             </small>
         </button>
-        <button class="btn btn-info text-white shadow-none mb-2 ">
+        <button class="btn btn-info text-white shadow-none mb-2">
             <small>
                 <i class="fa-solid fa-user-nurse"></i>
-                <span class="adminIcon dNone">Request DIY Support</span>
+                <span class="adminIcon">Request DIY Support</span>
             </small>
         </button>
     </div>
 </div>
 @* --------------- Search Bar --------------------------  *@
 
-<div class="mt-2 mx-2 bg-white">
-    <div class="d-flex justify-content-between align-items-center  px-2">
-        <div class="d-flex py-2">
-            <div class="d-flex align-items-center search m-1 border-secondary">
-                <div>
-                    <i class="fa fa-search"></i>
-                </div>
-                <div>
-                    <input type="text" class="form-control border-0" placeholder="Search Patients">
-
-                </div>
+<div class="mt-2 mx-2 rounded-top bg-white">
+    <div class="searchBar px-2">
+        <div class="searchPatientRegion py-2">
+            <div class="search m-1">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search Patients">
             </div>
-            <div class="d-flex align-items-center search m-1">
-                <div>
-                    <i class="fa fa-search"></i>
-                </div>
-                <div>
-                    <select class="form-select shadow-none border-0" id="floatingSelectGrid">
-                        <option selected class="text-secondary">All Regions</option>
-                        <option value="1">Maryland</option>
-                        <option value="2">New York</option>
-                        <option value="3">Virginia</option>
-                    </select>
-                </div>
+            <div class="search m-1">
+                <i class="fa fa-search"></i>
+                <select class="form-select shadow-none" id="floatingSelectGrid">
+                    <option selected class="text-secondary">All Regions</option>
+                    <option value="1">Maryland</option>
+                    <option value="2">New York</option>
+                    <option value="3">Virginia</option>
+                </select>
             </div>
         </div>
-        <div class="d-flex requestType">
+        <div class="requestType">
             <div class="me-3">
                 <i class="fa-solid fa-circle fa-xs" style="color:#5fbc61;"></i>
                 <small>Patient</small>
@@ -126,7 +117,7 @@
         </thead>
         @* --------------- Table Content --------------------------  *@
 
-        <tbody class="bg-white mb-5">
+        <tbody class="bg-white mb-5 " id="tableContent">
             @foreach (var item in Model)
             {
                 <tr class="@Enum.GetName(typeof(RequestType), item.RequestTypeID) text-white border-bottom border-white">
@@ -181,7 +172,7 @@
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Assign Case</a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID"><i class="bi bi-x-circle me-1"></i>Cancel Case</a></li>
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="bi bi-journal-text me-1"></i>View Case</a></li>
-                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})"><i class="bi bi-journals me-1"></i>View Notes</a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban me-1"></i>Block Case</a></li>
                         </ul>
 
@@ -192,92 +183,97 @@
     </table>
 </div>
 @* --------------- Mobile Screen View --------------------------  *@
-@* <div class="dBlock">
-    @foreach (var item in Model)
-    {
-        <div class="accordion-item btn-i text-secondary">
-            <h2 class="accordion-header" id="flush-heading-@item.RequestID">
-                <div class="h5 p-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@item.RequestID" aria-expanded="false" aria-controls="collapse_@item.RequestID">
-                    <div class="row w-100">
-                        <div class="col-6 mb-3 h4">
-                            <small>@item.PatientName</small>
+<!--Mobile Screen View of table-->
+<div class="accordion mt-5 d-block d-sm-none mobilebody" id="accordionExample">
+    <div class="dBlock">
+        @foreach (var item in Model)
+        {
+            <div class="accordion-item btn-i text-secondary">
+                <h2 class="accordion-header" id="flush-heading-@item.RequestID">
+                    <div class="h5 p-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-@item.RequestID" aria-expanded="false" aria-controls="collapse_@item.RequestID">
+                        <div class="row w-100">
+                            <div class="col-6 mb-3 h4">
+                                <small>@item.PatientName</small>
+                            </div>
+                            <div class="col-6 mb-3 text-end">
+                                <small>@Enum.GetName(typeof(RequestType), item.RequestTypeID)</small>
+                                <i class="fa-solid fa-circle fa-xs ms-2 txt-@Enum.GetName(typeof(RequestType), item.RequestTypeID)"></i>
+                                <span class="rounded-circle @Enum.GetName(typeof(RequestType), item.RequestTypeID)"></span>
+                            </div>
+                            <div class="col-6 h6">
+                                @item.Address
+                            </div>
+                            <div class="col-6  text-end">
+                                <button class="btn btn-sm btn-white border-info text-info rounded-pill 2px">
+                                    <small>Map Location</small>
+                                </button>
+                            </div>
                         </div>
-                        <div class="col-6 mb-3 text-end">
-                            <small>@Enum.GetName(typeof(RequestType), item.RequestTypeID)</small>
-                            <i class="fa-solid fa-circle fa-xs ms-2 txt-@Enum.GetName(typeof(RequestType),item.RequestTypeID)"></i>
-                            <span class="rounded-circle @Enum.GetName(typeof(RequestType),item.RequestTypeID)"></span>
+                    </div>
+                </h2>
+                <div id="flush-@item.RequestID" class="accordion-collapse collapse mb-3 border-top" data-bs-parent="#accordionExample">
+                    <div class="accordion-body container-fluid">
+                        <p> <i class="fa fa-calendar border border-info rounded-pill p-1 me-2" aria-hidden="true"></i>Date of Birth:@item.Bdate/@item.BMonth/@item.BYear</p>
+                        <p> <i class="fa fa-envelope border border-info rounded-pill p-1 me-2"></i> Email : @item.Email</p>
+                        <p> <i class="fa fa-phone border  border-info rounded-pill p-1 me-2"></i> Patient : @item.PhoneNumber</p>
+                        <p><i class="fa fa-sticky-note border border-info rounded-pill p-1 me-2"></i> Transfer Notes : @item.Notes</p>
+                        <p><i class="fa fa-calendar border border-info rounded-pill p-1 me-2"></i>Date of service : @item.RequestedDate</p>
+                        <p><i class="fa fa-user border border-info rounded-pill p-1 me-2"></i>Physician : @item.ProviderName</p>
+                        <p><i class="fa fa-user border border-info rounded-pill p-1 me-2"></i>Requestor : @item.Requestor</p>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #3ecc4e;" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID">
+                                    <small>Assign Case</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-danger text-white rounded-pill 2px w-100"  data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID">
+                                    <small>Cancel Case</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #3ecc4e;" asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID">
+                                    <small>View Case</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3 ">
+                                <button class="btn btn-danger text-white rounded-pill 2px w-100" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID">
+                                    <small>Block Case</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-success text-white rounded-pill 2px w-100" >
+                                    <small>View Note</small>
+                                </button>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <button class="btn btn-white text-white rounded-pill 2px w-100" style="background-color: #FFD43B;">
+                                    <small>Email</small>
+                                </button>
+                            </div>
+                           
                         </div>
-                        <div class="col-6 h6">
-                            @item.Address
-                        </div>
-                        <div class="col-6  text-end">
-                            <button class="btn btn-sm btn-white border-info text-info rounded-pill 2px">
-                                <small>Map Location</small>
+                        <div class="text-end d-md-flex justify-content-md-end chatwith">
+                            <span>Chat With:</span>
+                            <button class="btn btn-white border-info text-info me-md-2 mb-2" type="button">
+                                <i class="fa-regular fa-user me-1"></i>
+                                Patient
                             </button>
-
-
+                            <button class="btn btn-white border-info text-info mb-2" type="button">
+                                <i class="fa-solid fa-user-doctor me-1"></i>
+                                Provider
+                            </button>
                         </div>
                     </div>
                 </div>
-            </h2>
-            <div id="flush-@item.RequestID" class="accordion-collapse collapse mb-3 border-top" data-bs-parent="#accordionExample">
-                <div class="accordion-body container-fluid">
 
-                    <a class=" btn bg-white border border-info rounded-pill position-relative top-0 end-0" onclick="location.href='@Url.Action("viewCase", "Admin",new {RequestId=item.RequestID, RequestTypeId=item.RequestTypeID})'">
-                        <i class="bi bi-journal-text"></i> View Case
-                    </a>
-
-                    <p> <i class="fa fa-calendar border border-info rounded-pill p-1 me-2" aria-hidden="true"></i>Date of Birth: @item.Bdate</p>
-                    <p> <i class="fa fa-envelope border border-info rounded-pill p-1 me-2"></i> Email : @item.Email</p>
-                    <p> <i class="fa fa-phone border  border-info rounded-pill p-1 me-2"></i> Patient : @item.PhoneNumber</p>
-                    <p><i class="fa fa-sticky-note border border-info rounded-pill p-1 me-2"></i> Transfer Notes : @item.Notes</p>
-                    <p><i class="fa fa-calendar border border-info rounded-pill p-1 me-2"></i>Date of service : @item.RequestedDate</p>
-                    <p><i class="fa fa-user border border-info rounded-pill p-1 me-2"></i>Requestor : @item.Requestor</p>
-
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <button class="btn btn-warning text-white rounded-pill 2px w-100 " data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase">
-                                <small>Assign Case</small>
-                            </button>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <button class="btn btn-danger text-white rounded-pill 2px w-100" data-bs-toggle="modal" onclick="Canclecaseid('@item.RequestID','@item.PatientName')" data-bs-target=" #Cancelcase">
-                                <small>Cancel case</small>
-                            </button>
-                        </div>
-
-                        <div class="col-6 mb-3">
-                            <a class="btn btn-success text-white rounded-pill 2px w-100" asp-action="viewNotes" asp-controller="Admin">
-                                <small>View Notes</small>
-                            </a>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <button class="btn btn-danger text-white rounded-pill 2px w-100" onclick="Blockcaseid('@item.RequestID','@item.PatientName')" data-bs-toggle="modal" data-bs-target="#Blockcase">
-                                <small>Block Patient</small>
-                            </button>
-                        </div>
-                        <div class="col-6 mb-3 ">
-                            <button class="btn btn-success text-white rounded-pill 2px w-100">
-                                <small>Email</small>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="text-end d-md-flex justify-content-md-end topmargin">
-                        <span>Chat With:</span>
-                        <button class="btn btn-white border-info text-info me-md-2 mb-2" type="button">
-                            <i class="fa-regular fa-user me-1"></i>
-                            Patient
-                        </button>
-                        <button class="btn btn-white border-info text-info mb-2" type="button">
-                            <i class="fa-solid fa-user-doctor me-1"></i>
-                            Provider
-                        </button>
-                    </div>
-                </div>
             </div>
-        </div>
-    }
-</div> *@
+        }
+    </div>
+</div>
+
+<!--End Mobile Screen View of table-->
 @* --------------- Scripts of New State --------------------------  *@
 <script>
     function Assigncaseid(id) {
@@ -300,5 +296,26 @@
         document.getElementById('RequestID_ModelBlockCase').value = RequestId;
         document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
 
+    }
+    function InfoByRegion() {
+        // var region = $("#region3").val();
+        var region = $("#regionid option:selected").val();
+        console.log(region);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("infoByregion", "Admin")?Regionid=' + region,
+            cache: false,
+            success: function (response) {
+                console.log(response);
+                // var select = '<option value="">Please Select</option>';
+                // for (var i = 0; i < response.length; i++) {
+                //     select += '<option value="' + '">' + response[i].email + '</option>';
+                // }
+                $("#SearchResult").html(response);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
     }
 </script>

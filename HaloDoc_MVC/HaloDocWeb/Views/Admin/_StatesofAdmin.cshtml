@@ -1,7 +1,9 @@
 ﻿@using static HaloDocDataAccess.ViewModels.Constant;
+
 <form id="filterForm" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
       asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
     <input type="hidden" name="Status" id="hiddenfirst" />
+    @* <input type="hidden" name="region" id="Regionid" /> *@
     <div class="row mb-2 " style="--bs-gutter-x: 0rem;">
         @* --------------- New --------------------------  *@
         <button type="submit" value="1" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">

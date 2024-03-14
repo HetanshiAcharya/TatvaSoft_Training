@@ -181,11 +181,11 @@
                             <small>Actions</small>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-text"></i> View Case</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-card-checklist"></i> View Uploads</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-journals"></i> View Notes</a></li>
-                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="SendOrders" asp-route-ReqId="@item.RequestID"><i class="bi bi-journals"></i>Orders</a></li>
-
+                            <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="bi bi-journal-text me-1"></i>View Case</a></li>
+                            <li><a class="dropdown-item" asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestID"><i class="bi bi-file-earmark-arrow-up"></i> View Uploads</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="SendOrders" asp-route-ReqId="@item.RequestID"><i class="bi bi-journal-check"></i> Orders</a></li>
+                            <li><a class="dropdown-item" asp-controller="" asp-action="" asp-route-ReqId="@item.RequestID"><i class="bi bi-card-text"></i> Encounter</a></li>
                         </ul>
 
                     </td>
@@ -284,3 +284,50 @@
         }
     </div>
 </div>
+<script>
+    function Assigncaseid(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelAssignCase').value = RequestId;
+    }
+    function Transfercase(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelTransferCase').value = RequestId;
+
+    }
+    function Cancelcaseid(id, patientname) {
+        var RequestId = id;
+        console.log(RequestId);
+        console.log(patientname);
+        document.getElementById('RequestID_ModelCancelCase').value = RequestId;
+        document.getElementById('RequestID_PatientNameCancelCase').innerText = patientname;
+
+    }
+    function Blockcaseid(id, patientname) {
+        var RequestId = id;
+        console.log(RequestId);
+        console.log(patientname);
+        document.getElementById('RequestID_ModelBlockCase').value = RequestId;
+        document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
+
+    }
+</script>
+<script>
+    function SendAgreement(reqId) {
+        console.log(reqId);
+        $.ajax({
+            url: '@Url.Action("SendAgreementModal", "Admin")',
+            data: { Reqid: reqId },
+            type: 'POST',
+            success: function (result) {
+                $('#display').html(result);
+                $('#sendAgreementModal').modal('show');
+            },
+            error: function (error) {
+                console.log(error);
+                alert('Error Fetching Request')
+            },
+        });
+    }
+</script>

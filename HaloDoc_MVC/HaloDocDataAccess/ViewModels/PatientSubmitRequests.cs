@@ -40,5 +40,9 @@ namespace HaloDocDataAccess.ViewModels
         public string ConfirmationNumber { get; set; }
         public List<RequestWiseFile> requestwisefiles { get; set; }
         public IFormFile File { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string FileName { get; set; }
+        public string Uploader { get; set; }
+        public int RequestwisefilesId { get; set; }
     }
 }

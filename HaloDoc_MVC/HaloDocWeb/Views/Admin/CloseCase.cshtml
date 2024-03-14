@@ -1,0 +1,133 @@
+﻿﻿@{
+    Layout = "_AdminLayout";
+}
+@using HaloDocDataAccess.ViewModels;
+@model HaloDocDataAccess.ViewModels.ViewCloseCaseModel;
+@using static HaloDocDataAccess.ViewModels.Constant
+
+@* --------------- Main Form --------------------------  *@
+<form class="container viewcasecard" method="post">
+    @* --------------- Modal Header --------------------------  *@
+    <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-evenly">
+            <h3 class="">Close Case</h3>
+        </div>
+        <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
+            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
+        </button>
+    </div>
+    <div class="form-group row  p-3 card-form">
+        <input type="hidden" asp-for="RequestID" />
+        <p class="">Patient Name</p>
+        <h5 class="mt-2 text-info">@Model.FirstName  @Model.LastName <span class="text-black"> (@Model.ConfirmationNumber) </span></h5>
+
+        @* Document *@
+        <div class="d-flex justify-content-between mt-5">
+            <h5><strong>Documents</strong></h5>
+        </div>
+
+        @* dashboard view *@
+        <div class="table-responsive mt-3 d-none d-sm-block">
+            <table class="table">
+                <thead class="border-0">
+                    <tr class="table-secondary">
+                        <th>
+                            <input type="checkbox" id="checkall">
+                        </th>
+                        <th scope="col" class="table-text-header px-3">File Name</th>
+                        <th scope="col" class="table-text-header px-3">Uploder</th>
+                        <th scope="col" class="table-text-header ">uplode date</th>
+                        <th scope="col" class="table-text-header ">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item2 in @Model.documentslist)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="checkbox">
+                            </td>
+                            <td class="table-text  px-3 filename"> <span> @item2.FileName </span></td>
+                            <td class="table-text  px-3">@item2.Uploader </td>
+                            <td class="table-text  px-3">@item2.CreatedDate</td>
+                            <td class="table-text text-center ">
+                                <a class="btn btn-sm btn-outline-info document-button" download href="@item2.FileName.Replace("~","")">
+                                    <i class="fa fa-cloud-download"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <h5><strong>Patient Information</strong></h5>
+        <div class="col-sm-6">
+            <input asp-for="FirstName" class="form-control col-md mt-4"
+                   type="text"
+                   placeholder="First Name" required disabled />
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
+                   type="text"
+                   placeholder="Last Name" required disabled />
+        </div>
+        <div class="col-sm-6">
+           @*  <input asp-for="RC_Dob" type="date"
+                   class="form-control form-control-md col-md mt-4"
+                   placeholder="Select Date" required disabled /> *@
+        </div>
+        <div class="col-sm-5">
+            <input asp-for="RC_PhoneNumber" id="phone1"
+                   type="tel"
+                   class="form-control form-control-md col-md mt-4 iti" disabled />
+        </div>
+        <div class="col-sm-3 mt-4 small-btns">
+            <button type="button" class="btn btn-outline-info ">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="RC_Email" class="form-control form-control-md col-md mt-4"
+                   type="email" id="email"
+                   placeholder="Enter Email" required disabled />
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
+            <input type="submit" id="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
+            <a class="btn border-info border text-info rounded justify-content-center" asp-action="CloseCaseUnpaid" asp-controller="Admin" asp-route-id="@Model.RequestID">Close Case</a>
+        </div>
+    </div>
+</form>
+<script>
+    function enable_disable() {
+        $("#email").removeAttr('disabled');
+        $("#phone1").removeAttr('disabled');
+        $("#submit").css("display", "block");
+        $("#edit").css("display", "none");
+    }
+   
+</script>
+
+<script>
+    var clicked = false; $("#checkall").on("click", function () {
+        $(".checkbox").prop("checked", !clicked);
+        clicked = !clicked; this.innerHTML = clicked ? 'Deselect' : 'Select';
+    });
+</script>
+<script>
+    // bind file-input-form click action to text-input-span
+    $('#text_input_span_id').click(function () {
+        $("#file_input_id").trigger('click');
+    })
+    // bind file-input-form click action to text-input-form
+    $('#text_input_id').click(function () {
+        $("#file_input_id").trigger('click');
+    })
+    // display file name in text-input-form
+    $("#file_input_id").change(function () {
+        $('#text_input_id').val(this.value.replace(/C:\\fakepath\\/i, ''))
+    })
+</script>

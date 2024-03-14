@@ -2,26 +2,26 @@
 @{
     Layout = "_AdminLayout";
 }
+
+
 <form class="container w-50 mt-5 viewcasecard" method="post" action="@Url.Action("ViewNotesUpdate","Admin")">
     <input asp-for="Requestclientid" hidden/>
-    <div class="d-flex justify-content-between ">
-        <div class="d-flex justify-content-evenly">
-            <h3 class="">Notes</h3>
-            <button class=" btn btn-success rounded-pill mx-2">Patient</button>
-        </div>
-        <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
-            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
-        </button>
-    </div>
+    
     <div class="d-flex justify-content-between mt-3">
         <div class="form-group align-items-center m-2 p-4 shadow col-6">
-            <div>
+            <div class="dropdown"> 
                 <div class="d-flex">
                     <i class="fa-solid fa-arrow-right-arrow-left fa-2xl mt-4 mx-2"></i>
                     <p class="mt-2">
                         <strong> <big>Transfer Notes</big></strong>
                 </div>
-                <p class="ml-4">@Model.TransferNotes </p>
+               @*  <p class="ml-4">@Model.TransferNotes </p> *@
+                <ul class="dropdown-menu">
+                    @for (var i = 0; i < Model.Statuslogs.Count; i++)
+                    {
+                        <li><a class="dropdown-item">Admin transferred to Dr. <span class="text-uppercase">@Model.PhysicianName</span>  on @Model.Statuslogs[i].CreatedDate.ToString("dd/MMM/yyyy") at @Model.Statuslogs[i].CreatedDate.ToString("HH:mm:ss") : Test assign</a></li>
+                    }
+                </ul>
             </div>
         </div>
         <div class="form-group align-items-center m-2 p-4 shadow col-6">

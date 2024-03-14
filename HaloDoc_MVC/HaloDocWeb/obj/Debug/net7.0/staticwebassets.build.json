@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MxJEtYwB+lI53nbCJkWH9gsIr8zIL1diB1QJHWxYcZg=",
+  "Hash": "elnfMv4Mu6gTyftuY6J6L6v2tSsrHp0mB5akSNtEQzc=",
   "Source": "HaloDocWeb",
   "BasePath": "_content/HaloDocWeb",
   "Mode": "Default",
@@ -4707,6 +4707,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\Fig24. Provider Menu.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig3. Admin Dashboard.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/Fig3. Admin Dashboard.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\Fig3. Admin Dashboard.jpg"
     },
     {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig32. Day wise Scheduling.jpg",

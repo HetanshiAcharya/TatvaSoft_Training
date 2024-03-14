@@ -48,6 +48,8 @@ namespace HaloDocDataAccess.ViewModels
         public int ConcludeRequest { get; set; }
         public int ToCloseRequest { get; set; }
         public int UnpaidRequest { get; set; }
+        public int Regionid { get; set; }
+
         public List<AdminDashboardList>? adminDashboardList { get; set; }
     }
     public class Constant
@@ -96,6 +98,7 @@ namespace HaloDocDataAccess.ViewModels
         public string? AdminNotes { get; set; }
         public string? TransferNotes { get; set; }
         public string? TextBox { get; set; }
+
         public List<RequestStatusLog>? Statuslogs { get; set; }
     }
     public class Orders
@@ -116,5 +119,25 @@ namespace HaloDocDataAccess.ViewModels
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
+    }
+    public class ViewCloseCaseModel
+    {
+        public List<ViewDocument> documentslist { get; set; } = null;
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string ConfirmationNumber { get; set; }
+        public int RequestID { get; set; }
+        public int RequestWiseFileID { get; set; }
+        public string RC_FirstName { get; set; }
+        public string RC_LastName { get; set; }
+        public string RC_Email { get; set; }
+        public string? BMonth { get; set; }
+
+        public int? Bdate { get; set; }
+        public DateTime RC_Dob { get; set; }
+
+        public int? BYear { get; set; }
+        public string RC_PhoneNumber { get; set; }
+        public int RequestClientID { get; set; }
     }
 }

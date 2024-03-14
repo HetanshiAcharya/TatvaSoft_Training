@@ -191,14 +191,70 @@ a:hover{
 }
 
 
-/*--------Media query--------*/ 
 
-@media (min-width: 768px) {
-    .dNone {
-        display: inline-block;
-    }
-    .topmargin {
-        margin-top: 90px;
-        margin-right: 5px;
-    }
+
+
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1);
 }
+
+    .search input, .search select {
+        height: 50px;
+        text-indent: 25px;
+        border: 2px solid #d6d4d4;
+    }
+
+    .search select {
+        min-width: 230px;
+    }
+
+        .search input:focus, .search select:focus {
+            box-shadow: none;
+            border: 2px solid #0dcaf0;
+        }
+
+    .search .fa-search {
+        position: absolute;
+        top: 20px;
+        left: 16px;
+    }
+
+.searchBar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.searchPatientRegion {
+    display: inline-flex;
+}
+
+.requestType {
+    display: inline-flex;
+    align-items: center;
+}
+.chatwith {
+    position: relative !important;
+    margin-top: 95px !important;
+}
+.search .fa-search {
+    position: absolute !important;
+    top: 17px  !important;
+    left: 16px !important;
+}
+    /*--------Media query--------*/
+    @media (max-width : 925px) {
+        .searchBar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .requestType {
+            display: flex;
+            justify-content: start;
+        }
+
+        .adminIcon {
+            display: none;
+        }
+    }
