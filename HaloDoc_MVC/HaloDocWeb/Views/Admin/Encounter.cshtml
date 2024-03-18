@@ -1,0 +1,172 @@
+﻿﻿@{
+    Layout = "_AdminLayout";
+}
+@using HaloDocDataAccess.ViewModels;
+@model HaloDocDataAccess.ViewModels.ViewCaseData
+@using static HaloDocDataAccess.ViewModels.Constant
+@Html.Partial("AssignCase.cshtml")
+@* --------------- Main Form --------------------------  *@
+<form class="container viewcasecard" method="post">
+    @* --------------- Modal Header --------------------------  *@
+    <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-evenly">
+            <h5 class="mt-3"><strong>Encounter Form</strong></h5>
+        </div>
+        <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
+            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
+        </button>
+    </div>
+    <div class="form-group row  p-3 card-form">
+      
+        <input type="hidden" asp-for="RequestID" />
+       
+        <h2 class="text-info text-center"><strong>Medical Report-Confidential</strong></h2>
+        
+        <div class="col-sm-6">
+            <input asp-for="FirstName" class="form-control col-md mt-4"
+                   type="text"
+                   placeholder="First Name" required disabled />
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
+                   type="text"
+                   placeholder="Last Name" required disabled />
+        </div>
+        <div class="col-w-100 col-sm-12">
+            <input asp-for="Address" class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="location" disabled />
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="Dob" type="date"
+                   class="form-control form-control-md col-md mt-4"
+                   placeholder="Select Date" required disabled />
+        </div>
+        <div class="col-sm-6">
+            <input  type="date"
+                   class="form-control form-control-md col-md mt-4"
+                   placeholder="Select Date" required disabled />
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="PhoneNumber" id="phone1"
+                   type="tel"
+                   class="form-control form-control-md col-md mt-4 iti" disabled />
+        </div>
+       
+        <div class="col-sm-6">
+            <input asp-for="Email" class="form-control form-control-md col-md mt-4"
+                   type="email" id="email"
+                   placeholder="Enter Email" required disabled />
+        </div>
+        <div class="col-sm-6">
+            <textarea class="form-control col-md mt-4"
+                   type="text"
+                   rows="3"
+                   placeholder="History of present illness or injury" required ></textarea>
+        </div>
+        <div class="col-sm-6">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Medical History" required></textarea>
+        </div>
+        <div class="col-sm-6">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Medications" required></textarea>
+        </div>
+        <div class="col-sm-6">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Allergies" required></textarea>
+        </div>
+        <div class="col-sm-4">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Temp" required></textarea>
+        </div>
+        <div class="col-sm-4">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="HR (Heart Rate)" required></textarea>
+        </div>
+        <div class="col-sm-4">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="RR (Respiratory Rate)" required></textarea>
+        </div>
+         <div class="col-sm-2">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Blood pressure" required></textarea>
+        </div>
+        <div class="col-sm-2">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Blood pressure" required></textarea>
+        </div>
+        <div class="col-sm-4">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="O2" required></textarea>
+        </div>
+        <div class="col-sm-4">
+            <textarea class="form-control col-md mt-4"
+                      type="text"
+                      rows="3"
+                      placeholder="Pain" required></textarea>
+        </div>
+        @* <div class="col-sm-3 mt-4 small-btns">
+        <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded p-2">Edit</a>
+        <input type="submit" id="submit" class="btn bg-info text-white rounded p-2" value="Save" style="display:none;">
+        </div>   *@
+        <h4 class="mt-4 mb-6">Location Information</h4>
+        <div class="col-sm-6">
+            <input asp-for="Region" class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="Region" disabled />
+        </div>
+        <div class="col-sm-5">
+            <input asp-for="Address" class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="Business/Property Name" disabled />
+        </div>
+        <div class="col-sm-3 mt-4 small-btns">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa fa-map-marker test-info mx-1" aria-hidden="true"></i>
+
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <input asp-for="Room" class="form-control form-control-md col-md mt-4"
+                   type="text"
+                   placeholder="Room #" disabled />
+        </div>
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-info text-white rounded me-1" data-bs-toggle="modal" onclick="Assigncaseid(@Model.RequestID)" data-bs-target=" #assigncase" data-id="@Model.RequestID">Assign Case</a>
+            <a class="btn btn-info text-white rounded me-1" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = Model.RequestClientId})'">View Notes</a>
+            <a class="btn btn-danger text-white rounded" asp-controller="Admin" asp-action="Index">Cancel</a>
+        </div>
+    </div>
+</form>
+<script>
+    function enable_disable() {
+        $("#email").removeAttr('disabled');
+        $("#phone1").removeAttr('disabled');
+        $("#submit").css("display", "block");
+        $("#edit").css("display", "none");
+    }
+    function Assigncaseid(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelAssignCase').value = RequestId;
+    }
+</script>

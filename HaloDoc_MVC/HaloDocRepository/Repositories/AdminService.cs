@@ -107,8 +107,8 @@ namespace HaloDocRepository.Repositories
                                                 rc.FirstName.Contains(data.SearchInput) || rc.LastName.Contains(data.SearchInput) ||
                                                 req.FirstName.Contains(data.SearchInput) || req.LastName.Contains(data.SearchInput) ||
                                                 rc.Email.Contains(data.SearchInput) || rc.PhoneNumber.Contains(data.SearchInput) ||
-                                                rc.Address.Contains(data.SearchInput) || rc.Notes.Contains(data.SearchInput) ||
-                                                p.FirstName.Contains(data.SearchInput) || p.LastName.Contains(data.SearchInput) ||
+                                                rc.Street.Contains(data.SearchInput) || rc.Notes.Contains(data.SearchInput) ||
+                                                p.FirstName.Contains(data.SearchInput) || p.LastName.Contains(data.SearchInput) || rc.Street.Contains(data.SearchInput)|| rc.City.Contains(data.SearchInput)|| rc.State.Contains(data.SearchInput)|| rc.ZipCode.Contains(data.SearchInput)||
                                                 rg.Name.Contains(data.SearchInput)) && (data.RegionId == null || rc.RegionId == data.RegionId)
                                                 && (data.RequestType == null || req.RequestTypeId == data.RequestType)
                                                 orderby req.CreatedDate descending

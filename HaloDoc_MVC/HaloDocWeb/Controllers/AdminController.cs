@@ -370,6 +370,12 @@ namespace HaloDocDataAccess.Controllers
             return RedirectToAction("Index", "Admin");
         }
         #endregion
+        public IActionResult Encounter(int? RId, int? RTId)
+        {
+            ViewBag.AssignCase = _adminservice.AssignCase();
 
+            ViewCaseData vdvc = _adminservice.NewRequestData(RId, RTId);
+            return View(vdvc);
+        }
     }
 }
