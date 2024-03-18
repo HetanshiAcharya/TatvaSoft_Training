@@ -114,21 +114,25 @@ namespace HaloDocDataAccess.Controllers
             ViewBag.AssignCase = _adminservice.AssignCase();
 
 
-            CountStatusWiseRequestModel sm = _adminservice.Indexdata();
+            PaginatedViewModel sm = _adminservice.Indexdata();
 
             return View(sm);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> _SearchResult(string Status)
+        public async Task<IActionResult> _SearchResult(PaginatedViewModel data)
         {
-            if (Status == null)
+            if (data.Status == null)
             {
-                Status = "1";
-            }
-            List<AdminDashboardList> contacts = _adminservice.GetRequests(Status);
+                data.Status = CV.CurrentStatus();
 
-            switch (Status)
+            }
+
+            Response.Cookies.Delete("Status");
+            Response.Cookies.Append("Status", data.Status);
+            PaginatedViewModel contacts = _adminservice.GetRequests(data);
+
+            switch (data.Status)
             {
                 case "1":
                     return PartialView("../Admin/_New", contacts);

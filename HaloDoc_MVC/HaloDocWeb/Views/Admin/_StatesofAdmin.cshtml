@@ -1,12 +1,13 @@
 ﻿@using static HaloDocDataAccess.ViewModels.Constant;
+@model HaloDocDataAccess.ViewModels.PaginatedViewModel;
 
 <form id="filterForm" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
       asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
-    <input type="hidden" name="Status" id="hiddenfirst" />
+    <input type="hidden" asp-for="Status" id="hiddenfirst" />
     @* <input type="hidden" name="region" id="Regionid" /> *@
     <div class="row mb-2 " style="--bs-gutter-x: 0rem;">
         @* --------------- New --------------------------  *@
-        <button type="submit" value="1" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
+        <button onclick="changeStatus('1')" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded new ps-2 pt-3 as">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-plus me-2 align-self-center d-none d-sm-block"></i>
@@ -18,7 +19,7 @@
             </div>
         </button>
         @* --------------- Pending --------------------------  *@
-        <button type="submit" value="2" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('2')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded pending ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-user-clock me-2 align-self-center d-none d-sm-block"></i>
@@ -30,7 +31,7 @@
             </div>
         </button>
         @* ---------------Active --------------------------  *@
-        <button type="submit" value="4,5" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
+        <button onclick="changeStatus('4,5')" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded active ps-2 pt-3 activetext">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-check me-2 align-self-center d-none d-sm-block"></i>
@@ -42,7 +43,7 @@
             </div>
         </button>
         @* --------------- Conclude --------------------------  *@
-        <button type="submit" value="6" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('6')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded conclude ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-clock-rotate-left me-2 align-self-center d-none d-sm-block"></i>
@@ -54,7 +55,7 @@
             </div>
         </button>
         @* --------------- To Close --------------------------  *@
-        <button type="submit" value="3,7,8" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('3,7,8')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded toClose ps-2 pt-3 toclose">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-user-xmark me-2 align-self-center d-none d-sm-block"></i>
@@ -66,7 +67,7 @@
             </div>
         </button>
         @* --------------- Unpaid --------------------------  *@
-        <button type="submit" value="9" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('9')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded unpaid ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-dollar-to-slot me-2 align-self-center d-none d-sm-block"></i>
@@ -78,6 +79,96 @@
             </div>
         </button>
     </div>
+
+    @* 5 buttons *@
+
+    <div class="d-flex justify-content-between mx-2 imp-links">
+        <div>
+            <strong class="fs-6">Patients</strong> <small>(New) </small>
+        </div>
+        <div>
+            <button class="btn btn-info text-white shadow-none mb-2">
+                <small>
+                    <i class="bi bi-send"></i>
+                    <span class="adminIcon">Send Link</span>
+                </small>
+            </button>
+            <button class="btn btn-info text-white shadow-none mb-2">
+                <small>
+                    <i class="bi bi-file-earmark-plus"></i>
+                    <span class="adminIcon">Create Requests</span>
+                </small>
+            </button>
+            <button class="btn btn-info text-white shadow-none mb-2">
+                <small>
+                    <i class="fa-solid fa-share"></i>
+                    <span class="adminIcon">Export</span>
+                </small>
+            </button>
+            <button class="btn btn-info text-white shadow-none mb-2">
+                <small>
+                    <i class="fa-solid fa-share-from-square"></i>
+                    <span class="adminIcon">Export All</span>
+                </small>
+            </button>
+            <button class="btn btn-info text-white shadow-none mb-2">
+                <small>
+                    <i class="fa-solid fa-user-nurse"></i>
+                    <span class="adminIcon">Request DIY Support</span>
+                </small>
+            </button>
+        </div>
+    </div>
+    @* --------------- Search Bar --------------------------  *@
+
+    <div class="mt-2 mx-2 rounded-top bg-white">
+        <div class="searchBar px-2">
+            <div class="searchPatientRegion py-2">
+                <div class="search m-1">
+                    <i class="fa fa-search" id="searchicon"></i>
+                    <input type="text" class="form-control" asp-for="SearchInput" placeholder="Search Patients">
+                </div>
+                <div class="search m-1">
+                    <i class="fa fa-search"></i>
+                    @* <input type="hidden" id="regionvalue" /> *@
+                    <select class="form-select mb-3" asp-for="RegionId" data-allow-clear="true" tabindex="-1" id="regiondropdown" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level">
+                        <option>All Region</option>
+                    </select>
+                </div>
+                <div class="search m-1">
+                    <span class="spantxt">Page Size</span>
+                    <select class="form-select mb-3 pagedropdown" asp-for="PageSize" data-allow-clear="true" tabindex="-1" id="pagesizedropdown" data-control="select2" data-placeholder="Select Level">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                    </select>
+                </div>
+            </div>
+            <div class="requestType">
+                <input type="hidden" id="requesttypevalue" asp-for="RequestType"/>
+                <button class="me-3 btn filterborder shadow-none" onclick="assignrequesttype()">
+                    <small>All</small>
+                </button>
+                <button class="me-3 btn shadow-none" onclick="assignrequesttype(1)">
+                    <i class="fa-solid fa-circle fa-xs" style="color:#5fbc61;"></i>
+                    <small>Patient</small>
+                </button>
+                <button class="me-3 btn shadow-none" onclick="assignrequesttype(3)">
+                    <i class="fa-solid fa-circle fa-xs" style="color:#ed9124;"></i>
+                    <small>Family / Friend</small>
+                </button>
+                <button class="me-3 btn shadow-none" onclick="assignrequesttype(2)">
+                    <i class="fa-solid fa-circle fa-xs" style="color:#cd697b;"></i>
+                    <small>Business</small>
+                </button>
+                <button class="me-2 btn shadow-none" onclick=" assignrequesttype(4)">
+                    <i class="fa-solid fa-circle fa-xs" style="color:#0a7cb9;"></i>
+                    <small>Concierge</small>
+                </button>
+            </div>
+        </div>
+    </div>
 </form>
 <script>
     $(document).ready(function () {
@@ -85,5 +176,51 @@
             $(".row > .btn > .rounded").removeClass("as");
             $(this).addClass("as");
         });
+    });
+
+    function assignrequesttype(e) {
+        $('#requesttypevalue').val(e);
+        $('#filterForm').submit();
+    }
+
+    function changeStatus(e) {
+        event.preventDefault()
+        $('#hiddenfirst').val(e);
+        $('#filterForm').submit();
+    }
+
+    $(".requestType > .btn ").click(function () {
+        $(".requestType> .btn").removeClass("filterborder");
+        $(this).addClass("filterborder");
+    });
+
+    $(function () {
+        $('#regiondropdown').on('change', function () {
+            var region = $("#regiondropdown option:selected").val();
+            $('#regionvalue').val = region;
+            $('#filterForm').submit();
+        });
+    });
+
+    $(function Clicked () {
+        $('#searchicon').on('click', function () {
+            event.preventDefault()
+            console.log(":ASFD");
+            $('#filterForm').submit();
+        });
+    });
+
+    $(function () {
+        $('#pagesizedropdown').on('change', function () {
+            $('#filterForm').submit();
+        });
+    });
+
+    $(window).keydown(function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            Clicked();
+            return false;
+        }
     });
 </script>

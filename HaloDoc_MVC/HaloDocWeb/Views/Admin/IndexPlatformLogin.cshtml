@@ -30,14 +30,14 @@
                     <h2>Log into your Account</h2>
                     <form class="form-group form-platformLogin" method="post" asp-action="IndexPlatformLogin" asp-controller="Admin">
                         <div class="text-danger">@ViewData["error"]</div>
-                        <input type="email"
+                        <input type="email" value="admin@gmail.com"
                                class="form-group form-control mt-4"
                                placeholder="Enter Email"
                                asp-for="Email"
                                required />
                         <span asp-validation-for="Email" class="text-danger validate col-12"></span>
 
-                        <input type="password"
+                        <input type="password" value="admin"
                                class="form-control form-group mt-4"
                                asp-for="PasswordHash"
                                placeholder="Password" />
