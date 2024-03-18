@@ -29,7 +29,7 @@ namespace HaloDocRepository.Repositories
         public AdminService(HaloDocDbContext context, IConfiguration config)
         {
             _context = context;
-            _config= config ;
+            _config = config;
 
         }
         #region GenerateSHA256
@@ -90,9 +90,9 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region GetRequests
-        public List<AdminDashboardList> GetRequests(string Status)
+        public PaginatedViewModel GetRequests(PaginatedViewModel data)
         {
-            List<int> statusdata = Status.Split(',').Select(int.Parse).ToList();
+            List<int> statusdata = data.Status.Split(',').Select(int.Parse).ToList();
             List<AdminDashboardList> allData = (from req in _context.Requests
                                                 join reqClient in _context.RequestClients
                                                 on req.RequestId equals reqClient.RequestId into reqClientGroup
@@ -103,7 +103,14 @@ namespace HaloDocRepository.Repositories
                                                 join reg in _context.Regions
                                                 on rc.RegionId equals reg.RegionId into RegGroup
                                                 from rg in RegGroup.DefaultIfEmpty()
-                                                where statusdata.Contains(req.Status)
+                                                where statusdata.Contains(req.Status) && (data.SearchInput == null ||
+                                                rc.FirstName.Contains(data.SearchInput) || rc.LastName.Contains(data.SearchInput) ||
+                                                req.FirstName.Contains(data.SearchInput) || req.LastName.Contains(data.SearchInput) ||
+                                                rc.Email.Contains(data.SearchInput) || rc.PhoneNumber.Contains(data.SearchInput) ||
+                                                rc.Address.Contains(data.SearchInput) || rc.Notes.Contains(data.SearchInput) ||
+                                                p.FirstName.Contains(data.SearchInput) || p.LastName.Contains(data.SearchInput) ||
+                                                rg.Name.Contains(data.SearchInput)) && (data.RegionId == null || rc.RegionId == data.RegionId)
+                                                && (data.RequestType == null || req.RequestTypeId == data.RequestType)
                                                 orderby req.CreatedDate descending
                                                 select new AdminDashboardList
                                                 {
@@ -129,14 +136,25 @@ namespace HaloDocRepository.Repositories
                                                     ProviderID = req.PhysicianId,
                                                     RequestorPhoneNumber = req.PhoneNumber
                                                 }).ToList();
-            return allData;
+            int totalItemCount = allData.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)data.PageSize);
+            List<AdminDashboardList> list1 = allData.Skip((data.CurrentPage - 1) * data.PageSize).Take(data.PageSize).ToList();
+            PaginatedViewModel paginatedViewModel = new PaginatedViewModel
+            {
+                adl = list1,
+                CurrentPage = data.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = data.PageSize,
+                SearchInput = data.SearchInput
+            };
+            return paginatedViewModel;
         }
         #endregion
 
         #region Indexdata
-        public CountStatusWiseRequestModel Indexdata()
+        public PaginatedViewModel Indexdata()
         {
-            return new CountStatusWiseRequestModel
+            return new PaginatedViewModel
             {
                 NewRequest = _context.Requests.Where(r => r.Status == 1).Count(),
                 PendingRequest = _context.Requests.Where(r => r.Status == 2).Count(),
@@ -416,7 +434,7 @@ namespace HaloDocRepository.Repositories
             _context.Requests.Update(request);
             _context.SaveChanges();
 
-           
+
         }
         #endregion
 
@@ -636,7 +654,7 @@ namespace HaloDocRepository.Repositories
                                                 join reg in _context.Regions
                                                 on rc.RegionId equals reg.RegionId into RegGroup
                                                 from rg in RegGroup.DefaultIfEmpty()
-                                                where statusdata== rc.RegionId
+                                                where statusdata == rc.RegionId
                                                 orderby req.CreatedDate descending
                                                 select new AdminDashboardList
                                                 {

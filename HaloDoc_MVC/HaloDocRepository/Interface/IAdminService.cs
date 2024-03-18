@@ -13,8 +13,8 @@ namespace HaloDocRepository.Interface
     {
        //bool AdminAuthentication(AdminLogin userDetails);
         public List<AdminDashboardList> NewRequestData();
-        public CountStatusWiseRequestModel Indexdata();
-        public List<AdminDashboardList> GetRequests(string Status);
+        public PaginatedViewModel Indexdata();
+        public PaginatedViewModel GetRequests(PaginatedViewModel data);
         public ViewCaseData GetRequestForViewCase(int id);
         public ViewCaseData NewRequestData(int? RId, int? RTId);
         public ViewNotes ViewNotes(int reqClientId);

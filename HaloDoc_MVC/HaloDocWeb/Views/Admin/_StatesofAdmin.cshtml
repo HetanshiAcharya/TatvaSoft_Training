@@ -202,7 +202,7 @@
         });
     });
 
-    $(function Clicked () {
+    $(function Clicked() {
         $('#searchicon').on('click', function () {
             event.preventDefault()
             console.log(":ASFD");
@@ -219,7 +219,7 @@
     $(window).keydown(function (event) {
         if (event.keyCode == 13) {
             event.preventDefault();
-            Clicked();
+            $('#searchicon').click()
             return false;
         }
     });

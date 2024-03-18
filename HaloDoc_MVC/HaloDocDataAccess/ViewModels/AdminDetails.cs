@@ -132,12 +132,28 @@ namespace HaloDocDataAccess.ViewModels
         public string RC_LastName { get; set; }
         public string RC_Email { get; set; }
         public string? BMonth { get; set; }
-
         public int? Bdate { get; set; }
         public DateTime RC_Dob { get; set; }
-
         public int? BYear { get; set; }
         public string RC_PhoneNumber { get; set; }
         public int RequestClientID { get; set; }
+    }
+    public class PaginatedViewModel
+    {
+        public List<AdminDashboardList>? adl { get; set; }
+        public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
+        public string? SearchInput { get; set; }
+        public int? RegionId { get; set; }
+        public int? RequestType { get; set; }
+        public string? Status { get; set; }
+        public int NewRequest { get; set; }
+        public int PendingRequest { get; set; }
+        public int ActiveRequest { get; set; }
+        public int ConcludeRequest { get; set; }
+        public int ToCloseRequest { get; set; }
+        public int UnpaidRequest { get; set; }
+
     }
 }
