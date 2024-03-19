@@ -189,11 +189,29 @@ a:hover{
 .dNone {
     display: none;
 }
+div .purple-btn {
+    background-color: #9349A8;
+    color: white;
+    border: #9349A8;
+}
+.purple-btn:hover {
+    background-color: #9349A8;
+    color: white;
+    border: #9349A8;
+}
 
-
-
-
-
+.iti {
+    display: block;
+    width: 100%;
+    z-index: 2;
+}
+div .fs{
+    font-size:15px;
+}
+.form-check-input:checked {
+    background-color: #02bbe9;
+    border: 0.5px solid #02bbe9;
+}
 .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);

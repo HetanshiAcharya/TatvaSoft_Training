@@ -9,6 +9,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HaloDocDataAccess.DataModels;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using HaloDocDataAccess.DataModels;
+using HaloDocDataAccess.DataContext;
+using HaloDocDataAccess.ViewModels;
+using HaloDocRepository.Interface;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using System.Globalization;
+using System.Net.Http;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace HaloDocRepository.Repositories
 {
@@ -22,12 +44,28 @@ namespace HaloDocRepository.Repositories
                 this.httpContextAccessor = httpContextAccessor;
                 _context = context;
             }
-            #endregion
-
-            #region Constructor
-            public async Task<UserInfo> CheckAccessLogin(AspNetUser aspNetUser)
+        #endregion
+        #region GenerateSHA256
+        public static string GenerateSHA256(string input)
+        {
+            var bytes = Encoding.UTF8.GetBytes(input);
+            using (var hashEngine = SHA256.Create())
             {
-                var user = await _context.AspNetUsers.FirstOrDefaultAsync(u => u.Email == aspNetUser.Email && u.PasswordHash == aspNetUser.PasswordHash);
+                var hashedBytes = hashEngine.ComputeHash(bytes, 0, bytes.Length);
+                var sb = new StringBuilder();
+                foreach (var b in hashedBytes)
+                {
+                    var hex = b.ToString("x2");
+                    sb.Append(hex);
+                }
+                return sb.ToString();
+            }
+        }
+        #endregion
+        #region Constructor
+        public async Task<UserInfo> CheckAccessLogin(AspNetUser aspNetUser)
+            {
+                var user = await _context.AspNetUsers.FirstOrDefaultAsync(u => u.Email == aspNetUser.Email && u.PasswordHash == GenerateSHA256( aspNetUser.PasswordHash));
                 UserInfo admin = new UserInfo();
                 if (user != null)
                 {

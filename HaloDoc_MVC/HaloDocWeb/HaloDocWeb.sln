@@ -5,9 +5,14 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HaloDocWeb", "HaloDocWeb.csproj", "{BB84C2FC-322E-46DB-B50C-6713592336FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaloDocDataAccess", "..\HaloDocDataAccess\HaloDocDataAccess.csproj", "{D5B7253C-15ED-4180-92B6-C4288E2872B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HaloDocDataAccess", "..\HaloDocDataAccess\HaloDocDataAccess.csproj", "{D5B7253C-15ED-4180-92B6-C4288E2872B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaloDocRepository", "..\HaloDocRepository\HaloDocRepository.csproj", "{6AE756A0-094A-4DA3-AC25-016DD22D46D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HaloDocRepository", "..\HaloDocRepository\HaloDocRepository.csproj", "{6AE756A0-094A-4DA3-AC25-016DD22D46D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20E5D3DC-F6C6-4597-B0A0-6DF238B9EEF5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

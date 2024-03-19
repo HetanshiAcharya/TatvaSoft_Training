@@ -41,6 +41,12 @@ namespace HaloDocRepository.Interface
         public ViewCloseCaseModel CloseCaseData(int RequestID);
         public bool EditForCloseCase(ViewCloseCaseModel model);
         public bool CloseCase(int RequestID);
+        public EncounterInfo Encounterinfo(int? rId);
+        public Task<AdminDetailsInfo> GetProfileDetails(int id);
+        public Task<bool> EditPassword(string password, int adminId);
+        public  Task<bool> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile);
+        public  Task<bool> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile);
+
     }
 
 }

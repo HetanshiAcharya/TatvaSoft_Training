@@ -65,7 +65,7 @@
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/MyProfile") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">MyProfile</a>
+                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/MyProfile") ? "activeNav" : "")" aria-current="page" asp-action="AdminProfile" asp-controller="Admin">MyProfile</a>
             </li>
         </ul>
         <ul class="nav-item">
@@ -102,6 +102,7 @@
             "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
 </script>
+
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="@Url.Content("~/plugins/mvc-jquery-ajax/jquery.unobtrusive-ajax.js")"></script>

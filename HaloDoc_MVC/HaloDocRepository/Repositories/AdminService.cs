@@ -19,6 +19,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace HaloDocRepository.Repositories
 {
@@ -791,6 +792,187 @@ namespace HaloDocRepository.Repositories
             }
 
         }
+
+        #region enounterinfo
+        public EncounterInfo Encounterinfo(int? rId)
+        {
+            var n = _context.Requests.FirstOrDefault(E => E.RequestId == rId);
+            var rc = _context.RequestClients.FirstOrDefault(R => R.RequestId == rId);
+            EncounterInfo requestforviewcase = new EncounterInfo
+            {
+                FirstName = n.FirstName,
+                LastName = n.LastName,
+                PhoneNumber = n.PhoneNumber,
+                Email = n.Email,
+                Location = rc.Street + "," + rc.City + "," + rc.State,
+                //Bdate = new DateTime((int)rc.IntYear, DateTime.ParseExact(rc.StrMonth, "MMMM", new CultureInfo("en-US")).Month, (int)rc.IntDate),
+                CreatedDate = n.CreatedDate,
+                RequestID = rId
+            };
+            return requestforviewcase;
+        }
+
+        #endregion
+
+        #region GetProfile
+        public async Task<AdminDetailsInfo> GetProfileDetails(int id)
+        {
+            AdminDetailsInfo? v = await  (from r in _context.Admins
+                                   join Aspnetuser in _context.AspNetUsers
+                                         on r.AspNetUserId equals Aspnetuser.Id into aspGroup
+                                         from asp in aspGroup.DefaultIfEmpty()
+                                         where r.AdminId == id
+                                         select new AdminDetailsInfo
+                                         {
+                                             Role = r.RoleId,
+                                             AdminId = r.AdminId,
+                                             UserName = asp.UserName,
+                                             Add1 = r.Address1,
+                                             Add2 = r.Address2,
+                                             PhoneForBill = r.AltPhone,
+                                             City = r.City,
+                                             AspNetUserId = r.AspNetUserId,
+                                             CreatedBy = r.CreatedBy,
+                                             Email = r.Email,
+                                             CreatedDate = r.CreatedDate,
+                                             Phone  = r.Mobile,
+                                             //ModifiedBy = r.ModifiedBy,
+                                             //Modifieddate = r.ModifiedDate,
+                                             Regionid = r.RegionId,
+                                             LastName = r.LastName,
+                                             FirstName = r.FirstName,
+                                             Status = r.Status,
+                                             Zip = r.Zip,
+                                         }).FirstOrDefaultAsync();
+            List<Region> regions = new List<Region>();
+            regions = await _context.AdminRegions
+                  .Where(r => r.AdminId == id)
+                  .Select(req => new Region()
+                  {
+                      RegionId = req.RegionId
+                                            
+                  })
+                  .ToListAsync();
+            v.Regionids = regions;
+            return v;
+        }
+        #endregion
+
+        #region editpass
+        public async Task<bool> EditPassword(string password, int adminId)
+        {
+            var req = await _context.Admins.Where(W => W.AdminId == adminId).FirstOrDefaultAsync();
+            AspNetUser? U = await _context.AspNetUsers.FirstOrDefaultAsync(m => m.Id == req.AspNetUserId);
+
+            if (U != null)
+            {
+                U.PasswordHash =GenerateSHA256(password);
+                _context.AspNetUsers.Update(U);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region BillingInfoEdit
+        public async Task<bool> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile)
+        {
+            try
+            {
+                if (_viewAdminProfile == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var DataForChange = await _context.Admins.Where(W => W.AdminId == _viewAdminProfile.AdminId).FirstOrDefaultAsync();
+                    if (DataForChange != null)
+                    {
+                        DataForChange.Address1 = _viewAdminProfile.Add1;
+                        DataForChange.Address2 = _viewAdminProfile.Add2;
+                        DataForChange.City = _viewAdminProfile.City;
+                        DataForChange.AltPhone = _viewAdminProfile.PhoneForBill;
+                        _context.Admins.Update(DataForChange);
+                        _context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region EditAdministratorInfo
+        public async Task<bool> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile)
+        {
+            try
+            {
+                if (_viewAdminProfile == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var DataForChange = await _context.Admins.Where(W => W.AdminId == _viewAdminProfile.AdminId).FirstOrDefaultAsync();
+                    if (DataForChange != null)
+                    {
+                        DataForChange.Email = _viewAdminProfile.Email;
+                        DataForChange.FirstName = _viewAdminProfile.FirstName;
+                        DataForChange.LastName = _viewAdminProfile.LastName;
+                        DataForChange.Mobile = _viewAdminProfile.Phone;
+                        _context.Admins.Update(DataForChange);
+                        _context.SaveChanges();
+                        List<int> regions = await _context.AdminRegions.Where(r => r.AdminId == _viewAdminProfile.AdminId).Select(req => req.RegionId).ToListAsync();
+                        List<int> priceList = _viewAdminProfile.Regionsid.Split(',').Select(int.Parse).ToList();
+                        foreach (var item in priceList)
+                        {
+                            if (regions.Contains(item))
+                            {
+                                regions.Remove(item);
+                            }
+                            else
+                            {
+                                AdminRegion ar = new()
+                                {
+                                    RegionId = item,
+                                    AdminId = (int)_viewAdminProfile.AdminId
+                                };
+                                _context.AdminRegions.Update(ar);
+                                await _context.SaveChangesAsync();
+                                regions.Remove(item);
+                            }
+                        }
+                        if (regions.Count > 0)
+                        {
+                            foreach (var item in regions)
+                            {
+                                AdminRegion ar = await _context.AdminRegions.Where(r => r.AdminId == _viewAdminProfile.AdminId && r.RegionId == item).FirstAsync();
+                                _context.AdminRegions.Remove(ar);
+                                await _context.SaveChangesAsync();
+                            }
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
     }
 }
 

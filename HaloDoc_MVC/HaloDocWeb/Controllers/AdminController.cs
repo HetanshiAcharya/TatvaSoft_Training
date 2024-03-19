@@ -370,12 +370,64 @@ namespace HaloDocDataAccess.Controllers
             return RedirectToAction("Index", "Admin");
         }
         #endregion
-        public IActionResult Encounter(int? RId, int? RTId)
+        public IActionResult Encounter(int?RId)
+        {
+            EncounterInfo ei = _adminservice.Encounterinfo(RId);
+            return View(ei);
+        }
+        public async Task<IActionResult> AdminProfile()
         {
             ViewBag.AssignCase = _adminservice.AssignCase();
 
-            ViewCaseData vdvc = _adminservice.NewRequestData(RId, RTId);
-            return View(vdvc);
+            AdminDetailsInfo p = await  _adminservice.GetProfileDetails(Convert.ToInt32(CV.UserId()));
+            return View("../Admin/AdminProfile", p);
         }
+        #region EditPassword
+        public async Task<IActionResult> EditPassword(string password)
+        {
+            if (await _adminservice.EditPassword(password, Convert.ToInt32(CV.UserId())))
+            {
+                _notyf.Success("Password changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Password not Changed...");
+            }
+            return RedirectToAction("AdminProfile", "Admin");
+        }
+        #endregion
+
+        #region EditAdministratorInfo
+        [HttpPost]
+        public async Task<IActionResult> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile)
+        {
+            if (await _adminservice.EditAdministratorInfo(_viewAdminProfile))
+            {
+                _notyf.Success("Information changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Information not Changed...");
+            }
+            return RedirectToAction("AdminProfile", "Admin");
+        }
+        #endregion
+
+        #region EditAdministratorInfo
+        [HttpPost]
+        public async Task<IActionResult> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile)
+        {
+            if (await _adminservice.BillingInfoEdit(_viewAdminProfile))
+            {
+                _notyf.Success("Information changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Information not Changed...");
+            }
+            return RedirectToAction("AdminProfile","Admin");
+        }
+        #endregion
     }
 }
+

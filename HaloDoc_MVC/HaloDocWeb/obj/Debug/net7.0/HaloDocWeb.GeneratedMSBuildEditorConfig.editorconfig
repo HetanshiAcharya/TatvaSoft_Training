@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/AdminProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5Qcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/AssignCase.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQXNzaWduQ2FzZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
