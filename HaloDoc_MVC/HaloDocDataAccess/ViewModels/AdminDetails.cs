@@ -158,6 +158,8 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class EncounterInfo
     {
+        public int? AdminId { get; set; }
+        public int? PhysicianId { get; set; }
         public int? RequestID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -173,8 +175,8 @@ namespace HaloDocDataAccess.ViewModels
         public string Temp { get; set; }
         public string HR { get; set; }
         public string RR{ get; set; }
-        public string BP { get; set; }
-        //BP again
+        public string BPS { get; set; }
+        public string BPD { get; set; }
         public string O2 { get; set; }
         public string Pain { get; set; }
         public string heent { get; set; }
@@ -195,29 +197,33 @@ namespace HaloDocDataAccess.ViewModels
     public class AdminDetailsInfo
     {
         public int? AdminId { get; set; }
-        public string AspNetUserId { get; set; }
+        public string? AspNetUserId { get; set; }
 
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
         public short? Status { get; set; }
         public int? Role { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string ConfEmail { get; set; }
-        public string Phone { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
+        public string? ConfEmail { get; set; }
+        public string? Phone { get; set; }
         public int? Regionid { get; set; }
         public string? Regionsid { get; set; }
         public List<Region>? Regionids { get; set; }
-        public string Add1 { get; set; }
-        public string Add2 { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zip { get; set; }
-        public string PhoneForBill { get; set; }
+        public string? Add1 { get; set; }
+        public string? Add2 { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? Zip { get; set; }
+        public string? PhoneForBill { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
-
+        public string? CreatedBy { get; set; }
+        public class Regions
+        {
+            public int? RegionId { get; set; }
+            public string? Name { get; set; }
+        }
 
     }
 }

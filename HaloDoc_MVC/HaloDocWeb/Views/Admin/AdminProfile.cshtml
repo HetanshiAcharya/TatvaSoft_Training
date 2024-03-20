@@ -54,7 +54,7 @@
 
         </form>
 
-        <form method="post" asp-action="EditAdministratorInfo" asp-controller="Admin">
+        <form method="post" asp-action="EditAdministratorInfo" asp-controller="Admin" id="abcdefghi">
             <input type="hidden" asp-for="AdminId" />
 
             <div class="row">
@@ -91,6 +91,8 @@
                            type="tel"
                            class="form-control iti" disabled />
                 </div>
+                <input asp-for="Regionsid" type="hidden" id="regionids" />
+
                 <div class="col-sm-5 mt-1 form-check d-flex flex-wrap justify-content-between">
                     @foreach (var cb in ViewBag.AssignCase)
                     {
@@ -118,7 +120,7 @@
             @* edit button 1 *@
             <div class="d-flex justify-content-end mt-4">
                 <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
-                <input type="submit" id="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
+                <a id="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">Save</a>
             </div>
 
         </form>
@@ -173,14 +175,17 @@
     </div>
 </div>
 <script>
-
+    window.onload = function (e) {
+       
+        $(".form-check-input").prop("disabled", true);
+    }
     function enable_disable() {
         $("#email").removeAttr('disabled');
         $("#phone1").removeAttr('disabled');
         $("#cemail").removeAttr('disabled');
         $("#uname").removeAttr('disabled');
         $("#pwd").removeAttr('disabled');
-
+        $(".form-check-input").prop("disabled", false);
         $("#submit").css("display", "block");
         $("#edit").css("display", "none");
     }
@@ -216,6 +221,19 @@
     });
 </script>
 <script>
+    // $(function () {
+    //     $('#submit').on('click', function () {
+    //         let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
+    //         console.log(checkboxes)
+    //         let regionIds = [];
+    //         checkboxes.forEach((checkbox) => {
+    //             Regionsid.push(checkbox.value);
+    //         });
+    //         document.querySelector('#regionids').value = regionIds.join(',');
+    //         $('#administratorinfo').submit();
+    //     }
+    //         });
+
     $(function () {
         $('#submit').on('click', function () {
             let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
@@ -223,4 +241,9 @@
             checkboxes.forEach((checkbox) => {
                 regionIds.push(checkbox.value);
             });
+            document.querySelector('#regionids').value = regionIds.join(',');
+            console.log(document.querySelector('#regionids').value)
+            $('#abcdefghi').submit();
+        });
+    });
 </script>

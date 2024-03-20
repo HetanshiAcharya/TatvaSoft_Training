@@ -36,6 +36,8 @@ public partial class HaloDocDbContext : DbContext
 
     public virtual DbSet<EmailLog> EmailLogs { get; set; }
 
+    public virtual DbSet<EncounterForm> EncounterForms { get; set; }
+
     public virtual DbSet<HealthProfessional> HealthProfessionals { get; set; }
 
     public virtual DbSet<HealthProfessionalType> HealthProfessionalTypes { get; set; }
@@ -191,6 +193,19 @@ public partial class HaloDocDbContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.EmailLogs).HasConstraintName("RoleId");
         });
 
+        modelBuilder.Entity<EncounterForm>(entity =>
+        {
+            entity.HasKey(e => e.EncounterFormId).HasName("EncounterForm_pkey");
+
+            entity.Property(e => e.EncounterFormId).HasDefaultValueSql("1");
+
+            entity.HasOne(d => d.Admin).WithMany(p => p.EncounterForms).HasConstraintName("AdminId");
+
+            entity.HasOne(d => d.Physician).WithMany(p => p.EncounterForms).HasConstraintName("physicianid");
+
+            entity.HasOne(d => d.Request).WithMany(p => p.EncounterForms).HasConstraintName("requestid");
+        });
+
         modelBuilder.Entity<HealthProfessional>(entity =>
         {
             entity.HasKey(e => e.VendorId).HasName("HealthProfessionals_pkey");
@@ -233,17 +248,9 @@ public partial class HaloDocDbContext : DbContext
 
             entity.Property(e => e.PhysicianId).HasIdentityOptions(null, null, null, null, true, null);
 
-            entity.HasOne(d => d.AspNetUser).WithMany(p => p.PhysicianAspNetUsers).HasConstraintName("AspNetUserId");
-
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PhysicianCreatedByNavigations)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("CreatedBy");
-
-            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.PhysicianModifiedByNavigations).HasConstraintName("ModifiedBy");
+            entity.HasOne(d => d.AspNetUser).WithMany(p => p.Physicians).HasConstraintName("AspNetUserId");
 
             entity.HasOne(d => d.Region).WithMany(p => p.Physicians).HasConstraintName("RegionId");
-
-            entity.HasOne(d => d.Role).WithMany(p => p.Physicians).HasConstraintName("RoleId");
         });
 
         modelBuilder.Entity<PhysicianLocation>(entity =>
@@ -426,21 +433,9 @@ public partial class HaloDocDbContext : DbContext
                 .ValueGeneratedOnAdd()
                 .HasIdentityOptions(null, null, null, null, true, null);
 
-            entity.HasOne(d => d.Admin).WithMany(p => p.RequestStatusLogs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("AdminId");
-
-            entity.HasOne(d => d.Physician).WithMany(p => p.RequestStatusLogPhysicians)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("PhysicianId");
-
             entity.HasOne(d => d.Request).WithMany(p => p.RequestStatusLogs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("RequestId");
-
-            entity.HasOne(d => d.TransToPhysician).WithMany(p => p.RequestStatusLogTransToPhysicians)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("TransToPhysicianId");
         });
 
         modelBuilder.Entity<RequestType>(entity =>

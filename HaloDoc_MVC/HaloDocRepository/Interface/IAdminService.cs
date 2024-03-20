@@ -46,7 +46,7 @@ namespace HaloDocRepository.Interface
         public Task<bool> EditPassword(string password, int adminId);
         public  Task<bool> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile);
         public  Task<bool> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile);
-
+        public void EncounterinfoPost(EncounterInfo _viewencounterinfo);
     }
 
 }

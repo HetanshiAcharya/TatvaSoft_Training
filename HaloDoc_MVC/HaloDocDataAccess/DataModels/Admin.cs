@@ -74,6 +74,9 @@ public partial class Admin
     [InverseProperty("Admin")]
     public virtual ICollection<EmailLog> EmailLogs { get; set; } = new List<EmailLog>();
 
+    [InverseProperty("Admin")]
+    public virtual ICollection<EncounterForm> EncounterForms { get; set; } = new List<EncounterForm>();
+
     [ForeignKey("ModifiedBy")]
     [InverseProperty("AdminModifiedByNavigations")]
     public virtual AspNetUser? ModifiedByNavigation { get; set; }
@@ -81,9 +84,6 @@ public partial class Admin
     [ForeignKey("RegionId")]
     [InverseProperty("Admins")]
     public virtual Region? Region { get; set; }
-
-    [InverseProperty("Admin")]
-    public virtual ICollection<RequestStatusLog> RequestStatusLogs { get; set; } = new List<RequestStatusLog>();
 
     [InverseProperty("Admin")]
     public virtual ICollection<Smslog> Smslogs { get; set; } = new List<Smslog>();

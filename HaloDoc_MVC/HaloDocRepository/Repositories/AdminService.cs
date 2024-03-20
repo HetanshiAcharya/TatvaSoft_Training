@@ -104,7 +104,7 @@ namespace HaloDocRepository.Repositories
                                                 join reg in _context.Regions
                                                 on rc.RegionId equals reg.RegionId into RegGroup
                                                 from rg in RegGroup.DefaultIfEmpty()
-                                                where statusdata.Contains(req.Status) && (data.SearchInput == null ||
+                                                where statusdata.Contains((int)req.Status) && (data.SearchInput == null ||
                                                 rc.FirstName.Contains(data.SearchInput) || rc.LastName.Contains(data.SearchInput) ||
                                                 req.FirstName.Contains(data.SearchInput) || req.LastName.Contains(data.SearchInput) ||
                                                 rc.Email.Contains(data.SearchInput) || rc.PhoneNumber.Contains(data.SearchInput) ||
@@ -813,6 +813,52 @@ namespace HaloDocRepository.Repositories
         }
 
         #endregion
+        public void EncounterinfoPost(EncounterInfo _viewencounterinfo)
+        {
+            var encform = new EncounterForm();
+
+            var isexist = _context.EncounterForms.FirstOrDefault(x => x.AdminId == _viewencounterinfo.AdminId);
+            if (isexist == null)
+            {
+                // encounterform
+                Guid g = Guid.NewGuid();
+                //encform.EncounterFormId = g;
+
+
+                encform.HistoryOfPresentIllnessOrInjury = _viewencounterinfo.HistoryOfIllness;
+                encform.Rr = _viewencounterinfo.RR;
+                encform.Hr = _viewencounterinfo.HR;
+                encform.Skin = _viewencounterinfo.Skin;
+                encform.Other = _viewencounterinfo.Other;
+                encform.Procedures = _viewencounterinfo.Procedures;
+                encform.Neuro = _viewencounterinfo.Neuro;
+                encform.Cv = _viewencounterinfo.CV;
+                encform.Abd = _viewencounterinfo.ABD;
+                encform.AdminId = _viewencounterinfo.AdminId;
+                encform.RequestId = _viewencounterinfo.RequestID;
+                encform.PhysicianId = _viewencounterinfo.PhysicianId;
+                encform.Temp = _viewencounterinfo.Temp;
+                encform.BloodPressureDiastolic = _viewencounterinfo.BPD;
+                encform.BloodPressureSystolic = _viewencounterinfo.BPS;
+                encform.Allergies = _viewencounterinfo.Allergies;
+                encform.Chest = _viewencounterinfo.Chest;
+                encform.Diagnosis = _viewencounterinfo.Diagnosis;
+                encform.FollowUp = _viewencounterinfo.Followup;
+                encform.TreatmentPlan = _viewencounterinfo.TrtPlan;
+                encform.Heent = _viewencounterinfo.heent;
+                encform.Extremeties = _viewencounterinfo.Extr;
+                //encform.IsFinalize = _viewencounterinfo.finalizwe;
+                encform.MedicalHistory = _viewencounterinfo.MedicalHist;
+                encform.Medications = _viewencounterinfo.Medications;
+                encform.MedicationsDispensed = _viewencounterinfo.MedDispensed;
+                encform.O2 = _viewencounterinfo.O2;
+                encform.Pain = _viewencounterinfo.Pain;
+                //encform.Physician = _viewencounterinfo.physician;
+                //encform.Request = _viewencounterinfo.request;
+                _context.EncounterForms.Add(encform);
+                _context.SaveChanges();
+            }
+        }
 
         #region GetProfile
         public async Task<AdminDetailsInfo> GetProfileDetails(int id)
@@ -973,6 +1019,7 @@ namespace HaloDocRepository.Repositories
             }
         }
         #endregion
+
     }
 }
 

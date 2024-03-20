@@ -70,7 +70,7 @@ public partial class Physician
     public string CreatedBy { get; set; } = null!;
 
     [Column(TypeName = "timestamp without time zone")]
-    public DateTime CreatedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
     [StringLength(128)]
     public string? ModifiedBy { get; set; }
@@ -81,10 +81,10 @@ public partial class Physician
     public short? Status { get; set; }
 
     [StringLength(100)]
-    public string? BusinessName { get; set; } = null!;
+    public string? BusinessName { get; set; }
 
     [StringLength(200)]
-    public string BusinessWebsite { get; set; } = null!;
+    public string? BusinessWebsite { get; set; }
 
     [Column(TypeName = "bit(1)")]
     public BitArray? IsDeleted { get; set; }
@@ -111,19 +111,14 @@ public partial class Physician
     public string? SyncEmailAddress { get; set; }
 
     [ForeignKey("AspNetUserId")]
-    [InverseProperty("PhysicianAspNetUsers")]
+    [InverseProperty("Physicians")]
     public virtual AspNetUser? AspNetUser { get; set; }
-
-    [ForeignKey("CreatedBy")]
-    [InverseProperty("PhysicianCreatedByNavigations")]
-    public virtual AspNetUser CreatedByNavigation { get; set; } = null!;
 
     [InverseProperty("Physician")]
     public virtual ICollection<EmailLog> EmailLogs { get; set; } = new List<EmailLog>();
 
-    [ForeignKey("ModifiedBy")]
-    [InverseProperty("PhysicianModifiedByNavigations")]
-    public virtual AspNetUser? ModifiedByNavigation { get; set; }
+    [InverseProperty("Physician")]
+    public virtual ICollection<EncounterForm> EncounterForms { get; set; } = new List<EncounterForm>();
 
     [InverseProperty("Physician")]
     public virtual ICollection<PhysicianLocation> PhysicianLocations { get; set; } = new List<PhysicianLocation>();
@@ -139,17 +134,7 @@ public partial class Physician
     public virtual Region? Region { get; set; }
 
     [InverseProperty("Physician")]
-    public virtual ICollection<RequestStatusLog> RequestStatusLogPhysicians { get; set; } = new List<RequestStatusLog>();
-
-    [InverseProperty("TransToPhysician")]
-    public virtual ICollection<RequestStatusLog> RequestStatusLogTransToPhysicians { get; set; } = new List<RequestStatusLog>();
-
-    [InverseProperty("Physician")]
     public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
-
-    [ForeignKey("RoleId")]
-    [InverseProperty("Physicians")]
-    public virtual Role? Role { get; set; }
 
     [InverseProperty("Physician")]
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();

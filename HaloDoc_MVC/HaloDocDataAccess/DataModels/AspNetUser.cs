@@ -47,13 +47,7 @@ public partial class AspNetUser
     public virtual ICollection<Business> Businesses { get; set; } = new List<Business>();
 
     [InverseProperty("AspNetUser")]
-    public virtual ICollection<Physician> PhysicianAspNetUsers { get; set; } = new List<Physician>();
-
-    [InverseProperty("CreatedByNavigation")]
-    public virtual ICollection<Physician> PhysicianCreatedByNavigations { get; set; } = new List<Physician>();
-
-    [InverseProperty("ModifiedByNavigation")]
-    public virtual ICollection<Physician> PhysicianModifiedByNavigations { get; set; } = new List<Physician>();
+    public virtual ICollection<Physician> Physicians { get; set; } = new List<Physician>();
 
     [InverseProperty("ModifiedByNavigation")]
     public virtual ICollection<ShiftDetail> ShiftDetails { get; set; } = new List<ShiftDetail>();

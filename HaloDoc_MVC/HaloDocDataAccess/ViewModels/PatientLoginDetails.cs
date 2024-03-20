@@ -42,7 +42,6 @@ namespace HaloDocDataAccess.ViewModels
     public class PatientProfile
     {
         public string? CreatedBy { get; set; }
-
         public int? UserId { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -52,7 +51,6 @@ namespace HaloDocDataAccess.ViewModels
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public DateTime DOB { get; set; }
-
         public string? Street { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }

@@ -375,6 +375,17 @@ namespace HaloDocDataAccess.Controllers
             EncounterInfo ei = _adminservice.Encounterinfo(RId);
             return View(ei);
         }
+        [HttpPost]
+        public IActionResult EncounterPost(EncounterInfo _viewencounterinfo)
+        {
+            if (ModelState.IsValid)
+            {
+                _adminservice.EncounterinfoPost(_viewencounterinfo);
+                return RedirectToAction("Index", "Admin");
+
+            }
+            return View(_viewencounterinfo);
+        }
         public async Task<IActionResult> AdminProfile()
         {
             ViewBag.AssignCase = _adminservice.AssignCase();

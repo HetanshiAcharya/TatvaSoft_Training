@@ -36,22 +36,10 @@ public partial class RequestStatusLog
     [Column(TypeName = "bit(1)")]
     public BitArray? TransToAdmin { get; set; }
 
-    [ForeignKey("AdminId")]
-    [InverseProperty("RequestStatusLogs")]
-    public virtual Admin Admin { get; set; } = null!;
-
-    [ForeignKey("PhysicianId")]
-    [InverseProperty("RequestStatusLogPhysicians")]
-    public virtual Physician Physician { get; set; } = null!;
-
     [ForeignKey("RequestId")]
     [InverseProperty("RequestStatusLogs")]
     public virtual Request Request { get; set; } = null!;
 
     [InverseProperty("RequestStatusLog")]
     public virtual ICollection<RequestClosed> RequestCloseds { get; set; } = new List<RequestClosed>();
-
-    [ForeignKey("TransToPhysicianId")]
-    [InverseProperty("RequestStatusLogTransToPhysicians")]
-    public virtual Physician TransToPhysician { get; set; } = null!;
 }
