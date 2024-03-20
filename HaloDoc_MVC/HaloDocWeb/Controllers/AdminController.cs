@@ -65,33 +65,10 @@ namespace HaloDocDataAccess.Controllers
             }
         }
 
-        //--------------Old Admin Login-----------------
-
-        //public IActionResult IndexPlatformLogin(AdminLogin adminLogin)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (_adminservice.AdminAuthentication(adminLogin))
-        //        {
-        //            AspNetUser? aspuser = _context.AspNetUsers.FirstOrDefault(Au => Au.Email == adminLogin.Email);
-        //            HttpContext.Session.SetString("userId", aspuser.Id);
-        //            return RedirectToAction("Index", "Admin");
-        //        }
-        //        else
-        //        {
-        //            ViewData["error"] = "Invalid Id/Password";
-
-        //        }
-        //    }
-        //    return View(adminLogin);
-        //}
-
-        //--------------Admin Forgot Pass--------------
         public IActionResult IndexForgotPass()
         {
             return View();
         }
-        //-------Logout--------------------------------
         #region end_session
         public async Task<IActionResult> Logout()
         {
@@ -100,16 +77,9 @@ namespace HaloDocDataAccess.Controllers
         }
         #endregion
 
-        //--------------Admin Dashboard----------------
         [CheckPhysicianAccess("Admin")]
         public IActionResult Index()
         {
-            //string? userId = HttpContext.Session.GetString("userId");
-            //if (userId == null)
-            //{
-            //    return View("Error");
-
-            //}
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
 
@@ -118,6 +88,7 @@ namespace HaloDocDataAccess.Controllers
 
             return View(sm);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> _SearchResult(PaginatedViewModel data)
@@ -291,13 +262,14 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult SendOrdersData(int selectedValue)
         {
             var v = _adminservice.SendOrdersInfo(selectedValue);
-
             return Json(v);
         }
         [HttpPost]
         public IActionResult SendOrders(int ReqId, OrderDetail o)
         {
             var v = _adminservice.SendOrders(ReqId, o);
+            _notyf.Success("Order Sent Successfully...");
+
             return RedirectToAction("Index", "Admin");
         }
         [HttpPost]
@@ -370,22 +342,40 @@ namespace HaloDocDataAccess.Controllers
             return RedirectToAction("Index", "Admin");
         }
         #endregion
-        public IActionResult Encounter(int?RId)
+        public IActionResult Encounter(int RId)
         {
-            EncounterInfo? ei = _adminservice.Encounterinfo(RId);
+            EncounterInfo ei = _adminservice.Encounterinfo(RId);
             return View(ei);
         }
         [HttpPost]
-        public IActionResult EncounterPost(EncounterInfo _viewencounterinfo)
+        public IActionResult Encounter(EncounterInfo _viewencounterinfo)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) 
             {
-                _adminservice.EncounterinfoPost(_viewencounterinfo);
-                return RedirectToAction("Index", "Admin");
+                _adminservice.EncounterInfoPost( _viewencounterinfo);
+                return View();
 
             }
             return View(_viewencounterinfo);
         }
+        [HttpPost]
+        public IActionResult EncounterFinalize(EncounterInfo _viewencounterinfo)
+        {
+            if (ModelState.IsValid)
+            {
+                _adminservice.EncounterFinalize(_viewencounterinfo);
+                _notyf.Success("Finalized Successfully...");
+                return View();
+
+            }
+            else
+            {
+                return RedirectToAction("Encounter", "Admin", _viewencounterinfo.RequestID);
+
+            }
+
+        }
+
         public async Task<IActionResult> AdminProfile()
         {
             ViewBag.AssignCase = _adminservice.AssignCase();

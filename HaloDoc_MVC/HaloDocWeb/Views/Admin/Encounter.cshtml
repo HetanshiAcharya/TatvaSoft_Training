@@ -4,7 +4,7 @@
 @using HaloDocDataAccess.ViewModels;
 @model HaloDocDataAccess.ViewModels.EncounterInfo
 @* --------------- Main Form --------------------------  *@
-<form class="container viewcasecard" method="post" asp-controller="Admin" asp-action="EncounterPost">
+<form class="container viewcasecard" method="post" asp-controller="Admin" asp-action="Encounter" id="myencform">
     @* --------------- Modal Header --------------------------  *@
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex justify-content-evenly">
@@ -16,10 +16,11 @@
     </div>
     <div class="form-group row  p-3 card-form">
 
-        <input type="hidden" asp-for="RequestID" />
-        <input type="hidden" asp-for="AdminId" />
-        <input type="hidden" asp-for="PhysicianId" />
-
+        <input type="hidden" asp-for="RequestID" id="RequestID" />
+        @*         <input type="hidden" asp-for="AdminId" />
+        *@
+        @*  <input type="hidden" asp-for="PhysicianId" />
+        *@
         <h2 class="text-info text-center"><strong>Medical Report-Confidential</strong></h2>
 
         <div class="col-sm-6">
@@ -63,160 +64,160 @@
             <textarea class="form-control col-md mt-4" asp-for="HistoryOfIllness"
                       type="text"
                       rows="3"
-                      placeholder="History of present illness or injury" required></textarea>
+                      placeholder="History of present illness or injury"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4" asp-for="MedicalHist"
                       type="text"
                       rows="3"
-                      placeholder="Medical History" required></textarea>
+                      placeholder="Medical History"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       asp-for="Medications"
                       type="text"
                       rows="3"
-                      placeholder="Medications" required></textarea>
+                      placeholder="Medications"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Allergies"
-                      placeholder="Allergies" required></textarea>
+                      placeholder="Allergies"></textarea>
         </div>
         <div class="col-sm-4">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Temp"
-                      placeholder="Temp" required></textarea>
+                      placeholder="Temp"></textarea>
         </div>
         <div class="col-sm-4">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="HR"
-                      placeholder="HR (Heart Rate)" required></textarea>
+                      placeholder="HR (Heart Rate)"></textarea>
         </div>
         <div class="col-sm-4">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="RR"
-                      placeholder="RR (Respiratory Rate)" required></textarea>
+                      placeholder="RR (Respiratory Rate)"></textarea>
         </div>
         <div class="col-sm-2">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="BPS"
-                      placeholder="Blood pressure(Systolic)" required></textarea>
+                      placeholder="Blood pressure(Systolic)"></textarea>
         </div>
         <div class="col-sm-2">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="BPD"
-                      placeholder="Blood pressure(Diastolic)" required></textarea>
+                      placeholder="Blood pressure(Diastolic)"></textarea>
         </div>
         <div class="col-sm-4">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="O2"
-                      placeholder="O2" required></textarea>
+                      placeholder="O2"></textarea>
         </div>
         <div class="col-sm-4">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Pain"
-                      placeholder="Pain" required></textarea>
+                      placeholder="Pain"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="heent"
-                      placeholder="Heent" required></textarea>
+                      placeholder="Heent"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="CV"
-                      placeholder="CV" required></textarea>
+                      placeholder="CV"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Chest"
-                      placeholder="Chest" required></textarea>
+                      placeholder="Chest"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="ABD"
-                      placeholder="ABD" required></textarea>
+                      placeholder="ABD"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Extr"
-                      placeholder="Extr" required></textarea>
+                      placeholder="Extr"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Skin"
-                      placeholder="Skin" required></textarea>
+                      placeholder="Skin"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Neuro"
-                      placeholder="Neuro" required></textarea>
+                      placeholder="Neuro"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Other"
-                      placeholder="Other" required></textarea>
+                      placeholder="Other"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Diagnosis"
-                      placeholder="Diagnosis" required></textarea>
+                      placeholder="Diagnosis"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="TrtPlan"
-                      placeholder="Treatment Plan" required></textarea>
+                      placeholder="Treatment Plan"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       asp-for="MedDispensed"
                       rows="3"
-                      placeholder="Medications Dispensed" required></textarea>
+                      placeholder="Medications Dispensed"></textarea>
         </div>
         <div class="col-sm-6">
             <textarea class="form-control col-md mt-4"
                       type="text"
                       rows="3"
                       asp-for="Procedures"
-                      placeholder="Procedures" required></textarea>
+                      placeholder="Procedures"></textarea>
         </div>
 
         <div class="col-sm-12 mb-2">
@@ -224,11 +225,11 @@
                       type="text"
                       rows="3"
                       asp-for="Followup"
-                      placeholder="Follow Up" required></textarea>
+                      placeholder="Follow Up"></textarea>
         </div>
         <div class="d-flex justify-content-end">
-            <button class="btn btn-info text-white rounded me-1" type="submit" >Save Changes</button>
-            <a class="btn rounded me-1 purple-btn">Finalize</a>
+            <button class="btn btn-info text-white rounded me-1" type="submit">Save Changes</button>
+            <button type="button" class="btn rounded me-1 purple-btn" id="finalizebtn">Finalize</button>
             <a class="btn border-info text-info rounded" asp-controller="Admin" asp-action="Index">Cancel</a>
         </div>
     </div>
@@ -251,5 +252,34 @@
     const phoneInput = window.intlTelInput(phoneInputField, {
         utilsScript:
             "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>
+<script>
+    $(function () {
+        $('#finalizebtn').on('click', function () {
+            Swal.fire({
+                title: "Do you want to Edit Information ?",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: `Don't save`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Admin/EncounterFinalize',
+                        type: 'Post',
+                        data: $('#myencform').serialize(),   //your form name.it takes all the values of model
+                        success: function () {
+                            console.log("success");
+                            location.reload();
+
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    });
+                }
+            });
+        });
     });
 </script>

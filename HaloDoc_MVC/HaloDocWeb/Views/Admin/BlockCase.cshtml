@@ -8,12 +8,12 @@
             </div>
             @* --------------- Main Form --------------------------  *@
 
-            <form method="post" asp-action="BlockCase" asp-controller="Admin" id="">
+            <form method="post" asp-action="BlockCase" asp-controller="Admin" id="" class="needs-validation" novalidate>
                 <input type="hidden" name="requestid" id="RequestID_ModelBlockCase" />
                 <div class="modal-body">
                     <p><small>Patient Name:</small><span id="RequestID_PatientNameBlockCase" class="text-info"></span> </p>
                     <textarea name="Notes" class="form-control" id="exampleFormControlTextarea1" rows="4"
-                              placeholder="Provide Additional Notes"></textarea>
+                              placeholder="Provide Additional Notes" required></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-outline-info">Submit</button>

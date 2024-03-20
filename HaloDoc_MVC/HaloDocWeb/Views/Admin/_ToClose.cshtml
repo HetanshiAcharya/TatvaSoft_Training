@@ -76,7 +76,7 @@
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="SendOrders" asp-route-ReqId="@item.RequestID"><i class="bi bi-journal-check"></i> Orders</a></li>
                             <li><a class="dropdown-item" onclick="clearcasepopup(@item.RequestID)" id="clearcase"><i class="bi bi-x-circle me-1"></i> Clear Case</a></li>
                             <li><a class="dropdown-item" asp-action="CloseCase" asp-controller="Admin" asp-route-RequestID="@item.RequestID"><i class="bi bi-x-circle me-1"></i>Close Case</a></li>
-                            <li><a class="dropdown-item" ><i class="bi bi-card-text"></i> Encounter</a></li>
+                            <li><a asp-controller="Admin" asp-action="Encounter" asp-route-RId="@item.RequestID" class="dropdown-item"><i class="bi bi-card-text"></i> Encounter</a></li>
 
                         </ul>
 
@@ -85,6 +85,47 @@
             }
         </tbody>
     </table>
+</div>
+<div class="m-2 d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-container">
+            @{
+                int i;
+                <form id="paginationform" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
+                      asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="d-flex">
+                    <input type="hidden" asp-for="RegionId" />
+                    <input type="hidden" asp-for="RequestType" />
+                    <input type="hidden" asp-for="SearchInput" />
+                    <input type="hidden" asp-for="PageSize" />
+                    <input type="hidden" asp-for="CurrentPage" id="currentpagevalue" />
+
+                    @if (@Model.CurrentPage > 1)
+                    {
+                    <li class="page-item me-2"><button class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</button></li>
+                    }
+                    else
+                    {
+                    <li class="me-2 page-item"><button class="disabled btn border-0">&lt;</button></li>
+                    }
+                    @for (i = 1; i <= @Model.TotalPages; i++)
+                    {
+                    <li class="page-item me-2"><button class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</button></li>
+                    }
+                    @if (@Model.TotalPages > @Model.CurrentPage)
+                    {
+                    <li class="page-item me-2"><button class="btn shadow-none " onclick="setpagenumber('next')">&gt;</button></li>
+                    }
+                    else
+                    {
+                    <li class="me-2 page-item">
+                        <button class="btn disabled border-0">&gt;</button>
+
+                    </li>
+                    }
+                </form>
+            }
+        </ul>
+    </nav>
 </div>
 @* --------------- Mobile Screen View --------------------------  *@
 
@@ -175,3 +216,20 @@
         }
     </div>
 </div>
+<script>
+    function setpagenumber(e) {
+        if (e == 'previous') {
+            var cp = @Model.CurrentPage-1;
+            $('#currentpagevalue').val(cp);
+        }
+        else if (e == 'next') {
+            var cp = @Model.CurrentPage + 1;
+            $('#currentpagevalue').val(cp);
+        }
+        else {
+            $('#currentpagevalue').val(e);
+        }
+        $("#paginationform").submit();
+    }
+
+</script>

@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics.Metrics;
 
 namespace HaloDocRepository.Repositories
 {
@@ -796,98 +797,113 @@ namespace HaloDocRepository.Repositories
         }
 
         #region enounterinfo
-        public EncounterInfo Encounterinfo(int? rId)
+        public EncounterInfo Encounterinfo(int rId)
         {
-          
-            EncounterForm ef = new EncounterForm();
-            ef.RequestId = rId;
-            _context.EncounterForms.Add(ef);
-            _context.SaveChanges();
-            var n = _context.Requests.FirstOrDefault(E => E.RequestId == rId);
-            var e = _context.EncounterForms.FirstOrDefault(E => E.RequestId == rId);
-            var rc = _context.RequestClients.FirstOrDefault(R => R.RequestId == rId);
-            EncounterInfo? requestforviewcase = new EncounterInfo
-            {
-                RequestID = rId,
-                FirstName = n.FirstName,
-                LastName = n.LastName,
-                PhoneNumber = n.PhoneNumber,
-                Email = n.Email,
-                Location = rc.Street + "," + rc.City + "," + rc.State,
-                //Bdate = new DateTime((int)rc.IntYear, DateTime.ParseExact(rc.StrMonth, "MMMM", new CultureInfo("en-US")).Month, (int)rc.IntDate),
-                CreatedDate = n.CreatedDate,
-                HistoryOfIllness = e.HistoryOfPresentIllnessOrInjury,
-                MedicalHist = e.MedicalHistory,
-                Medications = e.Medications,
-                Allergies = e.Allergies,
-                Temp=e.Temp,
-                HR=e.Hr,
-                RR=e.Rr,
-                BPS=e.BloodPressureSystolic,
-                BPD=e.BloodPressureDiastolic,
-                O2=e.O2,
-                Chest=e.Chest,
-                ABD=e.Abd,
-                Extr=e.Extremeties,
-                Skin=e.Skin,
-                Neuro=e.Neuro,
-                Other=e.Other,
-                Diagnosis=e.Diagnosis,
-                TrtPlan=e.TreatmentPlan,
-                MedDispensed=e.MedicationsDispensed,
-                Procedures=e.Procedures,
-                Followup=e.FollowUp
-            };
-         
 
-            return requestforviewcase;
+            if (rId == null) return null;
+            var encounter = (from rc in _context.RequestClients
+                             join en in _context.EncounterForms on rc.RequestId equals en.RequestId into renGroup
+                             from subEn in renGroup.DefaultIfEmpty()
+                             where rc.RequestId == rId
+                             select new EncounterInfo
+                             {
+                                 RequestID = rc.RequestId,
+                                 FirstName = rc.FirstName,
+                                 LastName = rc.LastName,
+                                 Location = rc.Address,
+                                 Bdate = new DateTime((int)rc.IntYear, Convert.ToInt32(rc.StrMonth.Trim()), (int)rc.IntDate),
+                                 PhoneNumber = rc.PhoneNumber,
+                                 Email = rc.Email,
+                                 HistoryOfIllness = subEn.HistoryOfPresentIllnessOrInjury,
+                                 MedicalHist = subEn.MedicalHistory,
+                                 Medications = subEn.Medications,
+                                 Allergies = subEn.Allergies,
+                                 Temp = subEn.Temp,
+                                 HR = subEn.Hr,
+                                 RR = subEn.Rr,
+                                 BPS = subEn.BloodPressureSystolic,
+                                 BPD=subEn.BloodPressureDiastolic,
+                                 O2 = subEn.O2,
+                                 Pain = subEn.Pain,
+                                 heent = subEn.Heent,
+                                 CV = subEn.Cv,
+                                 Chest = subEn.Chest,
+                                 ABD = subEn.Abd,
+                                 Extr = subEn.Extremeties,
+                                 Skin = subEn.Skin,
+                                 Neuro = subEn.Neuro,
+                                 Other = subEn.Other,
+                                 Diagnosis = subEn.Diagnosis,
+                                 TrtPlan = subEn.TreatmentPlan,
+                                 MedDispensed = subEn.MedicationsDispensed,
+                                 Procedures = subEn.Procedures,
+                                 Followup = subEn.FollowUp,
+                             }).FirstOrDefault();
+
+            return encounter;
         }
 
         #endregion
-        public void EncounterinfoPost(EncounterInfo _viewencounterinfo)
+
+        #region EncounterSave
+        public EncounterInfo EncounterInfoPost(EncounterInfo ve)
         {
-            var encform = new EncounterForm();
-
-            var isexist = _context.EncounterForms.FirstOrDefault(x => x.AdminId == _viewencounterinfo.AdminId);
-            if (isexist == null)
+            var RC = _context.RequestClients.FirstOrDefault(rc => rc.RequestId == ve.RequestID);
+            if (RC == null) return null;
+            RC.FirstName = ve.FirstName;
+            RC.LastName = ve.LastName;
+            RC.Address = ve.Location;
+            RC.StrMonth = ve.Bdate.Month.ToString();
+            RC.IntDate = ve.Bdate.Day;
+            RC.IntYear = ve.Bdate.Year;
+            RC.PhoneNumber = ve.PhoneNumber;
+            RC.Email = ve.Email;
+            _context.Update(RC);
+            var E = _context.EncounterForms.FirstOrDefault(e => e.RequestId == ve.RequestID);
+            if (E == null)
             {
-               
-
-
-                encform.HistoryOfPresentIllnessOrInjury = _viewencounterinfo.HistoryOfIllness;
-                encform.Rr = _viewencounterinfo.RR;
-                encform.Hr = _viewencounterinfo.HR;
-                encform.Skin = _viewencounterinfo.Skin;
-                encform.Other = _viewencounterinfo.Other;
-                encform.Procedures = _viewencounterinfo.Procedures;
-                encform.Neuro = _viewencounterinfo.Neuro;
-                encform.Cv = _viewencounterinfo.CV;
-                encform.Abd = _viewencounterinfo.ABD;
-                encform.AdminId = _viewencounterinfo.AdminId;
-                encform.RequestId = _viewencounterinfo.RequestID;
-                encform.PhysicianId = _viewencounterinfo.PhysicianId;
-                encform.Temp = _viewencounterinfo.Temp;
-                encform.BloodPressureDiastolic = _viewencounterinfo.BPD;
-                encform.BloodPressureSystolic = _viewencounterinfo.BPS;
-                encform.Allergies = _viewencounterinfo.Allergies;
-                encform.Chest = _viewencounterinfo.Chest;
-                encform.Diagnosis = _viewencounterinfo.Diagnosis;
-                encform.FollowUp = _viewencounterinfo.Followup;
-                encform.TreatmentPlan = _viewencounterinfo.TrtPlan;
-                encform.Heent = _viewencounterinfo.heent;
-                encform.Extremeties = _viewencounterinfo.Extr;
-                //encform.IsFinalize = _viewencounterinfo.finalizwe;
-                encform.MedicalHistory = _viewencounterinfo.MedicalHist;
-                encform.Medications = _viewencounterinfo.Medications;
-                encform.MedicationsDispensed = _viewencounterinfo.MedDispensed;
-                encform.O2 = _viewencounterinfo.O2;
-                encform.Pain = _viewencounterinfo.Pain;
-                //encform.Physician = _viewencounterinfo.physician;
-                //encform.Request = _viewencounterinfo.request;
-                _context.EncounterForms.Update(encform);
-                _context.SaveChanges();
+                E = new EncounterForm { RequestId = (int)ve.RequestID };
+                _context.EncounterForms.Add(E);
             }
+            //E.DateOfService = ve.CreatedDate;
+            E.MedicalHistory = ve.MedicalHist;
+            E.HistoryOfPresentIllnessOrInjury = ve.HistoryOfIllness;
+            E.Medications = ve.Medications;
+            E.Allergies = ve.Allergies;
+            E.Temp = ve.Temp;
+            E.Hr = ve.HR;
+            E.Rr = ve.RR;
+            E.BloodPressureSystolic = ve.BPS;
+            E.BloodPressureDiastolic = ve.BPD;
+            E.O2 = ve.O2;
+            E.Pain = ve.Pain;
+            E.Heent = ve.heent;
+            E.Cv = ve.CV;
+            E.Chest = ve.Chest;
+            E.Abd = ve.ABD;
+            E.Extremeties = ve.Extr;
+            E.Skin = ve.Skin;
+            E.Neuro = ve.Neuro;
+            E.Other = ve.Other;
+            E.Diagnosis = ve.Diagnosis;
+            E.TreatmentPlan = ve.TrtPlan;
+            E.MedicationsDispensed = ve.MedDispensed;
+            E.Procedures = ve.Procedures;
+            E.FollowUp = ve.Followup;
+            E.IsFinalize = false;
+            _context.SaveChanges();
+            return ve;
         }
+        #endregion
+
+        #region encounterfinalize
+        public void EncounterFinalize(EncounterInfo ve)
+        {
+            var E = _context.EncounterForms.FirstOrDefault(e => e.RequestId == ve.RequestID);
+            E.IsFinalize = true;
+            _context.SaveChanges();
+        }
+        #endregion
 
         #region GetProfile
         public async Task<AdminDetailsInfo> GetProfileDetails(int id)
