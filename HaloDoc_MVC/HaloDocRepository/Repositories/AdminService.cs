@@ -20,6 +20,7 @@ using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HaloDocRepository.Repositories
 {
@@ -589,6 +590,7 @@ namespace HaloDocRepository.Repositories
                 _context.RequestStatusLogs.Add(rsl);
                 _context.SaveChanges();
 
+
             }
             return true;
         }
@@ -796,10 +798,17 @@ namespace HaloDocRepository.Repositories
         #region enounterinfo
         public EncounterInfo Encounterinfo(int? rId)
         {
+          
+            EncounterForm ef = new EncounterForm();
+            ef.RequestId = rId;
+            _context.EncounterForms.Add(ef);
+            _context.SaveChanges();
             var n = _context.Requests.FirstOrDefault(E => E.RequestId == rId);
+            var e = _context.EncounterForms.FirstOrDefault(E => E.RequestId == rId);
             var rc = _context.RequestClients.FirstOrDefault(R => R.RequestId == rId);
-            EncounterInfo requestforviewcase = new EncounterInfo
+            EncounterInfo? requestforviewcase = new EncounterInfo
             {
+                RequestID = rId,
                 FirstName = n.FirstName,
                 LastName = n.LastName,
                 PhoneNumber = n.PhoneNumber,
@@ -807,8 +816,30 @@ namespace HaloDocRepository.Repositories
                 Location = rc.Street + "," + rc.City + "," + rc.State,
                 //Bdate = new DateTime((int)rc.IntYear, DateTime.ParseExact(rc.StrMonth, "MMMM", new CultureInfo("en-US")).Month, (int)rc.IntDate),
                 CreatedDate = n.CreatedDate,
-                RequestID = rId
+                HistoryOfIllness = e.HistoryOfPresentIllnessOrInjury,
+                MedicalHist = e.MedicalHistory,
+                Medications = e.Medications,
+                Allergies = e.Allergies,
+                Temp=e.Temp,
+                HR=e.Hr,
+                RR=e.Rr,
+                BPS=e.BloodPressureSystolic,
+                BPD=e.BloodPressureDiastolic,
+                O2=e.O2,
+                Chest=e.Chest,
+                ABD=e.Abd,
+                Extr=e.Extremeties,
+                Skin=e.Skin,
+                Neuro=e.Neuro,
+                Other=e.Other,
+                Diagnosis=e.Diagnosis,
+                TrtPlan=e.TreatmentPlan,
+                MedDispensed=e.MedicationsDispensed,
+                Procedures=e.Procedures,
+                Followup=e.FollowUp
             };
+         
+
             return requestforviewcase;
         }
 
@@ -820,9 +851,7 @@ namespace HaloDocRepository.Repositories
             var isexist = _context.EncounterForms.FirstOrDefault(x => x.AdminId == _viewencounterinfo.AdminId);
             if (isexist == null)
             {
-                // encounterform
-                Guid g = Guid.NewGuid();
-                //encform.EncounterFormId = g;
+               
 
 
                 encform.HistoryOfPresentIllnessOrInjury = _viewencounterinfo.HistoryOfIllness;
@@ -855,7 +884,7 @@ namespace HaloDocRepository.Repositories
                 encform.Pain = _viewencounterinfo.Pain;
                 //encform.Physician = _viewencounterinfo.physician;
                 //encform.Request = _viewencounterinfo.request;
-                _context.EncounterForms.Add(encform);
+                _context.EncounterForms.Update(encform);
                 _context.SaveChanges();
             }
         }

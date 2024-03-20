@@ -372,7 +372,7 @@ namespace HaloDocDataAccess.Controllers
         #endregion
         public IActionResult Encounter(int?RId)
         {
-            EncounterInfo ei = _adminservice.Encounterinfo(RId);
+            EncounterInfo? ei = _adminservice.Encounterinfo(RId);
             return View(ei);
         }
         [HttpPost]

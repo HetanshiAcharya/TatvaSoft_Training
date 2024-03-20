@@ -4,7 +4,7 @@
 @using HaloDocDataAccess.ViewModels;
 @model HaloDocDataAccess.ViewModels.EncounterInfo
 @* --------------- Main Form --------------------------  *@
-<form class="container viewcasecard" method="post">
+<form class="container viewcasecard" method="post" asp-controller="Admin" asp-action="EncounterPost">
     @* --------------- Modal Header --------------------------  *@
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex justify-content-evenly">
@@ -227,7 +227,7 @@
                       placeholder="Follow Up" required></textarea>
         </div>
         <div class="d-flex justify-content-end">
-            <a class="btn btn-info text-white rounded me-1" type="submit" asp-controller="Admin" asp-action="EncounterPost">Save Changes</a>
+            <button class="btn btn-info text-white rounded me-1" type="submit" >Save Changes</button>
             <a class="btn rounded me-1 purple-btn">Finalize</a>
             <a class="btn border-info text-info rounded" asp-controller="Admin" asp-action="Index">Cancel</a>
         </div>

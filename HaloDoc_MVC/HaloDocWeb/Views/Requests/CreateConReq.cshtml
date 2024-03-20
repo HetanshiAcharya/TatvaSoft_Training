@@ -24,13 +24,14 @@
         <div class="form-group row">
             <div class="col-sm-12 d-flex justify-content-end">
                 <button class="btn btn-outline-primary mr-4" type="submit">
-                    <a asp-controller="RequestHome" asp-action="PatientSubmitReq" class="link-color">Back</a>
+                    <a asp-controller="Home" asp-action="SubmitReq" class="link-color">Back</a>
                 </button>
             </div>
             <h4 class="mt-4 mb-6">Concierge Information</h4>
             <div class="col-sm-6">
                 <input asp-for="CON_FirstName" class="form-control form-control-md col-md mt-4"
                        type="text"
+                       pattern="[A-Za-z]"
                        placeholder="First Name" required />
             </div>
 
@@ -42,10 +43,9 @@
             <span asp-validation-for="CON_FirstName" class="text-danger validate col-6"></span>
             <span asp-validation-for="CON_LastName" class="text-danger validate col-6"></span>
 
-            <div class="col-sm">
+            <div class="col-sm-6">
                 <input asp-for="CON_Email" class="form-control form-control-md col-md mt-4"
                        type="email"
-                       id="email"
                        placeholder="Enter Email" required />
             </div>
             <div class="col-sm-6">
@@ -112,6 +112,8 @@
                        class="form-control form-control-md col-md mt-4"
                        placeholder="Select Date" required />
             </div>
+            <span class="text-danger col-6"></span>
+            <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
 
             <h4 class="mt-4 mb-6">Patient Contact Information</h4>
             <div class="col-sm">
@@ -125,7 +127,6 @@
                        type="tel"
                        class="form-control form-control-md col-md mt-4 iti" />
             </div>
-            <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
             <span asp-validation-for="Email" class="text-danger validate col-6"></span>
 
             <h4 class="mt-4 mb-6">Patient Location</h4>

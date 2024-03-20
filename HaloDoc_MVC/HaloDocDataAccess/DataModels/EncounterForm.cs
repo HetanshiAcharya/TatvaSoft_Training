@@ -9,9 +9,6 @@ namespace HaloDocDataAccess.DataModels;
 [Table("EncounterForm")]
 public partial class EncounterForm
 {
-    [Key]
-    public int EncounterFormId { get; set; }
-
     public int? RequestId { get; set; }
 
     public string? HistoryOfPresentIllnessOrInjury { get; set; }
@@ -71,6 +68,9 @@ public partial class EncounterForm
     public int? PhysicianId { get; set; }
 
     public bool IsFinalize { get; set; }
+
+    [Key]
+    public int EncounterFormId { get; set; }
 
     [ForeignKey("AdminId")]
     [InverseProperty("EncounterForms")]

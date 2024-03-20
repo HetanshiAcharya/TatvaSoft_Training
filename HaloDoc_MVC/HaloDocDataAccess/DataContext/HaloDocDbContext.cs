@@ -197,7 +197,7 @@ public partial class HaloDocDbContext : DbContext
         {
             entity.HasKey(e => e.EncounterFormId).HasName("EncounterForm_pkey");
 
-            entity.Property(e => e.EncounterFormId).HasDefaultValueSql("1");
+            entity.Property(e => e.EncounterFormId).HasIdentityOptions(null, null, null, null, true, null);
 
             entity.HasOne(d => d.Admin).WithMany(p => p.EncounterForms).HasConstraintName("AdminId");
 
