@@ -113,7 +113,7 @@ namespace HaloDocRepository.Repositories
                                                 req.FirstName.Contains(data.SearchInput) || req.LastName.Contains(data.SearchInput) ||
                                                 rc.Email.Contains(data.SearchInput) || rc.PhoneNumber.Contains(data.SearchInput) ||
                                                 rc.Street.Contains(data.SearchInput) || rc.Notes.Contains(data.SearchInput) ||
-                                                p.FirstName.Contains(data.SearchInput) || p.LastName.Contains(data.SearchInput) || rc.Street.Contains(data.SearchInput)|| rc.City.Contains(data.SearchInput)|| rc.State.Contains(data.SearchInput)|| rc.ZipCode.Contains(data.SearchInput)||
+                                                p.FirstName.Contains(data.SearchInput) || p.LastName.Contains(data.SearchInput) || rc.Street.Contains(data.SearchInput) || rc.City.Contains(data.SearchInput) || rc.State.Contains(data.SearchInput) || rc.ZipCode.Contains(data.SearchInput) ||
                                                 rg.Name.Contains(data.SearchInput)) && (data.RegionId == null || rc.RegionId == data.RegionId)
                                                 && (data.RequestType == null || req.RequestTypeId == data.RequestType)
                                                 orderby req.CreatedDate descending
@@ -983,7 +983,7 @@ namespace HaloDocRepository.Repositories
                                  HR = subEn.Hr,
                                  RR = subEn.Rr,
                                  BPS = subEn.BloodPressureSystolic,
-                                 BPD=subEn.BloodPressureDiastolic,
+                                 BPD = subEn.BloodPressureDiastolic,
                                  O2 = subEn.O2,
                                  Pain = subEn.Pain,
                                  heent = subEn.Heent,
@@ -1018,7 +1018,7 @@ namespace HaloDocRepository.Repositories
             RC.IntDate = ve.Bdate.Day;
             RC.IntYear = ve.Bdate.Year;
             RC.PhoneNumber = ve.PhoneNumber;
-           
+
             RC.Email = ve.Email;
             _context.Update(RC);
             var E = _context.EncounterForms.FirstOrDefault(e => e.RequestId == ve.RequestID);
@@ -1070,9 +1070,9 @@ namespace HaloDocRepository.Repositories
         #region GetProfile
         public async Task<AdminDetailsInfo> GetProfileDetails(int id)
         {
-            AdminDetailsInfo? v = await  (from r in _context.Admins
-                                   join Aspnetuser in _context.AspNetUsers
-                                         on r.AspNetUserId equals Aspnetuser.Id into aspGroup
+            AdminDetailsInfo? v = await (from r in _context.Admins
+                                         join Aspnetuser in _context.AspNetUsers
+                                               on r.AspNetUserId equals Aspnetuser.Id into aspGroup
                                          from asp in aspGroup.DefaultIfEmpty()
                                          where r.AdminId == id
                                          select new AdminDetailsInfo
@@ -1088,7 +1088,7 @@ namespace HaloDocRepository.Repositories
                                              CreatedBy = r.CreatedBy,
                                              Email = r.Email,
                                              CreatedDate = r.CreatedDate,
-                                             Phone  = r.Mobile,
+                                             Phone = r.Mobile,
                                              //ModifiedBy = r.ModifiedBy,
                                              //Modifieddate = r.ModifiedDate,
                                              Regionid = r.RegionId,
@@ -1103,7 +1103,7 @@ namespace HaloDocRepository.Repositories
                   .Select(req => new Region()
                   {
                       RegionId = req.RegionId
-                                            
+
                   })
                   .ToListAsync();
             v.Regionids = regions;
@@ -1119,7 +1119,7 @@ namespace HaloDocRepository.Repositories
 
             if (U != null)
             {
-                U.PasswordHash =GenerateSHA256(password);
+                U.PasswordHash = GenerateSHA256(password);
                 _context.AspNetUsers.Update(U);
                 _context.SaveChanges();
                 return true;
@@ -1265,7 +1265,40 @@ namespace HaloDocRepository.Repositories
             _emailConfig.SendMail(sendAgreement.Email, "Agreement for your request", $"Agreement for your request <a href='{agreementUrl}'>Accept and Generate Request</a>");
             return true;
         }
-
+        public List<AdminDashboardList> Export(string status)
+        {
+            List<int> statusdata = status.Split(',').Select(int.Parse).ToList();
+            List<AdminDashboardList> allData = (from req in _context.Requests
+                                                join reqClient in _context.RequestClients
+                                                on req.RequestId equals reqClient.RequestId into reqClientGroup
+                                                from rc in reqClientGroup.DefaultIfEmpty()
+                                                join phys in _context.Physicians
+                                                on req.PhysicianId equals phys.PhysicianId into physGroup
+                                                from p in physGroup.DefaultIfEmpty()
+                                                join reg in _context.Regions
+                                                on rc.RegionId equals reg.RegionId into RegGroup
+                                                from rg in RegGroup.DefaultIfEmpty()
+                                                where statusdata.Contains((int)req.Status)
+                                                orderby req.CreatedDate descending
+                                                select new AdminDashboardList
+                                                {
+                                                    RequestID = req.RequestId,
+                                                    RequestTypeID = req.RequestTypeId,
+                                                    Requestor = req.FirstName + " " + req.LastName,
+                                                    PatientName = rc.FirstName + " " + rc.LastName,
+                                                    //Bdate = new DateTime((int)rc.IntYear, Convert.ToInt32(rc.StrMonth.Trim()), (int)rc.IntDate),
+                                                    RequestedDate = (DateTime)req.CreatedDate,
+                                                    Email = rc.Email,
+                                                    Region = rg.Name,
+                                                    ProviderName = p.FirstName + " " + p.LastName,
+                                                    PhoneNumber = rc.PhoneNumber,
+                                                    Address = rc.Address,
+                                                    Notes = rc.Notes,
+                                                    ProviderID = req.PhysicianId,
+                                                    RequestorPhoneNumber = req.PhoneNumber
+                                                }).ToList();
+            return allData;
+        }
     }
 }
 

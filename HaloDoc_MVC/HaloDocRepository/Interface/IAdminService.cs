@@ -51,7 +51,7 @@ namespace HaloDocRepository.Interface
         public EncounterInfo EncounterInfoPost( EncounterInfo ve);
         public void EncounterFinalize(EncounterInfo ve);
         public bool SendLink(sendAgreement sendAgreement);
-
+        List<AdminDashboardList> Export(string status);
     }
 
 }

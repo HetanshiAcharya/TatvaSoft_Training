@@ -49,7 +49,7 @@
                             <button onclick="" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="downloadAll">
                                 <span>Download All</span>
                             </button>
-                            <button onclick="deleteFile(@Model.RequestId,@Model.RequestId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="deleteAll">
+                            <button onclick="deleteFile(@Model.RequestId,@Model.RequestwisefilesId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="deleteAll">
                                 <span>Delete All</span>
                             </button>
                             @* <li><a class="dropdown-item" onclick="SendAgreement(@item.RequestID)"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li> *@
@@ -78,10 +78,10 @@
                                     <th class="">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="table-body align-middle">
+                            <tbody class="table-body align-middle t-tab">
                                 @foreach (var file in Model.requestwisefiles)
                                 {
-                                    <tr class="table-row">
+                                    <tr class="table-row border-bottom">
                                         <td>
                                             <input type="checkbox" class="checkbox">
                                         </td>
@@ -99,11 +99,11 @@
                                         <td>@file.CreatedDate.ToString("MMM dd, yyyy")</td>
                                         <td class="text-info w-20">
                                             @* --------download button-------  *@
-                                            <a href="~/UploadFiles/@file.FileName" class="btn px-2 py-1 mx-2 btn-outline-info shadow-none night-mode-btn download-button" download>
+                                            <a href="~/Upload/@file.RequestId/@file.FileName" class="btn px-2 py-1 mx-2 btn-outline-info shadow-none night-mode-btn download-button" download>
                                                 <i class="bi bi-cloud-download"></i>
                                             </a>
                                             @* --------Delete button-------  *@
-                                            <a asp-controller="Admin" asp-action="DeleteFile" asp-route-requestid="@file.RequestId" asp-route-reqwisefileid="@file.RequestWiseFileId" asp-route-userid="@file.RequestId" class="btn px-2 py-1 btn-outline-info shadow-none night-mode-btn">
+                                            <a asp-controller="Admin" asp-action="DeleteFile" asp-route-requestid="@file.RequestId" asp-route-reqwisefileid="@file.RequestWiseFileId" asp-route-userid="@file.RequestId" class="btn px-2 py-1 btn-outline-info shadow-none night-mode-btn" id="deleteids">
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
 
                                             </a>
@@ -123,6 +123,7 @@
     <div id="display"></div>
 
 </div><script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+@* send email  *@
 <script>
     function SendAgreement(reqId) {
         console.log(reqId);
@@ -142,38 +143,39 @@
             },
         });
     }
-    </script>
+</script>
+@* checkbox all  *@
 <script>
     var clicked = false; $("#checkall").on("click", function () {
         $(".checkbox").prop("checked", !clicked);
         clicked = !clicked; this.innerHTML = clicked ? 'Deselect' : 'Select';
     });
 </script>
+@* download *@
 <script>
-    // bind file-input-form click action to text-input-span
     $('#text_input_span_id').click(function () {
         $("#file_input_id").trigger('click');
     })
-    // bind file-input-form click action to text-input-form
     $('#text_input_id').click(function () {
         $("#file_input_id").trigger('click');
     })
-    // display file name in text-input-form
     $("#file_input_id").change(function () {
         $('#text_input_id').val(this.value.replace(/C:\\fakepath\\/i, ''))
     })
 </script>
+@* download all*@
 <script>
     document.getElementById('downloadAll').addEventListener('click', function () {
         var rows = document.querySelectorAll('table tbody tr');
-
         rows.forEach(function (row) {
             var checkbox = row.querySelector('input[type="checkbox"]');
             var downloadLink = row.querySelector('a.download-button');
-
+            console.log(checkbox);
             if (checkbox.checked) {
                 // Trigger the download for the file in the row
                 var fileUrl = downloadLink.getAttribute('href');
+                console.log(fileUrl);
+
                 downloadFile(fileUrl);
             }
         });
@@ -182,28 +184,84 @@
         // Create a temporary link element to trigger the file download
         var link = document.createElement('a');
         link.href = fileUrl;
-        link.download = fileUrl.substr(fileUrl.lastIndexOf('/') + 1);
+        link.download = fileUrl.substr(fileUrl.lastIndexOf('/'));
         link.click();
     }
 </script>
+
  <script>
-        function deleteFile(requestid, requestwisefileid) {
-            document.getElementById('deleteAll').addEventListener('click', function () {
-                var rows = document.querySelectorAll('table tbody tr');
-                rows.forEach(function (row)){
-                    $.ajax({
-                        url: "/Admin/DeleteFile",
-                        data: { reqwisefileid: requestwisefileid, requestid: requestid },
-                        type: 'GET',
-                        success: function (result) {
-                            location.reload();
-                        },
-                        error: function (error) {
-                            console.log(error);
-                            alert('Error Cancelling Request')
-                        },
-                    });
+    $('#deleteAll').click(function () {
+        anyCheckboxSelected = false;
+        $('tbody tr').each(function () {
+            if ($(this).find('.form-check-input').prop('checked')) {
+                anyCheckboxSelected = true;
+                var downloadLink = $(this).find('.RequestwisefilesId').val();
+                var deleteids = $('#deleteids').val();
+                console.log(deleteids);
+                if (deleteids == '') {
+                    $('#deleteids').val(downloadLink);
+                } else {
+                    $('#deleteids').val(deleteids + ',' + downloadLink);
                 }
+                console.log($('#deleteids').val());
             }
+        });
+        $('.t-tab > .border-bottom').each(function () {
+            if ($(this).find('.form-check-input').prop('checked')) {
+                anyCheckboxSelected = true;
+                var downloadLink = $(this).find('.RequestwisefilesId').val();
+                var deleteids = $('#deleteids').val();
+                console.log(deleteids);
+                if (deleteids == '') {
+                    $('#deleteids').val(downloadLink);
+                } else {
+                    $('#deleteids').val(deleteids + ',' + downloadLink);
+                }
+                console.log($('#deleteids').val());
+            }
+        });
+        if (anyCheckboxSelected) {
+            Swal.fire({
+                text: "Do you want to Delete That file ?",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                denyButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#deleted').submit();
+                }
+            });
+        }
+        else {
+            swal.fire({
+                title: "Oops..",
+                text: "Oops! Please Select One File ",
+                icon: "error",
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: "Okay",
+                cancelButtonColor: "#01BBE7",
+            })
+        }
+    });
+        // function deleteFile(requestid, requestwisefileid) {
+        //     document.getElementById('deleteAll').addEventListener('click', function () {
+        //         var rows = document.querySelectorAll('table tbody tr');
+        //         rows.forEach(function (row)){
+        //             $.ajax({
+        //                 url: "/Admin/DeleteFile",
+        //                 data: { reqwisefileid: requestwisefileid, requestid: requestid },
+        //                 type: 'GET',
+        //                 success: function (result) {
+        //                     location.reload();
+        //                 },
+        //                 error: function (error) {
+        //                     console.log(error);
+        //                     alert('Error Cancelling Request')
+        //                 },
+        //             });
+        //         }
+        //     }
 </script>
 <script src="~/js/patientSite.js"></script>

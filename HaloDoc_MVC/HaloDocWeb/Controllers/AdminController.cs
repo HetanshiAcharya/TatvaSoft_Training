@@ -17,6 +17,8 @@ using HaloDocWeb.Controllers.Admin;
 using System;
 using Microsoft.AspNetCore.Routing;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.Extensions.Hosting;
+using OfficeOpenXml;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -259,13 +261,22 @@ namespace HaloDocDataAccess.Controllers
         public IActionResult ViewUploads(ViewDocument viewdata)
         {
             string UploadImage = "";
+            var obj = _context.Requests.FirstOrDefault(x => x.RequestId == viewdata.RequestId);
+
             if (viewdata.File != null)
             {
-                string FilePath = "wwwroot\\Upload";
-                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-                string fileNameWithPath = Path.Combine(path, viewdata.File.FileName);
+                //User? user = _context.Users.First(x => x.UserId == obj.UserId);
+                var fileName = Path.GetFileName(viewdata.File.FileName);
+
+                string rootPath = "wwwroot\\Upload"; ;
+                string requestId = obj.RequestId.ToString();
+                string userFolder = Path.Combine(rootPath, requestId);
+
+                //string FilePath = "wwwroot\\Upload";
+                //string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+                if (!Directory.Exists(userFolder))
+                    Directory.CreateDirectory(userFolder);
+                string fileNameWithPath = Path.Combine(userFolder, viewdata.File.FileName);
                 UploadImage = viewdata.File.FileName;
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
@@ -515,6 +526,49 @@ namespace HaloDocDataAccess.Controllers
             _notyf.Success("Mail Sent Successfully");
 
             return RedirectToAction("Index", "Admin");
+        }
+
+        public IActionResult Export(string status)
+        {
+            var requestData = _adminservice.Export(status);
+
+            ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("RequestData");
+
+                worksheet.Cells[1, 1].Value = "Name";
+                worksheet.Cells[1, 2].Value = "Requestor";
+                worksheet.Cells[1, 3].Value = "Request Date";
+                worksheet.Cells[1, 4].Value = "Phone";
+                worksheet.Cells[1, 5].Value = "Address";
+                worksheet.Cells[1, 6].Value = "Notes";
+                worksheet.Cells[1, 7].Value = "Physician";
+                worksheet.Cells[1, 8].Value = "Birth Date";
+                worksheet.Cells[1, 9].Value = "RequestTypeId";
+                worksheet.Cells[1, 10].Value = "Email";
+                worksheet.Cells[1, 11].Value = "RequestId";
+
+                for (int i = 0; i < requestData.Count; i++)
+                {
+                    worksheet.Cells[i + 2, 1].Value = requestData[i].PatientName;
+                    worksheet.Cells[i + 2, 2].Value = requestData[i].Requestor;
+                    worksheet.Cells[i + 2, 3].Value = requestData[i].RequestedDate;
+                    worksheet.Cells[i + 2, 4].Value = requestData[i].PhoneNumber;
+                    worksheet.Cells[i + 2, 5].Value = requestData[i].Address;
+                    worksheet.Cells[i + 2, 6].Value = requestData[i].Notes;
+                    worksheet.Cells[i + 2, 7].Value = requestData[i].ProviderName;
+                    worksheet.Cells[i + 2, 8].Value = requestData[i].Bdate;
+                    worksheet.Cells[i + 2, 9].Value = requestData[i].RequestTypeID;
+                    worksheet.Cells[i + 2, 10].Value = requestData[i].Email;
+                    worksheet.Cells[i + 2, 11].Value = requestData[i].RequestID;
+                }
+
+                byte[] excelBytes = package.GetAsByteArray();
+
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            }
         }
     }
 }

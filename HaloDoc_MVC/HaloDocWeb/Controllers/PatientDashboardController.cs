@@ -4,6 +4,8 @@ using HaloDocRepository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using HaloDocDataAccess.ViewModels;
 using HaloDocDataAccess.DataModels;
+using System.Collections;
+
 namespace HaloDocWeb.Controllers
 {
     public class PatientDashboardController : Controller
@@ -125,30 +127,42 @@ namespace HaloDocWeb.Controllers
         public IActionResult ViewDocument(ViewDocument viewdata)
         {
 
-            string UploadImage="";
-            if (viewdata.File !=null)
             {
-                string FilePath = "wwwroot\\Upload";
-                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-                string fileNameWithPath = Path.Combine(path, viewdata.File.FileName);
-                UploadImage = viewdata.File.FileName;
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    viewdata.File.CopyTo(stream);
-                }
-                var requestwisefile = new RequestWiseFile
-                {
-                    RequestId = viewdata.RequestId,
-                    FileName = viewdata.File.FileName,
-                    CreatedDate = DateTime.Now,
-                };
-                _context.RequestWiseFiles.Add(requestwisefile);
-                _context.SaveChanges();
-            }
+                string UploadImage = "";
+                var obj = _context.Requests.FirstOrDefault(x => x.RequestId == viewdata.RequestId);
 
-            return ViewDocument(viewdata.RequestId);
+                if (viewdata.File != null)
+                {
+                    //User? user = _context.Users.First(x => x.UserId == obj.UserId);
+                    var fileName = Path.GetFileName(viewdata.File.FileName);
+
+                    string rootPath = "wwwroot\\Upload"; ;
+                    string requestId = obj.RequestId.ToString();
+                    string userFolder = Path.Combine(rootPath, requestId);
+
+                    //string FilePath = "wwwroot\\Upload";
+                    //string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+                    if (!Directory.Exists(userFolder))
+                        Directory.CreateDirectory(userFolder);
+                    string fileNameWithPath = Path.Combine(userFolder, viewdata.File.FileName);
+                    UploadImage = viewdata.File.FileName;
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        viewdata.File.CopyTo(stream);
+                    }
+                    var requestwisefile = new RequestWiseFile
+                    {
+                        RequestId = viewdata.RequestId,
+                        FileName = viewdata.File.FileName,
+                        CreatedDate = DateTime.Now,
+                        IsDeleted = new BitArray(1)
+                    };
+                    _context.RequestWiseFiles.Add(requestwisefile);
+                    _context.SaveChanges();
+                }
+
+                return ViewDocument(viewdata.RequestId);
+            }
         }
     }
 }

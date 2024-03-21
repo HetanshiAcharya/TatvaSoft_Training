@@ -167,3 +167,11 @@ C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Secur
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Text.Encoding.CodePages.dll
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Text.Encoding.CodePages.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\EPPlus.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\EPPlus.Interfaces.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\EPPlus.System.Drawing.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Drawing.Common.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
