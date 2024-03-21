@@ -17,8 +17,8 @@ namespace HaloDocRepository.Interface
         public PaginatedViewModel GetRequests(PaginatedViewModel data);
         public ViewCaseData GetRequestForViewCase(int id);
         public ViewCaseData NewRequestData(int? RId, int? RTId);
-        public ViewNotes ViewNotes(int reqClientId);
-        void ViewNotesUpdate(ViewNotes viewNotes);
+        public ViewNotes ViewNotes(int RequestId);
+        public bool ViewNotesUpdate(string? adminnotes, string? physiciannotes, int RequestID);
         public List<HealthProfessional> VendorByProfession(int Professionid);
         public HealthProfessional SendOrdersInfo(int selectedValue);
         public ViewCaseData Edit(ViewCaseData vdvc, int? RId, int? RTId);
@@ -33,7 +33,9 @@ namespace HaloDocRepository.Interface
         public void DeleteFile(int requestid, int reqwisefileid);
         public void ClearCase(int RequestId);
         public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes);
-        public void SendAgreement(sendAgreement sendAgreement, string link);
+        public bool SendAgreement(sendAgreement sendAgreement);
+        public bool SendAgreementfromUploads(sendAgreement sendAgreement);
+
         public Boolean SendAgreement_accept(int RequestID);
         public Boolean SendAgreement_Reject(int RequestID, string Notes);
         public void CancelAgreementSubmit(int Reqid, string Description);
@@ -48,6 +50,7 @@ namespace HaloDocRepository.Interface
         public  Task<bool> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile);
         public EncounterInfo EncounterInfoPost( EncounterInfo ve);
         public void EncounterFinalize(EncounterInfo ve);
+        public bool SendLink(sendAgreement sendAgreement);
 
     }
 

@@ -5,10 +5,13 @@ using HaloDocRepository.Interface;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using HaloDocDataAccess.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
+var emailConfig = builder.Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);// Add services to the container.
 //builder.Services.AddDefaultIdentity<Microsoft.AspNetCore.Identity.IdentityUser>().AddEntityFrameworkStores<HaloDocDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<HaloDocDbContext>(options =>

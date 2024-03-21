@@ -96,7 +96,7 @@
                         <ul class="dropdown-menu">
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="bi bi-journal-text me-1"></i>View Case</a></li>
                             <li><a class="dropdown-item" asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestID"><i class="bi bi-file-earmark-arrow-up"></i> View Uploads</a></li>
-                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewNotes" onclick="location.href='@Url.Action("ViewNotes", new {reqClientId = item.Requestclientid})'"><i class="bi bi-journals me-1"></i>View Notes</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("ViewNotes", new {RequestId = item.RequestID})"><i class="bi bi-journals me-1"></i>View Notes</a></li>
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="SendOrders" asp-route-ReqId="@item.RequestID"><i class="bi bi-journal-check"></i> Orders</a></li>
                             <li><a asp-controller="Admin" asp-action="Encounter" asp-route-RId="@item.RequestID" class="dropdown-item"><i class="bi bi-card-text"></i> Encounter</a></li>
                         </ul>

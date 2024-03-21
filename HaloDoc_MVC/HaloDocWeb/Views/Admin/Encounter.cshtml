@@ -47,8 +47,11 @@
             <input type="date"
                    asp-for="CreatedDate"
                    class="form-control form-control-md col-md mt-4"
-                   placeholder="Select Date" required />
+                   placeholder="Select Date" required    />
         </div>
+        <span class="col-6"></span>
+        <span asp-validation-for="CreatedDate" class="text-danger validate col-6"></span>
+
         <div class="col-sm-6 mt-4">
             <input asp-for="PhoneNumber" id="phone5"
                    type="tel"
@@ -258,7 +261,7 @@
     $(function () {
         $('#finalizebtn').on('click', function () {
             Swal.fire({
-                title: "Do you want to Edit Information ?",
+                title: "Are you sure you want to finalize? Once finalize you cannot edit it",
                 showDenyButton: false,
                 showCancelButton: true,
                 confirmButtonText: "Yes",

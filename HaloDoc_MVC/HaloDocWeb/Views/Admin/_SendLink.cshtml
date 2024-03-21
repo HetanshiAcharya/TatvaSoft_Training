@@ -1,0 +1,38 @@
+﻿﻿
+<div class="modal fade" id="sendlinkpopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-white bg-info" id="staticBackdropLabel">Send Email to Patient for Submit Request </h5>
+                <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @* --------------- Main Form --------------------------  *@
+            <form class="needs-validation" novalidate method="post" asp-action="_SendLink" asp-controller="Admin">
+                <input name="ReqId" id="SendAgreement_id" hidden />
+                <div class="modal-body">
+                    <p><small>To Send Agreement please make sure you are uploading the correct contact information below for the responsible party</small> </p>
+                    <div class="form-group">
+                        <div class="col-lg-12 mt-4">
+                            <input class="form-control mb-2"  type="text" name="Firstname" placeholder="Firstname" />
+                            <input class="form-control mb-2" type="text" name="Lastname" placeholder="Lastname" />
+                            <input class="form-control mb-4" type="tel" name="Phone" id="phone" placeholder="Phonenumber" />
+                            <input class="form-control mb-2 mt-2" type="email" name="Email" placeholder ="Enter Email" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-info">Submit</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>

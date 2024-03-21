@@ -15,9 +15,7 @@
                         <select class="form-select mb-3 needs-validation" id="region1" onchange="AssignPhysician1()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" required>
                             <option value="">Search by Region</option>
                         </select>
-                        <span class="valid-feedback">
-                            Looks good!
-                        </span>
+                       
                         <select class="form-select mb-3" id="provider" name="PhysicianId" required>
                             <option value="">Please Select</option>
 

@@ -1,0 +1,51 @@
+﻿@model HaloDocDataAccess.ViewModels.PatientResetPassword;
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/mainLogin.css" />
+    <title>Patient Forgot Password Page</title>
+</head>
+<body>
+    <section class="vh-100">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 px-0 d-none d-sm-block">
+                    <img src="~/images/Login-doc-image.jpg"
+                         alt="Login image"
+                         class="w-100 vh-100 docImg"
+                         style="object-fit: cover; object-position: left" />
+                </div>
+
+                <!-- right side  -->
+                <div class="col-sm-6 align-items-center d-flex flex-column right-side">
+                    <img src="~/images/HaloDoc-Logo.png"
+                         alt=""
+                         class="logo-img-platformLogin" />
+                    <h2>Reset Your Password</h2>
+                    <form class ="form-group row d-flex align-items-center justify-content-center row-main " method="post">
+                        <div class="col-sm-12 w-100 justify-content-center mt-4">
+                            <input type="password" asp-for="Password" placeholder="Enter New Password" class="form-control form-control-md col-md col-sm mt-4" value="" />
+                        </div>
+                        <div class="col-sm-12 w-100 justify-content-center mt-4">
+                            <input type="password" asp-for="ConfirmPassword" placeholder="Confirm New Password" class="form-control form-control-md col-md col-sm mt-4" value="" />
+                        </div>
+                        <div class="col-w-100">
+                            <button class="btn btn-primary mt-4 w-100" type="submit">Reset Password</button>
+                        </div>
+                    </form>
+                    <a asp-controller="Admin" asp-action="Index" class="fpasslink mt-4">Back to Login</a>
+                    <footer class="bottom">
+                        <a href="" class="link1">Terms and Conditions</a>
+                        <a href="" class="">Privacy</a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="~/js/events.js"></script>
+</html>
+
+

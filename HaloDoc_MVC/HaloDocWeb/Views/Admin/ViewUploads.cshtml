@@ -52,7 +52,8 @@
                             <button onclick="deleteFile(@Model.RequestId,@Model.RequestId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="deleteAll">
                                 <span>Delete All</span>
                             </button>
-                            <button onclick="" class="btn btn-outline-info shadow-none night-mode-btn bg-white">
+                            @* <li><a class="dropdown-item" onclick="SendAgreement(@item.RequestID)"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li> *@
+                            <button onclick="SendAgreement(@Model.RequestId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white">
                                 <span>Send Email</span>
                             </button>
                         </div>
@@ -119,7 +120,29 @@
     </div>    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <span>Profile</span>
     </div>
+    <div id="display"></div>
+
 </div><script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script>
+    function SendAgreement(reqId) {
+        console.log(reqId);
+        $.ajax({
+            url: '@Url.Action("SendAgreementModalFromUploads", "Admin")',
+            data: { Reqid: reqId },
+            type: 'POST',
+            success: function (result) {
+                $('#display').html(result);
+                $('#sendemailmodal').modal('show');
+                console.log("success");
+
+            },
+            error: function (error) {
+                console.log(error);
+                alert('Error Fetching Request')
+            },
+        });
+    }
+    </script>
 <script>
     var clicked = false; $("#checkall").on("click", function () {
         $(".checkbox").prop("checked", !clicked);
@@ -155,7 +178,6 @@
             }
         });
     });
-
     function downloadFile(fileUrl) {
         // Create a temporary link element to trigger the file download
         var link = document.createElement('a');
@@ -163,9 +185,8 @@
         link.download = fileUrl.substr(fileUrl.lastIndexOf('/') + 1);
         link.click();
     }
-
 </script>
-    <script>
+ <script>
         function deleteFile(requestid, requestwisefileid) {
             document.getElementById('deleteAll').addEventListener('click', function () {
                 var rows = document.querySelectorAll('table tbody tr');

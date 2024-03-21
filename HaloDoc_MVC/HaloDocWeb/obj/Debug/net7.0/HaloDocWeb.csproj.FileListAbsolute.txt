@@ -159,3 +159,11 @@ C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\AspNetCoreHe
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\AspNetCoreHero.ToastNotification.dll
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\obj\Debug\net7.0\HaloDocWeb.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\BouncyCastle.Cryptography.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\MailKit.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\MimeKit.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Formats.Asn1.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Text.Encoding.CodePages.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Text.Encoding.CodePages.dll

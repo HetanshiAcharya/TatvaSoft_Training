@@ -29,11 +29,13 @@ namespace HaloDocRepository.Repositories
     {
         private readonly HaloDocDbContext _context;
         private readonly IConfiguration _config;
-        public AdminService(HaloDocDbContext context, IConfiguration config)
+        private readonly EmailConfiguration _emailConfig;
+
+        public AdminService(HaloDocDbContext context, IConfiguration config, EmailConfiguration emailConfig)
         {
             _context = context;
             _config = config;
-
+            _emailConfig = emailConfig;
         }
         #region GenerateSHA256
         public static string GenerateSHA256(string input)
@@ -497,34 +499,190 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region ViewNotes
-        public ViewNotes ViewNotes(int reqClientId)
+        public ViewNotes ViewNotes(int RequestId)
         {
-            RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == reqClientId);
-            RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
-            Physician physician = _context.Physicians.First(x => x.PhysicianId == 1);
-            List<RequestStatusLog> requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
+            //RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == reqClientId);
+            //RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
+            //Physician physician = _context.Physicians.First(x => x.PhysicianId == 1);
+            //List<RequestStatusLog> requeststatuslog = _context.RequestStatusLogs.Where(x => x.RequestId == req.RequestId).ToList();
 
 
-            ViewNotes? viewNote = new()
+            //ViewNotes? viewNote = new()
+            //{
+            //    PhysicianName = physician.FirstName,
+            //    AdminNotes = obj.AdminNotes,
+            //    PhysicianNotes = obj.PhysicianNotes,
+            //    Statuslogs = requeststatuslog,
+            //};
+            //return viewNote;
+            var req = _context.Requests.FirstOrDefault(W => W.RequestId == RequestId);
+            //var symptoms = _context.RequestClients.FirstOrDefault(W => W.RequestId == RequestId);
+            var transferlog = (from rs in _context.RequestStatusLogs
+                               join py in _context.Physicians on rs.PhysicianId equals py.PhysicianId into pyGroup
+                               from py in pyGroup.DefaultIfEmpty()
+                               join p in _context.Physicians on rs.TransToPhysicianId equals p.PhysicianId into pGroup
+                               from p in pGroup.DefaultIfEmpty()
+                                   //join a in _context.Admins on rs.AdminId equals a.AdminId into aGroup
+                                   //from a in aGroup.DefaultIfEmpty()
+                               where rs.RequestId == RequestId && rs.Status == 2
+                               select new TransferNotesData
+                               {
+                                   TransPhysician = p.FirstName,
+                                   //Admin = a.FirstName,
+                                   Physician = py.FirstName,
+                                   Requestid = rs.RequestId,
+                                   Notes = rs.Notes,
+                                   Status = rs.Status,
+                                   Physicianid = rs.PhysicianId,
+                                   Createddate = rs.CreatedDate,
+                                   Requeststatuslogid = rs.RequestStatusLogId,
+                                   Transtoadmin = rs.TransToAdmin,
+                                   Transtophysicianid = rs.TransToPhysicianId
+                               }).ToList();
+            var cancelbyprovider = _context.RequestStatusLogs.Where(E => E.RequestId == RequestId && (E.TransToAdmin != null));
+            var cancel = _context.RequestStatusLogs.Where(E => E.RequestId == RequestId && (E.Status == 7 || E.Status == 3));
+            var model = _context.RequestNotes.FirstOrDefault(E => E.RequestId == RequestId);
+            ViewNotes allData = new ViewNotes();
+            allData.Requestid = RequestId;
+            //allData.PatientNotes = symptoms.Notes;
+            if (model == null)
             {
-                PhysicianName = physician.FirstName,
-                AdminNotes = obj.AdminNotes,
-                PhysicianNotes = obj.PhysicianNotes,
-                Statuslogs = requeststatuslog,
-            };
-            return viewNote;
+                allData.PhysicianNotes = "-";
+                allData.AdminNotes = "-";
+            }
+            else
+            {
+                allData.Status = (short)req.Status;
+                allData.Requestnotesid = model.RequestNotesId;
+                allData.PhysicianNotes = model.PhysicianNotes ?? "-";
+                allData.AdminNotes = model.AdminNotes ?? "-";
+            }
+
+            List<TransferNotesData> transfer = new List<TransferNotesData>();
+            foreach (var item in transferlog)
+            {
+                transfer.Add(new TransferNotesData
+                {
+                    TransPhysician = item.TransPhysician,
+                    // Admin = item.Admin,
+                    Physician = item.Physician,
+                    Requestid = item.Requestid,
+                    Notes = item.Notes ?? "-",
+                    Status = item.Status,
+                    Physicianid = item.Physicianid,
+                    Createddate = item.Createddate,
+                    Requeststatuslogid = item.Requeststatuslogid,
+                    Transtoadmin = item.Transtoadmin,
+                    Transtophysicianid = item.Transtophysicianid
+                });
+            }
+            allData.transfernotes = transfer;
+            List<TransferNotesData> cancelbyphysician = new List<TransferNotesData>();
+            foreach (var item in cancelbyprovider)
+            {
+                cancelbyphysician.Add(new TransferNotesData
+                {
+                    Requestid = item.RequestId,
+                    Notes = item.Notes ?? "-",
+                    Status = item.Status,
+                    Physicianid = item.PhysicianId,
+                    Createddate = item.CreatedDate,
+                    Requeststatuslogid = item.RequestStatusLogId,
+                    Transtoadmin = item.TransToAdmin,
+                    Transtophysicianid = item.TransToPhysicianId
+                });
+            }
+            allData.cancelbyphysician = cancelbyphysician;
+
+            List<TransferNotesData> cancelrq = new List<TransferNotesData>();
+            foreach (var item in cancel)
+            {
+                cancelrq.Add(new TransferNotesData
+                {
+                    Requestid = item.RequestId,
+                    Notes = item.Notes ?? "-",
+                    Status = item.Status,
+                    Physicianid = item.PhysicianId,
+                    Createddate = item.CreatedDate,
+                    Requeststatuslogid = item.RequestStatusLogId,
+                    Transtoadmin = item.TransToAdmin,
+                    Transtophysicianid = item.TransToPhysicianId
+                });
+            }
+            allData.cancel = cancelrq;
+            return allData;
         }
         #endregion
 
         #region ViewNotesUpdate
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void ViewNotesUpdate(ViewNotes viewNotes)
+        public bool ViewNotesUpdate(string? adminnotes, string? physiciannotes, int RequestID)
         {
-            RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == viewNotes.Requestclientid);
-            RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
+            //RequestClient? req = _context.RequestClients.FirstOrDefault(x => x.RequestClientId == viewNotes.Requestclientid);
+            //RequestNote? obj = _context.RequestNotes.FirstOrDefault(x => x.RequestId == req.RequestId);
 
-            obj.AdminNotes = viewNotes.TextBox;
+            //obj.AdminNotes = viewNotes.TextBox;
+            try
+            {
+                RequestNote notes = _context.RequestNotes.FirstOrDefault(E => E.RequestId == RequestID);
+                if (notes != null)
+                {
+                    if (physiciannotes != null)
+                    {
+                        if (notes != null)
+                        {
+                            notes.PhysicianNotes = physiciannotes;
+                            notes.ModifiedDate = DateTime.Now;
+                            _context.RequestNotes.Update(notes);
+                            _context.SaveChangesAsync();
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (adminnotes != null)
+                    {
+                        if (notes != null)
+                        {
+                            notes.AdminNotes = adminnotes;
+                            notes.ModifiedDate = DateTime.Now;
+                            _context.RequestNotes.Update(notes);
+                            _context.SaveChangesAsync();
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    RequestNote rn = new RequestNote
+                    {
+                        RequestId = RequestID,
+                        AdminNotes = adminnotes,
+                        PhysicianNotes = physiciannotes,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = "gg"
+
+                    };
+                    _context.RequestNotes.Add(rn);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
         }
         #endregion
@@ -541,33 +699,36 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region sendagreement
-        public void SendAgreement(sendAgreement sendAgreement, string link)
+        public bool SendAgreement(sendAgreement sendAgreement)
         {
-            RequestClient reqCli = _context.RequestClients.FirstOrDefault(requestCli => requestCli.RequestId == sendAgreement.ReqId);
+            var agreementUrl = "https://localhost:7299/Home/ReviewAgreement?ReqId=" + sendAgreement.ReqId;
+            _emailConfig.SendMail(sendAgreement.Email, "Agreement for your request", $"Agreement for your request <a href='{agreementUrl}'>Agree/Disagree</a>");
+            return true;
+            //RequestClient reqCli = _context.RequestClients.FirstOrDefault(requestCli => requestCli.RequestId == sendAgreement.ReqId);
 
-            string? senderEmail = _config.GetSection("OutlookSMTP")["Sender"];
-            string? senderPassword = _config.GetSection("OutlookSMTP")["Password"];
+            //string? senderEmail = _config.GetSection("OutlookSMTP")["Sender"];
+            //string? senderPassword = _config.GetSection("OutlookSMTP")["Password"];
 
-            SmtpClient client = new("smtp.office365.com")
-            {
-                Port = 587,
-                Credentials = new NetworkCredential(senderEmail, senderPassword),
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false
-            };
+            //SmtpClient client = new("smtp.office365.com")
+            //{
+            //    Port = 587,
+            //    Credentials = new NetworkCredential(senderEmail, senderPassword),
+            //    EnableSsl = true,
+            //    DeliveryMethod = SmtpDeliveryMethod.Network,
+            //    UseDefaultCredentials = false
+            //};
 
-            MailMessage mailMessage = new()
-            {
-                From = new MailAddress(senderEmail, "HaloDoc"),
-                Subject = "Halodoc review agreement",
-                IsBodyHtml = true,
-                Body = "<h3>Admin has sent you the agreement papers to review. Click on the link below to read the agreement.</h3><a href=\"" + link + "\">Review Agreement link</a>",
-            };
+            //MailMessage mailMessage = new()
+            //{
+            //    From = new MailAddress(senderEmail, "HaloDoc"),
+            //    Subject = "Halodoc review agreement",
+            //    IsBodyHtml = true,
+            //    Body = "<h3>Admin has sent you the agreement papers to review. Click on the link below to read the agreement.</h3><a href=\"" + link + "\">Review Agreement link</a>",
+            //};
 
-            mailMessage.To.Add(sendAgreement.Email);
+            //mailMessage.To.Add(sendAgreement.Email);
 
-            client.Send(mailMessage);
+            //client.Send(mailMessage);
         }
         #endregion
 
@@ -857,6 +1018,7 @@ namespace HaloDocRepository.Repositories
             RC.IntDate = ve.Bdate.Day;
             RC.IntYear = ve.Bdate.Year;
             RC.PhoneNumber = ve.PhoneNumber;
+           
             RC.Email = ve.Email;
             _context.Update(RC);
             var E = _context.EncounterForms.FirstOrDefault(e => e.RequestId == ve.RequestID);
@@ -1064,6 +1226,45 @@ namespace HaloDocRepository.Repositories
             }
         }
         #endregion
+        #region sendagreement
+        public bool SendAgreementfromUploads(sendAgreement sendAgreement)
+        {
+            var agreementUrl = "https://localhost:7299/Home/ReviewAgreement?ReqId=" + sendAgreement.ReqId;
+            _emailConfig.SendMail(sendAgreement.Email, "Agreement for your request", $"Agreement for your request <a href='{agreementUrl}'>Agree/Disagree</a>");
+            return true;
+            //RequestClient reqCli = _context.RequestClients.FirstOrDefault(requestCli => requestCli.RequestId == sendAgreement.ReqId);
+
+            //string? senderEmail = _config.GetSection("OutlookSMTP")["Sender"];
+            //string? senderPassword = _config.GetSection("OutlookSMTP")["Password"];
+
+            //SmtpClient client = new("smtp.office365.com")
+            //{
+            //    Port = 587,
+            //    Credentials = new NetworkCredential(senderEmail, senderPassword),
+            //    EnableSsl = true,
+            //    DeliveryMethod = SmtpDeliveryMethod.Network,
+            //    UseDefaultCredentials = false
+            //};
+
+            //MailMessage mailMessage = new()
+            //{
+            //    From = new MailAddress(senderEmail, "HaloDoc"),
+            //    Subject = "Halodoc review agreement",
+            //    IsBodyHtml = true,
+            //    Body = "<h3>Admin has sent you the agreement papers to review. Click on the link below to read the agreement.</h3><a href=\"" + link + "\">Review Agreement link</a>",
+            //};
+
+            //mailMessage.To.Add(sendAgreement.Email);
+
+            //client.Send(mailMessage);
+        }
+        #endregion
+        public bool SendLink(sendAgreement sendAgreement)
+        {
+            var agreementUrl = "https://localhost:7299/Home/SubmitReq?ReqId=" + sendAgreement.ReqId;
+            _emailConfig.SendMail(sendAgreement.Email, "Agreement for your request", $"Agreement for your request <a href='{agreementUrl}'>Accept and Generate Request</a>");
+            return true;
+        }
 
     }
 }

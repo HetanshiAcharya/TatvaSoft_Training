@@ -1,59 +1,160 @@
-﻿@model HaloDocDataAccess.ViewModels.ViewNotes
-@{
+﻿﻿@{
     Layout = "_AdminLayout";
+    ViewData["Title"] = "View Notes";
 }
+@using HaloDocDataAccess.ViewModels;
+@using static HaloDocDataAccess.ViewModels.Constant;
+@model HaloDocDataAccess.ViewModels.ViewNotes;
+<div class="body">
+    <div class="container mt-5">
 
-
-<form class="container w-50 mt-5 viewcasecard" method="post" action="@Url.Action("ViewNotesUpdate","Admin")">
-    <input asp-for="Requestclientid" hidden/>
-    
-    <div class="d-flex justify-content-between mt-3">
-        <div class="form-group align-items-center m-2 p-4 shadow col-6">
-            <div class="dropdown"> 
-                <div class="d-flex">
-                    <i class="fa-solid fa-arrow-right-arrow-left fa-2xl mt-4 mx-2"></i>
-                    <p class="mt-2">
-                        <strong> <big>Transfer Notes</big></strong>
+        <div class="card bg-light border-0 ">
+            <div class="card-header border-0 bg-light text-end">
+                <div class="text-start d-flex justify-content-between">
+                    <div>
+                        <h4 class="form-title fw-bold mt-2 mx-2">Notes</h4>
+                    </div>
+                    <div>
+                        <a asp-action="Index" asp-controller="Admin" class="btn border border-info shadow-none">
+                            <strong class="text-info">
+                                <i class="fa fa-angle-left pe-1 text-info"> </i> Back
+                            </strong>
+                        </a>
+                    </div>
                 </div>
-               @*  <p class="ml-4">@Model.TransferNotes </p> *@
-                <ul class="dropdown-menu">
-                    @for (var i = 0; i < Model.Statuslogs.Count; i++)
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @* Admin Notes *@
+                    <div class="col-sm-6 col-xs-12 mb-3" id="adminnotes">
+                        <div class="d-flex p-2 bg-white shadow">
+                            <div class="p-2">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div class="ms-2 d-flex flex-column p-2">
+                                <strong class="fs-6">Admin Notes</strong>
+                                <p id="AdminNotes">
+                                    @Model.AdminNotes
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    @* Physician Notes *@
+                    <div class="col-sm-6 col-xs-12 mb-3" id="phynotes">
+                        <div class="d-flex p-2 bg-white shadow">
+                            <div class="p-2">
+                                <i class="fa-solid fa-user-doctor"></i>
+                            </div>
+                            <div class="ms-2 d-flex flex-column p-2">
+                                <strong class="fs-6">Physician Notes</strong>
+                                <p id="PhysicianNote">
+                                    @Model.PhysicianNotes
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    @* @*Cancel Note*@
+                    @foreach (var item in @Model.cancel)
                     {
-                        <li><a class="dropdown-item">Admin transferred to Dr. <span class="text-uppercase">@Model.PhysicianName</span>  on @Model.Statuslogs[i].CreatedDate.ToString("dd/MMM/yyyy") at @Model.Statuslogs[i].CreatedDate.ToString("HH:mm:ss") : Test assign</a></li>
+                        <div class="col-sm-6 col-xs-12 mb-3">
+                            <div class="d-flex p-2 bg-white shadow">
+                                <div class="p-2">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div class="ms-2 d-flex flex-column p-2">
+                                    <strong class="fs-6">@* @Enum.GetName(typeof(status), *@ @item.Status)</strong>
+                                    <p>
+                                        @item.Notes
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     }
-                </ul>
-            </div>
-        </div>
-        <div class="form-group align-items-center m-2 p-4 shadow col-6">
-            <div>
-                <div class="d-flex">
-                    <i class="fa-solid fa-user-tie fa-2xl mt-4 mx-2"></i>
-                    <p class="mt-2">
-                        <strong> <big>Physician Notes</big></strong>
+                    @*Cancel By Physician Note*@
+                    @foreach (var item in Model.cancelbyphysician)
+                    {
+                        <div class="col-sm-6 col-xs-12 mb-3">
+                            <div class="d-flex p-2 bg-white shadow">
+                                <div class="p-2">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div class="ms-2 d-flex flex-column p-2">
+                                    <strong class="fs-6">Cancel By Physician Notes</strong>
+                                    <p>@item.Notes</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @* Transfer Notes *@
+                    @if (Model.transfernotes.Count > 0)
+                    {
+                        <div class="col-sm-6 col-xs-12 mb-3">
+                            <div class="d-flex p-2 bg-white shadow">
+                                <div class="p-2">
+                                    <i class="fa-solid fa-right-left"></i>
+                                </div>
+                                <div class="ms-2 d-flex flex-column p-2">
+                                    <strong class="fs-6">Transfer Notes</strong>
+                                    @{
+                                        int i = 1;
+                                    }
+                                    @foreach (var item in Model.transfernotes)
+                                    {
+                                        <p>
+                                            <b>( @i ) </b>@Html.Raw(System.Web.HttpUtility.HtmlDecode(item.TransferNotes))
+                                        </p>
+                                        i = i + 1;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-                <p class="ml-4">@Model.PhysicianNotes </p>
-            </div>
-        </div>
-    </div>
-    <div class="mt-3">
-        <div class="form-group align-items-center m-2 p-4 col-6 shadow">
-            <div>
-                <div class="d-flex">
-                    <i class="fa-solid fa-user-doctor fa-2xl mt-4 mx-2"></i>
-                    <p class="mt-2">
-                        <strong> <big>Admin Notes</big></strong>
-                </div>
-                <p class="ml-4">@Model.AdminNotes </p>
-            </div>
-        </div>
-    </div>
-    <div class="form-group col-12 mt-4 p-4 shadow">
-        <textarea asp-for="TextBox" class="form-control"
-                  id="exampleFormControlTextarea1"
-                  rows="7"
-                  placeholder="Additional Notes" required>
-         </textarea>
-    </div>
-    <button class="btn btn-info text-white mt-2" type="submit"><small>Save Changes</small></button>
-</form>
 
+                <div class="row">
+                    <div class="col">
+                        <div class="bg-white shadow mt-5 viewnotes p-2">
+                            <form method="post" asp-action="ViewNotes" asp-controller="Admin" asp-route-RequestID="@Model.Requestid">
+                                <input type="hidden" name="RequestID" value="@Model.Requestid" />
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control shadow-none" placeholder="Leave a comment here" id="changenote" style="height: 100px"></textarea>
+                                        <label id="notedata" for="changenote">Edit Notes</label>
+                                    </div>
+                                    @if (TempData["error"] != null)
+                                    {
+                                        <div class="alert text-start alert-info alert-dismissible fade show" role="alert">
+                                            <strong>Heyy</strong> @TempData["error"]
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-info text-white">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#phynotes").click(function () {
+            var text = $('#phynotetext').html();
+            $("#changenote").val(text);
+            $("#changenote").attr("name", "physiciannotes");
+            $("#notedata").html("Physician Note");
+        })
+        $("#adminnotes").click(function () {
+            var text = $('#adminnotestext').html();
+            console.log(text);
+            $("#changenote").val(text);
+            $("#changenote").attr("name", "adminnotes");
+            $("#notedata").html("Admin Note");
+        })
+    });
+</script>

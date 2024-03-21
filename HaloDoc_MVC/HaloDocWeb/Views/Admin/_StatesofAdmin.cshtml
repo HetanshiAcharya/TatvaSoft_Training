@@ -1,5 +1,6 @@
 ﻿@using static HaloDocDataAccess.ViewModels.Constant;
 @model HaloDocDataAccess.ViewModels.PaginatedViewModel;
+@Html.Partial("_SendLink.cshtml");
 
 <form id="filterForm" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
       asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
@@ -87,18 +88,18 @@
             <strong class="fs-6">Patients</strong> <small>(New) </small>
         </div>
         <div>
-            <button class="btn btn-info text-white shadow-none mb-2">
+            <button class="btn btn-info text-white shadow-none mb-2" >
                 <small>
                     <i class="bi bi-send"></i>
-                    <span class="adminIcon">Send Link</span>
+                    <span class="adminIcon" data-bs-toggle="modal" data-bs-target=" #sendlinkpopup">Send Link</span>
                 </small>
             </button>
-            <button class="btn btn-info text-white shadow-none mb-2">
+            <a class="btn btn-info text-white shadow-none mb-2" asp-action="CreatePatientReq" asp-controller="Requests" type="submit ">
                 <small>
                     <i class="bi bi-file-earmark-plus"></i>
                     <span class="adminIcon">Create Requests</span>
                 </small>
-            </button>
+            </a>
             <button class="btn btn-info text-white shadow-none mb-2">
                 <small>
                     <i class="fa-solid fa-share"></i>
@@ -170,6 +171,8 @@
         </div>
     </div>
 </form>
+
+
 <script>
     $(document).ready(function () {
         $(".row > .btn > .rounded").click(function () {

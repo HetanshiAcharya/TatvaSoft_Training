@@ -94,10 +94,10 @@ namespace HaloDocWeb.Controllers
             }
             return View(patientresetpass);
         }
-        public IActionResult ReviewAgreement(int Reqid)
+        public IActionResult ReviewAgreement(int ReqId)
         {
             reviewAgreement obj = new reviewAgreement();
-            obj.RequestId = Reqid;
+            obj.RequestId = ReqId;
             return View(obj);
         }
         [HttpPost]

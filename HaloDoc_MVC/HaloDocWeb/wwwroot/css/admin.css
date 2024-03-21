@@ -42,7 +42,11 @@ div .row {
     height: 75px;
     font-size:20px;
 }
-/*States  admin*/ 
+div .viewnotes{
+    position:relative;
+    top:250px;
+}
+/*States  admin*/
 .new {
     background-color: #e9eaef;
     color: #566ea7;
