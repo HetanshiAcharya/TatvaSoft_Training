@@ -301,6 +301,12 @@ namespace HaloDocDataAccess.Controllers
             _notyf.Success("File Deleted Successfully");
             return RedirectToAction("ViewUploads", new { requestId = requestid });
         }
+        public IActionResult DeleteAllFile(int requestid, int[] files)
+        {
+            _adminservice.DeleteFile(requestid, files);
+            _notyf.Success("File Deleted Successfully");
+            return RedirectToAction("ViewUploads", new { requestId = requestid });
+        }
         public IActionResult SendOrders()
         {
             ViewBag.Professions = _adminservice.Professions();

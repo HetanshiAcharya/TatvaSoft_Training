@@ -698,6 +698,24 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
+        #region deleteallfile
+        public void DeleteFile(int requestid, int[] reqwisefileid)
+        {
+            var filesForRequest = _context.RequestWiseFiles
+                    .Where(file => reqwisefileid.Contains(file.RequestWiseFileId))
+                    .ToList();
+            foreach (var file in filesForRequest)
+            {
+                file.RequestId = requestid;
+                file.IsDeleted[0] = true;
+
+                _context.Update(file);
+                _context.SaveChanges();
+
+            }
+        }
+        #endregion
+
         #region sendagreement
         public bool SendAgreement(sendAgreement sendAgreement)
         {

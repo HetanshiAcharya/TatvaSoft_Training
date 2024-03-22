@@ -49,7 +49,7 @@
                             <button onclick="" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="downloadAll">
                                 <span>Download All</span>
                             </button>
-                            <button onclick="deleteFile(@Model.RequestId,@Model.RequestwisefilesId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="deleteAll">
+                            <button onclick="DeleteAll(@Model.RequestId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="deleteAll">
                                 <span>Delete All</span>
                             </button>
                             @* <li><a class="dropdown-item" onclick="SendAgreement(@item.RequestID)"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li> *@
@@ -83,7 +83,7 @@
                                 {
                                     <tr class="table-row border-bottom">
                                         <td>
-                                            <input type="checkbox" class="checkbox">
+                                            <input type="checkbox" class="checkbox" name="checkedfile" value="@file.RequestWiseFileId">
                                         </td>
                                         <td>
                                             <div>
@@ -188,48 +188,26 @@
         link.click();
     }
 </script>
-
+@* delete all*@
  <script>
-    $('#deleteAll').click(function () {
-        anyCheckboxSelected = false;
-        $('tbody tr').each(function () {
-            if ($(this).find('.form-check-input').prop('checked')) {
-                anyCheckboxSelected = true;
-                var downloadLink = $(this).find('.RequestwisefilesId').val();
-                var deleteids = $('#deleteids').val();
-                console.log(deleteids);
-                if (deleteids == '') {
-                    $('#deleteids').val(downloadLink);
-                } else {
-                    $('#deleteids').val(deleteids + ',' + downloadLink);
-                }
-                console.log($('#deleteids').val());
-            }
+    function DeleteAll(requestid) {
+        console.log(requestid);
+        var files = [];
+        $('input[name="checkedfile"]:checked').each(function () {
+            files.push(this.value);
         });
-        $('.t-tab > .border-bottom').each(function () {
-            if ($(this).find('.form-check-input').prop('checked')) {
-                anyCheckboxSelected = true;
-                var downloadLink = $(this).find('.RequestwisefilesId').val();
-                var deleteids = $('#deleteids').val();
-                console.log(deleteids);
-                if (deleteids == '') {
-                    $('#deleteids').val(downloadLink);
-                } else {
-                    $('#deleteids').val(deleteids + ',' + downloadLink);
-                }
-                console.log($('#deleteids').val());
-            }
-        });
-        if (anyCheckboxSelected) {
-            Swal.fire({
-                text: "Do you want to Delete That file ?",
-                showDenyButton: false,
-                showCancelButton: true,
-                confirmButtonText: "Yes",
-                denyButtonText: "Cancel"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#deleted').submit();
+        console.log(files);
+        if (files.length > 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteAllFile")",
+                data: {
+                    requestid: requestid,
+                    files: files,
+                },
+                success: function (data) {
+                    $('#DocumentTable').html(data);
+                    location.reload();
                 }
             });
         }
@@ -244,24 +222,7 @@
                 cancelButtonColor: "#01BBE7",
             })
         }
-    });
-        // function deleteFile(requestid, requestwisefileid) {
-        //     document.getElementById('deleteAll').addEventListener('click', function () {
-        //         var rows = document.querySelectorAll('table tbody tr');
-        //         rows.forEach(function (row)){
-        //             $.ajax({
-        //                 url: "/Admin/DeleteFile",
-        //                 data: { reqwisefileid: requestwisefileid, requestid: requestid },
-        //                 type: 'GET',
-        //                 success: function (result) {
-        //                     location.reload();
-        //                 },
-        //                 error: function (error) {
-        //                     console.log(error);
-        //                     alert('Error Cancelling Request')
-        //                 },
-        //             });
-        //         }
-        //     }
+    }
+        
 </script>
 <script src="~/js/patientSite.js"></script>

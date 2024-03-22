@@ -1,6 +1,6 @@
 ﻿@using static HaloDocDataAccess.ViewModels.Constant;
 @model HaloDocDataAccess.ViewModels.PaginatedViewModel;
-@Html.Partial("_SendLink.cshtml");
+@Html.Partial("_SendLink.cshtml")
 
 <form id="filterForm" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
       asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
@@ -171,8 +171,6 @@
         </div>
     </div>
 </form>
-
-
 <script>
     $(document).ready(function () {
         $(".row > .btn > .rounded").click(function () {

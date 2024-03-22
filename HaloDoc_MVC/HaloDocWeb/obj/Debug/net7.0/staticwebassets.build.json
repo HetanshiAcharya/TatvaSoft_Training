@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oFSK89Tgr3GsPFbpSXwLwVyToU9xGnGeux2LnIH7pgc=",
+  "Hash": "ezkcP3qgIxR8vDTXjcdIXTACjmiWr1KIStkTju4t320=",
   "Source": "HaloDocWeb",
   "BasePath": "_content/HaloDocWeb",
   "Mode": "Default",
@@ -4539,6 +4539,23 @@
       "OriginalItemSpec": "wwwroot\\Upload\\165\\Fig37. Create Shift.jpg"
     },
     {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\169\\Fig12. Cancel Case pop-up.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/169/Fig12. Cancel Case pop-up.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\169\\Fig12. Cancel Case pop-up.jpg"
+    },
+    {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\169\\Fig19.Send Agreement pop-up.png",
       "SourceId": "HaloDocWeb",
       "SourceType": "Discovered",
@@ -4556,6 +4573,23 @@
       "OriginalItemSpec": "wwwroot\\Upload\\169\\Fig19.Send Agreement pop-up.png"
     },
     {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\169\\Fig21. Admin My profile..jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/169/Fig21. Admin My profile..jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\169\\Fig21. Admin My profile..jpg"
+    },
+    {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\169\\Fig33. Month wise Scheduling.jpg",
       "SourceId": "HaloDocWeb",
       "SourceType": "Discovered",
@@ -4571,6 +4605,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\169\\Fig33. Month wise Scheduling.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\169\\Fig38. View Shift.png",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/169/Fig38. View Shift.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\169\\Fig38. View Shift.png"
     }
   ]
 }
