@@ -84,13 +84,17 @@ namespace HaloDocDataAccess.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_authservice.PatientForgotPass(model))
-                {
-                    var user = _context.AspNetUsers.FirstOrDefault(rq => rq.Email == model.Email);
-                    return RedirectToAction("ResetPassAdmin", user);
-                }
+                _adminservice.IndexForgotPass(model);
+                //_notyf.Success("Mail Sent Successfully");
+                return View();
+
             }
-            return View(model);
+            else
+            {
+                //_notyf.Error("Mail Sent Failed");
+                return View();
+
+            }
         }
         //GET
         public IActionResult ResetPassAdmin(PatientResetPassword model)

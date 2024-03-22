@@ -3,40 +3,51 @@
 
 
 <div class="table-responsive m-2 mb-5 d-none d-sm-block">
-    <table class="w-100">
+    <table class="w-100 dataTable">
         <thead class="py-2">
             <tr>
-                <th scope="col">
-                    <small>Name</small>
-                </th>
-                <th></th>
-                <th scope="col">
-                    <small>Date Of Birth</small>
-                </th>
-                <th scope="col">
-                    <small>Requestor</small>
-                </th>
-                <th scope="col">
-                    <small>Physician Name</small>
-                </th>
-                <th scope="col">
-                    <small>Date Of Service</small>
-                </th>
-                <th scope="col">
-                    <small>Phone</small>
-                </th>
-                <th scope="col">
-                    <small>Address</small>
-                </th>
-                <th scope="col">
-                    <small>Notes</small>
-                </th>
-                <th scope="col">
-                    <small>Chat With</small>
-                </th>
-                <th scope="col">
-                    <small>Actions</small>
-                </th>
+                @{
+                    var i1 = @Model.SortedColumn;
+                    var J1 = @Model.IsAscending;
+                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "PatientName" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('PatientName')">
+                        <small>Name</small>
+                        <span class="dt-column-order"></span>
+                    </th>
+                    <th></th>
+                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Dob" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Dob')">
+                        <small>Date Of Birth</small>
+                        <span class="dt-column-order"></span>
+                    </th>
+                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Requestor" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Requestor')">
+                        <small>Requestor</small>
+                        <span class="dt-column-order"></span>
+                    </th>
+                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "ProviderName" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('ProviderName')">
+                        <small>Physician Name</small>
+                        <span class="dt-column-order"></span>
+                    </th>
+                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "RequestedDate" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('RequestedDate')">
+                        <small>Date Of Service</small>
+                        <span class="dt-column-order"></span>
+                    </th>
+                    <th scope="col">
+                        <small>Phone</small>
+                    </th>
+                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Address" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Address')">
+                        <small>Address</small>
+                        <span class="dt-column-order"></span>
+                    </th>
+                    <th scope="col">
+                        <small>Notes</small>
+                    </th>
+                    <th scope="col">
+                        <small>Chat With</small>
+                    </th>
+                    <th scope="col">
+                        <small>Actions</small>
+                    </th>
+                }
+
             </tr>
         </thead>
         @* --------------- Table content --------------------------  *@
@@ -238,6 +249,15 @@
         </ul>
     </nav>
 </div>
+@* sorting  *@
+<form class="sortingform" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
+      asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate">
+    <input type="hidden" asp-for="RegionId" />
+    <input type="hidden" asp-for="RequestType" />
+    <input type="hidden" asp-for="SearchInput" />
+    <input type="hidden" asp-for="SortedColumn" id="sortedcol" />
+    <input type="hidden" asp-for="IsAscending" id="isAsc" />
+</form>
 <script>
     function setpagenumber(e) {
         if (e == 'previous') {
@@ -301,4 +321,25 @@
             },
         });
     }
+</script>
+<script>
+     function SetColumValue(e) {
+        var modeldata = @Html.Raw(Json.Serialize(Model));
+        console.log(modeldata.sortedColumn)
+        console.log(modeldata.isAscending)
+        if (modeldata.sortedColumn === e) {
+            if(modeldata.isAscending == true){
+                document.getElementById('isAsc').value = false;
+            }
+            else{
+                document.getElementById('isAsc').value = true;
+            }
+            console.log(document.getElementById('isAsc').value);
+        }
+        else{
+            document.getElementById('sortedcol').value = e;
+            document.getElementById('isAsc').value = true;
+        }
+        $(".sortingform").submit();
+}
 </script>

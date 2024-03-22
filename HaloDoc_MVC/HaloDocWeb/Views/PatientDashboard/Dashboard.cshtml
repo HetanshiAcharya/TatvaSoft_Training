@@ -1,4 +1,5 @@
 ﻿@model HaloDocDataAccess.ViewModels.PatientDashboard;
+@using static HaloDocDataAccess.ViewModels.Constant;
 @{
     Layout = "_PatientDashboardLayout";
     ViewData["Title"] = "Dashboard";
@@ -7,14 +8,14 @@
 
 <div class="tab-content px-4" id="myTabContent">
     <div class="tab-pane fade active show " id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="dashboard">
+        <div class="dashboard container">
             <p class="medHis">
                 <b>Medical History</b>
                 <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Create New Request
                 </button>
             </p>
-            <table class="table shadow mt-4 " id="table_dashboard">
+            <table class="table shadow  mt-4 " id="table_dashboard">
                 <colgroup>
                     <col span="1" style="width: 15%;">
                     <col span="1" style="width: 70%;">
@@ -35,11 +36,11 @@
                             <td>
                                 @Model.Requests[i].CreatedDate
                             </td>
-                            <td>@Model.Requests[i].Status</td>
+                            <td>@Enum.GetName(typeof(Status), @Model.Requests[i].Status)</td>
                             <td>
                                 @if (Model.DocumentCount[i] >= 0)
                                 {
-                                    <a asp-controller="PatientDashboard" asp-action="ViewDocument" asp-route-requestId="@Model.Requests[i].RequestId" class="btn btn-outline-info shadow-none night-mode-btn">
+                                    <a asp-controller="PatientDashboard" asp-action="ViewDocument" asp-route-id="@Model.Requests[i].RequestId" class="btn btn-outline-info shadow-none night-mode-btn">
                                         <span>(@Model.DocumentCount[i]) Documents</span>
                                     </a>
                                 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HaloDocDataAccess.DataModels;
 using HaloDocDataAccess.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HaloDocRepository.Interface
@@ -54,6 +55,11 @@ namespace HaloDocRepository.Interface
         public void EncounterFinalize(EncounterInfo ve);
         public bool SendLink(sendAgreement sendAgreement);
         List<AdminDashboardList> Export(string status);
+        public bool IndexForgotPass(PatientForgotPassword model);
+        public bool SaveDoc(int Requestid, IFormFile file);
+        public  Task<ViewDocuments> GetDocumentByRequest(int? id, ViewDocuments viewDocument);
+
+
     }
 
 }

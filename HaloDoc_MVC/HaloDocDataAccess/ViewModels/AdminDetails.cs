@@ -71,6 +71,13 @@ namespace HaloDocDataAccess.ViewModels
             ToClose,
             UnPaid
         }
+        public enum Status
+        {
+            Unassigne = 1,
+            Accepted, Cancelled, MDEnRoute, MDONSite, Conclude, CancelledByPatients, Closed, Unpaid, Clear,
+            Block
+
+        }
     }
     public class ViewCaseData
     {
@@ -191,6 +198,8 @@ namespace HaloDocDataAccess.ViewModels
         public int ConcludeRequest { get; set; }
         public int ToCloseRequest { get; set; }
         public int UnpaidRequest { get; set; }
+        public bool? IsAscending { get; set; } = true;
+        public string? SortedColumn { get; set; } = "RequestedDate";
 
     }
     public class EncounterInfo

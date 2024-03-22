@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics.Metrics;
+using static HaloDocDataAccess.ViewModels.ViewDocuments;
+using System.IO;
 
 namespace HaloDocRepository.Repositories
 {
@@ -52,6 +54,22 @@ namespace HaloDocRepository.Repositories
                 }
                 return sb.ToString();
             }
+        }
+        #endregion
+
+        #region indexforgotpass
+        public bool IndexForgotPass(PatientForgotPassword model)
+        {
+            PatientLoginDetails patientResetPassword = new PatientLoginDetails();
+            var check = _context.AspNetUsers.Any(x => x.Email == model.Email);
+            if(check!= null)
+            {
+                var agreementUrl = "https://localhost:7299/Admin/ResetPassAdmin?Email=" + model.Email;
+                _emailConfig.SendMail(model.Email, "Reset Your Password", $"To reset your password click below link <a href='{agreementUrl}'>Reset Password</a>");
+                return true;
+
+            }
+            return false;
         }
         #endregion
 
@@ -141,6 +159,30 @@ namespace HaloDocRepository.Repositories
                                                     ProviderID = req.PhysicianId,
                                                     RequestorPhoneNumber = req.PhoneNumber
                                                 }).ToList();
+            if (data.IsAscending == true)
+            {
+                allData = data.SortedColumn switch
+                {
+                    "PatientName" => allData.OrderBy(x => x.PatientName).ToList(),
+                    "Requestor" => allData.OrderBy(x => x.Requestor).ToList(),
+                    //"Dob" => allData.OrderBy(x => x.Dob).ToList(),
+                    "Address" => allData.OrderBy(x => x.Address).ToList(),
+                    "RequestedDate" => allData.OrderBy(x => x.RequestedDate).ToList(),
+                    _ => allData.OrderBy(x => x.RequestedDate).ToList()
+                };
+            }
+            else
+            {
+                allData = data.SortedColumn switch
+                {
+                    "PatientName" => allData.OrderByDescending(x => x.PatientName).ToList(),
+                    "Requestor" => allData.OrderByDescending(x => x.Requestor).ToList(),
+                    //"Dob" => allData.OrderByDescending(x => x.Dob).ToList(),
+                    "Address" => allData.OrderByDescending(x => x.Address).ToList(),
+                    "RequestedDate" => allData.OrderByDescending(x => x.RequestedDate).ToList(),
+                    _ => allData.OrderByDescending(x => x.RequestedDate).ToList()
+                };
+            }
             int totalItemCount = allData.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)data.PageSize);
             List<AdminDashboardList> list1 = allData.Skip((data.CurrentPage - 1) * data.PageSize).Take(data.PageSize).ToList();
@@ -150,7 +192,9 @@ namespace HaloDocRepository.Repositories
                 CurrentPage = data.CurrentPage,
                 TotalPages = totalPages,
                 PageSize = data.PageSize,
-                SearchInput = data.SearchInput
+                SearchInput = data.SearchInput,
+                IsAscending = data.IsAscending,
+                SortedColumn = data.SortedColumn
             };
             return paginatedViewModel;
         }
@@ -1280,7 +1324,7 @@ namespace HaloDocRepository.Repositories
         public bool SendLink(sendAgreement sendAgreement)
         {
             var agreementUrl = "https://localhost:7299/Home/SubmitReq?ReqId=" + sendAgreement.ReqId;
-            _emailConfig.SendMail(sendAgreement.Email, "Agreement for your request", $"Agreement for your request <a href='{agreementUrl}'>Accept and Generate Request</a>");
+            _emailConfig.SendMail(sendAgreement.Email, "Create Request from here !! ", $"You can create request just by clicking below <a href='{agreementUrl}'>Accept and Generate Request</a>");
             return true;
         }
         public List<AdminDashboardList> Export(string status)
@@ -1317,6 +1361,65 @@ namespace HaloDocRepository.Repositories
                                                 }).ToList();
             return allData;
         }
+
+
+        #region GetDocumentByRequest
+        public async Task<ViewDocuments> GetDocumentByRequest(int? id, ViewDocuments viewDocument)
+        {
+            var req = _context.Requests.FirstOrDefault(r => r.RequestId == id);
+            var result = (from requestWiseFile in _context.RequestWiseFiles
+                          join request in _context.Requests on requestWiseFile.RequestId equals request.RequestId
+                          join physician in _context.Physicians on request.PhysicianId equals physician.PhysicianId into physicianGroup
+                          from phys in physicianGroup.DefaultIfEmpty()
+                          join admin in _context.Admins on requestWiseFile.AdminId equals admin.AdminId into adminGroup
+                          from adm in adminGroup.DefaultIfEmpty()
+                          where request.RequestId == id && requestWiseFile.IsDeleted == new BitArray(1)
+                          select new Documents
+                          {
+                              Uploader = requestWiseFile.PhysicianId != null ? phys.FirstName : (requestWiseFile.AdminId != null ? adm.FirstName : request.FirstName),
+                              isDeleted = requestWiseFile.IsDeleted.ToString(),
+                              RequestwisefilesId = requestWiseFile.RequestWiseFileId,
+                              Status = requestWiseFile.DocType,
+                              Createddate = requestWiseFile.CreatedDate,
+                              Filename = requestWiseFile.FileName
+                          }).ToList();
+            int totalItemCount = result.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)viewDocument.PageSize);
+            List<Documents> list1 = result.Skip((viewDocument.CurrentPage - 1) * viewDocument.PageSize).Take(viewDocument.PageSize).ToList();
+            ViewDocuments vd = new()
+            {
+                documentslist = list1,
+                CurrentPage = viewDocument.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = viewDocument.PageSize,
+                SortedColumn = viewDocument.SortedColumn,
+                IsAscending = viewDocument.IsAscending,
+                Firstname = req.FirstName,
+                Lastname = req.LastName,
+                ConfirmationNumber = req.ConfirmationNumber,
+                RequestID = req.RequestId
+            };
+            return vd;
+        }
+        #endregion
+
+        #region Save_Document
+        public bool SaveDoc(int Requestid, IFormFile file)
+        {
+            string UploadDoc = FileSave.UploadDoc(file, Requestid);
+            var requestwisefile = new RequestWiseFile
+            {
+                RequestId = Requestid,
+                FileName = UploadDoc,
+                CreatedDate = DateTime.Now,
+                IsDeleted = new BitArray(1),
+                AdminId = 1
+            };
+            _context.RequestWiseFiles.Add(requestwisefile);
+            _context.SaveChanges();
+            return true;
+        }
+        #endregion
     }
 }
 

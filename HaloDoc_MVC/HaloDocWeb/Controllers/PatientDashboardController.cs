@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using HaloDocDataAccess.ViewModels;
 using HaloDocDataAccess.DataModels;
 using System.Collections;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace HaloDocWeb.Controllers
 {
@@ -13,12 +14,17 @@ namespace HaloDocWeb.Controllers
         private readonly HaloDocDbContext _context;
         private readonly IPatientService _patientService;
         private readonly IAuthService _authservice;
+        private readonly IAdminService _adminservice;
+        private readonly INotyfService _notyf;
 
-        public PatientDashboardController(HaloDocDbContext context, IPatientService patientService, IAuthService authService)
+
+        public PatientDashboardController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, INotyfService notyf)
         {
             _context = context;
             _patientService = patientService;
             _authservice = authService;
+            _adminservice = adminservice;
+            _notyf = notyf;
         }
 
 
@@ -107,62 +113,80 @@ namespace HaloDocWeb.Controllers
         //    IEnumerable<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == RequestId);
         //    return View(fileList);
         //}
-        public IActionResult ViewDocument(int requestId)
+        //public IActionResult ViewDocument(int requestId)
+        //{
+        //    int? userid = HttpContext.Session.GetInt32("userId");
+        //    User user = _context.Users.FirstOrDefault(u => u.UserId == userid);
+        //    Request request = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
+        //    List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId).ToList();
+
+        //    ViewDocument document = new()
+        //    {
+        //        requestwisefiles = fileList,
+        //        RequestId = requestId,
+        //        ConfirmationNumber = request.ConfirmationNumber,
+        //        UserName = user.FirstName + " " + user.LastName,
+        //    };
+        //    return View(document);
+        //}
+        //[HttpPost]
+        //public IActionResult ViewDocument(ViewDocument viewdata)
+        //{
+        //    string UploadImage = "";
+        //    var obj = _context.Requests.FirstOrDefault(x => x.RequestId == viewdata.RequestId);
+
+        //    if (viewdata.File != null)
+        //    {
+        //        //User? user = _context.Users.First(x => x.UserId == obj.UserId);
+        //        var fileName = Path.GetFileName(viewdata.File.FileName);
+
+        //        string rootPath = "wwwroot\\Upload"; ;
+        //        string requestId = obj.RequestId.ToString();
+        //        string userFolder = Path.Combine(rootPath, requestId);
+
+        //        //string FilePath = "wwwroot\\Upload";
+        //        //string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+        //        if (!Directory.Exists(userFolder))
+        //            Directory.CreateDirectory(userFolder);
+        //        string fileNameWithPath = Path.Combine(userFolder, viewdata.File.FileName);
+        //        UploadImage = viewdata.File.FileName;
+        //        using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+        //        {
+        //            viewdata.File.CopyTo(stream);
+        //        }
+        //        var requestwisefile = new RequestWiseFile
+        //        {
+        //            RequestId = viewdata.RequestId,
+        //            FileName = viewdata.File.FileName,
+        //            CreatedDate = DateTime.Now,
+        //            IsDeleted = new BitArray(1)
+        //        };
+        //        _context.RequestWiseFiles.Add(requestwisefile);
+        //        _context.SaveChanges();
+        //    }
+
+        //    return ViewDocument(viewdata.RequestId);
+        //}
+        public async Task<IActionResult> ViewDocument(int? id, ViewDocuments viewDocument)
         {
-            int? userid = HttpContext.Session.GetInt32("userId");
-            User user = _context.Users.FirstOrDefault(u => u.UserId == userid);
-            Request request = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
-            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId).ToList();
-
-            ViewDocument document = new()
+            if (id == null)
             {
-                requestwisefiles = fileList,
-                RequestId = requestId,
-                ConfirmationNumber = request.ConfirmationNumber,
-                UserName = user.FirstName + " " + user.LastName,
-            };
-            return View(document);
-        }
-        [HttpPost]
-        public IActionResult ViewDocument(ViewDocument viewdata)
-        {
-
-            {
-                string UploadImage = "";
-                var obj = _context.Requests.FirstOrDefault(x => x.RequestId == viewdata.RequestId);
-
-                if (viewdata.File != null)
-                {
-                    //User? user = _context.Users.First(x => x.UserId == obj.UserId);
-                    var fileName = Path.GetFileName(viewdata.File.FileName);
-
-                    string rootPath = "wwwroot\\Upload"; ;
-                    string requestId = obj.RequestId.ToString();
-                    string userFolder = Path.Combine(rootPath, requestId);
-
-                    //string FilePath = "wwwroot\\Upload";
-                    //string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
-                    if (!Directory.Exists(userFolder))
-                        Directory.CreateDirectory(userFolder);
-                    string fileNameWithPath = Path.Combine(userFolder, viewdata.File.FileName);
-                    UploadImage = viewdata.File.FileName;
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                    {
-                        viewdata.File.CopyTo(stream);
-                    }
-                    var requestwisefile = new RequestWiseFile
-                    {
-                        RequestId = viewdata.RequestId,
-                        FileName = viewdata.File.FileName,
-                        CreatedDate = DateTime.Now,
-                        IsDeleted = new BitArray(1)
-                    };
-                    _context.RequestWiseFiles.Add(requestwisefile);
-                    _context.SaveChanges();
-                }
-
-                return ViewDocument(viewdata.RequestId);
+                id = viewDocument.RequestID;
             }
+            ViewDocuments data = await _adminservice.GetDocumentByRequest(id, viewDocument);
+            return View("../PatientDashboard/ViewDocument", data);
+        }
+        public IActionResult UploadDoc(int Requestid, IFormFile file)
+        {
+            if (_adminservice.SaveDoc(Requestid, file))
+            {
+                _notyf.Success("File Uploaded Successfully");
+            }
+            else
+            {
+                _notyf.Error("File Not Uploaded");
+            }
+            return RedirectToAction("ViewDocument", "PatientDashboard", new { id = Requestid });
         }
     }
 }

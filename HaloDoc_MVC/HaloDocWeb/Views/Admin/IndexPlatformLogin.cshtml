@@ -24,6 +24,8 @@
 
                 <!-- right side  -->
                 <div class="col-sm-6 align-items-center d-flex flex-column right-side">
+                    <partial name="_PartialLoader" />
+
                     <img src="~/images/HaloDoc-Logo.png"
                          alt=""
                          class="logo-img-platformLogin" />
@@ -43,7 +45,7 @@
                                placeholder="Password" />
                         <span asp-validation-for="PasswordHash" class="text-danger validate col-12"></span>
 
-                        <button type="submit" class="form-group btn btn-primary mt-4 loginbtn">
+                        <button type="submit" class="form-group btn btn-primary mt-4 loginbtn" onclick="displayBusyIndicator()">
                             Log in
                         </button>
                     </form>
