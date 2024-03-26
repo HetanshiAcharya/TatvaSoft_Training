@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Routing;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.Extensions.Hosting;
 using OfficeOpenXml;
+using System.Reflection.Metadata;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -269,15 +270,11 @@ namespace HaloDocDataAccess.Controllers
 
             if (viewdata.File != null)
             {
-                //User? user = _context.Users.First(x => x.UserId == obj.UserId);
                 var fileName = Path.GetFileName(viewdata.File.FileName);
-
-                string rootPath = "wwwroot\\Upload"; ;
+                string rootPath = "wwwroot\\Upload"; 
                 string requestId = obj.RequestId.ToString();
                 string userFolder = Path.Combine(rootPath, requestId);
 
-                //string FilePath = "wwwroot\\Upload";
-                //string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
                 if (!Directory.Exists(userFolder))
                     Directory.CreateDirectory(userFolder);
                 string fileNameWithPath = Path.Combine(userFolder, viewdata.File.FileName);
@@ -444,59 +441,8 @@ namespace HaloDocDataAccess.Controllers
 
         }
         #endregion
-        public async Task<IActionResult> AdminProfile()
-        {
-            ViewBag.AssignCase = _adminservice.AssignCase();
-
-            AdminDetailsInfo p = await  _adminservice.GetProfileDetails(Convert.ToInt32(CV.UserId()));
-            return View("../Admin/AdminProfile", p);
-        }
-        #region EditPassword
-        public async Task<IActionResult> EditPassword(string password)
-        {
-            if (await _adminservice.EditPassword(password, Convert.ToInt32(CV.UserId())))
-            {
-                _notyf.Success("Password changed Successfully...");
-            }
-            else
-            {
-                _notyf.Error("Password not Changed...");
-            }
-            return RedirectToAction("AdminProfile", "Admin");
-        }
-        #endregion
-
-        #region EditAdministratorInfo
-        [HttpPost]
-        public async Task<IActionResult> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile)
-        {
-            if (await _adminservice.EditAdministratorInfo(_viewAdminProfile))
-            {
-                _notyf.Success("Information changed Successfully...");
-            }
-            else
-            {
-                _notyf.Error("Information not Changed...");
-            }
-            return RedirectToAction("AdminProfile", "Admin");
-        }
-        #endregion
-
-        #region EditAdministratorInfo
-        [HttpPost]
-        public async Task<IActionResult> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile)
-        {
-            if (await _adminservice.BillingInfoEdit(_viewAdminProfile))
-            {
-                _notyf.Success("Information changed Successfully...");
-            }
-            else
-            {
-                _notyf.Error("Information not Changed...");
-            }
-            return RedirectToAction("AdminProfile","Admin");
-        }
-        #endregion
+ 
+       
 
         [HttpPost]
         public IActionResult SendAgreementModalFromUploads(int Reqid)

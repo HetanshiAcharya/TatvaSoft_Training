@@ -52,7 +52,6 @@
                             <button onclick="DeleteAll(@Model.RequestId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white" id="deleteAll">
                                 <span>Delete All</span>
                             </button>
-                            @* <li><a class="dropdown-item" onclick="SendAgreement(@item.RequestID)"><i class="bi bi-sticky me-1"></i>Send Agreement </a></li> *@
                             <button onclick="SendAgreement(@Model.RequestId)" class="btn btn-outline-info shadow-none night-mode-btn bg-white">
                                 <span>Send Email</span>
                             </button>
@@ -60,7 +59,7 @@
 
                     </div>
                     <div class="mt-3">
-                        <table class="table">
+                        <table class="table dataTable">
                             <colgroup>
                                 <col span="1" style="width: 10%;">
                                 <col span="1" style="width: 30%;">
@@ -68,16 +67,30 @@
                                 <col span="1" style="width: 20%;">
                                 <col span="1" style="width: 10%;">
                             </colgroup>
+                            @* table Head *@
                             <thead class="table-head align-middle">
                                 <tr>
-                                    <th>
-                                        <input type="checkbox" id="checkall">
-                                    </th>
-                                    <th>Document</th>
-                                    <th>Upload Date</th>
-                                    <th class="">Actions</th>
+                                    @{
+                                        var i1 = @Model.SortedColumn;
+                                        var J1 = @Model.IsAscending;
+                                        <th>
+                                            <input type="checkbox" id="checkall">
+                                        </th>
+
+                                        <th scope="col" class="table-text-header px-3 dt-orderable-asc dt-orderable-desc @(i1 == "Filename" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Filename')" style="position:relative;">
+                                            File Name
+                                            <span class="dt-column-order"></span>
+                                        </th>
+                                        <th scope="col" class="table-text-header px-3 dt-orderable-asc dt-orderable-desc @(i1 == "Uploader" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Uploader')" style="position:relative;">
+                                            Upload Date
+                                            <span class="dt-column-order"></span>
+                                        </th>
+                                        <th scope="col" class="table-text-header ">Action</th>
+
+                                    }
                                 </tr>
                             </thead>
+                            @* table body *@
                             <tbody class="table-body align-middle t-tab">
                                 @foreach (var file in Model.requestwisefiles)
                                 {
@@ -92,7 +105,7 @@
                                                 <path style="fill:#E2574C;" d="M38.658,0h164.23l87.049,86.711v203.227c0,10.679-8.659,19.329-19.329,19.329H38.658 c-10.67,0-19.329-8.65-19.329-19.329V19.329C19.329,8.65,27.989,0,38.658,0z" />
                                                 <path style="fill:#B53629;" d="M289.658,86.981h-67.372c-10.67,0-19.329-8.659-19.329-19.329V0.193L289.658,86.981z" />
                                                 <path style="fill:#FFFFFF;" d="M217.434,146.544c3.238,0,4.823-2.822,4.823-5.557c0-2.832-1.653-5.567-4.823-5.567h-18.44 c-3.605,0-5.615,2.986-5.615,6.282v45.317c0,4.04,2.3,6.282,5.412,6.282c3.093,0,5.403-2.242,5.403-6.282v-12.438h11.153 c3.46,0,5.19-2.832,5.19-5.644c0-2.754-1.73-5.49-5.19-5.49h-11.153v-16.903C204.194,146.544,217.434,146.544,217.434,146.544z M155.107,135.42h-13.492c-3.663,0-6.263,2.513-6.263,6.243v45.395c0,4.629,3.74,6.079,6.417,6.079h14.159 c16.758,0,27.824-11.027,27.824-28.047C183.743,147.095,173.325,135.42,155.107,135.42z M155.755,181.946h-8.225v-35.334h7.413 c11.221,0,16.101,7.529,16.101,17.918C171.044,174.253,166.25,181.946,155.755,181.946z M106.33,135.42H92.964 c-3.779,0-5.886,2.493-5.886,6.282v45.317c0,4.04,2.416,6.282,5.663,6.282s5.663-2.242,5.663-6.282v-13.231h8.379 c10.341,0,18.875-7.326,18.875-19.107C125.659,143.152,117.425,135.42,106.33,135.42z M106.108,163.158h-7.703v-17.097h7.703 c4.755,0,7.78,3.711,7.78,8.553C113.878,159.447,110.863,163.158,106.108,163.158z" /></g>
-                                                                            </svg>
+                                                                                    </svg>
                                                 <span>@file.FileName</span>
                                             </div>
                                         </td>
@@ -121,7 +134,57 @@
         <span>Profile</span>
     </div>
     <div id="display"></div>
+    @* Pagination  *@
+ @*    <div class="m-2 d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-container">
+                @{
+                    int i;
+                    <form id="paginationform" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
+                          asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="d-flex">
+                        <input type="hidden" asp-for="RegionId" />
+                        <input type="hidden" asp-for="RequestType" />
+                        <input type="hidden" asp-for="SearchInput" />
+                        <input type="hidden" asp-for="PageSize" />
+                        <input type="hidden" asp-for="CurrentPage" id="currentpagevalue" />
 
+                        @if (@Model.CurrentPage > 1)
+                        {
+                        <li class="page-item me-2"><button class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</button></li>
+                        }
+                        else
+                        {
+                        <li class="me-2 page-item"><button class="disabled btn border-0">&lt;</button></li>
+                        }
+                        @for (i = 1; i <= @Model.TotalPages; i++)
+                        {
+                        <li class="page-item me-2"><button class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</button></li>
+                        }
+                        @if (@Model.TotalPages > @Model.CurrentPage)
+                        {
+                        <li class="page-item me-2"><button class="btn shadow-none " onclick="setpagenumber('next')">&gt;</button></li>
+                        }
+                        else
+                        {
+                        <li class="me-2 page-item">
+                            <button class="btn disabled border-0">&gt;</button>
+
+                        </li>
+                        }
+                    </form>
+                }
+            </ul>
+        </nav>
+    </div> *@
+    @* sorting  *@
+    <form class="sortingform" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult"
+          asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate">
+        <input type="hidden" asp-for="RegionId" />
+        <input type="hidden" asp-for="RequestType" />
+        <input type="hidden" asp-for="SearchInput" />
+        <input type="hidden" asp-for="SortedColumn" id="sortedcol" />
+        <input type="hidden" asp-for="IsAscending" id="isAsc" />
+    </form>
 </div><script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 @* send email  *@
 <script>
@@ -167,18 +230,37 @@
 <script>
     document.getElementById('downloadAll').addEventListener('click', function () {
         var rows = document.querySelectorAll('table tbody tr');
-        rows.forEach(function (row) {
-            var checkbox = row.querySelector('input[type="checkbox"]');
-            var downloadLink = row.querySelector('a.download-button');
-            console.log(checkbox);
-            if (checkbox.checked) {
-                // Trigger the download for the file in the row
-                var fileUrl = downloadLink.getAttribute('href');
-                console.log(fileUrl);
-
-                downloadFile(fileUrl);
-            }
+        var files = [];
+        $('input[name="checkedfile"]:checked').each(function () {
+            files.push(this.value);
         });
+        if (files.length > 0) {
+            rows.forEach(function (row) {
+                var checkbox = row.querySelector('input[type="checkbox"]');
+                var downloadLink = row.querySelector('a.download-button');
+                console.log(checkbox);
+                if (checkbox.checked) {
+                    // Trigger the download for the file in the row
+                    var fileUrl = downloadLink.getAttribute('href');
+                    console.log(fileUrl);
+
+                    downloadFile(fileUrl);
+                }
+
+            })
+        }
+        else {
+            swal.fire({
+                title: "Oops..",
+                text: "Oops! Please Select One File ",
+                icon: "error",
+                showCancelButton: true,
+                showConfirmButton: false,
+                cancelButtonText: "Okay",
+                cancelButtonColor: "#01BBE7",
+            })
+
+        }
     });
     function downloadFile(fileUrl) {
         // Create a temporary link element to trigger the file download
@@ -189,7 +271,7 @@
     }
 </script>
 @* delete all*@
- <script>
+<script>
     function DeleteAll(requestid) {
         console.log(requestid);
         var files = [];
@@ -223,6 +305,51 @@
             })
         }
     }
-        
+
+</script>
+@* pagination *@
+<script>
+    function setpagenumber(e) {
+        if (e == 'previous') {
+            var cp = @Model.CurrentPage-1;
+            $('#currentpagevalue').val(cp);
+        }
+        else if (e == 'next') {
+            var cp = @Model.CurrentPage + 1;
+            $('#currentpagevalue').val(cp);
+        }
+        else {
+            $('#currentpagevalue').val(e);
+        }
+        $("#paginationform").submit();
+    }
+
+</script>
+@* sorting *@
+<script>
+    function SetColumValue(e) {
+        var modeldata = @Html.Raw(Json.Serialize(Model));
+        console.log(modeldata.sortedColumn)
+        console.log(modeldata.isAscending)
+        if (modeldata.sortedColumn === e) {
+            if (modeldata.isAscending == true) {
+                document.getElementById('isAsc').value = false;
+            }
+            else {
+                document.getElementById('isAsc').value = true;
+            }
+            console.log(document.getElementById('isAsc').value);
+        }
+        else {
+            document.getElementById('sortedcol').value = e;
+            document.getElementById('isAsc').value = true;
+        }
+        $(".sortingform").submit();
+    }
+    $(function () {
+        $('#pagesizedropdown').on('change', function () {
+            $('#filterForm').submit();
+        });
+    })
 </script>
 <script src="~/js/patientSite.js"></script>

@@ -9,8 +9,6 @@ namespace HaloDocDataAccess.DataModels;
 [Table("EncounterForm")]
 public partial class EncounterForm
 {
-    public readonly DateTime DateOfService;
-
     public int? RequestId { get; set; }
 
     public string? HistoryOfPresentIllnessOrInjury { get; set; }

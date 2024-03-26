@@ -22,7 +22,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics.Metrics;
-using static HaloDocDataAccess.ViewModels.ViewDocuments;
 using System.IO;
 
 namespace HaloDocRepository.Repositories
@@ -62,7 +61,7 @@ namespace HaloDocRepository.Repositories
         {
             PatientLoginDetails patientResetPassword = new PatientLoginDetails();
             var check = _context.AspNetUsers.Any(x => x.Email == model.Email);
-            if(check!= null)
+            if (check != null)
             {
                 var agreementUrl = "https://localhost:7299/Admin/ResetPassAdmin?Email=" + model.Email;
                 _emailConfig.SendMail(model.Email, "Reset Your Password", $"To reset your password click below link <a href='{agreementUrl}'>Reset Password</a>");
@@ -1362,63 +1361,31 @@ namespace HaloDocRepository.Repositories
             return allData;
         }
 
-
-        #region GetDocumentByRequest
-        public async Task<ViewDocuments> GetDocumentByRequest(int? id, ViewDocuments viewDocument)
+        #region ProviderMenu
+        public ProviderMenu ProviderMenu()
         {
-            var req = _context.Requests.FirstOrDefault(r => r.RequestId == id);
-            var result = (from requestWiseFile in _context.RequestWiseFiles
-                          join request in _context.Requests on requestWiseFile.RequestId equals request.RequestId
-                          join physician in _context.Physicians on request.PhysicianId equals physician.PhysicianId into physicianGroup
-                          from phys in physicianGroup.DefaultIfEmpty()
-                          join admin in _context.Admins on requestWiseFile.AdminId equals admin.AdminId into adminGroup
-                          from adm in adminGroup.DefaultIfEmpty()
-                          where request.RequestId == id && requestWiseFile.IsDeleted == new BitArray(1)
-                          select new Documents
-                          {
-                              Uploader = requestWiseFile.PhysicianId != null ? phys.FirstName : (requestWiseFile.AdminId != null ? adm.FirstName : request.FirstName),
-                              isDeleted = requestWiseFile.IsDeleted.ToString(),
-                              RequestwisefilesId = requestWiseFile.RequestWiseFileId,
-                              Status = requestWiseFile.DocType,
-                              Createddate = requestWiseFile.CreatedDate,
-                              Filename = requestWiseFile.FileName
-                          }).ToList();
-            int totalItemCount = result.Count();
-            int totalPages = (int)Math.Ceiling(totalItemCount / (double)viewDocument.PageSize);
-            List<Documents> list1 = result.Skip((viewDocument.CurrentPage - 1) * viewDocument.PageSize).Take(viewDocument.PageSize).ToList();
-            ViewDocuments vd = new()
-            {
-                documentslist = list1,
-                CurrentPage = viewDocument.CurrentPage,
-                TotalPages = totalPages,
-                PageSize = viewDocument.PageSize,
-                SortedColumn = viewDocument.SortedColumn,
-                IsAscending = viewDocument.IsAscending,
-                Firstname = req.FirstName,
-                Lastname = req.LastName,
-                ConfirmationNumber = req.ConfirmationNumber,
-                RequestID = req.RequestId
-            };
-            return vd;
-        }
-        #endregion
 
-        #region Save_Document
-        public bool SaveDoc(int Requestid, IFormFile file)
-        {
-            string UploadDoc = FileSave.UploadDoc(file, Requestid);
-            var requestwisefile = new RequestWiseFile
+            var providerMenu = from phy in _context.Physicians
+                               join role in _context.Roles on phy.RoleId equals role.RoleId
+                               join phyid in _context.PhysicianNotifications on phy.PhysicianId equals phyid.PhysicianId
+                               select new ProviderList
+                               {
+                                   PhysicianId = phy.PhysicianId,
+                                   FirstName = phy.FirstName,
+                                   LastName = phy.LastName,
+                                   Status = phy.Status,
+                                   Role = role.Name,
+                                   OnCallStatus = "",
+                                   //Notification = phyid.IsNotificationStopped
+                               };
+
+            var obj = new ProviderMenu()
             {
-                RequestId = Requestid,
-                FileName = UploadDoc,
-                CreatedDate = DateTime.Now,
-                IsDeleted = new BitArray(1),
-                AdminId = 1
+                ProviderLists = providerMenu,
             };
-            _context.RequestWiseFiles.Add(requestwisefile);
-            _context.SaveChanges();
-            return true;
+            return obj;
         }
+
         #endregion
     }
 }

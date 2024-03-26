@@ -24,6 +24,9 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     <link />
     @* <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> *@
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -40,7 +43,7 @@
         <div class="d-flex align-items-center justify-content-evenly">
             <span class="d-none d-sm-block mx-2">Welcome<strong class="text-info mx-2">@CV.UserName()</strong></span>
             <div class="ml-4 mx-3">
-                <button class="btn border-info" >
+                <button class="btn border-info">
                     <a class="text-decoration-none text-info" asp-controller="Admin" asp-action="Logout">Logout</a>
                 </button>
             </div>
@@ -55,41 +58,46 @@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 mt-4 subnav">
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/AdminDashboard") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
             </li>
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/ProviderLocation") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">ProviderLocation</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/ProviderLocation") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="ProviderLocation">ProviderLocation</a>
             </li>
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/MyProfile") ? "activeNav" : "")" aria-current="page" asp-action="AdminProfile" asp-controller="Admin">MyProfile</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/AdminProfile") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="AdminProfile">MyProfile</a>
+            </li>
+        </ul>
+        <ul class="nav-item dropdown ">
+            <a class="nav-link dropdown px-2 text-dark @(path.EndsWith("/Provider") ? "activeNav" : "")" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Providers
+            </a>
+            <li class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-action="Index" asp-controller="Provider">Provider</a>
+                <a class="dropdown-item" href="#">Scheduling</a>
+                <a class="dropdown-item" href="#"> Invoicing</a>
             </li>
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/Providers") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Providers</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin/Partners") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Partners</a>
             </li>
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/Partners") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Partners</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin/Access") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Access</a>
             </li>
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/Access") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Access</a>
-            </li>
-        </ul>
-        <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.StartsWith("/Admin/Records") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Records</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin/Records") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Records</a>
             </li>
         </ul>
     </nav>
-    <main class="main"> 
+    <main class="main">
         @RenderBody()
     </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

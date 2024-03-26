@@ -1,0 +1,249 @@
+﻿﻿@{
+    Layout = "_AdminLayout";
+}
+@model HaloDocDataAccess.ViewModels.AdminDetailsInfo
+@* --------------- Main Form --------------------------  *@
+<div class="container viewcasecard">
+    @* --------------- Modal Header --------------------------  *@
+    <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-evenly">
+            <h5 class="mt-3"><strong>My Profile</strong></h5>
+        </div>
+        <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
+            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
+        </button>
+    </div>
+    <div class="p-3 bg-white">
+        @* Account Information  *@
+        <form method="post" asp-action="EditPassword" asp-controller="AdminProfile">
+            <div class="row">
+                <input type="hidden" asp-for="AdminId" />
+                <h6><strong>Account Information</strong></h6>
+                <div class="col-lg-6">
+                    <input asp-for="UserName" class="form-control col-md mt-4"
+                           type="text"
+                           placeholder="UserName" required disabled />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="Password" class="form-control form-control-md col-md col-sm mt-4"
+                           type="password"
+                           placeholder="Password" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="dropdown col-lg-6 mt-4">
+                    <select class="form-select" aria-label="Default select example" id="Refill" disabled asp-for="Status">
+                        <option>Status</option>
+                        <option value="1">Active</option>
+                        <option value="2">Not Active</option>
+                    </select>
+                </div>
+                <div class="dropdown col-lg-6 mt-4">
+                    <select class="form-select mb-3" aria-label="Default select example" id="Refill" disabled asp-for="Role">
+                        <option>Roles</option>
+                        <option value="1">Master</option>
+                        <option value="2">Not Master</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <input type="submit" value="Reset Password" id="resetpassbtn" class="btn border border-info text-info" />
+            </div>
+
+
+        </form>
+
+        <form method="post" asp-action="EditAdministratorInfo" asp-controller="AdminProfile" id="abcdefghi">
+            <input type="hidden" asp-for="AdminId" />
+
+            <div class="row">
+                <h6><strong>Administrator Information</strong></h6>
+                <div class="col-lg-6">
+                    <input asp-for="FirstName" class="form-control mt-4"
+                           type="text"
+                           id="uname"
+                           placeholder="FirstName" required disabled />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="LastName" class="form-control   mt-4"
+                           type="text"
+                           id="pwd"
+                           placeholder="LastName" required disabled />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <input asp-for="Email" class="form-control  mt-4"
+                           type="email" id="email"
+                           placeholder="Enter Email" required disabled />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="ConfEmail" class="form-control  mt-4"
+                           type="email" id="cemail"
+                           placeholder="Confirm Email" required disabled />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mt-1">
+                    <input id="phone1"
+                           asp-for="Phone"
+                           type="tel"
+                           class="form-control iti" disabled />
+                </div>
+                <input asp-for="Regionsid" type="hidden" id="regionids" />
+
+                <div class="col-sm-5 mt-1 form-check d-flex flex-wrap justify-content-between">
+                    @foreach (var cb in ViewBag.AssignCase)
+                    {
+                        @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
+                        {
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region" id="flexCheckDefault" checked>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    @cb.Name
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    @cb.Name
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            @* edit button 1 *@
+            <div class="d-flex justify-content-end mt-4">
+                <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
+                <a id="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">Save</a>
+            </div>
+
+        </form>
+        <form method="post" asp-action="BillingInfoEdit" asp-controller="AdminProfile">
+            <input type="hidden" asp-for="AdminId" />
+
+            <div class="row">
+                <h6><strong>Mailing Information</strong></h6>
+
+                <div class="col-lg-6">
+                    <input asp-for="Add1" class="form-control mt-4"
+                           type="text" id="add1"
+                           placeholder="Address 1" required disabled />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="Add2" class="form-control mt-4"
+                           type="text" id="add2"
+                           placeholder="Address 2" required disabled />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <input asp-for="City" class="form-control  mt-4"
+                           type="text" id="city"
+                           placeholder="City" required disabled />
+                </div>
+                <div class="col-lg-6">
+                    <input asp-for="State" class="form-control  mt-4"
+                           type="text" id="state"
+                           placeholder="State" required disabled />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <input asp-for="Zip" class="form-control"
+                           type="text" id="zip"
+                           placeholder="Zip" required disabled />
+                </div>
+                <div class="col-lg-6">
+                    <input id="phone2"
+                           type="tel"
+                           asp-for="PhoneForBill"
+                           class="form-control  iti" disabled />
+                </div>
+            </div>
+            @* edit button 2 *@
+            <div class="d-flex justify-content-end mt-4">
+                <a id="edit1" onclick="enable_disable2()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
+                <input type="submit" id="submit1" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    window.onload = function (e) {
+       
+        $(".form-check-input").prop("disabled", true);
+    }
+    function enable_disable() {
+        $("#email").removeAttr('disabled');
+        $("#phone1").removeAttr('disabled');
+        $("#cemail").removeAttr('disabled');
+        $("#uname").removeAttr('disabled');
+        $("#pwd").removeAttr('disabled');
+        $(".form-check-input").prop("disabled", false);
+        $("#submit").css("display", "block");
+        $("#edit").css("display", "none");
+    }
+
+</script>
+
+<script>
+                function enable_disable2() {
+                    $("#add1").removeAttr('disabled');
+                    $("#phone2").removeAttr('disabled');
+                    $("#add2").removeAttr('disabled');
+                    $("#city").removeAttr('disabled');
+                    $("#state").removeAttr('disabled');
+                    $("#zip").removeAttr('disabled');
+
+                    $("#submit1").css("display", "block");
+                    $("#edit1").css("display", "none");
+                }
+
+</script>
+<script>
+    const phoneInputField = document.querySelector("#phone1");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>
+<script>
+    const phoneInputField = document.querySelector("#phone30");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>
+<script>
+    // $(function () {
+    //     $('#submit').on('click', function () {
+    //         let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
+    //         console.log(checkboxes)
+    //         let regionIds = [];
+    //         checkboxes.forEach((checkbox) => {
+    //             Regionsid.push(checkbox.value);
+    //         });
+    //         document.querySelector('#regionids').value = regionIds.join(',');
+    //         $('#administratorinfo').submit();
+    //     }
+    //         });
+
+    $(function () {
+        $('#submit').on('click', function () {
+            let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
+            let regionIds = [];
+            checkboxes.forEach((checkbox) => {
+                regionIds.push(checkbox.value);
+            });
+            document.querySelector('#regionids').value = regionIds.join(',');
+            console.log(document.querySelector('#regionids').value)
+            $('#abcdefghi').submit();
+        });
+    });
+</script>

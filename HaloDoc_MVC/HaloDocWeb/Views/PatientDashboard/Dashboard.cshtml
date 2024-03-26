@@ -40,8 +40,8 @@
                             <td>
                                 @if (Model.DocumentCount[i] >= 0)
                                 {
-                                    <a asp-controller="PatientDashboard" asp-action="ViewDocument" asp-route-id="@Model.Requests[i].RequestId" class="btn btn-outline-info shadow-none night-mode-btn">
-                                        <span>(@Model.DocumentCount[i]) Documents</span>
+                                    <a asp-action="ViewDocument" asp-controller="PatientDashboard" asp-route-requestId="@Model.Requests[i].RequestId" class="btn btn-outline-info btn-sm document-button">
+                                        Document(@Model.DocumentCount[i])<i class="fa fa-arrow-circle-down px-1" aria-hidden="true"></i>
                                     </a>
                                 }
                             </td>

@@ -56,8 +56,8 @@ namespace HaloDocRepository.Interface
         public bool SendLink(sendAgreement sendAgreement);
         List<AdminDashboardList> Export(string status);
         public bool IndexForgotPass(PatientForgotPassword model);
-        public bool SaveDoc(int Requestid, IFormFile file);
-        public  Task<ViewDocuments> GetDocumentByRequest(int? id, ViewDocuments viewDocument);
+         ProviderMenu ProviderMenu();
+
 
 
     }

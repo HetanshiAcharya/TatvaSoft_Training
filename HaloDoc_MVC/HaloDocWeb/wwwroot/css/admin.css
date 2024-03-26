@@ -14,8 +14,8 @@ header {
     box-shadow: 0 4px 7px -2px rgb(0 0 0 / 20%);
 }
 /*@*Tabs*@*/
-.activeNav {
-    color: #8dcaf0 !important;
+ .activeNav {
+    color: #8dcaf0!important;
     font-weight: 600;
     border-bottom: 2px solid #8dcaf0;
 }

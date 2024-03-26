@@ -14,12 +14,6 @@ public partial class PhysicianLocation
 
     public int PhysicianId { get; set; }
 
-    [Precision(9, 0)]
-    public decimal? Latitude { get; set; }
-
-    [Precision(9, 0)]
-    public decimal? Longitude { get; set; }
-
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? CreatedDate { get; set; }
 
@@ -28,6 +22,12 @@ public partial class PhysicianLocation
 
     [StringLength(500)]
     public string? Address { get; set; }
+
+    [Precision(9, 5)]
+    public decimal? Latitute { get; set; }
+
+    [Precision(9, 5)]
+    public decimal? Longitude { get; set; }
 
     [ForeignKey("PhysicianId")]
     [InverseProperty("PhysicianLocations")]
