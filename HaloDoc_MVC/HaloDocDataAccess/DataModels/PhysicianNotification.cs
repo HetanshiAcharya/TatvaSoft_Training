@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +14,7 @@ public partial class PhysicianNotification
 
     public int PhysicianId { get; set; }
 
-    [Column(TypeName = "bit(1)")]
-    public BitArray IsNotificationStopped { get; set; } = null!;
+    public bool? IsNotificationStopped { get; set; }
 
     [ForeignKey("PhysicianId")]
     [InverseProperty("PhysicianNotifications")]

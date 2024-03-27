@@ -46,9 +46,6 @@ public partial class Physician
     [Column(TypeName = "bit(1)")]
     public BitArray? IsTrainingDoc { get; set; }
 
-    [Column(TypeName = "bit(1)")]
-    public BitArray? IsNonDisclosureDoc { get; set; }
-
     [StringLength(500)]
     public string? Address1 { get; set; }
 
@@ -109,6 +106,8 @@ public partial class Physician
 
     [StringLength(50)]
     public string? SyncEmailAddress { get; set; }
+
+    public bool? IsNonDisclosureDoc { get; set; }
 
     [ForeignKey("AspNetUserId")]
     [InverseProperty("Physicians")]

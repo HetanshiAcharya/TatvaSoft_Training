@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace HaloDocRepository.Interface
         public HealthProfessional SendOrdersInfo(int selectedValue);
         public ViewCaseData Edit(ViewCaseData vdvc, int? RId, int? RTId);
         public List<Physician> ProviderbyRegion(int Regionid);
-        public List<Region> AssignCase();
+        public List<HaloDocDataAccess.DataModels.Region> AssignCase();
         public List<CaseTag> CancelCase();
         public List<HealthProfessionalType> Professions();
         public bool SendOrders(int requestid, OrderDetail o);
@@ -33,7 +34,6 @@ namespace HaloDocRepository.Interface
         public bool BlockCaseInfo(int requestId, string notes);
         public void DeleteFile(int requestid, int reqwisefileid);
         public void DeleteFile(int requestid, int[] reqwisefileid);
-
         public void ClearCase(int RequestId);
         public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes);
         public bool SendAgreement(sendAgreement sendAgreement);
@@ -56,8 +56,9 @@ namespace HaloDocRepository.Interface
         public bool SendLink(sendAgreement sendAgreement);
         List<AdminDashboardList> Export(string status);
         public bool IndexForgotPass(PatientForgotPassword model);
-         ProviderMenu ProviderMenu();
-
+        ProviderMenu ProviderMenu(int Region);
+        public bool ChangeNoti(int[] files, int region);
+        public bool SendEmailProvider(string Email, string Message);
 
 
     }

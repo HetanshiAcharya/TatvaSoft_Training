@@ -23,6 +23,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics.Metrics;
 using System.IO;
+using System.Drawing;
+using static HaloDocDataAccess.ViewModels.AdminDetailsInfo;
 
 namespace HaloDocRepository.Repositories
 {
@@ -328,7 +330,7 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region getdropdownregion
-        public List<Region> getdropdownregion()
+        public List<HaloDocDataAccess.DataModels.Region> getdropdownregion()
         {
             var dropdown = _context.Regions.ToList();
             return dropdown;
@@ -402,7 +404,7 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region AssignCase
-        public List<Region> AssignCase()
+        public List<HaloDocDataAccess.DataModels.Region> AssignCase()
         {
             var regiondata = _context.Regions.ToList();
             return (regiondata);
@@ -1158,10 +1160,10 @@ namespace HaloDocRepository.Repositories
                                              Status = r.Status,
                                              Zip = r.Zip,
                                          }).FirstOrDefaultAsync();
-            List<Region> regions = new List<Region>();
+            List<HaloDocDataAccess.DataModels.Region> regions = new List<HaloDocDataAccess.DataModels.Region>();
             regions = await _context.AdminRegions
                   .Where(r => r.AdminId == id)
-                  .Select(req => new Region()
+                  .Select(req => new HaloDocDataAccess.DataModels.Region()
                   {
                       RegionId = req.RegionId
 
@@ -1362,21 +1364,24 @@ namespace HaloDocRepository.Repositories
         }
 
         #region ProviderMenu
-        public ProviderMenu ProviderMenu()
+        public ProviderMenu ProviderMenu(int Region)
         {
 
             var providerMenu = from phy in _context.Physicians
                                join role in _context.Roles on phy.RoleId equals role.RoleId
                                join phyid in _context.PhysicianNotifications on phy.PhysicianId equals phyid.PhysicianId
-                               select new ProviderList
+                                where phy.IsDeleted == new BitArray(1)
+                                && (Region == -1 || phy.RegionId == Region)
+                               select new ProviderList 
                                {
+                                   Email = phy.Email,
                                    PhysicianId = phy.PhysicianId,
                                    FirstName = phy.FirstName,
                                    LastName = phy.LastName,
                                    Status = phy.Status,
                                    Role = role.Name,
-                                   OnCallStatus = "",
-                                   //Notification = phyid.IsNotificationStopped
+                                   OnCallStatus = phy.IsNonDisclosureDoc,
+                                   Notification = (bool)phyid.IsNotificationStopped
                                };
 
             var obj = new ProviderMenu()
@@ -1384,6 +1389,42 @@ namespace HaloDocRepository.Repositories
                 ProviderLists = providerMenu,
             };
             return obj;
+        }
+
+        #endregion
+
+        #region changeNoti
+        public bool ChangeNoti(int[] files, int region)
+        {
+           
+            List<PhysicianNotification> PhysicianNotification = (from noti in  _context.PhysicianNotifications join
+                                                                 phy in _context.Physicians on noti.PhysicianId equals phy.PhysicianId
+                                                                 where (region == -1 || phy.RegionId == region)
+                                                                 select noti).ToList();
+            foreach (var item in PhysicianNotification)
+            {
+                if (files.Contains(item.PhysicianId))
+                {
+                    item.IsNotificationStopped = true;
+                    _context.PhysicianNotifications.Update(item);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    item.IsNotificationStopped = false;
+                    _context.PhysicianNotifications.Update(item);
+                    _context.SaveChanges();
+                }
+            }
+            return true;
+        }
+        #endregion
+
+        #region sendemailprovider
+        public bool SendEmailProvider(string Email, string Message)
+        {
+            _emailConfig.SendMail(Email, "Message From Admin ~ Provider ", Message);
+            return true;
         }
 
         #endregion

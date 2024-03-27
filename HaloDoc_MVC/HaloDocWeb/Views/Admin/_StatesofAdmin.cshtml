@@ -212,13 +212,12 @@
             $('#filterForm').submit();
         });
     });
-
+    // Pagesize
     $(function () {
         $('#pagesizedropdown').on('change', function () {
             $('#filterForm').submit();
         });
     });
-
     $(window).keydown(function (event) {
         if (event.keyCode == 13) {
             event.preventDefault();
@@ -227,6 +226,7 @@
         }
     });
 </script>
+@* Export *@
 <script>
     function Export(status) {
         console.log(status);

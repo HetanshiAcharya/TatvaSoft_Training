@@ -84,8 +84,14 @@ namespace HaloDocDataAccess.ViewModels
             Pending,
             NotActive
         }
+        public enum onCallStatus
+        {
+            UnAvailable=0,
+            Available
+        }
+
     }
-    public class ViewCaseData
+        public class ViewCaseData
     {
         public int? RequestClientId { get; set; }
         public int? RequestID { get; set; }
@@ -283,13 +289,15 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class ProviderList
     {
+        public string Email { get; set; }
+        public string Message { get; set; }
         public int PhysicianId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Role { get; set; }
-        public string OnCallStatus { get; set; }
+        public bool? OnCallStatus { get; set; }
         public short? Status { get; set; }
-        public BitArray Notification { get; set; }
+        public bool Notification { get; set; }
 
     }
 }
