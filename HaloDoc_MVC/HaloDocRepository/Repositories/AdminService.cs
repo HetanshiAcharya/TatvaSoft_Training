@@ -1174,7 +1174,7 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
-        #region editpass
+        #region EditPassword
         public async Task<bool> EditPassword(string password, int adminId)
         {
             var req = await _context.Admins.Where(W => W.AdminId == adminId).FirstOrDefaultAsync();
@@ -1322,12 +1322,15 @@ namespace HaloDocRepository.Repositories
             //client.Send(mailMessage);
         }
         #endregion
+        #region SendLink
+
         public bool SendLink(sendAgreement sendAgreement)
         {
             var agreementUrl = "https://localhost:7299/Home/SubmitReq?ReqId=" + sendAgreement.ReqId;
             _emailConfig.SendMail(sendAgreement.Email, "Create Request from here !! ", $"You can create request just by clicking below <a href='{agreementUrl}'>Accept and Generate Request</a>");
             return true;
         }
+        #endregion
         public List<AdminDashboardList> Export(string status)
         {
             List<int> statusdata = status.Split(',').Select(int.Parse).ToList();
@@ -1370,10 +1373,11 @@ namespace HaloDocRepository.Repositories
             var providerMenu = from phy in _context.Physicians
                                join role in _context.Roles on phy.RoleId equals role.RoleId
                                join phyid in _context.PhysicianNotifications on phy.PhysicianId equals phyid.PhysicianId
-                                where phy.IsDeleted == new BitArray(1)
-                                && (Region == -1 || phy.RegionId == Region)
-                               select new ProviderList 
+                               where phy.IsDeleted == new BitArray(1)
+                               && (Region == -1 || phy.RegionId == Region)
+                               select new ProviderList
                                {
+                                   UserName = phy.FirstName + phy.LastName,
                                    Email = phy.Email,
                                    PhysicianId = phy.PhysicianId,
                                    FirstName = phy.FirstName,
@@ -1396,8 +1400,9 @@ namespace HaloDocRepository.Repositories
         #region changeNoti
         public bool ChangeNoti(int[] files, int region)
         {
-           
-            List<PhysicianNotification> PhysicianNotification = (from noti in  _context.PhysicianNotifications join
+
+            List<PhysicianNotification> PhysicianNotification = (from noti in _context.PhysicianNotifications
+                                                                 join
                                                                  phy in _context.Physicians on noti.PhysicianId equals phy.PhysicianId
                                                                  where (region == -1 || phy.RegionId == region)
                                                                  select noti).ToList();
@@ -1428,6 +1433,228 @@ namespace HaloDocRepository.Repositories
         }
 
         #endregion
+
+        #region ProviderRoleViewBag
+
+        public List<Role> ProviderRole()
+        {
+            var role = _context.Roles.ToList();
+            return (role);
+        }
+        #endregion
+
+        #region GetProviderProfileDetails
+        public async Task<ProviderList> GetProviderProfileDetails(int id)
+        {
+            ProviderList? v = await (from r in _context.Physicians
+                                     join Aspnetuser in _context.AspNetUsers
+                                     on r.AspNetUserId equals Aspnetuser.Id
+                                     where r.PhysicianId == id
+                                     select new ProviderList
+                                     {
+                                         RoleId = r.RoleId,
+                                         PhysicianId = r.PhysicianId,
+                                         UserName = Aspnetuser.UserName,
+                                         Password = Aspnetuser.PasswordHash,
+                                         LastName = r.LastName,
+                                         FirstName = r.FirstName,
+                                         Email = r.Email,
+                                         Phone = r.Mobile,
+                                         MedLicence = r.MedicalLicense,
+                                         NpiNum = r.Npinumber,
+                                         SyncEmail = r.SyncEmailAddress,
+                                         Add1 = r.Address1,
+                                         Add2 = r.Address2,
+                                         PhoneForBill = r.AltPhone,
+                                         City = r.City,
+                                         Regionid = r.RegionId,
+                                         Status = r.Status,
+                                         Zip = r.Zip,
+                                         Bname = r.BusinessName,
+                                         Bwebsite = r.BusinessWebsite
+                                     }).FirstOrDefaultAsync();
+            List<HaloDocDataAccess.DataModels.Region> regions = new List<HaloDocDataAccess.DataModels.Region>();
+            regions = await _context.PhysicianRegions
+                  .Where(r => r.PhysicianId == id)
+                  .Select(req => new HaloDocDataAccess.DataModels.Region()
+                  {
+                      RegionId = req.RegionId
+
+                  })
+                  .ToListAsync();
+            v.Regionids = regions;
+            return v;
+
+        }
+        #endregion
+
+        #region EditProviderAccInfo
+        public async Task<bool> EditProviderAccInfo(ProviderList p)
+        {
+            var req = await _context.Physicians.Where(W => W.PhysicianId == p.PhysicianId).FirstOrDefaultAsync();
+            AspNetUser? U = await _context.AspNetUsers.FirstOrDefaultAsync(m => m.Id == req.AspNetUserId);
+
+            if (U != null)
+            {
+                if (req != null)
+                {
+
+                    req.Status = p.Status;
+                    req.RoleId = p.RoleId;
+                    _context.Physicians.Update(req);
+                    _context.SaveChanges();
+                }
+                U.PasswordHash = GenerateSHA256(p.Password);
+                U.Email = p.Email;
+                _context.AspNetUsers.Update(U);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region EditProviderInfo
+        public async Task<bool> EditProviderInfo(ProviderList p)
+        {
+            try
+            {
+                if (p == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var DataForChange = await _context.Physicians.Where(W => W.PhysicianId == p.PhysicianId).FirstOrDefaultAsync();
+                    if (DataForChange != null)
+                    {
+                        DataForChange.Email = p.Email;
+                        DataForChange.FirstName = p.FirstName;
+                        DataForChange.LastName = p.LastName;
+                        DataForChange.Mobile = p.Phone;
+                        _context.Physicians.Update(DataForChange);
+                        _context.SaveChanges();
+                        List<int> regions = await _context.PhysicianRegions.Where(r => r.PhysicianId == p.PhysicianId).Select(req => req.RegionId).ToListAsync();
+                        List<int> priceList = p.Regionsid.Split(',').Select(int.Parse).ToList();
+                        foreach (var item in priceList)
+                        {
+                            if (regions.Contains(item))
+                            {
+                                regions.Remove(item);
+                            }
+                            else
+                            {
+                                PhysicianRegion ar = new()
+                                {
+                                    RegionId = item,
+                                    PhysicianId = (int)p.PhysicianId
+                                };
+                                _context.PhysicianRegions.Update(ar);
+                                await _context.SaveChangesAsync();
+                                regions.Remove(item);
+                            }
+                        }
+                        if (regions.Count > 0)
+                        {
+                            foreach (var item in regions)
+                            {
+                                PhysicianRegion ar = await _context.PhysicianRegions.Where(r => r.PhysicianId == p.PhysicianId && r.RegionId == item).FirstAsync();
+                                _context.PhysicianRegions.Remove(ar);
+                                await _context.SaveChangesAsync();
+                            }
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region EditProviderMailingInfo
+        public async Task<bool> EditProviderMailingInfo(ProviderList p)
+        {
+            try
+            {
+                if (p == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var DataForChange = await _context.Physicians.Where(W => W.PhysicianId == p.PhysicianId).FirstOrDefaultAsync();
+                    if (DataForChange != null)
+                    {
+                        DataForChange.Address1 = p.Add1;
+                        DataForChange.Address2 = p.Add2;
+                        DataForChange.City = p.City;
+                        DataForChange.AltPhone = p.PhoneForBill;
+                        DataForChange.Zip = p.Zip;
+
+                        _context.Physicians.Update(DataForChange);
+                        _context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
+
+        #region EditProviderMailingInfo
+        public async Task<bool> ProviderProfileInfo(ProviderList p)
+        {
+
+
+            try
+            {
+                if (p == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var DataForChange = await _context.Physicians.Where(W => W.PhysicianId == p.PhysicianId).FirstOrDefaultAsync();
+                    if (DataForChange != null)
+                    {
+                        var fileName = Path.GetFileName(p.Photo.FileName);
+                        var fileName2 = Path.GetFileName(p.signature.FileName);
+
+                        DataForChange.BusinessName = p.Bname;
+                        DataForChange.BusinessWebsite = p.Bwebsite;
+                        DataForChange.Photo = fileName;
+                        DataForChange.Signature = fileName2;
+                        _context.Physicians.Update(DataForChange);
+                        _context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
+
     }
 }
 

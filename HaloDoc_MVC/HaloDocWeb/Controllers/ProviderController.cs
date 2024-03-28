@@ -1,7 +1,10 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using HaloDocDataAccess.ViewModels;
 using HaloDocRepository.Interface;
 using HaloDocRepository.Repositories;
+using HaloDocWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
 
 namespace HaloDocWeb.Controllers
 {
@@ -58,9 +61,76 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region editphysician
-        public IActionResult EditPhysician()
+        public async Task<IActionResult> EditPhysician(int pId)
         {
-            return View("../Admin/Provider/EditPhysician");
+            ViewBag.Status = _adminservice.ProviderRole();
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            var res = await _adminservice.GetProviderProfileDetails(pId);
+            return View("../Admin/Provider/EditPhysician", res);
+        }
+        #endregion
+
+        #region EditProviderAccInfo
+        [HttpPost]
+        public async Task<IActionResult> EditProviderAccInfo(ProviderList p)
+        {
+            if (await _adminservice.EditProviderAccInfo(p))
+            {
+                _notyf.Success("Password changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Password not Changed...");
+            }
+            return RedirectToAction("EditPhysician", "Provider", new { pId = p.PhysicianId });
+        }
+        #endregion
+
+        #region EditProviderInfo
+        [HttpPost]
+        public async Task<IActionResult> EditProviderInfo(ProviderList p)
+        {
+            if (await _adminservice.EditProviderInfo(p))
+            {
+                _notyf.Success("Information changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Information not Changed...");
+            }
+            return RedirectToAction("EditPhysician", "Provider", new { pId = p.PhysicianId });
+        }
+        #endregion
+
+        #region EditProviderMailingInfo
+        [HttpPost]
+        public async Task<IActionResult> EditProviderMailingInfo(ProviderList p)
+        {
+            if (await _adminservice.EditProviderMailingInfo(p))
+            {
+                _notyf.Success("Information changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Information not Changed...");
+            }
+            return RedirectToAction("EditPhysician", "Provider", new { pId = p.PhysicianId });
+        }
+        #endregion
+
+        #region ProviderProfileInfo
+        [HttpPost]
+        public async Task<IActionResult> ProviderProfileInfo(ProviderList p)
+        {
+            if (await _adminservice.ProviderProfileInfo(p))
+            {
+                _notyf.Success("Password changed Successfully...");
+            }
+            else
+            {
+                _notyf.Error("Password not Changed...");
+            }
+            return RedirectToAction("EditPhysician", "Provider", new { pId = p.PhysicianId });
         }
         #endregion
     }

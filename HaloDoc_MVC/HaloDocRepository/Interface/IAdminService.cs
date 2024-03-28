@@ -59,6 +59,14 @@ namespace HaloDocRepository.Interface
         ProviderMenu ProviderMenu(int Region);
         public bool ChangeNoti(int[] files, int region);
         public bool SendEmailProvider(string Email, string Message);
+        public Task<ProviderList> GetProviderProfileDetails(int id);
+        public List<Role> ProviderRole();
+
+        public Task<bool> EditProviderAccInfo(ProviderList p);
+
+        public Task<bool> EditProviderInfo(ProviderList p);
+        public Task<bool> EditProviderMailingInfo(ProviderList p);
+        public Task<bool> ProviderProfileInfo(ProviderList p);
 
 
     }

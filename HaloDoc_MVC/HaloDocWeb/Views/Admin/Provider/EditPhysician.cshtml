@@ -1,7 +1,8 @@
 ﻿﻿@{
     Layout = "_AdminLayout";
 }
-@model HaloDocDataAccess.ViewModels.AdminDetailsInfo
+@model HaloDocDataAccess.ViewModels.ProviderList;
+@using static HaloDocDataAccess.ViewModels.Constant;
 @* --------------- Main Form --------------------------  *@
 <div class="container viewcasecard">
     @* --------------- Modal Header --------------------------  *@
@@ -10,14 +11,14 @@
             <h5 class="mt-3"><strong>My Profile</strong></h5>
         </div>
         <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
-            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
+            <span><a class="link" asp-controller="Provider" asp-action="Index">Back</a></span>
         </button>
     </div>
     <div class="p-3 bg-white">
         @* Account Information  *@
-        <form method="post" asp-action="" asp-controller="">
+        <form method="post" asp-action="EditProviderAccInfo" asp-controller="Provider">
             <div class="row">
-                <input type="hidden" asp-for="AdminId" />
+                <input type="hidden" asp-for="PhysicianId" />
                 <h6><strong>Account Information</strong></h6>
                 <div class="col-lg-6">
                     <input asp-for="UserName" class="form-control col-md mt-4"
@@ -29,42 +30,40 @@
                     <input asp-for="Password" class="form-control form-control-md col-md col-sm mt-4"
                            type="password"
                            id="password"
-                           placeholder="Password" required />
+                           placeholder="Password" />
                 </div>
             </div>
             <div class="row">
                 <div class="dropdown col-lg-6 mt-4">
-                    <select class="form-select" aria-label="Default select example" id="status" disabled asp-for="Status">
-                        <option>Status</option>
-                        <option value="1">Active</option>
-                        <option value="2">Not Active</option>
+                    @{
+                        var enumData = Enum.GetNames(typeof(ProviderStatus));
+                    }
+                    <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(enumData))" data-control="select2" data-placeholder="Select Status" id="role" disabled>
                     </select>
                 </div>
                 <div class="dropdown col-lg-6 mt-4">
-                    <select class="form-select mb-3" aria-label="Default select example" id="role" disabled asp-for="Role" itemid="role">
-                        <option>Roles</option>
-                        <option value="1">Master</option>
-                        <option value="2">Not Master</option>
+                    <select class="form-select mb-3" required asp-for="Status" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))" data-control="select2" data-placeholder="Select Status" id="status" disabled>
                     </select>
                 </div>
+
             </div>
             @* edit button ~ acc info *@
             <div class="d-flex justify-content-end align-items-center mt-2">
                 <div class="d-flex justify-content-end ">
                     <a id="edit1" onclick="enable_disable1()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
-                    <a id="submit1" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">Save</a>
+                    <input type="submit" id="submit1" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
                 </div>
                 <div>
                     <input type="submit" value="Reset Password" id="resetpassbtn" class="btn border border-info text-info" />
-
                 </div>
             </div>
         </form>
         @* Physician Information  *@
-        <form method="post" asp-action="" asp-controller="" id="">
-            <input type="hidden" asp-for="AdminId" />
+        <form method="post" asp-action="EditProviderInfo" asp-controller="Provider" id="abcdefghi">
+            <input asp-for="Regionsid" type="hidden" id="regionids" />
+            <input type="hidden" asp-for="PhysicianId" />
             <div class="row">
-                <h6><strong>Administrator Information</strong></h6>
+                <h6><strong>Physician Information</strong></h6>
                 <div class="col-lg-6">
                     <input asp-for="FirstName" class="form-control mt-4"
                            type="text"
@@ -74,6 +73,7 @@
                 <div class="col-lg-6">
                     <input class="form-control   mt-4"
                            type="text"
+                           asp-for="LastName"
                            id="lname"
                            placeholder="LastName" required disabled />
                 </div>
@@ -93,7 +93,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-6">
-                    <input asp-for="FirstName" class="form-control mt-4"
+                    <input asp-for="MedLicence" class="form-control mt-4"
                            type="text"
                            id="medLicense"
                            placeholder="Medical License" required disabled />
@@ -101,6 +101,7 @@
                 <div class="col-lg-6">
                     <input class="form-control mt-4"
                            type="text" id="npi"
+                           asp-for="NpiNum"
                            placeholder="NPI Number" required disabled />
                 </div>
             </div>
@@ -108,9 +109,34 @@
                 <div class="col-lg-6">
                     <input class="form-control mt-4"
                            type="text" id="syncemail"
+                           asp-for="SyncEmail"
                            placeholder="Synchronization Email Address" required disabled />
                 </div>
+                <div class="col-sm-5 mt-4 form-check d-flex flex-wrap justify-content-between">
+                    @foreach (var cb in ViewBag.AssignCase)
+                    {
+                        @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
+                        {
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region" id="flexCheckDefault" checked>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    @cb.Name
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    @cb.Name
+                                </label>
+                            </div>
+                        }
+                    }
+                </div>
             </div>
+
             @* edit button ~ phy Info *@
             <div class="d-flex justify-content-end mt-4">
                 <a id="edit2" onclick="enable_disable2()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
@@ -119,8 +145,8 @@
 
         </form>
         @* Mailing Information *@
-        <form method="post" asp-action="" asp-controller="">
-            <input type="hidden" asp-for="AdminId" />
+        <form method="post" asp-action="EditProviderMailingInfo" asp-controller="Provider">
+            <input type="hidden" asp-for="PhysicianId" />
             <div class="row">
                 <h6><strong>Mailing Information</strong></h6>
                 <div class="col-lg-6">
@@ -166,63 +192,61 @@
             </div>
         </form>
         @* Provider Profile *@
-        <form method="post" asp-action="" asp-controller="">
-            <input type="hidden" asp-for="AdminId" />
+        <form method="post" asp-action="ProviderProfileInfo" asp-controller="Provider" enctype="multipart/form-data" id="formprofile">
+            <input type="hidden" asp-for="PhysicianId" />
             <div class="row">
                 <h6><strong>Provider Profile</strong></h6>
                 <div class="col-lg-6">
-                    <input asp-for="Add1" class="form-control mt-4"
+                    <input asp-for="Bname" class="form-control mt-4"
                            type="text" id="bname"
                            placeholder="Business Name" required disabled />
                 </div>
                 <div class="col-lg-6">
-                    <input asp-for="Add2" class="form-control mt-4"
-                           type="email" id="bwebsite"
-                           placeholder="Business Website" required disabled />
+                    <input asp-for="Bwebsite" class="form-control mt-4"
+                           type="text" id="bwebsite"
+                           placeholder="Business Name" required disabled />
                 </div>
             </div>
             <div class="row">
-               <div class="col-lg-6">
-                   <input type="file" class="form-control mt-4" />
-               </div>
-                <div class="col-lg-5">
-                    <input type="file" class="form-control mt-4" />
+                <div class="col-md-6 mt-4 pb-3">
+                    <div class="d-flex justify-content-between border border-secondary rounded input4">
+                        <button type="button" id="photo" class="col btn text-start fileSelect form-control" onclick="document.getElementById('file').click()" disabled>
+                            Select Photo
+                        </button>
+                        <input id="file" type="file" class="d-none form-control doc_uploder" asp-for="Photo">
+                        <div class="btn btn-info text-white py-2" value="Upload" id="fileupload">
+                            <i class="fa fa-cloud-upload"></i>
+                            <span class="d-none d-sm-inline">Upload</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-1">
-                    <button class="btn btn-info text-white mt-4">Create</button>
+                <div class="col-md-5 mt-4 pb-3">
+                    <div class="d-flex justify-content-between border border-secondary rounded input4">
+                        <button type="button" id="signature" class="col btn text-start fileSelect form-control" onclick="document.getElementById('file').click()" disabled>
+                            Select Photo
+                        </button>
+                        <input id="file1" type="file" class="d-none form-control doc_uploder" asp-for="signature">
+                        <div class="btn btn-info text-white py-2" value="Upload" id="fileupload">
+                            <i class="fa fa-cloud-upload"></i>
+                            <span class="d-none d-sm-inline">Upload</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 mt-4">
+                    <div class="btn btn-info align-items-center text-white d-flex p-2">
+                        <i class="fa-solid fa-pen fa-xs mx-1"></i>
+                        <span class="d-none d-sm-inline mr-2">Create</span>
+                    </div>
                 </div>
             </div>
-            
-            @* edit button ~ bilinginfo *@
+            @* edit button ~ profile *@
             <div class="d-flex justify-content-end mt-4">
-                <a id="edit3" onclick="enable_disable3()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
-                <input type="submit" id="submit3" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
+                <a id="edit4" onclick="enable_disable4()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
+                <input id="submit4" type="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
             </div>
         </form>
     </div>
 </div>
-<script>
-    window.onload = function (e) {
-
-        $(".form-check-input").prop("disabled", true);
-    }
-    function enable_disable() {
-        $("#email").removeAttr('disabled');
-        $("#phone1").removeAttr('disabled');
-        $("#cemail").removeAttr('disabled');
-        $("#uname").removeAttr('disabled');
-        $("#pwd").removeAttr('disabled');
-        $(".form-check-input").prop("disabled", false);
-        $("#submit").css("display", "block");
-        $("#edit").css("display", "none");
-    }
-
-</script>
-
-<script>
-
-
-</script>
 <script>
     const phoneInputField = document.querySelector("#phone1");
     const phoneInput = window.intlTelInput(phoneInputField, {
@@ -238,21 +262,7 @@
     });
 </script>
 <script>
-    $(function () {
-        $('#submit').on('click', function () {
-            let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
-            let regionIds = [];
-            checkboxes.forEach((checkbox) => {
-                regionIds.push(checkbox.value);
-            });
-            document.querySelector('#regionids').value = regionIds.join(',');
-            console.log(document.querySelector('#regionids').value)
-            $('#abcdefghi').submit();
-        });
-    });
-</script>
-
-<script>
+    // edit and save
     function enable_disable1() {
         $("#username").removeAttr('disabled');
         $("#status").removeAttr('disabled');
@@ -260,7 +270,6 @@
         $("#submit1").css("display", "block");
         $("#edit1").css("display", "none");
     }
-
     function enable_disable2() {
         $("#fname").removeAttr('disabled');
         $("#lname").removeAttr('disabled');
@@ -269,6 +278,7 @@
         $("#medLicense").removeAttr('disabled');
         $("#npi").removeAttr('disabled');
         $("#syncemail").removeAttr('disabled');
+        $(".form-check-input").prop("disabled", false);
 
         $("#submit2").css("display", "block");
         $("#edit2").css("display", "none");
@@ -283,4 +293,42 @@
         $("#submit3").css("display", "block");
         $("#edit3").css("display", "none");
     }
+    function enable_disable4() {
+        $("#bname").removeAttr('disabled');
+        $("#bwebsite").removeAttr('disabled');
+        $("#photo").removeAttr('disabled');
+        $("#signature").removeAttr('disabled');
+        $("#submit4").css("display", "block");
+        $("#edit4").css("display", "none");
+    }
+    // checkbox
+    window.onload = function (e) {
+        $(".form-check-input").prop("disabled", true);
+    }
+    // provider info submit
+    $(function () {
+        $('#submit2').on('click', function () {
+            let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
+            let regionIds = [];
+            checkboxes.forEach((checkbox) => {
+                regionIds.push(checkbox.value);
+            });
+            document.querySelector('#regionids').value = regionIds.join(',');
+            console.log(document.querySelector('#regionids').value)
+            $('#abcdefghi').submit();
+        });
+    });
+    //to show selected file name
+    $("#file").change(function () {
+        filename = this.files[0].name;
+        console.log(filename);
+        $("#file").text(filename);
+    });
+    $("#file1").change(function () {
+        filename1 = this.files[0].name;
+        console.log(filename1);
+        $("#file1").text(filename1);
+    });
+
+
 </script>

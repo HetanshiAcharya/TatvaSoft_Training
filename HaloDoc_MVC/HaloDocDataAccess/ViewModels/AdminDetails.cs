@@ -1,4 +1,5 @@
 ﻿using HaloDocDataAccess.DataModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -290,13 +291,35 @@ namespace HaloDocDataAccess.ViewModels
     public class ProviderList
     {
         public string Email { get; set; }
+        public string Password { get; set; }
+        public string UserName { get; set; }
+        public short? Status { get; set; }
+        public string Role { get; set; }
+        public int? RoleId { get; set; }
+        public string Phone { get; set; }
+        public string MedLicence { get; set; }
+        public string NpiNum { get; set; }
+        public string SyncEmail { get; set; }
+        public string Add1 { get; set; }
+        public string Add2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+        public string PhoneForBill { get; set; }
+        public string Bname { get; set; }
+        public string Bwebsite { get; set; }
+        public int? Regionid { get; set; }
+        public string? Regionsid { get; set; }
+        public List<Region>? Regionids { get; set; }
+        public IFormFile Photo { get; set; }
+        public IFormFile signature { get; set; }
+
+        ///
         public string Message { get; set; }
         public int PhysicianId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Role { get; set; }
         public bool? OnCallStatus { get; set; }
-        public short? Status { get; set; }
         public bool Notification { get; set; }
 
     }
