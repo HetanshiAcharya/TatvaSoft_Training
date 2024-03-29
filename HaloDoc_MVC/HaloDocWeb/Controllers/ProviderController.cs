@@ -76,11 +76,11 @@ namespace HaloDocWeb.Controllers
         {
             if (await _adminservice.EditProviderAccInfo(p))
             {
-                _notyf.Success("Password changed Successfully...");
+                _notyf.Success("Information changed Successfully...");
             }
             else
             {
-                _notyf.Error("Password not Changed...");
+                _notyf.Error("Information not Changed...");
             }
             return RedirectToAction("EditPhysician", "Provider", new { pId = p.PhysicianId });
         }
@@ -128,9 +128,19 @@ namespace HaloDocWeb.Controllers
             }
             else
             {
-                _notyf.Error("Password not Changed...");
+                _notyf.Error("Information not Changed...");
             }
             return RedirectToAction("EditPhysician", "Provider", new { pId = p.PhysicianId });
+        }
+        #endregion
+
+        #region SaveProvider
+        [HttpPost]
+        public async Task<IActionResult> SaveProvider(int[] checkboxes, int physicianid)
+        {       
+            bool res = _adminservice.SaveProvider(checkboxes, physicianid);
+            _notyf.Success("Information changed Successfully...");
+            return RedirectToAction("EditPhysician", "Provider", new { pId = physicianid });
         }
         #endregion
     }

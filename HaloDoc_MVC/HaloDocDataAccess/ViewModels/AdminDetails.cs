@@ -311,8 +311,13 @@ namespace HaloDocDataAccess.ViewModels
         public int? Regionid { get; set; }
         public string? Regionsid { get; set; }
         public List<Region>? Regionids { get; set; }
-        public IFormFile Photo { get; set; }
-        public IFormFile signature { get; set; }
+        public IFormFile? Photo { get; set; }=null;
+        public IFormFile? signature { get; set; } = null;
+        public bool isAgreementDoc { get; set; }
+        public bool isBackgroundDoc { get; set; }
+        public bool isLicenseDoc { get; set; }
+        public bool isCredentialDoc { get; set; }
+        public bool? isNonDisclosureDoc { get; set; }
 
         ///
         public string Message { get; set; }

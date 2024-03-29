@@ -1289,6 +1289,7 @@ namespace HaloDocRepository.Repositories
             }
         }
         #endregion
+
         #region sendagreement
         public bool SendAgreementfromUploads(sendAgreement sendAgreement)
         {
@@ -1322,6 +1323,7 @@ namespace HaloDocRepository.Repositories
             //client.Send(mailMessage);
         }
         #endregion
+
         #region SendLink
 
         public bool SendLink(sendAgreement sendAgreement)
@@ -1331,6 +1333,8 @@ namespace HaloDocRepository.Repositories
             return true;
         }
         #endregion
+
+        #region Export
         public List<AdminDashboardList> Export(string status)
         {
             List<int> statusdata = status.Split(',').Select(int.Parse).ToList();
@@ -1365,6 +1369,7 @@ namespace HaloDocRepository.Repositories
                                                 }).ToList();
             return allData;
         }
+        #endregion
 
         #region ProviderMenu
         public ProviderMenu ProviderMenu(int Region)
@@ -1471,7 +1476,12 @@ namespace HaloDocRepository.Repositories
                                          Status = r.Status,
                                          Zip = r.Zip,
                                          Bname = r.BusinessName,
-                                         Bwebsite = r.BusinessWebsite
+                                         Bwebsite = r.BusinessWebsite,
+                                         isAgreementDoc = r.IsAgreementDoc[0],
+                                         isLicenseDoc = r.IsLicenseDoc[0],
+                                         isBackgroundDoc = r.IsBackgroundDoc[0],
+                                         isCredentialDoc = r.IsCredentialDoc[0],
+                                         isNonDisclosureDoc=r.IsNonDisclosureDoc
                                      }).FirstOrDefaultAsync();
             List<HaloDocDataAccess.DataModels.Region> regions = new List<HaloDocDataAccess.DataModels.Region>();
             regions = await _context.PhysicianRegions
@@ -1615,11 +1625,9 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
-        #region EditProviderMailingInfo
+        #region ProviderProfileInfo
         public async Task<bool> ProviderProfileInfo(ProviderList p)
         {
-
-
             try
             {
                 if (p == null)
@@ -1632,12 +1640,18 @@ namespace HaloDocRepository.Repositories
                     if (DataForChange != null)
                     {
                         var fileName = Path.GetFileName(p.Photo.FileName);
-                        var fileName2 = Path.GetFileName(p.signature.FileName);
+                        //var fileName2 = Path.GetFileName(p.signature.FileName);
+                        if ((fileName) ==null)
+                        {
+                            fileName = string.Empty;
+                        }
+                        
 
                         DataForChange.BusinessName = p.Bname;
                         DataForChange.BusinessWebsite = p.Bwebsite;
                         DataForChange.Photo = fileName;
-                        DataForChange.Signature = fileName2;
+                        //DataForChange.Signature = fileName2;
+                        DataForChange.AdminNotes = p.Message;
                         _context.Physicians.Update(DataForChange);
                         _context.SaveChanges();
                         return true;
@@ -1652,6 +1666,37 @@ namespace HaloDocRepository.Repositories
             {
                 return false;
             }
+        }
+        #endregion
+
+        #region saveProviderbutton
+        public bool SaveProvider(int[] checkboxes, int physicianid)
+        {
+            Physician phy = _context.Physicians.Where(x => x.PhysicianId == physicianid).FirstOrDefault();
+            foreach (var i in checkboxes)
+            {
+                switch (i)
+                {
+                    case 1:
+                        phy.IsAgreementDoc = new BitArray(1);
+                        phy.IsAgreementDoc[0] = true; break;
+                    case 2:
+                        phy.IsBackgroundDoc = new BitArray(1);
+                        phy.IsBackgroundDoc[0] = true; break;
+                    case 3:
+                        phy.IsCredentialDoc = new BitArray(1);
+                        phy.IsCredentialDoc[0] = true; break;
+                    case 4:
+                        phy.IsNonDisclosureDoc = true; break;
+                    case 5:
+                        phy.IsLicenseDoc = new BitArray(1);
+                        phy.IsLicenseDoc[0] = true; break;
+                }
+
+            }
+            _context.Physicians.Update(phy);
+            _context.SaveChanges();
+            return true;
         }
         #endregion
 

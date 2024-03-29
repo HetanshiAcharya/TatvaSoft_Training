@@ -68,6 +68,7 @@ namespace HaloDocRepository.Interface
         public Task<bool> EditProviderMailingInfo(ProviderList p);
         public Task<bool> ProviderProfileInfo(ProviderList p);
 
+        public bool SaveProvider(int[] checkboxes, int physicianid);
 
     }
 

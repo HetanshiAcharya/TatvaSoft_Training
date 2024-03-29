@@ -213,11 +213,11 @@
                         <button type="button" id="photo" class="col btn text-start fileSelect form-control" onclick="document.getElementById('file').click()" disabled>
                             Select Photo
                         </button>
-                        <input id="file" type="file" class="d-none form-control doc_uploder" asp-for="Photo">
-                        <div class="btn btn-info text-white py-2" value="Upload" id="fileupload">
+                        <input id="file" type="file" class="d-none form-control doc_uploder" asp-for="Photo" data-target="photo">
+                        <button type="submit" class="btn btn-info text-white" value="Upload" onclick="document.getElementById('file').click()" disabled>
                             <i class="fa fa-cloud-upload"></i>
-                            <span class="d-none d-sm-inline">Upload</span>
-                        </div>
+                            <span> Upload </span>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-5 mt-4 pb-3">
@@ -225,11 +225,11 @@
                         <button type="button" id="signature" class="col btn text-start fileSelect form-control" onclick="document.getElementById('file').click()" disabled>
                             Select Photo
                         </button>
-                        <input id="file1" type="file" class="d-none form-control doc_uploder" asp-for="signature">
-                        <div class="btn btn-info text-white py-2" value="Upload" id="fileupload">
+                        <input id="file1" type="file" class="d-none form-control doc_uploder" asp-for="signature" data-target="signature">
+                        <button type="submit" class="btn btn-info text-white" value="Upload" onclick="document.getElementById('file1').click()" disabled>
                             <i class="fa fa-cloud-upload"></i>
-                            <span class="d-none d-sm-inline">Upload</span>
-                        </div>
+                            <span> Upload </span>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-1 mt-4">
@@ -239,14 +239,117 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <textarea class="form-control" id="message" rows="4"
+                              placeholder="Message" asp-for="Message" disabled></textarea>
+                </div>
+            </div>
             @* edit button ~ profile *@
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-end mt-5">
                 <a id="edit4" onclick="enable_disable4()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
                 <input id="submit4" type="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
             </div>
         </form>
+        @* Onboarding *@
+        <p class="h5 p-1"><b>Onboarding </b></p>
+        <table class="w-auto m-1">
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="1" disabled @(Model.isAgreementDoc != null && Model.isAgreementDoc ? "checked" : "")>
+                    </td>
+                    <td>Independent Contractor Agreement</td>
+                    <td>
+                        <input type="file" id="files2" class="d-none form-control doc_uploder file-input" data-target="choosenfile">
+                        <button type="submit" class="btn btn-info text-white upload-btn shadow-none">
+                            <span onclick="document.getElementById('files2').click()" > Upload </span>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-info text-white view-btn" style="display: none;">
+                            <span> View </span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="2" disabled @(Model.isBackgroundDoc != null && Model.isBackgroundDoc ? "checked" : "")>
+                    </td>
+                    <td>Background Check</td>
+                    <td>
+                        <input id="files3" type="file" class="d-none form-control doc_uploder">
+                        <button type="submit" class="btn btn-info  upload-btn text-white shadow-none">
+                            <span onclick="document.getElementById('files3').click()"> Upload </span>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-info text-white view-btn" style="display: none;">
+                            <span> View </span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="3" disabled @(Model.isCredentialDoc != null && Model.isCredentialDoc ? "checked" : "")>
+                    </td>
+                    <td>HIPAA Compliance</td>
+                    <td>
+                        <input id="files4" type="file" class="d-none form-control doc_uploder">
+                        <button type="submit" class="btn btn-info upload-btn text-white shadow-none">
+                            <span onclick="document.getElementById('files4').click()"> Upload </span>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-info text-white view-btn" style="display: none;">
+                            <span> View </span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="4" disabled @(Model.isNonDisclosureDoc == true ? "checked" : "")>
+                    </td>
+                    <td>Non-Disclosure Agreement</td>
+                    <td>
+                        <input id="files5" type="file" class="d-none form-control doc_uploder">
+                        <button type="submit" class="btn btn-info text-white  upload-btn shadow-none">
+                            <span onclick="document.getElementById('files5').click()"> Upload </span>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-info text-white view-btn" style="display: none;">
+                            <span> View </span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="5" disabled @(Model.isLicenseDoc != null && Model.isLicenseDoc ? "checked" : "")>
+                    </td>
+                    <td>License Document</td>
+                    <td>
+                        <input id="files6" type="file" class="d-none form-control doc_uploder">
+                        <button type="submit" class="btn btn-info text-white upload-btn shadow-none">
+                            <span onclick="document.getElementById('files6').click()"> Upload </span>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-info text-white view-btn" style="display: none;">
+                            <span> View </span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <div class=" d-flex justify-content-end">
+            <input type="button" class=" btn bg-info text-white rounded px-3 me-2" value="Save" onclick="saveChng(@Model.PhysicianId)" />
+            <input type="button" class=" btn bg-danger text-white rounded px-3 " value="Delete Account">
+        </div>
     </div>
 </div>
+
 <script>
     const phoneInputField = document.querySelector("#phone1");
     const phoneInput = window.intlTelInput(phoneInputField, {
@@ -298,6 +401,8 @@
         $("#bwebsite").removeAttr('disabled');
         $("#photo").removeAttr('disabled');
         $("#signature").removeAttr('disabled');
+        $("#message").removeAttr('disabled');
+
         $("#submit4").css("display", "block");
         $("#edit4").css("display", "none");
     }
@@ -318,17 +423,59 @@
             $('#abcdefghi').submit();
         });
     });
-    //to show selected file name
-    $("#file").change(function () {
-        filename = this.files[0].name;
-        console.log(filename);
-        $("#file").text(filename);
+    $(document).ready(function () {
+        $('.row-checkbox').each(function () {
+            var row = $(this).closest('tr');
+            if ($(this).is(':checked')) {
+                row.find('.view-btn').show();
+            }
+        });
+        //Upload files
+        $('.doc_uploder').change(function () {
+            var filename = this.files[0].name;
+            console.log(filename);
+            var targetId = $(this).data('target');
+            $('#' + targetId).text(filename);
+            var row = $(this).closest('tr');
+            row.find('.view-btn').show();
+            row.find('.row-checkbox').prop('checked', true);
+            row.find('.row-checkbox').prop('disabled', false);
+        });
+        $('.row-checkbox').change(function () {
+            var row = $(this).closest('tr');
+            row.find('.view-btn').hide();
+            row.find('.row-checkbox').prop('disabled', true);
+        });
     });
-    $("#file1").change(function () {
-        filename1 = this.files[0].name;
-        console.log(filename1);
-        $("#file1").text(filename1);
-    });
+    //onboarding checkbox trigger upload
+    //$(document).ready(function () {
+    //    $(document).on('change', '.row-checkbox', function () {
+    //        var checkbox = $(this);
+    //        var row = checkbox.closest('tr');
+    //        var uploadBtn = row.find('.upload-btn');
+    //        uploadBtn.prop('disabled', !checkbox.prop('checked'));
+    //    });
+    //});
 
-
+    //save btn
+    function saveChng(physicianid) {
+        var checkboxes = [];
+        var physicianid = physicianid;
+        $('input[name="boardcheck"]:checked').each(function () {
+            checkboxes.push(this.value);
+        });
+        console.log(checkboxes);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveProvider", "Provider")',
+            data: { checkboxes: checkboxes, physicianid: physicianid },
+            success: function (data) {
+                console.log("AJAX success");
+                location.reload();
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+    }
 </script>
