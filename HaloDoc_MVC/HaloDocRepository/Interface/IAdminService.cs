@@ -69,7 +69,8 @@ namespace HaloDocRepository.Interface
         public Task<bool> ProviderProfileInfo(ProviderList p);
 
         public bool SaveProvider(int[] checkboxes, int physicianid);
-
+        public bool AddProviderAccount(ProviderList PhysiciansData, int[] checkboxes, string UserId);
+        public bool DeleteProvider(int PhysicianId);
     }
 
 }

@@ -60,11 +60,34 @@ namespace HaloDocWeb.Controllers
         }
         #endregion
 
+        #region addphysician
+        public IActionResult AddPhysician(ProviderList PhysiciansData, int[] checkboxes, string UserId)
+        {
+            ViewBag.Status = _adminservice.ProviderRole();
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            ViewData["Heading"] = "Add";
+            return View("../Admin/Provider/EditPhysician");
+        }
+        #endregion
+        [HttpPost]
+        #region addphysician
+        public IActionResult AddPhysicianPost(ProviderList PhysiciansData, int[] checkboxes, string UserId)
+        {
+            ViewBag.Status = _adminservice.ProviderRole();
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            ViewData["Heading"] = "Add";
+            var res = _adminservice.AddProviderAccount(PhysiciansData, checkboxes, UserId);
+            _notyf.Success("Physician Added Successfully");
+            return View("../Admin/Provider/EditPhysician");
+        }
+        #endregion
+
         #region editphysician
         public async Task<IActionResult> EditPhysician(int pId)
         {
             ViewBag.Status = _adminservice.ProviderRole();
             ViewBag.AssignCase = _adminservice.AssignCase();
+            ViewData["Heading"] = "Edit";
             var res = await _adminservice.GetProviderProfileDetails(pId);
             return View("../Admin/Provider/EditPhysician", res);
         }
@@ -141,6 +164,16 @@ namespace HaloDocWeb.Controllers
             bool res = _adminservice.SaveProvider(checkboxes, physicianid);
             _notyf.Success("Information changed Successfully...");
             return RedirectToAction("EditPhysician", "Provider", new { pId = physicianid });
+        }
+        #endregion
+
+        #region DeleteProviderAccount
+        [HttpPost]
+        public IActionResult DeleteProviderAccount(int PhysicianId)
+        {
+            bool res = _adminservice.DeleteProvider(PhysicianId);
+            _notyf.Success("Information changed Successfully...");
+            return RedirectToAction("Index", "Provider");
         }
         #endregion
     }

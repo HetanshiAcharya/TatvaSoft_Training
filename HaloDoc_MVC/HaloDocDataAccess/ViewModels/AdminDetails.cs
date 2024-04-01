@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HaloDocDataAccess.ViewModels.Constant;
 
 namespace HaloDocDataAccess.ViewModels
 {
@@ -82,8 +83,8 @@ namespace HaloDocDataAccess.ViewModels
         public enum ProviderStatus
         {
             Active = 1,
-            Pending,
-            NotActive
+            Pending=2,
+            NotActive=3
         }
         public enum onCallStatus
         {
@@ -293,7 +294,7 @@ namespace HaloDocDataAccess.ViewModels
         public string Email { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
-        public short? Status { get; set; }
+        public ProviderStatus Status { get; set; }
         public string Role { get; set; }
         public int? RoleId { get; set; }
         public string Phone { get; set; }
@@ -317,8 +318,7 @@ namespace HaloDocDataAccess.ViewModels
         public bool isBackgroundDoc { get; set; }
         public bool isLicenseDoc { get; set; }
         public bool isCredentialDoc { get; set; }
-        public bool? isNonDisclosureDoc { get; set; }
-
+        public bool isNonDisclosureDoc { get; set; }
         ///
         public string Message { get; set; }
         public int PhysicianId { get; set; }
