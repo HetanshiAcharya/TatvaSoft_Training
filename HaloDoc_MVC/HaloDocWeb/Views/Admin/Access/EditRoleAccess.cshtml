@@ -1,0 +1,86 @@
+﻿
+@{
+    Layout = "_AdminLayout";
+
+}
+@model HaloDocDataAccess.ViewModels.AccessModel;
+@using static HaloDocDataAccess.ViewModels.Constant;
+<div class="container-fluid d-flex justify-content-center row ">
+    <div class="col-8">
+        <div class="d-flex justify-content-between mt-5">
+            <h4>Create Role</h4>
+            <button onclick="history.go(-1)" class="btn btn-outline-info shadow-none night-mode-btn">
+                <span>Back</span>
+            </button>
+        </div>
+        <div class="shadow p-3 bg-white mt-4">
+            <div class="d-flex ">
+                <h5><strong>Details</strong></h5>
+            </div>
+            <form class="mt-3" asp-action="SaveEditRoleAccess" asp-controller="Access" id="formsub" method="post">
+                <div class="row">
+                    <input type="hidden" asp-for="RoleId" />
+                    <div class="mb-3 col-lg-6 p-1 form-floating">
+                        <input type="text" class="form-control" placeholder="Status" asp-for="Role" required disabled  />
+                        <label for="Status" class="form-label">Role Name </label>
+                    </div>
+                    <div class="mb-3 col-lg-6 p-1  form-floating">
+                        <input id="menus" asp-for="files" type="hidden" />
+                        <select class="form-select" placeholder="Account" id="AccountType" onchange="rolemenu()"   asp-for="AccountType" disabled>
+                            <option> Select Account</option>
+                            @foreach (var item in Enum.GetNames(typeof(AccountType)))
+                            {
+                                <option value="@item"> @item </option>
+                            }
+                        </select>
+                        <label for="Account" class="form-label">Account Type</label>
+                    </div>
+                </div>
+                <div>
+                    @foreach (var item in Model.menus)
+                    {
+                        @if (Model != null && Model.rolemenus.Count > 0 && Model.rolemenus.Exists(id => id.MenuId == item.MenuId))
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="@item.MenuId " checked>
+                                <label class="form-check-label"> @item.Name </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" value="@item.MenuId ">
+                                <label class="form-check-label"> @item.Name </label>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="d-flex justify-content-end">
+                    @* save btn  *@
+                    <div class="search m-2 shadow-none">
+                        <button type="submit" class="btn p-2 py-2 btn-info text-decoration-none text-white" onclick="saveedit()">
+                            Save
+                        </button>
+                    </div>
+                    @* cancel btn *@
+                    <div class="search m-2 shadow-none">
+                        <button class="btn p-2 py-2 btn-outline-info bg-white " id="save" onclick="">
+                            <a class="text-decoration-none text-info">Cancel</a>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<script>
+    @*form SubmitEvent to save roles*@
+        function saveedit() {
+            var files = [];
+            $('input[type="checkbox"]:checked').each(function () {
+                files.push(this.value);
+            });
+            $("#menus").val(files.join(','));
+            console.log(files);
+            $("#formsub").submit();
+        }
+</script>

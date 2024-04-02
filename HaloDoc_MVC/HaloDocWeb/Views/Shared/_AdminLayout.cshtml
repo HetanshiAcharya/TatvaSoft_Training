@@ -87,8 +87,12 @@
             </li>
         </ul>
         <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin/Access") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Access</a>
+            <a class="nav-link dropdown px-2 text-dark @(path.EndsWith("/Access") ? "activeNav" : "")" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Access
+            </a>
+            <li class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-action="Index" asp-controller="Access">Account Access</a>
+                <a class="dropdown-item" href="#">Create Access</a>
             </li>
         </ul>
         <ul class="nav-item">

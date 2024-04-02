@@ -474,6 +474,7 @@ public partial class HaloDocDbContext : DbContext
             entity.HasKey(e => e.RoleId).HasName("Role_pkey");
 
             entity.Property(e => e.RoleId).HasIdentityOptions(null, null, null, null, true, null);
+            entity.Property(e => e.IsDeleted).HasDefaultValueSql("'0'::\"bit\"");
         });
 
         modelBuilder.Entity<RoleMenu>(entity =>

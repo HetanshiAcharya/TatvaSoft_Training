@@ -8,6 +8,7 @@ using HaloDocDataAccess.DataModels;
 using HaloDocDataAccess.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static HaloDocDataAccess.ViewModels.Constant;
 
 namespace HaloDocRepository.Interface
 {
@@ -38,7 +39,6 @@ namespace HaloDocRepository.Interface
         public void TransferCaseInfo(int RequestId, int PhysicianId, string Notes);
         public bool SendAgreement(sendAgreement sendAgreement);
         public bool SendAgreementfromUploads(sendAgreement sendAgreement);
-
         public Boolean SendAgreement_accept(int RequestID);
         public Boolean SendAgreement_Reject(int RequestID, string Notes);
         public void CancelAgreementSubmit(int Reqid, string Description);
@@ -61,16 +61,18 @@ namespace HaloDocRepository.Interface
         public bool SendEmailProvider(string Email, string Message);
         public Task<ProviderList> GetProviderProfileDetails(int id);
         public List<Role> ProviderRole();
-
         public Task<bool> EditProviderAccInfo(ProviderList p);
-
         public Task<bool> EditProviderInfo(ProviderList p);
         public Task<bool> EditProviderMailingInfo(ProviderList p);
         public Task<bool> ProviderProfileInfo(ProviderList p);
-
         public bool SaveProvider(int[] checkboxes, int physicianid);
         public bool AddProviderAccount(ProviderList PhysiciansData, int[] checkboxes, string UserId);
         public bool DeleteProvider(int PhysicianId);
+        public List<Menu> RolebyAccountType(AccountType Account);
+        public bool SaveEditRole(AccessModel roles, string userId);
+        public AccessModel ViewEditRole(int RoleId);
+        public bool SaveEditRoleAccess(AccessModel roles);
+        public bool DeleteRole(int RoleId);
     }
 
 }

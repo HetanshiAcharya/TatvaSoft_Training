@@ -91,6 +91,13 @@ namespace HaloDocDataAccess.ViewModels
             UnAvailable=0,
             Available
         }
+        public enum AccountType
+        {
+            Patient=1,
+            Provider,
+            Admin,
+            All
+        }
 
     }
         public class ViewCaseData
@@ -328,4 +335,16 @@ namespace HaloDocDataAccess.ViewModels
         public bool Notification { get; set; }
 
     }
+    public class AccessModel
+    {
+        public string Role { get; set; }
+        public int RoleId { get; set; }
+
+        public AccountType AccountType { get; set; }
+        public string files { get; set; }
+        public List<Menu> menus { get; set; }
+        public List<RoleMenu> rolemenus { get; set; }
+
+    }
+
 }
