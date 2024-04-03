@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWNjZXNzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/Access/UserAccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWNjZXNzXFVzZXJBY2Nlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/AdminProfile/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5Qcm9maWxlXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -82,6 +86,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/Provider/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvdmlkZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/Records/SearchRecords.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmVjb3Jkc1xTZWFyY2hSZWNvcmRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pci68/source/repos/HaloDoc_MVC/HaloDocWeb/Views/Admin/ResetPassAdmin.cshtml]

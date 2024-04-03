@@ -92,12 +92,19 @@
             </a>
             <li class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" asp-action="Index" asp-controller="Access">Account Access</a>
-                <a class="dropdown-item" href="#">Create Access</a>
+                <a class="dropdown-item" asp-action="UserAccess" asp-controller="Access">User Access</a>
             </li>
         </ul>
         <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin/Records") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Records</a>
+            <a class="nav-link dropdown px-2 text-dark @(path.EndsWith("/Records") ? "activeNav" : "")" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Records
+            </a>
+            <li class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-action="" asp-controller="">Search Records</a>
+                <a class="dropdown-item" asp-action="" asp-controller="">Email Logs</a>
+                <a class="dropdown-item" asp-action="" asp-controller="">SMS Logs</a>
+                <a class="dropdown-item" asp-action="" asp-controller="">Patient Records</a>
+                <a class="dropdown-item" asp-action="" asp-controller="">Blocked History</a>
             </li>
         </ul>
     </nav>

@@ -44,11 +44,14 @@ namespace HaloDocWeb.Controllers
             _jwtService = jwtService;
             _notyf = notyf;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string UserId)
         {
             ViewBag.AssignCase = _adminservice.AssignCase();
-
-            AdminDetailsInfo p = await _adminservice.GetProfileDetails(Convert.ToInt32(CV.UserId()));
+            if (UserId == null)
+            {
+                UserId = CV.UserId().ToString();
+            }
+            AdminDetailsInfo p = await _adminservice.GetProfileDetails(Convert.ToInt32(UserId));
             return View("../Admin/AdminProfile/Index", p);
         }
         #region EditPassword

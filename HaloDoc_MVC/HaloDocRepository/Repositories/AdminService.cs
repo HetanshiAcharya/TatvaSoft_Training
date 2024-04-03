@@ -1909,7 +1909,7 @@ namespace HaloDocRepository.Repositories
         {
             AccessModel? v = (from p in _context.Roles
 
-                             where p.RoleId == RoleId && p.IsDeleted[0]==false
+                             where p.RoleId == RoleId
                              select new AccessModel
                              {
                                  Role = p.Name,
@@ -1925,7 +1925,7 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
-        #region        
+        #region SaveEditRoleAccess     
         public bool SaveEditRoleAccess(AccessModel roles)
         {
             List<int> selectedmenus = roles.files.Split(',').Select(int.Parse).ToList();
@@ -1963,6 +1963,43 @@ namespace HaloDocRepository.Repositories
             _context.SaveChanges();
             return true;
 
+        }
+        #endregion
+
+        #region RoleViewBag
+        public List<AspNetRole> Role()
+        {
+            var Role = _context.AspNetRoles.ToList();
+            return (Role);
+        }
+        #endregion
+
+        #region UserAccess
+        public List<UserAccessData> UserAccessData(string AccountType)
+        {
+            var result = (from aspuser in _context.AspNetUsers
+                          join admin in _context.Admins
+                          on aspuser.Id equals admin.AspNetUserId into AdminGroup
+                          from admin in AdminGroup.DefaultIfEmpty()
+                          join physician in _context.Physicians
+                          on aspuser.Id equals physician.AspNetUserId into PhyGroup
+                          from physician in PhyGroup.DefaultIfEmpty()
+                          where (admin != null || physician != null) && (admin.IsDeleted == new BitArray(1) || physician.IsDeleted == new BitArray(1))
+                          select new UserAccessData
+                          {
+                              Id = admin != null ? admin.AdminId : (physician != null ? physician.PhysicianId : 0),
+                              AccountType = admin != null ? "Admin" : (physician != null ? "Physician" : null),
+                              AccountPOC = admin != null ? admin.FirstName + " " + admin.LastName : (physician != null ? physician.FirstName + " " + physician.LastName : null),
+                              Status = (int)(admin != null ? admin.Status : (physician != null ? physician.Status : null)),
+                              Phone = admin != null ? admin.Mobile : (physician != null ? physician.Mobile : null),
+                              OpenReq = _context.Requests.Count(r => r.PhysicianId == physician.PhysicianId),
+                              isAdmin = admin != null
+                          }).ToList();
+            if (AccountType != null)
+            {
+                result = result.Where(req => req.AccountType == AccountType).ToList();
+            }
+            return result;
         }
         #endregion
 

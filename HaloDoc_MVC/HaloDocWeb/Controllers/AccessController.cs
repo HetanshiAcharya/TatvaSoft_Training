@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using HaloDocDataAccess.ViewModels;
 using static HaloDocDataAccess.ViewModels.Constant;
 using HaloDocDataAccess.DataModels;
+using System.Collections;
 
 namespace HaloDocWeb.Controllers
 {
@@ -31,8 +32,8 @@ namespace HaloDocWeb.Controllers
         #region AccessIndex
         public IActionResult Index()
         {
-            var res = _context.Roles.ToList();
-            return View("../Admin/Access/Index",res);
+            var res = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
+            return View("../Admin/Access/Index", res);
         }
 
         #endregion
@@ -80,7 +81,7 @@ namespace HaloDocWeb.Controllers
         {
             var res = _adminservice.SaveEditRoleAccess(roles);
             _notyf.Success("Role Edited Successfully");
-            return RedirectToAction("EditRoleAccess",  new{ RoleId=roles.RoleId});
+            return RedirectToAction("EditRoleAccess", new { RoleId = roles.RoleId });
         }
         #endregion
         #region DeleteRole
@@ -88,7 +89,16 @@ namespace HaloDocWeb.Controllers
         {
             var res = _adminservice.DeleteRole(RoleId);
             _notyf.Success("Role Edited Successfully");
-            return View("../Admin/Access/Index");
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region useraccess
+        public IActionResult UserAccess(string AccountType)
+        {
+            ViewBag.role = _adminservice.Role();
+            var res = _adminservice.UserAccessData(AccountType);
+            return View("../Admin/Access/UserAccess", res);
         }
         #endregion
     }

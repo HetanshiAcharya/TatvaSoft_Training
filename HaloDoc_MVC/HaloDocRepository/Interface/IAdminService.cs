@@ -73,6 +73,8 @@ namespace HaloDocRepository.Interface
         public AccessModel ViewEditRole(int RoleId);
         public bool SaveEditRoleAccess(AccessModel roles);
         public bool DeleteRole(int RoleId);
+        public List<AspNetRole> Role();
+        public List<UserAccessData> UserAccessData(string AccountType);
     }
 
 }

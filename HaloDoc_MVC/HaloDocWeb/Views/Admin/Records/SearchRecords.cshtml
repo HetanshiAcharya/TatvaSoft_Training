@@ -1,0 +1,158 @@
+﻿@{
+    Layout = "_AdminLayout";
+
+}
+@Html.Partial("ContactProvider.cshtml")
+
+@using static HaloDocDataAccess.ViewModels.Constant;
+@model HaloDocDataAccess.ViewModels.ProviderMenu;
+<div class="container-fluid d-flex justify-content-center row ">
+    <div class="col-8">
+        <div class="d-flex justify-content-between mt-5">
+            <h4>Search Records</h4>
+            <button onclick="history.go(-1)" class="btn btn-outline-info shadow-none night-mode-btn">
+                <span>Export All</span>
+            </button>
+        </div>
+        <div class="shadow p-3 dashboard-card mt-4">
+            <div class="searchPatientRegion d-flex justify-content-between py-2">
+                <div class="search m-1 shadow-none">
+                    <i class="fa fa-search"></i>
+                    <select class="form-select mb-3" data-allow-clear="true" tabindex="-1" id="regiondropdown" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" onchange="providersByregion()" id="regiondropdown">
+                        <option id="selectedregion">All Region</option>
+                    </select>
+                </div>
+                <div class="search m-1 shadow-none">
+                    <i class="fa fa-search"></i>
+                    <input type="text"/>
+                </div>
+                <div class="d-flex">
+                    @* save btn *@      
+                    <div class="search m-2 shadow-none">
+                        <button class="btn p-2 py-2 btn-outline-info bg-white" style="display:none;" id="save" onclick="changeNoti()">
+                            <a class="text-decoration-none text-info">Save Changes</a>
+                        </button>
+                    </div>
+                    @* create acc btn  *@
+                    <div class="search m-2 shadow-none">
+                        <button class="btn p-2 py-2 btn-info">
+                            <a class="text-decoration-none text-white" asp-controller="Provider" asp-action="AddPhysician">Create Provider Account</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <table class="table table-responsive">
+                    <colgroup>
+                        <col span="1" style="width: 12%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 30%;">
+                        <col span="1" style="width: 40%;">
+
+                    </colgroup>
+                    @* table Head *@
+                    <thead class="table-head align-middle">
+                        <tr>
+                            @{
+                                <th class="text-center">Stop Notification</th>
+                                <th class="text-center">Provider Name</th>
+                                <th class="text-center">Role</th>
+                                <th class="text-center">On Call Status</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
+                            }
+                        </tr>
+                    </thead>
+                    @* table body *@
+                    <tbody class="table-body align-middle t-tab" id="providerbody">
+                        @foreach (var item in Model.ProviderLists)
+                        {
+                            <tr class="table-row border-bottom">
+
+                                <td class="text-center">
+                                    @{
+                                        <input class="form-check-input form-check-inputs shadow-none" onchange="showsavebtn()" id="@item.PhysicianId" type="checkbox" value="@item.PhysicianId" @(item.Notification ? "checked" : "")>
+                                    }
+                                </td>
+                                <td class="text-center">@item.FirstName @item.LastName</td>
+                                <td class="text-center">@item.Role</td>
+                                <td class="text-center">@Enum.GetName(typeof(onCallStatus), item.OnCallStatus)</td>
+                                <td class="text-center">@Enum.GetName(typeof(ProviderStatus), item.Status)</td>
+                                <td class="d-flex">
+                                    <button class="btn p-2 py-2 mx-2 btn border-info text-info" data-bs-toggle="modal" data-bs-target="#contactprovidermodal" data-id="@item.Email" id="contactprovider">
+                                        Contact
+                                    </button>
+                                    <button class="btn p-2 py-2 btn border-info">
+                                        <a class="text-decoration-none text-info" asp-action="EditPhysician" asp-controller="Provider" asp-route-pId="@item.PhysicianId">Edit</a>
+                                    </button>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="height: 20px;"></div>
+    </div>
+</div>
+    @* Search by region  *@
+    <script>
+        function providersByregion() {
+            var region = $("#regiondropdown").val();
+            console.log("Region id: " + region);
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Index", "Provider")',
+                data: { Region: region },
+                success: function (data) {
+                    console.log("AJAX success");
+                    var bodyContent = $(data).find('tbody').html();
+                    $('#providerbody').html(bodyContent);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+    </script>
+    @* save btn show  *@
+    <script>
+        function showsavebtn() {
+            $('#save').show();
+        }
+    </script>
+    @* save changes  *@
+    <script>
+        function changeNoti() {
+            var files = [];
+            var region = $("#regiondropdown").val();
+            $('input[type="checkbox"]:checked').each(function () {
+                files.push(this.value);
+            });
+            console.log(files);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("changeNoti", "Provider")',
+                data: { files: files, region: region },
+                success: function (data) {
+                    console.log("AJAX success");
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        }
+    </script>
+    @* send email  *@
+    <script>
+        function setemail() {
+            var email = $(this).data("id");
+            console.log(email);
+            document.getElementById('emailIdProvider').value = email;
+        }
+        document.getElementById('contactprovider').addEventListener('click', setemail);
+    </script>

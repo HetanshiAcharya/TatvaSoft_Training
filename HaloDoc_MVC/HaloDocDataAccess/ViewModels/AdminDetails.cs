@@ -100,7 +100,7 @@ namespace HaloDocDataAccess.ViewModels
         }
 
     }
-        public class ViewCaseData
+    public class ViewCaseData
     {
         public int? RequestClientId { get; set; }
         public int? RequestID { get; set; }
@@ -346,5 +346,15 @@ namespace HaloDocDataAccess.ViewModels
         public List<RoleMenu> rolemenus { get; set; }
 
     }
+    public class UserAccessData
+    {
+        public string AccountType { get; set; }
+        public string AccountPOC { get; set; }
+        public string Phone { get; set; }
+        public int Status { get; set; }
+        public int OpenReq { get; set; }
+        public int Id { get; set; }
+        public bool isAdmin { get; set; }
 
+    }
 }
