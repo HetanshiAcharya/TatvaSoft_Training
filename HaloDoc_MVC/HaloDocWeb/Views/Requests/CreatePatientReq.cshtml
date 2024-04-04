@@ -22,8 +22,8 @@
     <div class="container-fluid">
         <form asp-controller="Requests" asp-action="CreatePatientReq" class="form-group row" method="post" enctype="multipart/form-data">
             <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn btn-outline-primary mr-4" type="submit">
-                    <a asp-controller="Home" asp-action="Index" class="link-color">Back</a>
+                <button class="btn p-2 py-2 btn-outline-info bg-white" id="save" onclick="">
+                    <a class="text-decoration-none text-info" asp-controller="Home" asp-action="SubmitReq">Back</a>
                 </button>
             </div>
             <h4 class="mt-4 m">Patient Information</h4>

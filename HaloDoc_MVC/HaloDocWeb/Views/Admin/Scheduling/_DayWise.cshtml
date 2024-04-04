@@ -1,0 +1,192 @@
+﻿@model HaloDocDataAccess.ViewModels.DayWiseScheduling;
+@{
+    var now = Model.date;
+    var dayweek = Model.date.DayOfWeek.ToString();
+    var currentDay = dayweek + ", " + now.ToString("MMM dd yyyy");
+    <input type="hidden" value="@currentDay" id="currentDay" />
+    var f = 0;
+}
+<div class="table-responsive">
+    <table class="calendar-table">
+        <tr class="text-white">
+            <th style="width:10rem;">Staff</th>
+            <th>12A</th>
+            <th>1A</th>
+            <th>2A</th>
+            <th>3A</th>
+            <th>4A</th>
+            <th>5A</th>
+            <th>6A</th>
+            <th>7A</th>
+            <th>8A</th>
+            <th>9A</th>
+            <th>10A</th>
+            <th>11A</th>
+            <th>12P</th>
+            <th>1P</th>
+            <th>2P</th>
+            <th>3P</th>
+            <th>4P</th>
+            <th>5P</th>
+            <th>6P</th>
+            <th>7P</th>
+            <th>8P</th>
+            <th>9P</th>
+            <th>10P</th>
+            <th>11P</th>
+        </tr>
+        <tr>
+            <td style="width:10rem;">Coverage</td>
+            @for (int i = 0; i < 24; i++)
+            {
+                <td class="dates"></td>
+            }
+        </tr>
+        @foreach (var obj in Model.physicians)
+        {
+            var shift = Model.shiftdetails.Where(u => u.ShiftDate == now && u.Shift.PhysicianId == obj.PhysicianId).ToList();
+            <tr>
+                @if (obj.Photo == null)
+                {
+                    <td>
+                        <span class="d-flex">
+                            <i class="fa-solid fa-user me-1 mt-1"></i> @obj.FirstName @obj.LastName.ElementAt(0).
+                        </span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="d-flex">
+                            <img class="me-1" src="@obj.Photo" height="25px" width="25px" /> @obj.FirstName @obj.LastName.ElementAt(0).
+                        </span>
+                    </td>
+                }
+                @*@for (int i = 0; i < 24; i++)
+            {
+            if (shift.Count() > 0)
+            {
+            int flag = 0;
+            foreach (var item in shift)
+            {
+            var diff = item.Endtime.Hour - item.Starttime.Hour + 1;
+            if (item.Starttime.Hour <= i && item.Endtime.Hour >= i)
+            {
+            var perstart = (item.Starttime.Minute / 60.00) * 100;
+            int wid = 100;
+            if (item.Endtime.Minute != 0)
+            {
+            wid = 58;
+            }
+            perstart /= 2;
+            <td id="i_@obj.Physicianid" colspan="@diff" class="p-0" data-bs-toggle="modal" data-bs-target="#viewShiftModal">
+            <span class="dates d-flex align-items-center justify-content-center" style="margin-left:@perstart%;width:@wid%">
+            @item.Starttime-@item.Endtime
+            </span>
+            </td>
+            i += (@diff - 1);
+            flag = 1;
+            }
+            }
+            if (flag == 0)
+            {
+            <td id="i_@obj.Physicianid"></td>
+            }
+            }
+            else
+            {
+            <td id="i_@obj.Physicianid"></td>
+            }
+            } *@
+                @for (int i = 0; i < 24; i++)
+                {
+                    if (shift.Count() > 0)
+                    {
+                        int flag = 0;
+                        foreach (var item in shift)
+                        {
+                            f = 0;
+                            var diff = item.EndTime.Hour - item.StartTime.Hour;
+                            if (diff <= 0)
+                            {
+                                diff = 1;
+                            }
+                            if (item.StartTime.Hour == i)
+                            {
+                                var perstart = (item.StartTime.Minute / 60.00) * 100;
+                                var perend = ((60.00 - item.EndTime.Minute) / 60.00) * 100;
+                                if (item.EndTime.Minute != 0)
+                                {
+                                    diff = diff + 1;
+                                }
+                                perstart /= diff;
+                                perend /= diff;
+                                if (item.EndTime.Minute == 0)
+                                {
+                                    perend = 0;
+                                }
+                                <td id="i_@obj.PhysicianId" colspan="@diff" class="p-0">
+                                    @if (item.Status == 0)
+                                    {
+                                        <div class="shiftdisplay shiftmodal d-flex align-items-center justify-content-center" id="@item.ShiftDetailId" data-bs-toggle="modal" data-bs-target="#viewShiftModal" style="margin-left:@perstart%;margin-right:@perend%; " data-bs-id="@item.ShiftDetailId">
+                                            @item.StartTime-@item.EndTime
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="shiftdisplay2 shiftmodal d-flex align-items-center justify-content-center" id="@item.ShiftDetailId" style="margin-left:@perstart%;margin-right:@perend%;" data-bs-toggle="modal" data-bs-target="#viewShiftModal" data-bs-id="@item.ShiftDetailId">
+                                            @item.StartTime-@item.EndTime
+                                        </div>
+                                    }
+                                </td>
+                                i += (@diff - 1);
+                                flag = 1;
+                            }
+                        }
+                        if (flag == 0)
+                        {
+                            <td id="i_@obj.PhysicianId"></td>
+                        }
+                    }
+                    else
+                    {
+                        <td id="i_@obj.PhysicianId"></td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    $('.removeactive').removeClass('active text-white');
+    $('#Day').addClass('active text-white');
+
+    var currentDay = $('#currentDay').val();
+    $('#showDate').text(currentDay);
+
+
+    $(document).ready(function () {
+        $('.shiftmodal').on('click', function () {
+            var shiftdetailid = $(this).attr('id');
+            $.ajax({
+                url: '/Scheduling/viewshift',
+                data: { shiftdetailid: shiftdetailid },
+                success: function (response) {
+                    $('#shiftmodalRegion').val(response.regionid);
+                    $('#shiftmodalPhysician').text(response.physicianname);
+                    $('#shiftmodalDate').val(response.modaldate);
+                    $('#shiftmodalStart').val(response.starttime);
+                    $('#shiftmodalEnd').val(response.endtime);
+                    $('#shiftmodalid').val(response.shiftdetailid);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+</script>

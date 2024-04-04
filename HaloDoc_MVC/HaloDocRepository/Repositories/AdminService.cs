@@ -1443,10 +1443,9 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region ProviderRoleViewBag
-
         public List<Role> ProviderRole()
         {
-            var role = _context.Roles.ToList();
+            var role = _context.Roles.Where(r=>r.AccountType==2).ToList();
             return (role);
         }
         #endregion

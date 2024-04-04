@@ -75,7 +75,7 @@ namespace HaloDocDataAccess.ViewModels
         }
         public enum Status
         {
-            Unassigne = 1,
+            Unassigned = 1,
             Accepted, Cancelled, MDEnRoute, MDONSite, Conclude, CancelledByPatients, Closed, Unpaid, Clear,
             Block
 

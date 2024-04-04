@@ -41,8 +41,9 @@
              class="logo-img" />
              <div class="d-flex align-items-center">
             <p class="m-4">Welcome <strong class="text-info">@ViewData["User Name"]</strong></p>
-            <button class="btn btn-outline-primary logout-btn">
-                <a asp-controller="Home" asp-action="PatientLogin" class="link-color">Logout</a>
+            
+            <button class="btn p-2 py-2 btn-outline-info bg-white mx-2" id="save" onclick="">
+                <a class="text-decoration-none text-info" asp-controller="Home" asp-action="PatientLogin">Logout</a>
             </button>
                 <div class="toggle-btn border-secondary" onclick="myFunction()">
                     <i class="fa fa-2x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>

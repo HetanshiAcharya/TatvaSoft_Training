@@ -1,0 +1,118 @@
+﻿
+@model HaloDocDataAccess.ViewModels.WeekWiseScheduling;
+
+@{
+    var now = Model.date;
+    var dayweek = Model.date.DayOfWeek.ToString();
+    var currentWeek = Model.date.ToString("MMM dd") + "-" + Model.date.AddDays(6).ToString("MMM dd") + "," + Model.date.Year;
+    <input type="hidden" value="@currentWeek" id="currentWeek" />
+    var f = 0;
+}
+<div class="table-responsive">
+    <table class="calendar-table">
+        <tr class="text-white">
+            <th>Staff</th>
+            @for (int i = 0; i < 7; i++)
+            {
+                <th>@Model.date.AddDays(i).DayOfWeek (@Model.date.AddDays(i).Day)</th>
+            }
+        </tr>
+        <tr>
+            <td>Coverage</td>
+            @for (int i = 0; i < 7; i++)
+            {
+                @* <td class="dates">0/24</td> *@
+                var date = now.AddDays(i);
+                <td class="dates">@now.AddDays(i).ToString("dd / MM / yy")</td>
+            }
+        </tr>
+        @foreach (var obj in Model.physicians)
+        {
+            <tr>
+                @if (obj.Photo == null)
+                {
+                    <td>
+                        <span class="d-flex">
+                            <i class="fa-solid fa-user me-1 mt-1"></i> @obj.FirstName @obj.LastName.ElementAt(0).
+                        </span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="d-flex">
+                            <img class="me-1" src="@obj.Photo" height="25px" width="25px" /> @obj.FirstName @obj.LastName.ElementAt(0).
+                        </span>
+                    </td>
+                }
+                @for (int i = 0; i < 7; i++)
+                {
+                    var shift = Model.shiftdetails.Where(u => u.ShiftDate >= now && u.ShiftDate <= now.AddDays(6) && u.Shift.PhysicianId == obj.PhysicianId);
+                    shift = shift.Where(u => u.ShiftDate.Day == now.AddDays(i).Day);
+                    if (shift.Count() > 0)
+                    {
+                        <td>
+                            <div class="d-flex flex-column">
+                                @foreach (var item in shift)
+                                {
+                                    if (item.ShiftDate >= Model.date && item.ShiftDate <= Model.date.AddDays(7))
+                                    {
+                                        @if (item.Status == 0)
+                                        {
+                                            <span class="shiftdisplay shiftmodal mb-1" id="@item.ShiftDetailId" data-bs-toggle="modal" data-bs-target="#viewShiftModal">
+                                                @item.StartTime-@item.EndTime , @item.Shift.Physician.FirstName @item.Shift.Physician.LastName
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="shiftdisplay2 shiftmodal mb-1" id="@item.ShiftDetailId" data-bs-toggle="modal" data-bs-target="#viewShiftModal">
+                                                @item.StartTime-@item.EndTime , @item.Shift.Physician.FirstName @item.Shift.Physician.LastName
+                                            </span>
+                                        }
+
+                                    }
+                                }
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+
+</div>
+
+
+<script>
+    $('.removeactive').removeClass('active text-white');
+    $('#Week').addClass('active text-white');
+
+    var currentdate = $('#currentWeek').val();
+    $('#showDate').text(currentdate);
+
+
+    $(document).ready(function () {
+        $('.shiftmodal').on('click', function () {
+            var shiftdetailid = $(this).attr('id');
+            $.ajax({
+                url: '/Scheduling/viewshift',
+                data: { shiftdetailid: shiftdetailid },
+                success: function (response) {
+                    $('#shiftmodalRegion').val(response.regionid);
+                    $('#shiftmodalPhysician').text(response.physicianname);
+                    $('#shiftmodalDate').val(response.modaldate);
+                    $('#shiftmodalStart').val(response.starttime);
+                    $('#shiftmodalEnd').val(response.endtime);
+                    $('#shiftmodalid').val(response.shiftdetailid);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

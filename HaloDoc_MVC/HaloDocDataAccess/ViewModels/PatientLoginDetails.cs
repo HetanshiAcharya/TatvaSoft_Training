@@ -57,6 +57,8 @@ namespace HaloDocDataAccess.ViewModels
         public string? State { get; set; }
         public string? ZipCode { get; set; }
         public string? Location { get; set; }
+        public string? Address { get; set; }
+
     }
 
 }

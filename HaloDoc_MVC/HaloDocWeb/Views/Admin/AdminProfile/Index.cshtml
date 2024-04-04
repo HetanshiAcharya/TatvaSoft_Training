@@ -10,7 +10,7 @@
             <h5 class="mt-3"><strong>My Profile</strong></h5>
         </div>
         <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
-            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
+            <span><a class="link backButton">Back</a></span>
         </button>
     </div>
     <div class="p-3 bg-white">
@@ -245,5 +245,12 @@
             console.log(document.querySelector('#regionids').value)
             $('#abcdefghi').submit();
         });
+    });
+
+    //back button
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('backButton')) {
+            history.back();
+        }
     });
 </script>

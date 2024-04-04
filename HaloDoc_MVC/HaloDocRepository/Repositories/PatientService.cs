@@ -32,6 +32,7 @@ namespace HaloDocRepository.Repositories
         public void PatientRequest(PatientSubmitRequests viewpatientcreaterequest)
         {
             var Aspnetuser = new AspNetUser();
+            var AspNetUserRoles = new AspNetUserRole();
             var User = new User();
             var Request = new Request();
             var Requestclient = new RequestClient();
@@ -49,6 +50,11 @@ namespace HaloDocRepository.Repositories
                 _context.AspNetUsers.Add(Aspnetuser);
                 _context.SaveChanges();
 
+                AspNetUserRoles.UserId = Aspnetuser.Id;
+                AspNetUserRoles.RoleId = "1";
+                _context.AspNetUserRoles.Add(AspNetUserRoles);
+                _context.SaveChanges();
+
                 User.AspNetUserId = Aspnetuser.Id;
                 User.FirstName = viewpatientcreaterequest.FirstName;
                 User.LastName = viewpatientcreaterequest.LastName;
@@ -63,7 +69,7 @@ namespace HaloDocRepository.Repositories
                 User.IntYear = viewpatientcreaterequest.BirthDate.Year;
                 User.CreatedBy = Aspnetuser.Id;
                 User.CreatedDate = DateTime.Now;
-                              _context.Users.Add(User);
+                _context.Users.Add(User);
                 _context.SaveChanges();
             }
             Request.RequestTypeId = 1;
@@ -174,7 +180,8 @@ namespace HaloDocRepository.Repositories
                 ZipCode = viewdata.ZipCode,
                 StrMonth = (viewdata.BirthDate.Month).ToString(),
                 IntDate = viewdata.BirthDate.Day,
-                IntYear = viewdata.BirthDate.Year
+                IntYear = viewdata.BirthDate.Year,
+                Address = viewdata.Street + viewdata.City + viewdata.State + viewdata.ZipCode
             };
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
@@ -223,6 +230,7 @@ namespace HaloDocRepository.Repositories
             Concierge.State = viewdata.CON_State;
             Concierge.ZipCode = "38585";
             Concierge.RegionId = 1;
+            Concierge.Address = Concierge.Street + " " + Concierge.City + " " + Concierge.State;
             Concierge.CreatedDate = DateTime.Now;
             _context.Concierges.Add(Concierge);
             _context.SaveChanges();
@@ -237,7 +245,7 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
-    
+
 
             _context.Requests.Add(Request);
             _context.SaveChanges();
@@ -251,10 +259,13 @@ namespace HaloDocRepository.Repositories
             Requestclient.Street = viewdata.Street;
             Requestclient.State = viewdata.State;
             Requestclient.City = viewdata.City;
+            Requestclient.Notes = viewdata.Symptoms;
             Requestclient.ZipCode = viewdata.ZipCode;
             Requestclient.StrMonth = (viewdata.BirthDate.Month).ToString();
             Requestclient.IntDate = viewdata.BirthDate.Day;
             Requestclient.IntYear = viewdata.BirthDate.Year;
+            Requestclient.Address = viewdata.Street + viewdata.City + viewdata.State + viewdata.ZipCode;
+
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
@@ -334,10 +345,13 @@ namespace HaloDocRepository.Repositories
             Requestclient.Street = viewdata.Street;
             Requestclient.State = viewdata.State;
             Requestclient.City = viewdata.City;
+            Requestclient.Notes = viewdata.Symptoms;
             Requestclient.ZipCode = viewdata.ZipCode;
             Requestclient.StrMonth = (viewdata.BirthDate.Month).ToString();
             Requestclient.IntDate = viewdata.BirthDate.Day;
             Requestclient.IntYear = viewdata.BirthDate.Year;
+            Requestclient.Address = viewdata.Street + viewdata.City + viewdata.State + viewdata.ZipCode;
+
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
@@ -407,6 +421,76 @@ namespace HaloDocRepository.Repositories
                 throw;
             }
         }
+
+        //#region PatientRecordsinAdminPage
+        //public List<PatientProfile> PatientHistory()
+        //{
+        //    var pHis = (from req in _context.Users
+        //                select new PatientProfile
+        //                {
+        //                    FirstName= req.FirstName,
+        //                    LastName= req.LastName,
+        //                    Email=req.Email,
+        //                    Phone=req.Mobile,
+        //                    Address= req.Street + req.City + req.State
+        //                }).ToList();
+        //    return pHis;
+        //}
+        //#endregion
+        #region PatientRecordsinAdminPage
+        public List<PatientProfile> PatientHistory(string fname, string lname, string email, string phone, string address)
+        {
+            var pHis  = _context.Users.
+                        Select(req => new PatientProfile
+                        {
+                            FirstName = req.FirstName,
+                            LastName = req.LastName,
+                            Email = req.Email,
+                            Phone = req.Mobile,
+                            Address = req.Street + req.City + req.State
+                        }).Where(pp => string.IsNullOrEmpty(fname) || pp.FirstName.Contains(fname))
+                          .Where(pp => string.IsNullOrEmpty(lname) || pp.LastName.Contains(lname))
+                          .Where(pp => string.IsNullOrEmpty(email) || pp.Email.Contains(email))
+                          .Where(pp => string.IsNullOrEmpty(phone) || pp.Phone.Contains(phone))
+                          .Where(pp => string.IsNullOrEmpty(address) || pp.Address.Contains(address)).ToList();
+            return pHis;
+        }
+        #endregion
     }
 }
 
+//public List<Employee> GetEmployeeSearchData(string email, string name, string department, string designation)
+//{
+//    // Assuming 'context' is your Entity Framework database context
+//    // and 'Employee' is the entity that maps to 'EmsTblEmployee' table
+//    var query = context.Employees.AsQueryable();
+
+//    if (!string.IsNullOrEmpty(email))
+//    {
+//        query = query.Where(e => DbFunctions.Like(e.Email, $"%{email}%"));
+//    }
+//    if (!string.IsNullOrEmpty(name))
+//    {
+//        query = query.Where(e => DbFunctions.Like(e.FirstName + " " + e.LastName, $"%{name}%"));
+//    }
+//    if (!string.IsNullOrEmpty(department))
+//    {
+//        query = query.Where(e => DbFunctions.Like(e.Department, $"%{department}%"));
+//    }
+//    if (!string.IsNullOrEmpty(designation))
+//    {
+//        query = query.Where(e => DbFunctions.Like(e.Designation, $"%{designation}%"));
+//    }
+
+//    try
+//    {
+//        // ToList will execute the query and return a List of Employee
+//        return query.ToList();
+//    }
+//    catch (Exception ex)
+//    {
+//        // Handle the exception as needed
+//        // Replace this with your error handling code
+//        throw new Exception("Error in fetching data from database: " + ex.Message);
+//    }
+//}
