@@ -13,7 +13,7 @@
         <form class="mt-2" method="post" id="myform">
             <div class="row p-2">
                 <div class="col-3">
-                    <input type="text" class="form-control" placeholder="Firstname" name="FirstName" id="searchInput" />
+                    <input type="text" class="form-control" placeholder="Firstname" name="FirstName" id="fname" />
                 </div>
                 <div class="col-3">
                     <input type="text" class="form-control" placeholder="Lastname" name="LastName" id="searchInput" />
@@ -28,15 +28,15 @@
             <div class="d-flex justify-content-end">
                 @* save btn *@
                 <div class="search m-2 shadow-none">
-                    <button class="btn p-2 py-2 btn-outline-info bg-white" type="reset" id="clear" style="display:none;">
+                    <a type="button" class="btn p-2 py-2 btn-outline-info bg-white" type="reset" id="clear" onclick="searchbtn(event)">
                        Clear
-                    </button>
+                    </a>
                 </div>
                 @* create acc btn  *@
                 <div class="search m-2 shadow-none">
-                    <button class="btn p-2 py-2 btn-info text-white" onclick="showbtn()">
+                    <a type ="button" class="btn p-2 py-2 btn-info text-white" onclick="searchbtn(event)">
                         Search
-                    </button>
+                    </a>
                 </div>
             </div>
         </form>
@@ -55,12 +55,12 @@
                 <thead class="table-head align-middle table-secondary">
                     <tr>
                         @{
-                            <th class="text-center">First Name</th>
-                            <th class="text-center">Last Name</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Phone</th>
-                            <th class="text-center">Address</th>
-                            <th class="text-center">Actions</th>
+                                                <th class="text-center">First Name</th>
+                                                <th class="text-center">Last Name</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Phone</th>
+                                                <th class="text-center">Address</th>
+                                                <th class="text-center">Actions</th>
                         }
                     </tr>
                 </thead>
@@ -90,10 +90,26 @@
 
 @* Generic Search  *@
 <script>
-    function showbtn(event){
-        $('#clear').show();
-        event.preventDefault();
-        $('#myform').submit();
-
+    function searchbtn(event){
+        var btnid = event.target.id;
+        console.log(btnid);
+        if (btnid == "clear") {
+            $('#myform').trigger('reset');
+        }
+        var fname = $('#fname').val();
+        console.log(fname);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("PatientHistory", "Records")',
+            data: { firstname: fname},
+            success: function (data) {
+                var bodyContent = $(data).find('tbody').html();
+                    $('#providerbody').html(bodyContent);
+               
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
     }
 </script>

@@ -240,9 +240,8 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
     <script>
-        // Load View accoeding to day,month, week
+        // Load View according to day,month, week
         var regionid;
         var filterDate = new Date($('#currentDateValue').text());
         loadSchedulingPartial('_DayWise');
@@ -260,6 +259,7 @@
                 }
             });
         }
+        // physician by region 
         function myFunction() {
             var region = $("#region1").val();
             console.log(region);
@@ -378,6 +378,7 @@
                 }
             });
         });
+        //enable disable
         function editclick() {
             $('.cancel').removeClass('d-none').addClass('d-inline-block');
             $('.edit').removeClass('d-inline-block').addClass('d-none');

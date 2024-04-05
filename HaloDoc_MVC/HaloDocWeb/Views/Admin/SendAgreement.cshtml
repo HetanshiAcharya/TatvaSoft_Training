@@ -9,7 +9,7 @@
             </div>
             @* --------------- Main Form --------------------------  *@
             <form class="needs-validation" novalidate>
-                <input asp-for="ReqId" id="SendAgreement_id" hidden />
+                <input asp-for="ReqId" id="SendAgreement_Id" hidden />
                 <div class="modal-body ">
                     <p><small>To Send Agreement please make sure you are uploading the correct contact information below for the responsible party</small> </p>
                     <div class="form-group">
@@ -34,12 +34,12 @@
     $('#send-agreement-submit-btn').click(function () {
         var phoneNumber = $("#SendAgreement_phone").val();
         var email = $("#SendAgreement_email").val();
-        var reqId = $("#SendAgreement_id").val();
-
+        var reqId = $("#SendAgreement_Id").val();
+        console.log(reqId);
         $.ajax({
             url: "/Admin/SendAgreement",
             data: {
-                Reqid: reqId,
+                ReqId: reqId,
                 PhoneNumber: phoneNumber,
                 Email: email,
             },

@@ -359,12 +359,12 @@ namespace HaloDocDataAccess.Controllers
         }
 
         [HttpPost]
-        public IActionResult SendAgreement(int Reqid, string PhoneNumber, string Email)
+        public IActionResult SendAgreement(int ReqId, string PhoneNumber, string Email)
         {
-            var agreementlink = Url.Action("ReviewAgreement", "Home" , new {Reqid=Reqid},Request.Scheme);
+            var agreementlink = Url.Action("ReviewAgreement", "Home" , new { ReqId = ReqId },Request.Scheme);
             sendAgreement sendAgreement = new()
             {
-                ReqId = Reqid,
+                ReqId = ReqId,
                 PhoneNumber = PhoneNumber,
                 Email = Email
             };
