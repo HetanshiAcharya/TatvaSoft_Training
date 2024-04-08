@@ -12,5 +12,8 @@ namespace HaloDocRepository.Interface
         public void AddShift(SchedulingData model, List<string?>? chk);
         public void ViewShift(int shiftdetailid);
         public void ViewShiftreturn(SchedulingData modal);
+        public bool EditShiftSave(SchedulingData modal, string id);
+        public bool EditShiftDelete(SchedulingData modal, string id);
+
     }
 }

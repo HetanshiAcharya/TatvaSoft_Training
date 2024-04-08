@@ -68,6 +68,7 @@ namespace HaloDocWeb.Controllers
             return View("../Admin/Access/CreateRoleAccess");
         }
         #endregion
+
         #region EditRoleAccess
         public IActionResult EditRoleAccess(int RoleId)
         {
@@ -84,6 +85,7 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("EditRoleAccess", new { RoleId = roles.RoleId });
         }
         #endregion
+
         #region DeleteRole
         public IActionResult DeleteRole(int RoleId)
         {

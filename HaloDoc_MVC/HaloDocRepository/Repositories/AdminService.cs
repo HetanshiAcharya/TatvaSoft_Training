@@ -2002,6 +2002,52 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
+        #region GetPartnersByProfession
+        public List<Partners> GetPartnersByProfession(string searchValue, int Profession)
+        {
+            var result = (from Hp in _context.HealthProfessionals
+                          join Hpt in _context.HealthProfessionalTypes
+                          on Hp.Profession equals Hpt.HealthProfessionalId into AdminGroup
+                          from asp in AdminGroup.DefaultIfEmpty()
+                          where (searchValue == null || Hp.VendorName.Contains(searchValue))
+                             && (Profession == 0 || Hp.Profession == Profession)
+                          select new Partners
+                          {
+                              Profession = Hp.VendorName,
+                              Business = asp.ProfessionName,
+                              Email = Hp.Email,
+                              FaxNumber = Hp.FaxNumber,
+                              PhoneNumber = Hp.PhoneNumber,
+                              BusinessNumber = Hp.BusinessContact
+                          }).ToList();
+
+
+            return result;
+        }
+        #endregion
+
+        #region AddBusiness
+        public bool AddBusiness(HealthProfessional hp)
+        {
+            var Data = new HealthProfessional();
+           
+                Data.Profession = hp.Profession;
+                Data.VendorName = hp.VendorName;
+                Data.Email = hp.Email;
+                Data.FaxNumber = hp.FaxNumber;
+                Data.PhoneNumber = hp.PhoneNumber;
+                Data.BusinessContact = hp.BusinessContact;
+                Data.Address = hp.Address;
+                Data.City = hp.City;
+                Data.Zip = hp.Zip;
+                Data.State = hp.State;
+                _context.HealthProfessionals.Add(Data);
+                _context.SaveChanges();
+                return true;
+            
+        }
+
+        #endregion
     }
 }
 

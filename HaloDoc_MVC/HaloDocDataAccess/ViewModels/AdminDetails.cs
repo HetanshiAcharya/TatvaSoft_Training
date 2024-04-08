@@ -357,4 +357,13 @@ namespace HaloDocDataAccess.ViewModels
         public bool isAdmin { get; set; }
 
     }
+    public class Partners
+    {
+        public string Profession { get; set; }
+        public string Business { get; set; }
+        public string Email { get; set; }
+        public string FaxNumber { get; set; }
+        public string PhoneNumber { get; set; }
+        public string BusinessNumber { get; set; }
+    }
 }

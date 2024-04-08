@@ -212,7 +212,46 @@ namespace HaloDocRepository.Repositories
 
 
         #endregion
+        #region EditShiftSave
+        public bool EditShiftSave(SchedulingData modal, string id)
+        {
+            var shiftdetail = _context.ShiftDetails.FirstOrDefault(u => u.ShiftDetailId == modal.shiftdetailid);
+            if (shiftdetail != null)
+            {
+                shiftdetail.ShiftDate = modal.shiftdate;
+                shiftdetail.StartTime = modal.starttime;
+                shiftdetail.EndTime = modal.endtime;
+                shiftdetail.ModifiedBy = id;
+                shiftdetail.ModifiedDate = DateTime.Now;
+                _context.ShiftDetails.Update(shiftdetail);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
 
+        #endregion
+
+        #region editshiftdelete
+        public bool EditShiftDelete(SchedulingData modal, string id)
+        {
+            var shiftdetail = _context.ShiftDetails.FirstOrDefault(u => u.ShiftDetailId == modal.shiftdetailid);
+            var shiftdetailRegion = _context.ShiftDetailRegions.FirstOrDefault(u => u.ShiftDetailId == modal.shiftdetailid);
+            string adminname = id;
+
+            shiftdetail.IsDeleted = new BitArray(new[] { true });
+            shiftdetail.ModifiedDate = DateTime.Now;
+            shiftdetail.ModifiedBy = adminname;
+            _context.ShiftDetails.Update(shiftdetail);
+            _context.SaveChanges();
+
+            shiftdetailRegion.IsDeleted = new BitArray(new[] { true });
+            _context.ShiftDetailRegions.Update(shiftdetailRegion);
+            _context.SaveChanges();
+
+            return true;
+        }
+        #endregion
 
     }
 }

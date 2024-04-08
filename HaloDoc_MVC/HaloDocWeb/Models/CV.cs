@@ -56,6 +56,20 @@ namespace HaloDocWeb.Models
             return UserID;
         }
 
+        //public static string? Id()
+        //{
+        //    string cookieValue;
+        //    string UserID = null;
+
+        //    if (_httpContextAccessor.HttpContext.Request.Cookies["jwt"] != null)
+        //    {
+        //        cookieValue = _httpContextAccessor.HttpContext.Request.Cookies["jwt"].ToString();
+
+        //        UserID = DecodedToken.DecodeJwt(DecodedToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "AspNetUserId").Value;
+        //    }
+
+        //    return UserID;
+        //}
         public static string? Id()
         {
             string cookieValue;
@@ -65,7 +79,7 @@ namespace HaloDocWeb.Models
             {
                 cookieValue = _httpContextAccessor.HttpContext.Request.Cookies["jwt"].ToString();
 
-                UserID = DecodedToken.DecodeJwt(DecodedToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "UserId").Value;
+                UserID = DecodedToken.DecodeJwt(DecodedToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "AspNetUserId").Value;
             }
 
             return UserID;

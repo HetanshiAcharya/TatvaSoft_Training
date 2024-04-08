@@ -68,8 +68,8 @@
                 <a id="regionicon">
                     <i class="fa fa-search"></i>
                 </a>
-                <select class="form-select" data-allow-clear="true" tabindex="-1" id="suggestions" onchange="myFunction()" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" style="padding-left:5px">
-                    <option value="-1">All Region</option>
+                <select class="form-select" data-allow-clear="true" tabindex="-1" id="schedulingRegions" asp-items="@(new SelectList(ViewBag.AssignCAse,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" style="padding-left:5px">
+                    <option value="0">All Region</option>
                 </select>
             </div>
 
@@ -185,8 +185,6 @@
         </div>
     </div>
 </div>
-
-
 @*@View Shift Modal*@
 <div class="modal fade" id="viewShiftModal" tabindex="-1" aria-labelledby="viewShiftModalLabel1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -195,34 +193,34 @@
                 <h1 class="modal-title fs-5" id="viewShiftModalLabel">View Shift</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="ViewShiftreturn" asp-controller="Scheduling">
+            <form asp-action="ViewShiftreturn" asp-controller="Scheduling" id="ViewShiftForm">
                 <input asp-for="shiftdetailid" type="hidden" id="shiftmodalid" />
                 <div class="modal-body">
                     <div class="form-floating">
-                        <select class="form-select" data-allow-clear="true" tabindex="-1" id="shiftmodalRegion" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" disabled>
+                        <select class="form-select" data-allow-clear="true" tabindex="-1" id="" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" disabled>
                             <option value="">Select Region</option>
                         </select>
                         <label for="floatingSelect" class="text-info">
                             Region
                         </label>
                     </div>
-                    <select asp-for="physicianid" class="form-select mt-4" id="physelect2" aria-label="Floating label select example" style="height:58px" disabled>
+                    <select asp-for="physicianid" class="form-select mt-4" id="physelect2" aria-label="Floating label select example" style="height:58px" readonly>
                         <option id="shiftmodalPhysician" selected>Select Physician</option>
                     </select>
                     <div class="form-floating mt-3">
-                        <input asp-for="shiftdate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="shiftmodalDate" class="form-control disable" placeholder="Date" disabled>
+                        <input asp-for="shiftdate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="shiftmodalDate" class="form-control disable" placeholder="Date" readonly>
                         <label for="floatingInput">Shift Date</label>
                     </div>
                     <div class="row row-cols-md-2 row-cols-sm-1 row-cols-1 mt-3">
                         <div class="col mb-3 mb-md-0">
                             <div class="form-floating">
-                                <input asp-for="starttime" type="time" class="form-control disable" id="shiftmodalStart" placeholder="Date" disabled />
+                                <input asp-for="starttime" type="time" class="form-control disable" id="shiftmodalStart" placeholder="Date" readonly />
                                 <label for="floatingInput">Start</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating">
-                                <input asp-for="endtime" type="time" class="form-control disable" id="shiftmodalEnd" placeholder="Date" disabled />
+                                <input asp-for="endtime" type="time" class="form-control disable" id="shiftmodalEnd" placeholder="Date" readonly />
                                 <label for="floatingInput">End</label>
                             </div>
                         </div>
@@ -231,186 +229,226 @@
                 <div class="modal-footer">
                     <button type="submit" id="returnbtn" class="btn btn-info text-white">Return</button>
                     <button type="button" onclick="editclick()" class="btn btn-info text-white edit">Edit</button>
-                    <button type="button" onclick="" class="btn btn-info text-white d-none save">Save</button>
+                    <button type="button" onclick="SaveShift()" class="btn btn-info text-white d-none save">Save</button>
                     <button type="reset" onclick="cancelclick()" class="btn btn-outline-info d-none cancel">Cancel</button>
-                    <button type="button" class="btn btn-danger text-white">Delete</button>
+                    <button type="button" onclick="DeleteShift()" class="btn btn-danger text-white">Delete</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script>
-        // Load View according to day,month, week
-        var regionid;
-        var filterDate = new Date($('#currentDateValue').text());
-        loadSchedulingPartial('_DayWise');
-        var currentPartial = localStorage.getItem("currentPartial");
-        function loadSchedulingPartial(PartialName) {
-            currentPartial = PartialName;
+<script>
+    // Load View accoeding to day,month, week
+    var regionid;
+    var filterDate = new Date($('#currentDateValue').text());
+    loadSchedulingPartial('_DayWise');
+    var currentPartial = localStorage.getItem("currentPartial");
+    function loadSchedulingPartial(PartialName) {
+        currentPartial = PartialName;
+
+        $.ajax({
+            url: '@Url.Action("LoadSchedulingPartial", "Scheduling")',
+            data: { PartialName: PartialName, date: filterDate.toISOString(), regionid: regionid },
+            success: function (data) {
+                $(".calander").html(data);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+    function myFunction() {
+        var region = $("#region1").val();
+        console.log(region);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetPhysicianByRegion","Scheduling")?regionid=' + region,
+            cache: false,
+            success: function (response) {
+                console.log(response);
+                var s = '<option value="-1">Please Select</option>';
+                for (var i = 0; i < response.length; i++) {
+                    s += '<option value="' + response[i].physicianId + '">' + response[i].firstName + '</option>';
+                }
+                $("#Physician").html(s);
+            },
+            error: function () {
+                alert("Error while fetching Physicians.");
+            }
+        });
+    }
+    // Change Physician according to Region
+    $(document).ready(function () {
+        localStorage.getItem("currentPartial");
+        $('#schedulingRegions').on('change', function () {
+            regionid = $(this).val();
+            console.log("dan");
             $.ajax({
-                url: '@Url.Action("LoadSchedulingPartial", "Scheduling")',
-                data: { PartialName: PartialName, date: filterDate.toISOString(), regionid: regionid },
+                url: '/Scheduling/LoadSchedulingPartial',
+                data: { PartialName: currentPartial, date: filterDate.toISOString(), regionid: regionid },
                 success: function (data) {
                     $(".calander").html(data);
+                    localStorage.setItem("currentPartial", currentPartial);
                 },
                 error: function (e) {
                     console.log(e);
                 }
             });
-        }
-        // physician by region 
-        function myFunction() {
-            var region = $("#region1").val();
-            console.log(region);
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("GetPhysicianByRegion","Scheduling")?regionid=' + region,
-                cache: false,
-                success: function (response) {
-
-                    console.log(response);
-                    var s = '<option value="-1">Please Select</option>';
-                    for (var i = 0; i < response.length; i++) {
-                        s += '<option value="' + response[i].physicianId + '">' + response[i].firstName + '</option>';
-                    }
-                    $("#Physician").html(s);
-                },
-                error: function () {
-                    alert("Error while fetching Physicians.");
-                }
-            });
-        }
-        // Change Physician according to Region
-        $(document).ready(function () {
-            localStorage.getItem("currentPartial");
-            $('.region').on('change', function () {
-                regionid = $(this).val();
-                console.log(regionid);
-                $.ajax({
-                    url: '/Scheduling/LoadSchedulingPartial',
-                    data: { PartialName: currentPartial, date: filterDate.toISOString(), regionid: regionid },
-                    success: function (data) {
-                        $(".calander").html(data);
-                        localStorage.setItem("currentPartial", currentPartial);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                    }
-                });
-            });
-            // Change Date From Calender
-            //loadSchedulingPartial('_DayWise');
-            localStorage.getItem("currentPartial");
-            $('#prevDateBtn').on('click', function () {
-                if (currentPartial == "_MonthWise") {
-                    var date = filterDate.setMonth(filterDate.getMonth() - 1);
-                    localStorage.setItem("currentPartial", currentPartial);
-                    loadSchedulingPartial(currentPartial);
-                }
-                else if (currentPartial == "_DayWise") {
-                    var date = filterDate.setDate(filterDate.getDate() - 1);
-                    localStorage.setItem("currentPartial", currentPartial);
-                    loadSchedulingPartial(currentPartial);
-                }
-                else {
-                    var date = filterDate.setDate(filterDate.getDate() - 7);
-                    localStorage.setItem("currentPartial", currentPartial);
-                    loadSchedulingPartial(currentPartial);
-                }
-            });
-            $('#nextDateBtn').on('click', function () {
-                if (currentPartial == "_MonthWise") {
-                    var date = filterDate.setMonth(filterDate.getMonth() + 1);
-                    localStorage.setItem("currentPartial", currentPartial);
-                    loadSchedulingPartial(currentPartial);
-                }
-                else if (currentPartial == "_DayWise") {
-                    var date = filterDate.setDate(filterDate.getDate() + 1);
-                    localStorage.setItem("currentPartial", currentPartial);
-                    loadSchedulingPartial(currentPartial);
-                }
-                else {
-                    var date = filterDate.setDate(filterDate.getDate() + 7);
-                    localStorage.setItem("currentPartial", currentPartial);
-                    loadSchedulingPartial(currentPartial);
-                }
-            });
-            $('.physiciandata').on('change', function (e) {
-                var regionid = $(this).val();
-                console.log(regionid);
-                $.ajax({
-                    url: '/Scheduling/filterregion',
-                    data: { regionid: regionid },
-                    success: function (response) {
-                        //console.log(response);
-                        var physelect = $('#physelect');
-                        //console.log(physelect);
-                        physelect.empty();
-                        physelect.append($('<option>', {
-                            value: "",
-                            text: "Select Physician"
-                        }))
-                        response.forEach(function (item) {
-                            //console.log(item);
-                            physelect.append(
-                                $('<option>', {
-                                    value: item.physicianid,
-                                    text: item.firstname
-                                }));
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            });
-            $('.repeatchk').on('change', function () {
-                if ($(this).prop('checked')) {
-                    $('.disable').each(function () {
-                        $(this).prop('disabled', false);
-                    });
-                }
-                else {
-                    $('.disable').each(function () {
-                        $(this).prop('disabled', true);
-                    });
-                }
-            });
         });
-        //enable disable
-        function editclick() {
-            $('.cancel').removeClass('d-none').addClass('d-inline-block');
-            $('.edit').removeClass('d-inline-block').addClass('d-none');
-            $('.save').removeClass('d-none').addClass('d-inline-block');
-            $('.disable').each(function () {
-                $(this).prop('disabled', false);
-            });
-        }
-        function cancelclick() {
-            $('.edit').removeClass('d-none').addClass('d-inline-block');
-            $('.cancel').removeClass('d-inline-block').addClass('d-none');
-            $('.save').removeClass('d-inline-block').addClass('d-none');
-            $('.disable').each(function () {
-                $(this).prop('disabled', true);
-            });
-        }
-        $('.cancel').on('click', function () {
-            var shiftdetailid = $('#shiftmodalid').val();
+        // Change Date From Calender
+        //loadSchedulingPartial('_DayWise');
+        localStorage.getItem("currentPartial");
+        $('#prevDateBtn').on('click', function () {
+            if (currentPartial == "_MonthWise") {
+                var date = filterDate.setMonth(filterDate.getMonth() - 1);
+                localStorage.setItem("currentPartial", currentPartial);
+                loadSchedulingPartial(currentPartial);
+            }
+            else if (currentPartial == "_DayWise") {
+                var date = filterDate.setDate(filterDate.getDate() - 1);
+                localStorage.setItem("currentPartial", currentPartial);
+                loadSchedulingPartial(currentPartial);
+            }
+            else {
+                var date = filterDate.setDate(filterDate.getDate() - 7);
+                localStorage.setItem("currentPartial", currentPartial);
+                loadSchedulingPartial(currentPartial);
+            }
+        });
+        $('#nextDateBtn').on('click', function () {
+            if (currentPartial == "_MonthWise") {
+                var date = filterDate.setMonth(filterDate.getMonth() + 1);
+                localStorage.setItem("currentPartial", currentPartial);
+                loadSchedulingPartial(currentPartial);
+            }
+            else if (currentPartial == "_DayWise") {
+                var date = filterDate.setDate(filterDate.getDate() + 1);
+                localStorage.setItem("currentPartial", currentPartial);
+                loadSchedulingPartial(currentPartial);
+            }
+            else {
+                var date = filterDate.setDate(filterDate.getDate() + 7);
+                localStorage.setItem("currentPartial", currentPartial);
+                loadSchedulingPartial(currentPartial);
+            }
+        });
+        $('.physiciandata').on('change', function (e) {
+            var regionid = $(this).val();
+            console.log(regionid);
             $.ajax({
-                url: '/Scheduling/viewshift',
-                data: { "shiftdetailid": shiftdetailid },
+                url: '/Scheduling/filterregion',
+                data: { regionid: regionid },
                 success: function (response) {
-                    $('#shiftmodalRegion').val(response.regionid);
-                    $('#shiftmodalPhysician').text(response.physicianname);
-                    $('#shiftmodalDate').val(response.modaldate);
-                    $('#shiftmodalStart').val(response.starttime);
-                    $('#shiftmodalEnd').val(response.endtime);
-                    $('#shiftmodalid').val(response.shiftdetailid);
+                    //console.log(response);
+                    var physelect = $('#physelect');
+                    //console.log(physelect);
+                    physelect.empty();
+                    physelect.append($('<option>', {
+                        value: "",
+                        text: "Select Physician"
+                    }))
+                    response.forEach(function (item) {
+                        //console.log(item);
+                        physelect.append(
+                            $('<option>', {
+                                value: item.physicianid,
+                                text: item.firstname
+                            }));
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
         });
-    </script>
+        $('.repeatchk').on('change', function () {
+            if ($(this).prop('checked')) {
+                $('.disable').each(function () {
+                    $(this).prop('disabled', false);
+                });
+            }
+            else {
+                $('.disable').each(function () {
+                    $(this).prop('disabled', true);
+                });
+            }
+        });
+    });
+    $('.cancel').on('click', function () {
+        var shiftdetailid = $('#shiftmodalid').val();
+        $.ajax({
+            url: '/Scheduling/viewshift',
+            data: { "shiftdetailid": shiftdetailid },
+            success: function (response) {
+                $('#shiftmodalRegion').val(response.regionid);
+                $('#shiftmodalPhysician').text(response.physicianname);
+                $('#shiftmodalDate').val(response.modaldate);
+                $('#shiftmodalStart').val(response.starttime);
+                $('#shiftmodalEnd').val(response.endtime);
+                $('#shiftmodalid').val(response.shiftdetailid);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+    function editclick() {
+        $('.cancel').removeClass('d-none').addClass('d-inline-block');
+        $('.edit').removeClass('d-inline-block').addClass('d-none');
+        $('.save').removeClass('d-none').addClass('d-inline-block');
+        $('.disable').each(function () {
+            $(this).prop('readonly', false);
+        });
+    }
+    function cancelclick() {
+        $('.edit').removeClass('d-none').addClass('d-inline-block');
+        $('.cancel').removeClass('d-inline-block').addClass('d-none');
+        $('.save').removeClass('d-inline-block').addClass('d-none');
+        $('.disable').each(function () {
+            $(this).prop('readonly', true);
+        });
+    }
+    function SaveShift(event) {
+        var modal = $('#ViewShiftForm').serialize();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EditShiftSave","Scheduling")',
+            cache: false,
+            data: modal,
+            success: function (response) {
+                console.log(response);
+                location.reload();
+                event.preventDefault();
+            },
+            error: function () {
+                alert("Error .");
+            }
+        });
+
+        $('.cancel').removeClass('d-inline-block').addClass('d-none');
+        $('.edit').removeClass('d-none').addClass('d-inline-block');
+        $('.save').removeClass('d-inline-block').addClass('d-none');
+        $('.disable').each(function () {
+            $(this).prop('readonly', false);
+        });
+    }
+    function DeleteShift() {
+        var modal = $('#ViewShiftForm').serialize();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EditShiftDelete","Scheduling")',
+            cache: false,
+            data: modal,
+            success: function (response) {
+
+                console.log(response);
+                location.reload();
+
+            },
+            error: function () {
+                alert("Error .");
+            }
+        });
+    }
+</script>

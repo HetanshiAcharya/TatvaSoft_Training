@@ -5,6 +5,7 @@ namespace HaloDocDataAccess.ViewModels
     public class UserInfo
     {
         public int UserId { get; set; }
+        public string AspNetUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HaloDocRepository.Interface;
 using HaloDocRepository.Repositories;
 using Microsoft.EntityFrameworkCore;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace HaloDocWeb.Controllers
 {
@@ -15,12 +16,15 @@ namespace HaloDocWeb.Controllers
         private readonly HaloDocDbContext _context;
         private readonly IScheduling _scheduling;
         private readonly IAdminService _adminservice;
+        private readonly INotyfService _notyf;
 
-        public SchedulingController(HaloDocDbContext context, IScheduling scheduling, IAdminService adminservice)
+
+        public SchedulingController(HaloDocDbContext context, IScheduling scheduling, IAdminService adminservice, INotyfService notyf)
         {
             _context = context;
             _scheduling = scheduling;
             _adminservice = adminservice;
+            _notyf = notyf;
         }
         public async Task<IActionResult> Index()
         {
@@ -92,9 +96,10 @@ namespace HaloDocWeb.Controllers
 
         public IActionResult AddShift(SchedulingData model)
         {
-            //string adminId = CV.Id();
+            string adminId = CV.Id();
             var chk = Request.Form["repeatdays"].ToList();
             _scheduling.AddShift(model, chk);
+            _notyf.Success("Shift Added Sucessfully");
             return RedirectToAction("Index");
 
         }
@@ -139,6 +144,24 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
+        #region editshiftsave
+        public void EditShiftSave(SchedulingData modal)
+        {
+            _scheduling.EditShiftSave(modal, CV.Id());
+            _notyf.Success("Shift Updated Sucessfully");
+
+
+        }
+        #endregion
+        #region editshiftdelete
+        public IActionResult EditShiftDelete(SchedulingData modal)
+        {
+            _scheduling.EditShiftDelete(modal, CV.Id());
+            _notyf.Success("Shift Deleted Sucessfully");
+
+            return RedirectToAction("Index");
+        }
         #endregion
     }
 }
