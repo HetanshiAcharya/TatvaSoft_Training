@@ -1445,7 +1445,7 @@ namespace HaloDocRepository.Repositories
         #region ProviderRoleViewBag
         public List<Role> ProviderRole()
         {
-            var role = _context.Roles.Where(r=>r.AccountType==2).ToList();
+            var role = _context.Roles.Where(r => r.AccountType == 2).ToList();
             return (role);
         }
         #endregion
@@ -1871,7 +1871,7 @@ namespace HaloDocRepository.Repositories
                   .ToList();
                 return result;
             }
-            
+
         }
         #endregion
 
@@ -1883,7 +1883,7 @@ namespace HaloDocRepository.Repositories
             data.AccountType = (short)roles.AccountType;
             data.CreatedDate = DateTime.Now;
             data.CreatedBy = userId;
-           
+
             _context.Roles.Add(data);
             _context.SaveChanges();
 
@@ -1908,12 +1908,12 @@ namespace HaloDocRepository.Repositories
         {
             AccessModel? v = (from p in _context.Roles
 
-                             where p.RoleId == RoleId
-                             select new AccessModel
-                             {
-                                 Role = p.Name,
-                                 AccountType = (AccountType)p.AccountType,
-                             }).FirstOrDefault();
+                              where p.RoleId == RoleId
+                              select new AccessModel
+                              {
+                                  Role = p.Name,
+                                  AccountType = (AccountType)p.AccountType,
+                              }).FirstOrDefault();
             List<Menu> Menu = _context.Menus
                 .Where(req => req.AccountType == (short)v.AccountType).ToList();
             v.menus = Menu;
@@ -2002,6 +2002,14 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
+        #region prefilleddataofvendors
+        public HealthProfessional EditPartners(int VendorId)
+        {
+            var result = _context.HealthProfessionals.Where(Req => Req.VendorId == VendorId).FirstOrDefault();
+            return result;
+        }
+        #endregion
+
         #region GetPartnersByProfession
         public List<Partners> GetPartnersByProfession(string searchValue, int Profession)
         {
@@ -2010,16 +2018,17 @@ namespace HaloDocRepository.Repositories
                           on Hp.Profession equals Hpt.HealthProfessionalId into AdminGroup
                           from asp in AdminGroup.DefaultIfEmpty()
                           where (searchValue == null || Hp.VendorName.Contains(searchValue))
-                             && (Profession == 0 || Hp.Profession == Profession)
+                             && (Profession == 0 || Hp.Profession == Profession) && (Hp.IsDeleted== new BitArray(1))
                           select new Partners
                           {
+                              VendorId = Hp.VendorId,
                               Profession = Hp.VendorName,
                               Business = asp.ProfessionName,
                               Email = Hp.Email,
                               FaxNumber = Hp.FaxNumber,
                               PhoneNumber = Hp.PhoneNumber,
-                              BusinessNumber = Hp.BusinessContact
-                          }).ToList();
+                              BusinessNumber = Hp.BusinessContact,
+                              }).ToList();
 
 
             return result;
@@ -2029,8 +2038,9 @@ namespace HaloDocRepository.Repositories
         #region AddBusiness
         public bool AddBusiness(HealthProfessional hp)
         {
-            var Data = new HealthProfessional();
-           
+            var Data = _context.HealthProfessionals.Where(req => req.VendorId == hp.VendorId).FirstOrDefault();
+            if (Data != null)
+            {
                 Data.Profession = hp.Profession;
                 Data.VendorName = hp.VendorName;
                 Data.Email = hp.Email;
@@ -2041,10 +2051,40 @@ namespace HaloDocRepository.Repositories
                 Data.City = hp.City;
                 Data.Zip = hp.Zip;
                 Data.State = hp.State;
-                _context.HealthProfessionals.Add(Data);
+                _context.HealthProfessionals.Update(Data);
                 _context.SaveChanges();
                 return true;
-            
+            }
+            else
+            {
+                var data = new HealthProfessional();
+
+                data.Profession = hp.Profession;
+                data.VendorName = hp.VendorName;
+                data.Email = hp.Email;
+                data.FaxNumber = hp.FaxNumber;
+                data.PhoneNumber = hp.PhoneNumber;
+                data.BusinessContact = hp.BusinessContact;
+                data.Address = hp.Address;
+                data.City = hp.City;
+                data.Zip = hp.Zip;
+                data.State = hp.State;
+                data.IsDeleted = new BitArray(1);
+                data.CreatedDate = DateTime.Now;
+                _context.HealthProfessionals.Add(data);
+                _context.SaveChanges();
+                return true;
+            }
+        }
+        #endregion
+        #region deletevendor
+        public bool DeleteBusiness(int vendorId)
+        {
+            HealthProfessional hp = _context.HealthProfessionals.Where(x => x.VendorId == vendorId).FirstOrDefault();
+            hp.IsDeleted[0] = true;
+            _context.HealthProfessionals.Update(hp);
+            _context.SaveChanges();
+            return true;
         }
 
         #endregion

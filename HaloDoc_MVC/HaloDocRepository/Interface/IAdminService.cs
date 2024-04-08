@@ -77,6 +77,9 @@ namespace HaloDocRepository.Interface
         public List<UserAccessData> UserAccessData(string AccountType);
         public List<Partners> GetPartnersByProfession(string searchValue, int Profession);
         public bool AddBusiness(HealthProfessional obj);
+        public HealthProfessional EditPartners(int VendorId);
+        public bool DeleteBusiness(int vendorId);
+
 
     }
 

@@ -359,6 +359,7 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class Partners
     {
+        public int VendorId { get; set; }
         public string Profession { get; set; }
         public string Business { get; set; }
         public string Email { get; set; }

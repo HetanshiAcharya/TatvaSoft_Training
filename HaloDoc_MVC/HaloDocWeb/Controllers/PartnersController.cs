@@ -32,22 +32,48 @@ namespace HaloDocWeb.Controllers
             List<Partners> data =  _adminservice.GetPartnersByProfession(searchValue, Profession);
             return View("../Admin/Partners/Index", data);       
         }
-        public IActionResult AddBusiness()
+        
+        public IActionResult AddEditBusiness(int VendorId)
         {
             ViewBag.Profession = _context.HealthProfessionalTypes.ToList();
-            return View("../Admin/Partners/AddBusiness");
 
+            if (VendorId == 0)
+            {
+                ViewData["Heading"] = "Add";
+                return View("../Admin/Partners/AddEditBusiness");
+
+            }
+            else
+            {
+                ViewData["Heading"] = "Update";
+                var res=_adminservice.EditPartners(VendorId);
+                return View("../Admin/Partners/AddEditBusiness", res);
+
+            }
         }
         [HttpPost]
-        public IActionResult AddBusiness(HealthProfessional obj)
+        public IActionResult AddEditBusiness(HealthProfessional obj)
         {
             var res = _adminservice.AddBusiness(obj);
             if (res)
             {
-                _notyf.Success("Business Added Successfully");
+                _notyf.Success("Data Added Successfully");
             }
             return RedirectToAction("Index");
 
+        }
+        public IActionResult DeleteBusiness(int VendorId)
+        {
+            var res = _adminservice.DeleteBusiness(VendorId);
+            if (res)
+            {
+                _notyf.Success("Vendor Deleted Successfully");
+            }
+            else
+            {
+                _notyf.Error("Vendor not deleted");
+            }
+            return RedirectToAction("Index");
         }
     }
 }
