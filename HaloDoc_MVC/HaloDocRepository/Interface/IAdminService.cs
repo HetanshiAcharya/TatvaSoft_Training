@@ -79,6 +79,7 @@ namespace HaloDocRepository.Interface
         public bool AddBusiness(HealthProfessional obj);
         public HealthProfessional EditPartners(int VendorId);
         public bool DeleteBusiness(int vendorId);
+        public List<PatientDashboard> RecordsPatientExplore(int UserId);
 
 
     }

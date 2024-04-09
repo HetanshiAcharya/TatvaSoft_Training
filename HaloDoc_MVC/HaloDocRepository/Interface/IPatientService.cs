@@ -17,6 +17,6 @@ namespace HaloDocRepository.Interface
         void BusinessRequest(BusinessSubmitRequests viewdata);
         List<PatientDashboard> GetMedicalHistory(User user);
         void ProfileData(PatientProfile newdetails, int? id);
-        public List<PatientProfile> PatientHistory(string fname, string lname, string email, string phone, string address);
+        public List<PatientProfile> PatientHistory(string fname, string lname, string email, string phone);
     }
 }

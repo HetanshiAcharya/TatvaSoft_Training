@@ -163,5 +163,18 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+
+        #region Provider_on_call
+        public IActionResult MDSOnCall(int? regionId)
+        {
+            ViewBag.AssignCase =  _adminservice.AssignCase();
+            List<ProviderList> v =  _scheduling.PhysicianOnCall(regionId);
+            if (regionId != null)
+            {
+                return Json(v);
+            }
+            return View("../Admin/Scheduling/MDSOnCall", v);
+        }
+        #endregion
     }
 }

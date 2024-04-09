@@ -2088,6 +2088,32 @@ namespace HaloDocRepository.Repositories
         }
 
         #endregion
+
+        #region RecordsPatientExplore
+        public List<PatientDashboard> RecordsPatientExplore(int UserId)
+        {
+            List<PatientDashboard> allData = (from req in _context.Requests
+                                             join reqClient in _context.RequestClients
+                                             on req.RequestId equals reqClient.RequestId into reqClientGroup
+                                             from rc in reqClientGroup.DefaultIfEmpty()
+                                             join phys in _context.Physicians
+                                             on req.PhysicianId equals phys.PhysicianId into physGroup
+                                             from p in physGroup.DefaultIfEmpty()
+                                             where req.UserId == UserId
+                                             select new PatientDashboard
+                                             {
+                                                 PatientName = rc.FirstName + " " + rc.LastName,
+                                                 RequestedDate = ((DateTime)req.CreatedDate),
+                                                 Confirmation = req.ConfirmationNumber,
+                                                 Physician = p.FirstName + " " + p.LastName,
+                                                 ConcludedDate = (DateTime)req.CreatedDate,
+                                                 Status = (Status)req.Status,
+                                                 RequestTypeId = req.RequestTypeId,
+                                                 RequestId = req.RequestId
+                                             }).ToList();
+            return allData;
+        }
+        #endregion
     }
 }
 

@@ -39,7 +39,7 @@ namespace HaloDocRepository.Repositories
                     {
                         foreach (var item in shiftdetailchk)
                         {
-                            if ((model.starttime >= item.StartTime && model.starttime <= item.EndTime) || (model.endtime >= item.StartTime && model.endtime <= item.EndTime) )
+                            if ((model.starttime >= item.StartTime && model.starttime <= item.EndTime) || (model.endtime >= item.StartTime && model.endtime <= item.EndTime))
                             {
                                 //TempData["error"] = "Shift is already assigned in this time";
                                 return;
@@ -78,7 +78,7 @@ namespace HaloDocRepository.Repositories
             shiftdetail.RegionId = model.regionid;
             shiftdetail.StartTime = model.starttime;
             shiftdetail.EndTime = model.endtime;
-           
+
             shiftdetail.IsDeleted = new BitArray(new[] { false });
             _context.ShiftDetails.Add(shiftdetail);
             _context.SaveChanges();
@@ -151,7 +151,7 @@ namespace HaloDocRepository.Repositories
                             RegionId = model.regionid,
                             StartTime = model.starttime,
                             EndTime = model.endtime,
-                            
+
                             IsDeleted = new BitArray(new[] { false })
                         };
                         _context.ShiftDetails.Add(shiftdetailnew);
@@ -161,7 +161,7 @@ namespace HaloDocRepository.Repositories
                             ShiftDetailId = shiftdetailnew.ShiftDetailId,
                             RegionId = model.regionid,
                             IsDeleted = new BitArray(new[] { false })
-                            
+
                         };
                         _context.ShiftDetailRegions.Add(shiftregionnew);
                         _context.SaveChanges();
@@ -253,5 +253,85 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
+        #region PhysicianOnCall
+        public List<ProviderList> PhysicianOnCall(int? region)
+        {
+            DateTime currentDateTime = DateTime.Now;
+            TimeOnly currentTimeOfDay = TimeOnly.FromDateTime(DateTime.Now);
+
+            List<ProviderList> pl = (from r in _context.Physicians
+                                     where r.IsDeleted == new BitArray(1)
+                                     select new ProviderList
+                                     {
+                                         CreatedDate = r.CreatedDate,
+                                         PhysicianId = r.PhysicianId,
+                                         Add1 = r.Address1,
+                                         Add2 = r.Address2,
+                                         Message = r.AdminNotes,
+                                         PhoneForBill = r.AltPhone,
+                                         Bname = r.BusinessName,
+                                         Bwebsite = r.BusinessWebsite,
+                                         City = r.City,
+                                         FirstName = r.FirstName,
+                                         LastName = r.LastName,
+                                         Status = (Constant.ProviderStatus)r.Status,
+                                         Email = r.Email,
+                                     }).ToList();
+            if (region != null)
+            {
+                pl = (
+                        from pr in _context.PhysicianRegions
+
+                        join ph in _context.Physicians
+                            on pr.PhysicianId equals ph.PhysicianId into rGroup
+                        from r in rGroup.DefaultIfEmpty()
+                        where pr.RegionId == region && r.IsDeleted == new BitArray(1)
+                        select new ProviderList
+                        {
+                            CreatedDate = r.CreatedDate,
+                            PhysicianId = r.PhysicianId,
+                            Add1 = r.Address1,
+                            Add2 = r.Address2,
+                            Message = r.AdminNotes,
+                            PhoneForBill = r.AltPhone,
+                            Bname = r.BusinessName,
+                            Bwebsite = r.BusinessWebsite,
+                            City = r.City,
+                            FirstName = r.FirstName,
+                            LastName = r.LastName,
+                            Status = (Constant.ProviderStatus)r.Status,
+                            Email = r.Email,
+
+                        })
+                        .ToList();
+            }
+
+            foreach (var item in pl)
+            {
+                List<int> shiftIds = (from s in _context.Shifts
+                                           where s.PhysicianId == item.PhysicianId
+                                           select s.ShiftId).ToList();
+
+                foreach (var shift in shiftIds)
+                {
+                    var shiftDetail = (from sd in _context.ShiftDetails
+                                       where sd.ShiftId == shift &&
+                                             sd.ShiftDate.Date == currentDateTime.Date &&
+                                             sd.StartTime <= currentTimeOfDay &&
+                                             currentTimeOfDay <= sd.EndTime
+                                       select sd).FirstOrDefault();
+
+                    if (shiftDetail != null)
+                    {
+                        item.onCallStatus = 1;
+                    }
+                }
+            }
+
+            return pl;
+
+
+        }
+        #endregion
     }
 }

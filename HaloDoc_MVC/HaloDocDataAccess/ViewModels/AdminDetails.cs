@@ -298,11 +298,16 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class ProviderList
     {
+        public DateTime? CreatedDate;
+
+        public string Role { get; set; }
+        public int? onCallStatus { get; set; } = 0;
         public string Email { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
         public ProviderStatus Status { get; set; }
-        public string Role { get; set; }
+       
+        public int? shiftid { get; set; }
         public int? RoleId { get; set; }
         public string Phone { get; set; }
         public string MedLicence { get; set; }

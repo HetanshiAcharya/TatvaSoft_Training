@@ -149,6 +149,8 @@ namespace HaloDocRepository.Repositories
 
         public void FamilyRequest(FamilySubmitRequests viewdata)
         {
+            var isexist = _context.Users.FirstOrDefault(x => x.Email == viewdata.Email);
+            var User = new User();
             var Request = new Request
             {
                 RequestTypeId = 3,
@@ -159,9 +161,12 @@ namespace HaloDocRepository.Repositories
                 RelationName = viewdata.FF_RelationWithPatient,
                 PhoneNumber = viewdata.FF_PhoneNumber,
                 CreatedDate = DateTime.Now,
-                IsUrgentEmailSent = new BitArray(1)
+                IsUrgentEmailSent = new BitArray(1),
+                UserId=isexist.UserId,
+                ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002"
 
-            };
+
+        };
             _context.Requests.Add(Request);
             _context.SaveChanges();
 
@@ -223,8 +228,9 @@ namespace HaloDocRepository.Repositories
             var Request = new Request();
             var Requestclient = new RequestClient();
             var Requestconcierge = new RequestConcierge();
+            var isexist = _context.Users.FirstOrDefault(x => x.Email == viewdata.Email); Concierge.ConciergeName = viewdata.CON_FirstName + " " + viewdata.CON_LastName;
 
-            Concierge.ConciergeName = viewdata.CON_FirstName + " " + viewdata.CON_LastName;
+
             Concierge.Street = viewdata.CON_Street;
             Concierge.City = viewdata.CON_City;
             Concierge.State = viewdata.CON_State;
@@ -245,6 +251,8 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
+            Request.UserId = isexist.UserId;
+            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
 
 
             _context.Requests.Add(Request);
@@ -312,6 +320,7 @@ namespace HaloDocRepository.Repositories
             var Request = new Request();
             var Requestclient = new RequestClient();
             var Requestbusiness = new RequestBusiness();
+            var isexist = _context.Users.FirstOrDefault(x => x.Email == viewdata.Email);
             Random _random = new Random();
 
             Business.Name = viewdata.bus_FirstName + viewdata.bus_LastName;
@@ -332,7 +341,7 @@ namespace HaloDocRepository.Repositories
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
             Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
-
+            Request.UserId = isexist.UserId;
             _context.Requests.Add(Request);
             _context.SaveChanges();
             int id2 = Request.RequestId;
@@ -438,7 +447,7 @@ namespace HaloDocRepository.Repositories
         //}
         //#endregion
         #region PatientRecordsinAdminPage
-        public List<PatientProfile> PatientHistory(string fname, string lname, string email, string phone, string address)
+        public List<PatientProfile> PatientHistory(string fname, string lname, string email, string phone)
         {
             var pHis  = _context.Users.
                         Select(req => new PatientProfile
@@ -447,12 +456,13 @@ namespace HaloDocRepository.Repositories
                             LastName = req.LastName,
                             Email = req.Email,
                             Phone = req.Mobile,
-                            Address = req.Street + req.City + req.State
+                            Address = req.Street + req.City + req.State,
+                            UserId= req.UserId
                         }).Where(pp => string.IsNullOrEmpty(fname) || pp.FirstName.Contains(fname))
                           .Where(pp => string.IsNullOrEmpty(lname) || pp.LastName.Contains(lname))
                           .Where(pp => string.IsNullOrEmpty(email) || pp.Email.Contains(email))
                           .Where(pp => string.IsNullOrEmpty(phone) || pp.Phone.Contains(phone))
-                          .Where(pp => string.IsNullOrEmpty(address) || pp.Address.Contains(address)).ToList();
+                          .ToList();
             return pHis;
         }
         #endregion

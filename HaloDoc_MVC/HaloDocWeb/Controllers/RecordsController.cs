@@ -25,10 +25,15 @@ namespace HaloDocWeb.Controllers
             _patientservice = patientservice;
         }
         #endregion
-        public IActionResult PatientHistory(string firstname, string lastname, string email, string phone, string address)
+        public IActionResult PatientHistory(string firstname, string lastname, string email, string phone)
         {
-            var res = _patientservice.PatientHistory(firstname, lastname, email,phone,address);
+            var res = _patientservice.PatientHistory(firstname, lastname, email,phone);
             return View("../Admin/Records/PatientHistory",res);
+        }
+        public IActionResult RecordsPatientExplore(int UserId)
+        {
+            var res = _adminservice.RecordsPatientExplore(UserId);
+            return View("../Admin/Records/RecordsPatientExplore", res);
         }
     }
 }

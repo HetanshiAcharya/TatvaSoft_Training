@@ -57,7 +57,7 @@ namespace HaloDocWeb.Controllers
             var res = _adminservice.AddBusiness(obj);
             if (res)
             {
-                _notyf.Success("Data Added Successfully");
+                _notyf.Success("Data Saved Successfully");
             }
             return RedirectToAction("Index");
 

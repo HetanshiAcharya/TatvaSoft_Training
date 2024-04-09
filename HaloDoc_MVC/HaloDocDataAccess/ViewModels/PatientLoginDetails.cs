@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HaloDocDataAccess.ViewModels.Constant;
 
 namespace HaloDocDataAccess.ViewModels
 {
@@ -39,6 +40,17 @@ namespace HaloDocDataAccess.ViewModels
         public string UserName { get; set; }
         public List<Request> Requests { get; set; }
         public List<int> DocumentCount { get; set; }
+
+        public DateTime createdDate { get; set; }
+        public DateTime RequestedDate { get; set; }
+        public DateTime ConcludedDate { get; set; }
+        public Status Status { get; set; }
+        public int RequestId { get; set; }
+        public int RequestTypeId { get; set; }
+       
+        public string PatientName { get; set; }
+        public string Confirmation { get; set; }
+        public string Physician { get; set; }
     }
     public class PatientProfile
     {
