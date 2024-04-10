@@ -28,6 +28,7 @@ using static HaloDocDataAccess.ViewModels.AdminDetailsInfo;
 using static HaloDocDataAccess.ViewModels.Constant;
 using System.Security.Principal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.IdentityModel.Tokens;
 
 namespace HaloDocRepository.Repositories
 {
@@ -2018,7 +2019,7 @@ namespace HaloDocRepository.Repositories
                           on Hp.Profession equals Hpt.HealthProfessionalId into AdminGroup
                           from asp in AdminGroup.DefaultIfEmpty()
                           where (searchValue == null || Hp.VendorName.Contains(searchValue))
-                             && (Profession == 0 || Hp.Profession == Profession) && (Hp.IsDeleted== new BitArray(1))
+                             && (Profession == 0 || Hp.Profession == Profession) && (Hp.IsDeleted == new BitArray(1))
                           select new Partners
                           {
                               VendorId = Hp.VendorId,
@@ -2028,7 +2029,7 @@ namespace HaloDocRepository.Repositories
                               FaxNumber = Hp.FaxNumber,
                               PhoneNumber = Hp.PhoneNumber,
                               BusinessNumber = Hp.BusinessContact,
-                              }).ToList();
+                          }).ToList();
 
 
             return result;
@@ -2093,27 +2094,171 @@ namespace HaloDocRepository.Repositories
         public List<PatientDashboard> RecordsPatientExplore(int UserId)
         {
             List<PatientDashboard> allData = (from req in _context.Requests
-                                             join reqClient in _context.RequestClients
-                                             on req.RequestId equals reqClient.RequestId into reqClientGroup
-                                             from rc in reqClientGroup.DefaultIfEmpty()
-                                             join phys in _context.Physicians
-                                             on req.PhysicianId equals phys.PhysicianId into physGroup
-                                             from p in physGroup.DefaultIfEmpty()
-                                             where req.UserId == UserId
-                                             select new PatientDashboard
-                                             {
-                                                 PatientName = rc.FirstName + " " + rc.LastName,
-                                                 RequestedDate = ((DateTime)req.CreatedDate),
-                                                 Confirmation = req.ConfirmationNumber,
-                                                 Physician = p.FirstName + " " + p.LastName,
-                                                 ConcludedDate = (DateTime)req.CreatedDate,
-                                                 Status = (Status)req.Status,
-                                                 RequestTypeId = req.RequestTypeId,
-                                                 RequestId = req.RequestId
-                                             }).ToList();
+                                              join reqClient in _context.RequestClients
+                                              on req.RequestId equals reqClient.RequestId into reqClientGroup
+                                              from rc in reqClientGroup.DefaultIfEmpty()
+                                              join phys in _context.Physicians
+                                              on req.PhysicianId equals phys.PhysicianId into physGroup
+                                              from p in physGroup.DefaultIfEmpty()
+                                              where req.UserId == UserId
+                                              select new PatientDashboard
+                                              {
+                                                  PatientName = rc.FirstName + " " + rc.LastName,
+                                                  RequestedDate = ((DateTime)req.CreatedDate),
+                                                  Confirmation = req.ConfirmationNumber,
+                                                  Physician = p.FirstName + " " + p.LastName,
+                                                  ConcludedDate = (DateTime)req.CreatedDate,
+                                                  Status = (Status)req.Status,
+                                                  RequestTypeId = req.RequestTypeId,
+                                                  RequestId = req.RequestId
+                                              }).ToList();
             return allData;
         }
         #endregion
+
+        #region unblockreq
+        public bool UnBlock(int reqId)
+        {
+            BlockRequest r = _context.BlockRequests.Where(x => x.RequestId == reqId).FirstOrDefault();
+            r.IsActive[0] = true;
+            r.ModifiedDate = DateTime.Now;
+            _context.BlockRequests.Update(r);
+            _context.SaveChanges();
+
+            Request req = _context.Requests.Where(x => x.RequestId == reqId).FirstOrDefault();
+            req.Status = 1;
+            req.ModifiedDate = DateTime.Now;
+            _context.Requests.Update(req);
+            _context.SaveChanges();
+
+            return true;
+
+        }
+        #endregion
+
+        #region blockreqshow
+        public BlockHistory RecordsBlock(BlockHistory formData)
+        {
+            var data = (from req in _context.BlockRequests
+                        join r in _context.Requests on req.RequestId equals r.RequestId
+                        where (string.IsNullOrEmpty(formData.PatientName) || r.FirstName.Contains(formData.PatientName))
+                           && (formData.createdDate == null || req.CreatedDate.Value.Date == formData.createdDate)
+                           && (string.IsNullOrEmpty(formData.Email) || req.Email.Contains(formData.Email))
+                           && (string.IsNullOrEmpty(formData.Mobile) || req.PhoneNumber.Contains(formData.Mobile))
+                        select new PatientDashboard
+                        {
+                            PatientName = r.FirstName,
+                            Email = req.Email,
+                            createdDate = (DateTime)req.CreatedDate,
+                            IsActive = req.IsActive[0],
+                            RequestId = Convert.ToInt32(req.RequestId),
+                            Mobile = req.PhoneNumber,
+                            Notes = req.Reason
+                        }).ToList();
+            int totalItemCount = data.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)formData.PageSize);
+            List<PatientDashboard> list1 = data.Skip((formData.CurrentPage - 1) * formData.PageSize).Take(formData.PageSize).ToList();
+            BlockHistory datanew = new BlockHistory
+            {
+                pd = list1,
+                CurrentPage = formData.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = formData.PageSize,
+            };
+
+            return datanew;
+        }
+        #endregion
+
+        #region RecordsSearch
+        public SearchInputs RecordsSearch(SearchInputs rm)
+        {
+            List<SearchRecords> allData = (from req in _context.Requests
+                                           join reqClient in _context.RequestClients
+                                           on req.RequestId equals reqClient.RequestId into reqClientGroup
+                                           from rc in reqClientGroup.DefaultIfEmpty()
+                                           join phys in _context.Physicians
+                                           on req.PhysicianId equals phys.PhysicianId into physGroup
+                                           from p in physGroup.DefaultIfEmpty()
+                                           join nts in _context.RequestNotes
+                                           on req.RequestId equals nts.RequestId into ntsgrp
+                                           from nt in ntsgrp.DefaultIfEmpty()
+                                           where ( req.IsDeleted == new BitArray(1)&&rm.ReqStatus == 0 || req.Status == rm.ReqStatus) &&
+                                                    (rm.RequestTypeID == 0 || req.RequestTypeId == rm.RequestTypeID) &&
+                                                    (!rm.StartDOS.HasValue || req.CreatedDate >= rm.StartDOS.Value.Date) &&
+                                                    (!rm.EndDOS.HasValue || req.CreatedDate <= rm.EndDOS.Value.Date) &&
+                                                    (rm.PatientName.IsNullOrEmpty() || (req.FirstName + " " + req.LastName).ToLower().Contains(rm.PatientName.ToLower())) &&
+                                                    (rm.PhyName.IsNullOrEmpty() || (p.FirstName + " " + p.LastName).ToLower().Contains(rm.PhyName.ToLower())) &&
+                                                    (rm.Email.IsNullOrEmpty() || rc.Email.ToLower().Contains(rm.Email.ToLower())) &&
+                                                    (rm.Mobile.IsNullOrEmpty() || rc.PhoneNumber.ToLower().Contains(rm.Mobile.ToLower()))
+                                           orderby req.CreatedDate
+                                           select new SearchRecords
+                                           {
+                                               //Modifieddate = req.Modifieddate,
+                                               PatientName = req.FirstName + " " + req.LastName,
+                                               RequestTypeID = req.RequestTypeId,
+                                               DateOfService = req.CreatedDate,
+                                               Email = rc.Email ?? "-",
+                                               Mobile = rc.PhoneNumber ?? "-",
+                                               Address = rc.Address + "," + rc.City,
+                                               Zip = rc.ZipCode,
+                                               Status = (Status)req.Status,
+                                               Physician = p.FirstName + " " + p.LastName ?? "-",
+                                               PhyNotes = nt != null ? nt.PhysicianNotes ?? "-" : "-",
+                                               AdminNotes = nt != null ? nt.AdminNotes ?? "-" : "-",
+                                               PatientNotes = rc.Notes ?? "-",
+                                               RequestID = req.RequestId,
+                                               Modifieddate = req.ModifiedDate
+                                           }).ToList();
+
+            
+
+            for (int i = 0; i < allData.Count; i++)
+            {
+                if (allData[i].Status == (Status)9)
+                {
+                    allData[i].CloseCaseDate = allData[i].Modifieddate;
+                }
+                else
+                {
+                    allData[i].CloseCaseDate = null;
+                }
+                if (allData[i].Status == (Status)3 && allData[i].Physician != null)
+                {
+                    var res = _context.RequestStatusLogs.FirstOrDefault(x => (x.Status == 3) && (x.RequestId == allData[i].RequestID));
+                    allData[i].CancelByPhyNotes = res.Notes;
+                }
+            }
+
+            int totalItemCount = allData.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)rm.PageSize);
+            List<SearchRecords> list1 = allData.Skip((rm.CurrentPage - 1) * rm.PageSize).Take(rm.PageSize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                sr = list1,
+                CurrentPage = rm.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = rm.PageSize,
+            };
+            
+            return datanew;
+        }
+
+
+        #endregion
+
+        #region deleterecords
+        public bool RecordsDelete(int reqId)
+        {
+            Request hp = _context.Requests.Where(x => x.RequestId == reqId).FirstOrDefault();
+            hp.IsDeleted[0] = true;
+            _context.Requests.Update(hp);
+            _context.SaveChanges();
+            return true;
+        }
+
+        #endregion
+
     }
 }
 

@@ -18,6 +18,9 @@ namespace HaloDocDataAccess.ViewModels
         public string physicianname { get; set; }
         public string modaldate { get; set; }
         public int shiftdetailid { get; set; }
+        public string RegionName { get; set; }
+        public short status { get; set; }
+
     }
     public class DayWiseScheduling
     {

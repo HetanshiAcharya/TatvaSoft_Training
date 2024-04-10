@@ -333,5 +333,96 @@ namespace HaloDocRepository.Repositories
 
         }
         #endregion
+
+        #region GetAllNotApprovedShift
+        public List<SchedulingData> GetAllNotApprovedShift(int? regionId)
+        {
+
+            List<SchedulingData> ss =  (from s in _context.Shifts
+                                              join pd in _context.Physicians
+                                              on s.PhysicianId equals pd.PhysicianId
+                                        join sd in _context.ShiftDetails
+                                              on s.ShiftId equals sd.ShiftId into shiftGroup
+                                              from sd in shiftGroup.DefaultIfEmpty()
+                                              join rg in _context.Regions
+                                              on sd.RegionId equals rg.RegionId
+                                              where (regionId == null || regionId == -1 || sd.RegionId == regionId) && sd.Status == 0 && sd.IsDeleted == new BitArray(1)
+                                              select new SchedulingData
+                                              {
+                                                  regionid = (int)sd.RegionId,
+                                                  RegionName = rg.Name,
+                                                  shiftdetailid = sd.ShiftDetailId,
+                                                  status = sd.Status,
+                                                  starttime = sd.StartTime,
+                                                  endtime = sd.EndTime,
+                                                  physicianid = s.PhysicianId,
+                                                  physicianname = pd.FirstName + ' ' + pd.LastName,
+                                                  shiftdate = sd.ShiftDate
+                                              })
+                                .ToList();
+            return ss;
+        }
+        #endregion
+
+        #region DeleteShift
+        public bool DeleteShift(string s, string AdminID)
+        {
+            List<int> shidtID = s.Split(',').Select(int.Parse).ToList();
+            try
+            {
+                foreach (int i in shidtID)
+                {
+                    ShiftDetail sd = _context.ShiftDetails.FirstOrDefault(sd => sd.ShiftDetailId == i);
+                    if (sd != null)
+                    {
+                        sd.IsDeleted[0] = true;
+                        sd.ModifiedBy = AdminID;
+                        sd.ModifiedDate = DateTime.Now;
+                        _context.ShiftDetails.Update(sd);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
+        #region UpdateStatusShift
+        public bool UpdateStatusShift(string s, string AdminID)
+        {
+            List<int> shidtID = s.Split(',').Select(int.Parse).ToList();
+            try
+            {
+                foreach (int i in shidtID)
+                {
+                    ShiftDetail sd = _context.ShiftDetails.FirstOrDefault(sd => sd.ShiftDetailId == i);
+                    if (sd != null)
+                    {
+                        sd.Status = (short)(sd.Status == 1 ? 0 : 1);
+                        sd.ModifiedBy = AdminID;
+                        sd.ModifiedDate = DateTime.Now;
+                        _context.ShiftDetails.Update(sd);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        #endregion
     }
 }

@@ -1,0 +1,203 @@
+﻿﻿@* @model AdminHalloDoc.Entities.ViewModel.AdminViewModel.ViewDocuments *@
+﻿@{
+    Layout = "_AdminLayout";
+}
+@model List<HaloDocDataAccess.ViewModels.SchedulingData>
+<div class="container">
+    <div class="card bg-transparent border-0 p-2" style="border-radius: 15px;">
+        <div class="col-xl-12 d-flex justify-content-between">
+            <div class="card-header  border-0 bg-transparent p-1 my-1">
+                <div class="text-start">
+
+                    <h4 class="mt-2 font-weight-bold"><strong>Requested shifts</strong></h4>
+                </div>
+            </div>
+            <a asp-controller="Scheduling" asp-action="Index" class="btn border border-info bg-light rounded mt-3 mb-1">
+                <i class="fa fa-angle-left text-info align-middle"></i>
+                <span class="text-info">
+                    <b class="align-text-top">&nbsp;&nbsp;Back</b>
+                </span>
+            </a>
+        </div>
+        <div class="card-body bg-white m-1 shadow" style="border-radius: 15px;">
+            <div class="col-md-12 mt-3">
+                <div class="card-header-2 mt-3 d-flex justify-content-between border-0 bg-transparent">
+                    <div class="search m-1">
+                        <select class="form-select" data-allow-clear="true" tabindex="-1" id="ShiftForReviewregion" onchange="getdatabyregion()" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" style="padding-left:5px">
+                            <option value="-1">All Region</option>
+                        </select>
+                    </div>
+                    <div class="d-flex align-self-center">
+                        <!-- Button trigger modal -->
+                        <div class="mx-2">
+                            <div class="btn btn-success shadow" id="">
+                                View Current Month Shift
+                            </div>
+                        </div>
+                        <form asp-action="_ApprovedShifts" id="approvedform" asp-controller="Scheduling" class="mx-2">
+                            <input type="hidden" id="approved" name="shiftids" />
+                            <div class="btn btn-success shadow" id="approvedbtn">
+                                Approved Selected Shift
+                            </div>
+                        </form>
+                        <form asp-action="_DeleteShifts" id="deletedform" asp-controller="Scheduling" class="mx-2">
+                            <input type="hidden" id="deleted" name="shiftids" />
+                            <div class="btn btn-danger shadow" id="deletedbtn">
+                                Delete Selected
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @* dashboard view *@
+                <div class="table-responsive mt-3 d-none d-sm-block">
+                    <table class="table dataTable table-responsive">
+                        <thead class="border-0">
+                            <tr class="table-secondary">
+                                @{
+                                    
+                                    <th scope="col" class="table-text-header px-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="topflexCheckDefault">
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="table-text-header px-3 dt-orderable-asc dt-orderable-desc " onclick="SetColumValue('Filename')" style="position:relative;">
+                                        Staff
+                                        <span class="dt-column-order"></span>
+                                    </th>
+                                    <th scope="col" class="table-text-header ">Day</th>
+                                    <th scope="col" class="table-text-header ">Time</th>
+                                    <th scope="col" class="table-text-header ">Region</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody id="shiftbody">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="table-text px-3">
+                                        <div class="form-check text-center">
+                                            <input class="form-check-input" type="checkbox" value="@item.shiftdetailid" id="flexCheckDefault">
+                                        </div>
+                                    </td>
+                                    <td scope="row"> @item.physicianname</td>
+                                    <td scope="row"> @item.shiftdate</td>
+                                    <td scope="row">  @item.starttime - @item.endtime</td>
+                                    <td scope="row"> @item.RegionName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            
+            // Event listener for checkbox changes
+            $(document).on('change', '.table tbody input[type="checkbox"]', function () {
+                var checkedValues = [];
+                $('.table tbody input[type="checkbox"]:checked').each(function () {
+                    checkedValues.push($(this).val());
+                });
+                $('#approved').val(checkedValues.join(','));
+                $('#deleted').val(checkedValues.join(','));
+                console.log($('#approved').val());
+                console.log($('#deleted').val());
+                var allChecked = $('.table tbody input[type="checkbox"]').length === $('.table tbody input[type="checkbox"]:checked').length;
+                $('#topflexCheckDefault').prop('checked', allChecked);
+            });
+            $(document).on('change', '#topflexCheckDefault', function () {
+                var checked = $(this).is(':checked');
+                $('.table tbody input[type="checkbox"]').prop('checked', checked).change();
+            });
+        });
+
+        $('#deletedbtn').click(function () {
+            var approvedValue = $('#deleted').val();
+            console.log(approvedValue)
+            // Check if the value is null or empty
+            if (approvedValue === null || approvedValue.trim() === '') {
+                Swal.fire({
+                    icon: "error",
+                    title: "No shift is selected",
+                    text: "Please Select atleast one shift..."
+                });
+                return; // Exit the function
+            }
+
+            Swal.fire({
+                title: "Do you want to Delete Shifts ?",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#deletedform').submit();
+                }
+                console.log(result);
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire("Delete!", "", "success");
+                } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                }
+            });
+        });
+
+        $('#approvedbtn').click(function () {
+            var approvedValue = $('#approved').val();
+            console.log(approvedValue)
+            // Check if the value is null or empty
+            if (approvedValue === null || approvedValue.trim() === '') {
+                Swal.fire({
+                    icon: "error",
+                    title: "No shift is selected",
+                    text: "Please Select atleast one shift..."
+                });
+                return; // Exit the function
+            }
+            Swal.fire({
+                title: "Do you want to Approved Shifts ?",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#approvedform').submit();
+                }
+                console.log(result);
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire("Approved!", "", "success");
+                } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                }
+            });
+        });
+        function getdatabyregion() {
+            var region = $("#ShiftForReviewregion").val();
+            if (region == '-1') {
+                region = null;
+                location.reload();
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("RequestedShift", "Scheduling")?regionId=' + region,
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    var bodyContent = $(response).find('tbody').html();
+                    $('#shiftbody').html(bodyContent);
+                },
+                error: function () {
+                    alert("Error while Loading data.");
+                }
+            });
+        }
+    </script>

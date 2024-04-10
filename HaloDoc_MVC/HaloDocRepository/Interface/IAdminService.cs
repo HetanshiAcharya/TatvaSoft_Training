@@ -80,8 +80,10 @@ namespace HaloDocRepository.Interface
         public HealthProfessional EditPartners(int VendorId);
         public bool DeleteBusiness(int vendorId);
         public List<PatientDashboard> RecordsPatientExplore(int UserId);
-
-
+        public bool UnBlock(int reqId);
+        public BlockHistory RecordsBlock(BlockHistory formData);
+        public SearchInputs RecordsSearch(SearchInputs rm);
+        public bool RecordsDelete(int reqId);
     }
 
 }

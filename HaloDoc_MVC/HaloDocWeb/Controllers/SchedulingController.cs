@@ -8,6 +8,7 @@ using HaloDocRepository.Interface;
 using HaloDocRepository.Repositories;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using System.Collections;
 
 namespace HaloDocWeb.Controllers
 {
@@ -39,7 +40,7 @@ namespace HaloDocWeb.Controllers
             var v = _adminservice.ProviderbyRegion(regionid);
             return Json(v);
         }
-        #region
+
         //public IActionResult Scheduling()
         //{
         //    ViewBag.Adminname = HttpContext.Session.GetString("Adminname");
@@ -54,10 +55,7 @@ namespace HaloDocWeb.Controllers
         {
             var currentDate = DateTime.Parse(date);
             List<Physician> physician = _context.PhysicianRegions.Include(u => u.Physician).Where(u => u.RegionId == regionid).Select(u => u.Physician).ToList();
-            if (regionid == 0)
-            {
-                physician = _context.Physicians.ToList();
-            }
+            physician = _context.Physicians.ToList();
 
             switch (PartialName)
             {
@@ -67,8 +65,14 @@ namespace HaloDocWeb.Controllers
                     {
                         date = currentDate,
                         physicians = physician,
-                        shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ToList()
+                        //shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ToList()
+                        shiftdetails = _context.ShiftDetailRegions.Include(u => u.ShiftDetail).ThenInclude(u => u.Shift).Where(u => u.RegionId == regionid && u.IsDeleted == new BitArray(new[] { false })).Select(u => u.ShiftDetail).ToList()
+
                     };
+                    if (regionid == 0)
+                    {
+                        day.shiftdetails = _context.ShiftDetails.Include(u => u.Shift).Where(u => u.IsDeleted == new BitArray(new[] { false })).ToList();
+                    }
                     return PartialView("../Admin/Scheduling/_DayWise", day);
 
                 case "_WeekWise":
@@ -76,24 +80,34 @@ namespace HaloDocWeb.Controllers
                     {
                         date = currentDate,
                         physicians = physician,
-                        shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).ToList()
+                        //shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).ToList()
+                        shiftdetails = _context.ShiftDetailRegions.Include(u => u.ShiftDetail).ThenInclude(u => u.Shift).ThenInclude(u => u.Physician).Where(u => u.IsDeleted == new BitArray(new[] { false })).Where(u => u.RegionId == regionid).Select(u => u.ShiftDetail).ToList()
+
                     };
+                    if (regionid == 0)
+                    {
+                        week.shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).Where(u => u.IsDeleted == new BitArray(new[] { false })).ToList();
+                    }
                     return PartialView("../Admin/Scheduling/_WeekWise", week);
 
                 case "_MonthWise":
                     MonthWiseScheduling month = new MonthWiseScheduling
                     {
                         date = currentDate,
-                        shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).ToList()
+                        //shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).ToList()
+                        shiftdetails = _context.ShiftDetailRegions.Include(u => u.ShiftDetail).ThenInclude(u => u.Shift).ThenInclude(u => u.Physician).Where(u => u.IsDeleted == new BitArray(new[] { false })).Where(u => u.RegionId == regionid).Select(u => u.ShiftDetail).ToList()
+
                     };
+                    if (regionid == 0)
+                    {
+                        month.shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).Where(u => u.IsDeleted == new BitArray(new[] { false })).ToList();
+                    }
                     return PartialView("../Admin/Scheduling/_MonthWise", month);
 
                 default:
                     return PartialView("../Admin/Scheduling/_DayWise");
             }
         }
-
-
         public IActionResult AddShift(SchedulingData model)
         {
             string adminId = CV.Id();
@@ -103,9 +117,6 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("Index");
 
         }
-
-
-
         public SchedulingData viewshift(int shiftdetailid)
         {
             SchedulingData modal = new SchedulingData();
@@ -143,8 +154,6 @@ namespace HaloDocWeb.Controllers
 
             return RedirectToAction("Index");
         }
-
-        #endregion
         #region editshiftsave
         public void EditShiftSave(SchedulingData modal)
         {
@@ -154,6 +163,7 @@ namespace HaloDocWeb.Controllers
 
         }
         #endregion
+
         #region editshiftdelete
         public IActionResult EditShiftDelete(SchedulingData modal)
         {
@@ -167,8 +177,8 @@ namespace HaloDocWeb.Controllers
         #region Provider_on_call
         public IActionResult MDSOnCall(int? regionId)
         {
-            ViewBag.AssignCase =  _adminservice.AssignCase();
-            List<ProviderList> v =  _scheduling.PhysicianOnCall(regionId);
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            List<ProviderList> v = _scheduling.PhysicianOnCall(regionId);
             if (regionId != null)
             {
                 return Json(v);
@@ -176,5 +186,44 @@ namespace HaloDocWeb.Controllers
             return View("../Admin/Scheduling/MDSOnCall", v);
         }
         #endregion
+
+
+        #region RequestedShift
+        public IActionResult RequestedShift(int? regionId)
+        {
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            List<SchedulingData> v = _scheduling.GetAllNotApprovedShift(regionId);
+
+            return View("../Admin/Scheduling/ShiftForReview", v);
+        }
+        #endregion
+
+        #region _ApprovedShifts
+
+        public IActionResult _ApprovedShifts(string shiftids)
+        {
+            if (_scheduling.UpdateStatusShift(shiftids, CV.Id()))
+            {
+                TempData["Status"] = "Approved Shifts Successfully..!";
+            }
+
+
+            return RedirectToAction("RequestedShift");
+        }
+        #endregion
+
+        #region _DeleteShifts
+
+        public IActionResult _DeleteShifts(string shiftids)
+        {
+            if (_scheduling.DeleteShift(shiftids, CV.Id()))
+            {
+                TempData["Status"] = "Delete Shifts Successfully..!";
+            }
+
+            return RedirectToAction("RequestedShift");
+        }
+        #endregion
     }
 }
+

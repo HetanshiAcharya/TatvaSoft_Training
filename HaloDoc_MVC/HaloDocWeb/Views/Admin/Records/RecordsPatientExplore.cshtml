@@ -1,67 +1,81 @@
-﻿﻿@{
+﻿@{
     Layout = "_AdminLayout";
     ViewData["Title"] = " ";
 }
 @using HaloDocDataAccess.ViewModels;
 @using static HaloDocDataAccess.ViewModels.Constant;
 @model List<PatientDashboard>;
-
-<div class="d-flex justify-content-between align-items-center container-fluid pb-1 mt-4">
-    <div class="d-flex align-self-center">
-        <h3><b>Patient Records</b></h3>
-    </div>
-    <div class=" btn d-flex justify-content-end">
+<div class=" d-flex justify-content-center row mx-3 ">
+    @* heading *@
+    <div class="d-flex justify-content-between mt-5 p-2">
+        <h4>Patient Records</h4>
         <a asp-action="PatientHistory" asp-controller="Records" class="btn border border-info shadow-none">
             <strong class="text-info">
                 <i class="fa fa-angle-left pe-1 text-info"> </i> Back
             </strong>
         </a>
     </div>
+
+    <div class="container p-4 bg-white mx-2">
+        <div class="mt-3">
+            <table class="table table-responsive">
+                <colgroup>
+                    <col span="1" style="width: 12%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 30%;">
+                    <col span="1" style="width: 40%;">
+
+                </colgroup>
+                @* table Head *@
+                <thead class="table-head align-middle table-secondary">
+                    <tr>
+                        @{
+                            <th>Client/Member</th>
+                            <th>Created Date</th>
+                            <th>Confirmation</th>
+                            <th>Provider Name</th>
+                            <th>Concluded</th>
+                            <th>Status</th>
+                            <th>Final Report</th>
+                            <th>Actions</th>
+                        }
+                    </tr>
+                </thead>
+                @* table body *@
+                <tbody class="table-body align-middle t-tab" id="providerbody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td scope="row"> @item.PatientName</td>
+                            <td scope="row"> @item.RequestedDate.ToString("MMM d , yyyy")</td>
+                            <td scope="row"> @item.Confirmation</td>
+                            <td scope="row"> @item.Physician</td>
+                            <td scope="row"> @item.ConcludedDate.ToString("MMM d , yyyy")</td>
+                            <td scope="row"> @item.Status</td>
+                            <td class="mobile-hide" data-label="Document">
+                                <a asp-action="" asp-controller="" class="btn btn-outline-info btn-sm">
+                                    View
+
+                                </a>
+                            </td>
+                            <td>
+                                <a class=" dropdown btn btn-sm btn-outline-info " role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </a>
+                                <div class="dropdown-menu mt-2" aria-labelledby="">
+                                    <a class="dropdown-item " asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestId" asp-route-RTId="@item.RequestTypeId">View Case</a>
+                                    <a class="dropdown-item " asp-action="" asp-controller="AdminTabs">Chats</a>
+                                    <a class="dropdown-item " asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestId">Documents</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div class="bg-white reqform container-fluid p-3 m-2">
-    <table class="table table-responsive my-2">
-        <thead>
-            <tr>
-                <th>Client/Member</th>
-                <th>Created Date</th>
-                <th>Confirmation</th>
-                <th>Provider Name</th>
-                <th>Concluded</th>
-                <th>Status</th>
-                <th>Final Report</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td scope="row"> @item.PatientName</td>
-                    <td scope="row"> @item.RequestedDate.ToString("MMM d , yyyy")</td>
-                    <td scope="row"> @item.Confirmation</td>
-                    <td scope="row"> @item.Physician</td>
-                    <td scope="row"> @item.ConcludedDate.ToString("MMM d , yyyy")</td>
-                    <td scope="row"> @item.Status</td>
-                    <td class="mobile-hide" data-label="Document">
-                        <a asp-action="" asp-controller="" class="btn btn-outline-info btn-sm">
-                            View
 
-                        </a>
-                    </td>
-                    <td>
-                        <a class=" dropdown btn btn-sm btn-outline-info " role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Actions
-                        </a>
-                        <div class="dropdown-menu mt-2" aria-labelledby="">
-                            <a class="dropdown-item " asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestId" asp-route-RTId="@item.RequestTypeId">View Case</a>
-                            <a class="dropdown-item " asp-action="" asp-controller="AdminTabs">Chats</a>
-                            <a class="dropdown-item " asp-action="ViewUploads" asp-controller="Admin" asp-route-requestId="@item.RequestId">Documents</a>
-                        </div>
-                    </td>
 
-                </tr>
-            }
-
-        </tbody>
-    </table>
-</div>
