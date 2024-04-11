@@ -25,11 +25,11 @@ namespace HaloDocWeb.Controllers
         #endregion
      
         #region Index
-        public IActionResult Index(int Region=-1)
+        public IActionResult Index(int pageinfo=1,int Region=-1)
         {
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
-            var obj = _adminservice.ProviderMenu(Region);
+            var obj = _adminservice.ProviderMenu(Region, pageinfo);
             return View("../Admin/Provider/Index", obj);
         }
         #endregion

@@ -56,7 +56,7 @@ namespace HaloDocRepository.Interface
         public bool SendLink(sendAgreement sendAgreement);
         List<AdminDashboardList> Export(string status);
         public bool IndexForgotPass(PatientForgotPassword model);
-        ProviderMenu ProviderMenu(int Region);
+        ProviderMenu ProviderMenu(int Region, int pageinfo);
         public bool ChangeNoti(int[] files, int region);
         public bool SendEmailProvider(string Email, string Message);
         public Task<ProviderList> GetProviderProfileDetails(int id);
@@ -75,7 +75,7 @@ namespace HaloDocRepository.Interface
         public bool DeleteRole(int RoleId);
         public List<AspNetRole> Role();
         public List<UserAccessData> UserAccessData(string AccountType);
-        public List<Partners> GetPartnersByProfession(string searchValue, int Profession);
+        public SearchInputs GetPartnersByProfession(string searchValue, int Profession, int pageinfo);
         public bool AddBusiness(HealthProfessional obj);
         public HealthProfessional EditPartners(int VendorId);
         public bool DeleteBusiness(int vendorId);

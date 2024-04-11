@@ -294,6 +294,9 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class ProviderMenu
     {
+        public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
         public IEnumerable<ProviderList>? ProviderLists { get; set; }
     }
     public class ProviderList

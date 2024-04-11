@@ -10,7 +10,7 @@
                    };
 }
 @using static HaloDocDataAccess.ViewModels.Constant;
-@model List<HaloDocDataAccess.ViewModels.Partners>;
+@model HaloDocDataAccess.ViewModels.SearchInputs;
 @* ﻿@model HalloDoc.Entity.DataModels.Healthprofessional; *@
 <style>
     .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input:valid {
@@ -24,7 +24,7 @@
         <div class="d-flex align-self-center">
             <h4><strong>Vendor(s)</strong></h4>
         </div>
-        
+
     </div>
 
     <div class="bg-white rounded shadow mt-3">
@@ -68,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider" id="vendordata">
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.pt)
                     {
                         <tr>
                             <td>@item.Profession</td>
@@ -92,7 +92,45 @@
         </div>
     </div>
 </div>
+@* Pagination  *@
+<div class="m-2 d-flex justify-content-center">
+    <nav aria-label="Page navigation example" class="pagenav" id="Pagination">
+        <ul class="pagination pagination-container">
+            @{
+                int i;
+                <form id="pageform" asp-action="Index" asp-controller="Partners" novalidate="novalidate" class="d-flex">
+                    <input type="hidden" asp-for="PageSize" />
+                    <input type="hidden" asp-for="TotalPages" />
+                    <input type="hidden" asp-for="CurrentPage" id="currentpagevalue" />
 
+                    @if (@Model.CurrentPage > 1)
+                    {
+                    <li class="page-item me-2"><a class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</a></li>
+                    }
+                    else
+                    {
+                    <li class="me-2 page-item"><a class="disabled btn border-0">&lt;</a></li>
+                    }
+                    @for (i = 1; i <= @Model.TotalPages; i++)
+                    {
+                    <li class="page-item me-2"><a class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</a></li>
+                    }
+                    @if (@Model.TotalPages > @Model.CurrentPage)
+                    {
+                    <li class="page-item me-2"><a class="btn shadow-none " onclick="setpagenumber('next')">&gt;</a></li>
+                    }
+                    else
+                    {
+                    <li class="me-2 page-item">
+                        <a class="btn disabled border-0">&gt;</a>
+
+                    </li>
+                    }
+                </form>
+            }
+        </ul>
+    </nav>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -106,16 +144,21 @@
     function handleSearchVendor() {
         var searchValue = $('#searchVendor').val();
         var Profession = $("#Profession").val();
+        var currentpage = $('#currentpagevalue').val();
+
         console.log("Search value: " + searchValue);
         console.log("Profession id: " + Profession);
         $.ajax({
             type: "GET",
             url: '@Url.Action("Index", "Partners")',
-            data: { searchValue: searchValue, Profession: Profession },
+            data: { searchValue: searchValue, Profession: Profession, pageinfo: currentpage },
             success: function (data) {
                 console.log("AJAX success");
                 var bodyContent = $(data).find('tbody').html();
                 $('#vendordata').html(bodyContent);
+                var pagination = $(data).find('.pagenav').html();
+                $('#Pagination').html(pagination);
+
             },
             error: function (error) {
                 console.log("Error:", error);
@@ -157,4 +200,22 @@
             }
         });
     });
-</script> 
+</script>
+<script>
+    function setpagenumber(e) {
+
+        if (e == 'previous') {
+            var cp = @Model.CurrentPage-1;
+            $('#currentpagevalue').val(cp);
+        }
+        else if (e == 'next') {
+            var cp = @Model.CurrentPage + 1;
+            $('#currentpagevalue').val(cp);
+        }
+        else {
+            $('#currentpagevalue').val(e);
+        }
+        console.log($('#currentpagevalue').val());
+        handleSearchVendor();
+    }
+</script>

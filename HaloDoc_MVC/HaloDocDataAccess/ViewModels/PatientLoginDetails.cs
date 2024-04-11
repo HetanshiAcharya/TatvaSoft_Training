@@ -106,6 +106,8 @@ namespace HaloDocDataAccess.ViewModels
         public string Mobile { get; set; }
         public List<SearchRecords> sr { get; set; }
         public List<PatientProfile> pp { get; set; }
+        public List<Partners> pt { get; set; }
+
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
     }

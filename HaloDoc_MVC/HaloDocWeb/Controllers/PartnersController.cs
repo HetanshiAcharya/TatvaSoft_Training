@@ -26,10 +26,10 @@ namespace HaloDocWeb.Controllers
             _context = context;
         }
         #endregion
-        public IActionResult Index(string searchValue, int Profession)
+        public IActionResult Index(string searchValue, int Profession,int pageinfo)
         {
             ViewBag.Profession =  _context.HealthProfessionalTypes.ToList(); 
-            List<Partners> data =  _adminservice.GetPartnersByProfession(searchValue, Profession);
+           SearchInputs data =  _adminservice.GetPartnersByProfession(searchValue, Profession, pageinfo);
             return View("../Admin/Partners/Index", data);       
         }
         

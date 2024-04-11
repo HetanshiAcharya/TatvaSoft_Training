@@ -1376,9 +1376,13 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region ProviderMenu
-        public ProviderMenu ProviderMenu(int Region)
+        public ProviderMenu ProviderMenu(int Region, int pageinfo)
         {
-
+             var pageSize = 3;
+            if (pageinfo == 0)
+            {
+                pageinfo = 1;
+            }
             var providerMenu = from phy in _context.Physicians
                                join role in _context.Roles on phy.RoleId equals role.RoleId
                                join phyid in _context.PhysicianNotifications on phy.PhysicianId equals phyid.PhysicianId
@@ -1397,11 +1401,18 @@ namespace HaloDocRepository.Repositories
                                    Notification = (bool)phyid.IsNotificationStopped
                                };
 
-            var obj = new ProviderMenu()
+            
+            int totalItemCount = providerMenu.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
+            List<ProviderList> list1 = providerMenu.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
+            ProviderMenu datanew = new ProviderMenu
             {
-                ProviderLists = providerMenu,
+                ProviderLists = list1,
+                CurrentPage = pageinfo,
+                TotalPages = totalPages,
+                PageSize = pageSize,
             };
-            return obj;
+            return datanew;
         }
 
         #endregion
@@ -2012,8 +2023,13 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region GetPartnersByProfession
-        public List<Partners> GetPartnersByProfession(string searchValue, int Profession)
+        public SearchInputs GetPartnersByProfession(string searchValue, int Profession, int pageinfo)
         {
+            var pageSize = 3;
+            if (pageinfo == 0)
+            {
+                pageinfo = 1;
+            }
             var result = (from Hp in _context.HealthProfessionals
                           join Hpt in _context.HealthProfessionalTypes
                           on Hp.Profession equals Hpt.HealthProfessionalId into AdminGroup
@@ -2030,9 +2046,18 @@ namespace HaloDocRepository.Repositories
                               PhoneNumber = Hp.PhoneNumber,
                               BusinessNumber = Hp.BusinessContact,
                           }).ToList();
+            int totalItemCount = result.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
+            List<Partners> list1 = result.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                pt = list1,
+                CurrentPage = pageinfo,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+            };
 
-
-            return result;
+            return datanew;
         }
         #endregion
 

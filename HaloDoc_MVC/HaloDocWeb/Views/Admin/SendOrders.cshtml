@@ -14,21 +14,26 @@
             <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
         </button>
     </div>
-    <form method="post" id="sendorders" class="bg-white p-5 shadow">
+    <form method="post" id="sendorders" class="bg-white p-5 shadow needs-validation" novalidate>
         <input type="hidden" asp-for="RequestId" />
         <div class=" p-3">
             <div class="row">
                 <div class="dropdown col-lg-6">
-                    <select class="form-select mb-3" id="Profession" onchange="ProfessionType()"  asp-items="@(new SelectList(ViewBag.Professions,"HealthProfessionalId","ProfessionName"))">
+                    <select class="form-select mb-3" id="Profession" onchange="ProfessionType()"  asp-items="@(new SelectList(ViewBag.Professions,"HealthProfessionalId","ProfessionName"))" required>
                         <option value="">Select Profession</option>
                     </select>
                 </div>
+                <span class="invalid-feedback">
+                    Please choose a Profession.
+                </span>
                 <div class="col-lg-6">
-                    <select asp-for="VendorId" class="form-select mb-3" id="businesspersons" onchange="GetData()">
+                    <select asp-for="VendorId" class="form-select mb-3" id="businesspersons" onchange="GetData()" required>
                         <option value="">Select Professionals</option>
-
                     </select>
                 </div>
+                <span class="invalid-feedback">
+                    Please choose a Professionals.
+                </span>
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -45,15 +50,13 @@
                            id="Email"
                            placeholder="Email contact" required />
                 </div>
-                <span></span>
-                <span asp-validation-for="Email" class="text-danger validate col-6"></span>
             </div>
             <div class="col-sm-6">
                 <input class="form-control form-control-md col-md col-sm mt-4"
                        type="text"
                        asp-for="FaxNumber"
                        id="FaxNo"
-                       placeholder="Fax Number" required />
+                       placeholder="Fax Number"  />
             </div>
             <div class="col-sm-12 mt-4">
                 <textarea class="form-control"
