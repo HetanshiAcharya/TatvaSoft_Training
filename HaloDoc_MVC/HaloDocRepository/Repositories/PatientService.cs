@@ -447,7 +447,7 @@ namespace HaloDocRepository.Repositories
         //}
         //#endregion
         #region PatientRecordsinAdminPage
-        public List<PatientProfile> PatientHistory(string fname, string lname, string email, string phone)
+        public SearchInputs PatientHistory(SearchInputs search)
         {
             var pHis  = _context.Users.
                         Select(req => new PatientProfile
@@ -458,49 +458,24 @@ namespace HaloDocRepository.Repositories
                             Phone = req.Mobile,
                             Address = req.Street + req.City + req.State,
                             UserId= req.UserId
-                        }).Where(pp => string.IsNullOrEmpty(fname) || pp.FirstName.Contains(fname))
-                          .Where(pp => string.IsNullOrEmpty(lname) || pp.LastName.Contains(lname))
-                          .Where(pp => string.IsNullOrEmpty(email) || pp.Email.Contains(email))
-                          .Where(pp => string.IsNullOrEmpty(phone) || pp.Phone.Contains(phone))
+                        }).Where(pp => string.IsNullOrEmpty(search.FirstName) || pp.FirstName.Contains(search.FirstName))
+                          .Where(pp => string.IsNullOrEmpty(search.LastName) || pp.LastName.Contains(search.LastName))
+                          .Where(pp => string.IsNullOrEmpty(search.Email) || pp.Email.Contains(search.Email))
+                          .Where(pp => string.IsNullOrEmpty(search.Mobile) || pp.Phone.Contains(search.Mobile))
                           .ToList();
-            return pHis;
+            
+            int totalItemCount = pHis.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)search.PageSize);
+            List<PatientProfile> list1 = pHis.Skip((search.CurrentPage - 1) * search.PageSize).Take(search.PageSize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                pp = list1,
+                CurrentPage = search.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = search.PageSize,
+            };
+            return datanew;
         }
         #endregion
     }
 }
-
-//public List<Employee> GetEmployeeSearchData(string email, string name, string department, string designation)
-//{
-//    // Assuming 'context' is your Entity Framework database context
-//    // and 'Employee' is the entity that maps to 'EmsTblEmployee' table
-//    var query = context.Employees.AsQueryable();
-
-//    if (!string.IsNullOrEmpty(email))
-//    {
-//        query = query.Where(e => DbFunctions.Like(e.Email, $"%{email}%"));
-//    }
-//    if (!string.IsNullOrEmpty(name))
-//    {
-//        query = query.Where(e => DbFunctions.Like(e.FirstName + " " + e.LastName, $"%{name}%"));
-//    }
-//    if (!string.IsNullOrEmpty(department))
-//    {
-//        query = query.Where(e => DbFunctions.Like(e.Department, $"%{department}%"));
-//    }
-//    if (!string.IsNullOrEmpty(designation))
-//    {
-//        query = query.Where(e => DbFunctions.Like(e.Designation, $"%{designation}%"));
-//    }
-
-//    try
-//    {
-//        // ToList will execute the query and return a List of Employee
-//        return query.ToList();
-//    }
-//    catch (Exception ex)
-//    {
-//        // Handle the exception as needed
-//        // Replace this with your error handling code
-//        throw new Exception("Error in fetching data from database: " + ex.Message);
-//    }
-//}

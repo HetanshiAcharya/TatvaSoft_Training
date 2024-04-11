@@ -26,9 +26,9 @@ namespace HaloDocWeb.Controllers
             _patientservice = patientservice;
         }
         #endregion
-        public IActionResult PatientHistory(string firstname, string lastname, string email, string phone)
+        public IActionResult PatientHistory(SearchInputs search)
         {
-            var res = _patientservice.PatientHistory(firstname, lastname, email,phone);
+            var res = _patientservice.PatientHistory(search);
             return View("../Admin/Records/PatientHistory",res);
         }
         public IActionResult RecordsPatientExplore(int UserId)
@@ -65,6 +65,11 @@ namespace HaloDocWeb.Controllers
                 
             }
             return RedirectToAction("RecordsSearch");
+        }
+
+        public IActionResult EmailLogs()
+        {
+            return View("../Admin/Records/EmailLogs");
         }
     }
 }

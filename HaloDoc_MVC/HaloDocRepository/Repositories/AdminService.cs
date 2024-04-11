@@ -2078,6 +2078,7 @@ namespace HaloDocRepository.Repositories
             }
         }
         #endregion
+
         #region deletevendor
         public bool DeleteBusiness(int vendorId)
         {

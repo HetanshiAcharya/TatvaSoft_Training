@@ -353,6 +353,9 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class UserAccessData
     {
+        public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
         public string AccountType { get; set; }
         public string AccountPOC { get; set; }
         public string Phone { get; set; }
@@ -363,7 +366,9 @@ namespace HaloDocDataAccess.ViewModels
 
     }
     public class Partners
-    {
+    { public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
         public int VendorId { get; set; }
         public string Profession { get; set; }
         public string Business { get; set; }

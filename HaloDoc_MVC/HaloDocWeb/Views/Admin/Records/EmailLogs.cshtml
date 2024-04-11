@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+@using static HaloDocDataAccess.ViewModels.Constant;
+@model List<HaloDocDataAccess.ViewModels.PatientProfile>;
+<div class=" d-flex justify-content-center row mx-3 ">
+    @* heading *@
+    <div class="d-flex justify-content-between mt-5 p-2">
+        <h4>Email Logs</h4>
+    </div>
+    @* input fields *@
+    <div class="container p-4 bg-white mx-2">
+        <form class="mt-2" method="post" id="myform">
+            <div class="row p-2">
+                <div class="col-2">
+                    <select class="form-select form-select-md " placeholder="All Requests">
+                        <option value="0">All Status</option>
+                        @foreach (var item in Enum.GetValues(typeof(AccountType)))
+                        {
+                            <option value="@((int)item)"> @item.ToString() </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-2">
+                    <input type="text" class="form-control" placeholder="Receiver Name" name="" id="" />
+                </div>
+                <div class="col-2">
+                    <input type="email" class="form-control" placeholder="Email" name="" id="" />
+                </div>
+                <div class="col-2">
+                    <input class="form-control rounded" type="date" placeholder="Created Date">
+                </div>
+                <div class="col-2">
+                    <input class="form-control rounded" type="date" placeholder="Sent Date">
+                </div>
+                <div class="col-2 ">
+                    <a class="btn p-2 py-2 btn-info text-white" onclick="searchbtn(event)">
+                        Search
+                    </a>
+                    <a class="btn p-2 py-2 btn-outline-info bg-white" type="reset" id="clear" onclick="searchbtn(event)">
+                        Clear
+                    </a>
+                    
+                </div>
+            </div>
+        </form>
+        <div class="mt-3">
+            <table class="table table-responsive">
+                <colgroup>
+                    <col span="1" style="width: 12%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 30%;">
+                    <col span="1" style="width: 40%;">
+
+                </colgroup>
+                @* table Head *@
+                <thead class="table-head align-middle table-secondary">
+                    <tr>
+                        @{
+                            <th class="text-center">Recipient</th>
+                            <th class="text-center">Last Name</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Phone</th>
+                            <th class="text-center">Address</th>
+                            <th class="text-center">Actions</th>
+                        }
+                    </tr>
+                </thead>
+                @* table body *@
+                <tbody class="table-body align-middle t-tab" id="providerbody">
+                    @* @foreach (var item in Model)
+                    {
+                        <tr class="table-row border-bottom">
+                            <td class="text-center">@item.FirstName</td>
+                            <td class="text-center">@item.LastName</td>
+                            <td class="text-center">@item.Email</td>
+                            <td class="text-center">@item.Phone</td>
+                            <td class="text-center">@item.Address</td>
+                            <td class="text-center">
+                                <a class="btn btn-sm  btn-outline-info" asp-action="RecordsPatientExplore" asp-controller="Records" asp-route-UserId="@item.UserId">
+                                    Explore
+                                </a>
+                            </td>
+
+                        </tr>
+                    } *@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* Generic Search  *@
+<script>
+    function searchbtn(event) {
+        var btnid = event.target.id;
+        console.log(btnid);
+        if (btnid == "clear") {
+            $('#myform').trigger('reset');
+        }
+        var fname = $('#fname').val();
+        var lname = $('#lname').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+        console.log(fname);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("PatientHistory", "Records")',
+            data: { firstname: fname, lastname: lname, email: email, phone: phone },
+            success: function (data) {
+                var bodyContent = $(data).find('tbody').html();
+                $('#providerbody').html(bodyContent);
+
+            },
+            error: function (error) {
+                console.log("Error:", error);
+            }
+        });
+    }
+</script>

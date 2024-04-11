@@ -2,7 +2,8 @@
     Layout = "_AdminLayout";
 
 }
-@model List<HaloDocDataAccess.ViewModels.UserAccessData>;
+@using HaloDocDataAccess.ViewModels;
+@model List<UserAccessData>
 @using static HaloDocDataAccess.ViewModels.Constant;
 <div class="container-fluid d-flex justify-content-center row ">
     <div class="col-8">
@@ -73,6 +74,7 @@
         <div style="height: 20px;"></div>
     </div>
 </div>
+
 <script>
     function providersByregion() {
         var region = $("#roledropdown").val();

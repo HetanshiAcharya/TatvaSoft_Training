@@ -87,11 +87,15 @@
         </ul>
         <ul class="nav-item">
             <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin/Partners") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Partners">Partners</a>
+                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Partners") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Partners">Partners</a>
             </li>
         </ul>
         <ul class="nav-item">
-            <a class="nav-link dropdown px-2 text-dark @(path.EndsWith("/Access") ? "activeNav" : "")" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @{
+                var activePath = new[] { "/Access", "/UserAccess" };
+                var activeClasses = activePath.Any(path.EndsWith) ? "activeNav" : "";
+            }
+            <a class="nav-link dropdown px-2 text-dark @activeClasses" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Access
             </a>
             <li class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -100,12 +104,16 @@
             </li>
         </ul>
         <ul class="nav-item">
-            <a class="nav-link dropdown px-2 text-dark @(path.EndsWith("/Records") ? "activeNav" : "")" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @{
+                var activepath = new[] { "/RecordsSearch", "/PatientHistory", "RecordsBlock" };
+                var activeclass = activepath.Any(path.EndsWith) ? "activeNav" : "";
+            }
+            <a class="nav-link dropdown px-2 text-dark @activeclass" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Records
             </a>
             <li class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" asp-action="RecordsSearch" asp-controller="Records">Search Records</a>
-                <a class="dropdown-item" asp-action="" asp-controller="">Email Logs</a>
+                <a class="dropdown-item" asp-action="EmailLogs" asp-controller="Records">Email Logs</a>
                 <a class="dropdown-item" asp-action="" asp-controller="">SMS Logs</a>
                 <a class="dropdown-item" asp-action="PatientHistory" asp-controller="Records">Patient Records</a>
                 <a class="dropdown-item" asp-action="RecordsBlock" asp-controller="Records">Blocked History</a>

@@ -58,6 +58,9 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class PatientProfile
     {
+        public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
         public string? CreatedBy { get; set; }
         public int? UserId { get; set; }
         public string? FirstName { get; set; }
@@ -102,6 +105,9 @@ namespace HaloDocDataAccess.ViewModels
         public string Email { get; set; }
         public string Mobile { get; set; }
         public List<SearchRecords> sr { get; set; }
+        public List<PatientProfile> pp { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
     }
 
     public class SearchRecords
