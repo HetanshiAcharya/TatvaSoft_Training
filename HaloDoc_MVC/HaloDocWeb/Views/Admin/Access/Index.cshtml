@@ -8,11 +8,10 @@
     <div class="col-8">
         <div class="d-flex justify-content-between mt-5">
             <h4>Account Access</h4>
-            
         </div>
         <div class="shadow p-3 dashboard-card mt-4">
             <div class="searchPatientRegion d-flex py-2 justify-content-end">
-               
+
                 <div class="d-flex ">
                     @* save btn *@
                     <div class="search m-2 shadow-none">
@@ -43,14 +42,14 @@
                     <thead class="table-head align-middle">
                         <tr>
                             @{
-                                    <th class="text-center">Provider Name</th>
-                                    <th class="text-center">Account Type</th>
-                                    <th class="text-center">Actions</th>
+                                <th class="text-center">Provider Name</th>
+                                <th class="text-center">Account Type</th>
+                                <th class="text-center">Actions</th>
                             }
                         </tr>
                     </thead>
                     @* table body *@
-                    <tbody class="table-body align-middle t-tab" id="providerbody">
+                    <tbody class="table-body align-middle t-tab" id="rolebody">
                         @foreach (var item in Model.role)
                         {
                             <tr class="table-row border-bottom">
@@ -73,7 +72,47 @@
         </div>
         <div style="height: 20px;"></div>
     </div>
-<script>
+    @* Pagination  *@
+    <div class="m-2 d-flex justify-content-center">
+        <nav aria-label="Page navigation example" class="pagenav" id="Pagination">
+            <ul class="pagination pagination-container">
+                @{
+                    int i;
+                    <form id="pageform" asp-action="UserAccess" asp-controller="Access" novalidate="novalidate" class="d-flex">
+                        <input type="hidden" asp-for="PageSize" />
+                        <input type="hidden" asp-for="TotalPages" />
+                        <input type="hidden" asp-for="CurrentPage" id="currentpagevalue" />
+
+                        @if (@Model.CurrentPage > 1)
+                        {
+                        <li class="page-item me-2"><a class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</a></li>
+                        }
+                        else
+                        {
+                        <li class="me-2 page-item"><a class="disabled btn border-0">&lt;</a></li>
+                        }
+                        @for (i = 1; i <= @Model.TotalPages; i++)
+                        {
+                        <li class="page-item me-2"><a class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</a></li>
+                        }
+                        @if (@Model.TotalPages > @Model.CurrentPage)
+                        {
+                        <li class="page-item me-2"><a class="btn shadow-none " onclick="setpagenumber('next')">&gt;</a></li>
+                        }
+                        else
+                        {
+                        <li class="me-2 page-item">
+                            <a class="btn disabled border-0">&gt;</a>
+
+                        </li>
+                        }
+                    </form>
+                }
+            </ul>
+        </nav>
+    </div>
+    <script>
+
         $('.deleterolebutton').on('click', function () {
             var RoleId = $(this).data("id");
             console.log(RoleId);
@@ -110,5 +149,44 @@
             });
         });
 
+    </script>
+    <script>
+        $(document).on('click', function AccessByRole() {
 
-</script>
+            var currentpage = $('#currentpagevalue').val();
+           
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Index", "Access")',
+                data: { pageinfo: currentpage },
+                success: function (data) {
+                    console.log("AJAX success");
+                    var bodyContent = $(data).find('tbody').html();
+                    $('#rolebody').html(bodyContent);
+                    var pagination = $(data).find('.pagenav').html();
+                    $('#Pagination').html(pagination);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    </script>
+    <script>
+        function setpagenumber(e) {
+
+            if (e == 'previous') {
+                var cp = @Model.CurrentPage-1;
+                $('#currentpagevalue').val(cp);
+            }
+            else if (e == 'next') {
+                var cp = @Model.CurrentPage + 1;
+                $('#currentpagevalue').val(cp);
+            }
+            else {
+                $('#currentpagevalue').val(e);
+            }
+            console.log($('#currentpagevalue').val());
+            AccessByRole();
+        }
+    </script>

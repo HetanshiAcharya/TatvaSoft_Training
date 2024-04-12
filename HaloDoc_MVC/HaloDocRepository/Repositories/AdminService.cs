@@ -2089,23 +2089,23 @@ namespace HaloDocRepository.Repositories
             return (Role);
         }
         #endregion
-        //public SearchInputs AccessAccount(int page)
-        //{
-        //    var list = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
-        //    var pagesixe = 5;
-        //    int totalItemCount = result.Count();
-        //    int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
-        //    List<UserAccessData> list1 = result.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
-        //    SearchInputs datanew = new SearchInputs
-        //    {
-        //        ud = list1,
-        //        CurrentPage = pageinfo,
-        //        TotalPages = totalPages,
-        //        PageSize = pageSize,
-        //    };
+        public SearchInputs AccessAccount(int pageinfo)
+        {
+            var list = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
+            var pagesize = 5;
+            int totalItemCount = list.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)pagesize);
+            List<Role> list1 = list.Skip((pageinfo - 1) * pagesize).Take(pagesize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                role = list1,
+                CurrentPage = pageinfo,
+                TotalPages = totalPages,
+                PageSize = pagesize,
+            };
 
-        //    return datanew;
-        //}
+            return datanew;
+        }
 
         #region UserAccess
         public SearchInputs UserAccessData(string AccountType, int pageinfo)

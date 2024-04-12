@@ -30,9 +30,9 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region AccessIndex
-        public IActionResult Index()
+        public IActionResult Index(int pageinfo)
         {
-            var res = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
+            var res = _adminservice.AccessAccount(pageinfo);
             return View("../Admin/Access/Index", res);
         }
         #endregion

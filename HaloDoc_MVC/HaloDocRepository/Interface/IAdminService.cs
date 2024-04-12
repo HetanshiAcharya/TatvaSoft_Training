@@ -75,7 +75,7 @@ namespace HaloDocRepository.Interface
         public bool DeleteRole(int RoleId);
         public List<AspNetRole> Role();
         public SearchInputs UserAccessData(string AccountType, int pageinfo);
-        //public SearchInputs AccessAccount(int page);
+        public SearchInputs AccessAccount(int pageinfo);
         public SearchInputs GetPartnersByProfession(string searchValue, int Profession, int pageinfo);
         public bool AddBusiness(HealthProfessional obj);
         public HealthProfessional EditPartners(int VendorId);
