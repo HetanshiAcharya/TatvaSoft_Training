@@ -72,5 +72,10 @@ namespace HaloDocWeb.Controllers
             var res = _adminservice.EmailLogs(emaillog);
             return View("../Admin/Records/EmailLogs",res);
         }
+        public IActionResult RecordsSMSLog(SearchInputs search)
+        {
+            var res = _adminservice.RecordsSMSLog(search);
+            return View("../Admin/Records/RecordsSMSLog",res);
+        }
     }
 }

@@ -137,7 +137,4 @@ public partial class Physician
 
     [InverseProperty("Physician")]
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
-
-    [InverseProperty("Physician")]
-    public virtual ICollection<Smslog> Smslogs { get; set; } = new List<Smslog>();
 }

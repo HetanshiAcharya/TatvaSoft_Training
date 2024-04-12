@@ -45,19 +45,7 @@ public partial class Smslog
 
     public int? Action { get; set; }
 
-    [ForeignKey("AdminId")]
-    [InverseProperty("Smslogs")]
-    public virtual Admin Admin { get; set; } = null!;
-
-    [ForeignKey("PhysicianId")]
-    [InverseProperty("Smslogs")]
-    public virtual Physician Physician { get; set; } = null!;
-
     [ForeignKey("RequestId")]
     [InverseProperty("Smslogs")]
     public virtual Request Request { get; set; } = null!;
-
-    [ForeignKey("RoleId")]
-    [InverseProperty("Smslogs")]
-    public virtual Role Role { get; set; } = null!;
 }

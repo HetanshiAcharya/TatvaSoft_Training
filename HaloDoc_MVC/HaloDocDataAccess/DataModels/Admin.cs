@@ -84,7 +84,4 @@ public partial class Admin
     [ForeignKey("RegionId")]
     [InverseProperty("Admins")]
     public virtual Region? Region { get; set; }
-
-    [InverseProperty("Admin")]
-    public virtual ICollection<Smslog> Smslogs { get; set; } = new List<Smslog>();
 }

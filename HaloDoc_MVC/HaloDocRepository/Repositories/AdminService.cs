@@ -1555,7 +1555,25 @@ namespace HaloDocRepository.Repositories
         {
             string contact = "+919313474649";
             bool sms = _emailConfig.SendSMS(contact, Message).Result;
-            return sms;
+            Smslog em = new Smslog
+            {
+                Smstemplate = Message,
+                MobileNumber = contact,
+                CreateDate = DateTime.Now,
+                SentDate = DateTime.Now,
+                IsSmssent = new BitArray(1),
+                SentTries = 1,
+                Action = 3, // action 3 for send link of submit request
+                RoleId = 2, // role 2 for admin
+            };
+
+            if (sms)
+            {
+                em.IsSmssent[0] = true;
+            };
+            _context.Smslogs.Add(em);
+            _context.SaveChanges();
+            return true;
         }
 
         #region ProviderRoleViewBag
@@ -2463,6 +2481,43 @@ namespace HaloDocRepository.Repositories
 
         #endregion
 
+        public SearchInputs RecordsSMSLog(SearchInputs rm)
+        {
+            List<EmailLogRecords> allData = (from em in _context.Smslogs
+                                             join req in _context.Requests
+                                             on em.RequestId equals req.RequestId into Group
+                                             from rc in Group.DefaultIfEmpty()
+                                             where (rm.Role == 0 || em.RoleId == rm.Role) &&
+                                                   (!rm.StartDOS.HasValue || em.CreateDate.Date == rm.StartDOS.Value.Date) &&
+                                                   (!rm.EndDOS.HasValue || em.SentDate == rm.EndDOS.Value.Date) &&
+                                                   (rm.FirstName.IsNullOrEmpty() || (rc.FirstName).ToLower().Contains(rm.FirstName.ToLower())) &&
+                                                   (rm.Mobile.IsNullOrEmpty() || em.MobileNumber.ToLower().Contains(rm.Mobile.ToLower()))
+                                             select new EmailLogRecords
+                                             {
+                                                 Recipient = rc.FirstName,
+                                                 ConfirmationNumber = em.ConfirmationNumber,
+                                                 CreateDate = em.CreateDate,
+                                                 SentDate = (DateTime)em.SentDate,
+                                                 RoleId = (AccountType)em.RoleId,
+                                                 Mobile = em.MobileNumber,
+                                                 IsEmailSent = (em.IsSmssent == new BitArray(0) ? "No" : "Yes"),
+                                                 SentTries = em.SentTries,
+                                                 Action = (EmailAction)em.Action,
+
+                                             }).ToList();
+            int totalItemCount = allData.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)rm.PageSize);
+            List<EmailLogRecords> list1 = allData.Skip((rm.CurrentPage - 1) * rm.PageSize).Take(rm.PageSize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                el = list1,
+                CurrentPage = rm.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = rm.PageSize,
+            };
+
+            return datanew;
+        }
     }
 }
 

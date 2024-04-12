@@ -87,6 +87,8 @@ namespace HaloDocRepository.Interface
         public bool RecordsDelete(int reqId);
         public SearchInputs EmailLogs(SearchInputs emaillog);
         public bool SendMessage(string? Message);
+        public SearchInputs RecordsSMSLog(SearchInputs rm);
+
     }
 
 }

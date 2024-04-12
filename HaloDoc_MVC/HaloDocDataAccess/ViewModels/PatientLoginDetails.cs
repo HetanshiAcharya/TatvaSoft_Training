@@ -149,6 +149,7 @@ namespace HaloDocDataAccess.ViewModels
         public string IsEmailSent { get; set; }
         public int? SentTries { get; set; }
         public EmailAction Action { get; set; }
+        public string Mobile { get; set; }
     }
 
 }

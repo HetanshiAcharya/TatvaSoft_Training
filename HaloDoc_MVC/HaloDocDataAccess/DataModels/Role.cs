@@ -39,7 +39,4 @@ public partial class Role
 
     [InverseProperty("Role")]
     public virtual ICollection<RoleMenu> RoleMenus { get; set; } = new List<RoleMenu>();
-
-    [InverseProperty("Role")]
-    public virtual ICollection<Smslog> Smslogs { get; set; } = new List<Smslog>();
 }

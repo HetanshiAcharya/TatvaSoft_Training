@@ -571,21 +571,9 @@ public partial class HaloDocDbContext : DbContext
                 .ValueGeneratedOnAdd()
                 .HasIdentityOptions(null, null, null, null, true, null);
 
-            entity.HasOne(d => d.Admin).WithMany(p => p.Smslogs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("AdminId");
-
-            entity.HasOne(d => d.Physician).WithMany(p => p.Smslogs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("PhysicianId");
-
             entity.HasOne(d => d.Request).WithMany(p => p.Smslogs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("RequestId");
-
-            entity.HasOne(d => d.Role).WithMany(p => p.Smslogs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("RoleId");
         });
 
         modelBuilder.Entity<User>(entity =>
