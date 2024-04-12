@@ -175,3 +175,13 @@ C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.Wi
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Drawing.Common.dll
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Web.Mvc.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Web.Razor.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Web.Helpers.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Web.WebPages.Deployment.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Web.WebPages.Razor.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\System.Web.WebPages.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Microsoft.Web.Infrastructure.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Twilio.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Twilio.AspNet.Common.dll
+C:\Users\pci68\source\repos\HaloDoc_MVC\HaloDocWeb\bin\Debug\net7.0\Twilio.AspNet.Mvc.dll

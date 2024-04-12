@@ -93,10 +93,21 @@ namespace HaloDocDataAccess.ViewModels
         }
         public enum AccountType
         {
-            Patient=1,
+            All=0,
+            Patient,
             Provider,
             Admin,
-            All
+            
+        }
+        public enum EmailAction
+        {
+            SendOrder = 1,
+            Request,
+            SendLink,
+            SendAgreement,
+            Forgot,
+            NewRegistration,
+            contact
         }
 
     }

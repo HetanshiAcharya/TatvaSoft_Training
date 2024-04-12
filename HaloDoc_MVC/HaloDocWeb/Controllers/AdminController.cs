@@ -476,7 +476,8 @@ namespace HaloDocDataAccess.Controllers
         {
             sendAgreement sendAgreement = new()
             {
-                Email = Email
+                Email = Email,
+                ReqId=_context.Requests.Where(req=>req.Email==Email).Select(req=>req.RequestId).FirstOrDefault()
             };
             _adminservice.SendLink(sendAgreement);
             _notyf.Success("Mail Sent Successfully");

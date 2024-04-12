@@ -1,5 +1,8 @@
 ﻿
 using MimeKit;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+
 namespace HaloDocDataAccess.ViewModels
 {
     public class UserInfo
@@ -19,7 +22,7 @@ namespace HaloDocDataAccess.ViewModels
         public string UserName { get; set; }
         public string Password { get; set; }
 
-        public async Task<bool> SendMail(String To, String Subject, String Body)
+        public bool SendMail(String To, String Subject, String Body)
         {
             try
             {
@@ -33,10 +36,10 @@ namespace HaloDocDataAccess.ViewModels
                 };
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
-                    await client.ConnectAsync(SmtpServer, Port, false);
-                    await client.AuthenticateAsync(UserName, Password);
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
+                     client.Connect(SmtpServer, Port, false);
+                     client.Authenticate(UserName, Password);
+                     client.Send(message);
+                     client.Disconnect(true);
                 }
                 return true;
             }
@@ -104,6 +107,31 @@ namespace HaloDocDataAccess.ViewModels
         {
             byte[] encoded = Convert.FromBase64String(decodeMe);
             return System.Text.Encoding.UTF8.GetString(encoded);
+        }
+        public async Task<bool> SendSMS(string receiverPhoneNumber, string message)
+        {
+            string accountSid = "AC785d327310645685d796329db9b8ddc6";
+            string authToken = "d19c2caeca7fb5a55a76f7b2334461eb";
+            string twilioPhoneNumber = "+12513698889";
+
+            TwilioClient.Init(accountSid, authToken);
+
+            try
+            {
+                var smsMessage = MessageResource.Create(
+                    body: message,
+                    from: new Twilio.Types.PhoneNumber(twilioPhoneNumber),
+                    to: new Twilio.Types.PhoneNumber(receiverPhoneNumber)
+                );
+
+                Console.WriteLine("SMS sent successfully. SID: " + smsMessage.Sid);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while sending the SMS: " + ex.Message);
+            }
+            return false;
         }
     }
 }

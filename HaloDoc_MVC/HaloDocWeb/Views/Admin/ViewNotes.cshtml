@@ -15,11 +15,9 @@
                         <h4 class="form-title fw-bold mt-2 mx-2">Notes</h4>
                     </div>
                     <div>
-                        <button onclick="history.go(-1)" class="btn border border-info shadow-none">
-                            <strong class="text-info">
-                                <i class="fa fa-angle-left pe-1 text-info"> </i> Back
-                            </strong>
-                        </button>
+                        <a class="btn border border-info text-info shadow-none backButton">
+                            <i class="fa fa-angle-left pe-1 text-info "> </i> Back
+                        </a>
                     </div>
                 </div>
             </div>
@@ -156,5 +154,10 @@
             $("#changenote").attr("name", "adminnotes");
             $("#notedata").html("Admin Note");
         })
+    });
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('backButton')) {
+            history.back();
+        }
     });
 </script>

@@ -11,8 +11,7 @@ namespace HaloDocDataAccess.DataModels;
 public partial class EmailLog
 {
     [Key]
-    [Precision(9, 0)]
-    public decimal EmailLogId { get; set; }
+    public int EmailLogId { get; set; }
 
     [StringLength(500)]
     public string EmailTemplate { get; set; } = null!;
@@ -62,8 +61,4 @@ public partial class EmailLog
     [ForeignKey("RequestId")]
     [InverseProperty("EmailLogs")]
     public virtual Request? Request { get; set; }
-
-    [ForeignKey("RoleId")]
-    [InverseProperty("EmailLogs")]
-    public virtual Role? Role { get; set; }
 }

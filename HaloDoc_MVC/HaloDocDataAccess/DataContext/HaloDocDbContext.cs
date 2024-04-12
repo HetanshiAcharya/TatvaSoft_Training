@@ -184,13 +184,13 @@ public partial class HaloDocDbContext : DbContext
         {
             entity.HasKey(e => e.EmailLogId).HasName("EmailLog_pkey");
 
+            entity.Property(e => e.EmailLogId).UseIdentityAlwaysColumn();
+
             entity.HasOne(d => d.Admin).WithMany(p => p.EmailLogs).HasConstraintName("AdminId");
 
             entity.HasOne(d => d.Physician).WithMany(p => p.EmailLogs).HasConstraintName("PhysicianId");
 
             entity.HasOne(d => d.Request).WithMany(p => p.EmailLogs).HasConstraintName("RequestId");
-
-            entity.HasOne(d => d.Role).WithMany(p => p.EmailLogs).HasConstraintName("RoleId");
         });
 
         modelBuilder.Entity<EncounterForm>(entity =>
@@ -320,6 +320,7 @@ public partial class HaloDocDbContext : DbContext
             entity.HasKey(e => e.RequestId).HasName("Request_pkey");
 
             entity.Property(e => e.RequestId).HasIdentityOptions(null, null, null, null, true, null);
+            entity.Property(e => e.IsDeleted).HasDefaultValueSql("'0'::\"bit\"");
             entity.Property(e => e.RequestTypeId)
                 .ValueGeneratedOnAdd()
                 .HasIdentityOptions(null, null, null, null, true, null);

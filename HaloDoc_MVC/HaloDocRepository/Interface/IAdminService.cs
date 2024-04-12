@@ -84,6 +84,8 @@ namespace HaloDocRepository.Interface
         public BlockHistory RecordsBlock(BlockHistory formData);
         public SearchInputs RecordsSearch(SearchInputs rm);
         public bool RecordsDelete(int reqId);
+        public SearchInputs EmailLogs(SearchInputs emaillog);
+        public bool SendMessage(string? Message);
     }
 
 }

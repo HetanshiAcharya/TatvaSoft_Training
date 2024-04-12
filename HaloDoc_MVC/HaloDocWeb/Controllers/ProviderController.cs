@@ -52,9 +52,32 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region sendEmail
-        public IActionResult SendEmailProvider(string Email, string Message)
+        public IActionResult SendEmailProvider(string Email, string Message,int radio)
         {
-            bool res = _adminservice.SendEmailProvider(Email, Message);
+            bool result = false;
+            bool sms = false;
+            if (radio == 1)
+            {
+                sms = _adminservice.SendMessage(Message);
+            }
+            else if (radio == 2)
+            {
+                result = _adminservice.SendEmailProvider(Email, Message);
+            }
+            else
+            {
+                result = _adminservice.SendEmailProvider(Email, Message);
+                sms = _adminservice.SendMessage(Message);
+            }
+            if (result)
+            {
+                _notyf.Success("Email sent Successfully.");
+            }
+            if (sms)
+            {
+                _notyf.Success("Message sent Successfully.");
+            }
+            
             return RedirectToAction("Index");
 
         }

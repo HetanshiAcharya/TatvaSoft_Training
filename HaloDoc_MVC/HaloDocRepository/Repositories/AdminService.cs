@@ -29,6 +29,8 @@ using static HaloDocDataAccess.ViewModels.Constant;
 using System.Security.Principal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Utilities;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace HaloDocRepository.Repositories
 {
@@ -70,7 +72,29 @@ namespace HaloDocRepository.Repositories
             if (check != null)
             {
                 var agreementUrl = "https://localhost:7299/Admin/ResetPassAdmin?Email=" + model.Email;
-                _emailConfig.SendMail(model.Email, "Reset Your Password", $"To reset your password click below link <a href='{agreementUrl}'>Reset Password</a>");
+                var subject = "Reset Your Password";
+                var EmailTemplate = $"To reset your password click below link <a href='{agreementUrl}'>Reset Password</a>";
+                bool sent = _emailConfig.SendMail(model.Email, subject, EmailTemplate);
+                EmailLog em = new EmailLog
+                {
+                    //RequestId = model.re,
+                    EmailTemplate = EmailTemplate,
+                    SubjectName = subject,
+                    EmailId = model.Email,
+                    //ConfirmationNumber = _context.Requests.Where(req => req.RequestId == requestid).Select(req => req.ConfirmationNumber).FirstOrDefault(),
+                    CreateDate = DateTime.Now,
+                    SentDate = DateTime.Now,
+                    IsEmailSent = new BitArray(1),
+                    SentTries = 1,
+                    Action = 5,//action5 forgot pass
+                    RoleId = 3,
+                };
+                if (sent)
+                {
+                    em.IsEmailSent[0] = true;
+                };
+                _context.EmailLogs.Add(em);
+                _context.SaveChanges();
                 return true;
 
             }
@@ -388,22 +412,53 @@ namespace HaloDocRepository.Repositories
         #region SendOrders
         public bool SendOrders(int requestid, OrderDetail o)
         {
-            OrderDetail od = new OrderDetail
+            try
             {
-                RequestId = requestid,
-                VendorId = o.VendorId,
-                FaxNumber = o.FaxNumber,
-                Email = o.Email,
-                NoOfRefill = o.NoOfRefill,
-                BusinessContact = o.BusinessContact,
-                Prescription = o.Prescription,
-                CreatedDate = DateTime.Now,
-            };
-            _context.OrderDetails.Add(od);
-            _context.SaveChanges();
-            return true;
 
 
+                OrderDetail od = new OrderDetail
+                {
+                    RequestId = requestid,
+                    VendorId = o.VendorId,
+                    FaxNumber = o.FaxNumber,
+                    Email = o.Email,
+                    NoOfRefill = o.NoOfRefill,
+                    BusinessContact = o.BusinessContact,
+                    Prescription = o.Prescription,
+                    CreatedDate = DateTime.Now,
+                };
+                _context.OrderDetails.Add(od);
+                _context.SaveChanges();
+
+                var subject = "Order details";
+                var EmailTemplate = "Order details: <h3>Hear is the details of order </h3> <p>" + o.Prescription + "</p> ";
+                bool sent = _emailConfig.SendMail(od.Email, subject, EmailTemplate);
+                EmailLog em = new EmailLog
+                {
+                    RequestId = requestid,
+                    EmailTemplate = EmailTemplate,
+                    SubjectName = subject,
+                    EmailId = od.Email,
+                    ConfirmationNumber = _context.Requests.Where(req => req.RequestId == requestid).Select(req => req.ConfirmationNumber).FirstOrDefault(),
+                    CreateDate = DateTime.Now,
+                    SentDate = DateTime.Now,
+                    IsEmailSent = new BitArray(1),
+                    SentTries = 1,
+                    Action = 1,
+                    RoleId = 3,
+                };
+                if (sent)
+                {
+                    em.IsEmailSent[0] = true;
+                };
+                _context.EmailLogs.Add(em);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         #endregion
 
@@ -768,34 +823,31 @@ namespace HaloDocRepository.Repositories
         #region sendagreement
         public bool SendAgreement(sendAgreement sendAgreement)
         {
-            var agreementUrl = "https://localhost:7299/Home/ReviewAgreement?ReqId=" + sendAgreement.ReqId;
-            _emailConfig.SendMail(sendAgreement.Email, "Agreement for your request", $"Agreement for your request <a href='{agreementUrl}'>Agree/Disagree</a>");
+            var agreementUrl = "https://localhost:7299/Home/ReviewAgreement?ReqId=" + sendAgreement.ReqId;           
+            var subject = "Agreement for your request";
+            var EmailTemplate = $"Agreement for your request <a href='{agreementUrl}'>Agree/Disagree</a>";
+            bool sent = _emailConfig.SendMail(sendAgreement.Email, subject, EmailTemplate);
+            EmailLog em = new EmailLog
+            {
+                RequestId = sendAgreement.ReqId,
+                EmailTemplate = EmailTemplate,
+                SubjectName = subject,
+                EmailId = sendAgreement.Email,
+                ConfirmationNumber = _context.Requests.Where(req => req.RequestId == sendAgreement.ReqId).Select(req => req.ConfirmationNumber).FirstOrDefault(),
+                CreateDate = DateTime.Now,
+                SentDate = DateTime.Now,
+                IsEmailSent = new BitArray(1),
+                SentTries = 1,
+                Action = 4, //action 4 - send agreement
+                RoleId = 3, //role admin 
+            };
+            if (sent)
+            {
+                em.IsEmailSent[0] = true;
+            };
+            _context.EmailLogs.Add(em);
+            _context.SaveChanges();
             return true;
-            //RequestClient reqCli = _context.RequestClients.FirstOrDefault(requestCli => requestCli.RequestId == sendAgreement.ReqId);
-
-            //string? senderEmail = _config.GetSection("OutlookSMTP")["Sender"];
-            //string? senderPassword = _config.GetSection("OutlookSMTP")["Password"];
-
-            //SmtpClient client = new("smtp.office365.com")
-            //{
-            //    Port = 587,
-            //    Credentials = new NetworkCredential(senderEmail, senderPassword),
-            //    EnableSsl = true,
-            //    DeliveryMethod = SmtpDeliveryMethod.Network,
-            //    UseDefaultCredentials = false
-            //};
-
-            //MailMessage mailMessage = new()
-            //{
-            //    From = new MailAddress(senderEmail, "HaloDoc"),
-            //    Subject = "Halodoc review agreement",
-            //    IsBodyHtml = true,
-            //    Body = "<h3>Admin has sent you the agreement papers to review. Click on the link below to read the agreement.</h3><a href=\"" + link + "\">Review Agreement link</a>",
-            //};
-
-            //mailMessage.To.Add(sendAgreement.Email);
-
-            //client.Send(mailMessage);
         }
         #endregion
 
@@ -854,7 +906,7 @@ namespace HaloDocRepository.Repositories
         #region cancelagreementsubmit
         public void CancelAgreementSubmit(int Reqid, string Description)
         {
-            Request request = _context.Requests.FirstOrDefault(x => x.RequestId == Reqid);
+            HaloDocDataAccess.DataModels.Request request = _context.Requests.FirstOrDefault(x => x.RequestId == Reqid);
             //Request request = _context.Requests.FirstOrDefault(x => x.Requestid == requestclient.Requestid);
 
             RequestStatusLog requeststatuslog = new()
@@ -949,7 +1001,7 @@ namespace HaloDocRepository.Repositories
 
             }
             alldata.documentslist = doc;
-            Request req = _context.Requests.FirstOrDefault(r => r.RequestId == RequestID);
+            HaloDocDataAccess.DataModels.Request req = _context.Requests.FirstOrDefault(r => r.RequestId == RequestID);
 
             alldata.FirstName = req.FirstName;
             alldata.RequestID = req.RequestId;
@@ -1023,6 +1075,7 @@ namespace HaloDocRepository.Repositories
             }
 
         }
+
 
         #region enounterinfo
         public EncounterInfo Encounterinfo(int rId)
@@ -1333,7 +1386,29 @@ namespace HaloDocRepository.Repositories
         public bool SendLink(sendAgreement sendAgreement)
         {
             var agreementUrl = "https://localhost:7299/Home/SubmitReq?ReqId=" + sendAgreement.ReqId;
-            _emailConfig.SendMail(sendAgreement.Email, "Create Request from here !! ", $"You can create request just by clicking below <a href='{agreementUrl}'>Accept and Generate Request</a>");
+            var subject = "Create Request from here !! ";
+            var EmailTemplate = $"You can create request just by clicking below <a href='{agreementUrl}'>Accept and Generate Request</a>";
+            bool sent = _emailConfig.SendMail(sendAgreement.Email, subject, EmailTemplate);
+            EmailLog em = new EmailLog
+            {
+                RequestId = sendAgreement.ReqId,
+                EmailTemplate = EmailTemplate,
+                SubjectName = subject,
+                EmailId = sendAgreement.Email,
+                ConfirmationNumber = _context.Requests.Where(req => req.RequestId == sendAgreement.ReqId).Select(req => req.ConfirmationNumber).FirstOrDefault(),
+                CreateDate = DateTime.Now,
+                SentDate = DateTime.Now,
+                IsEmailSent = new BitArray(1),
+                SentTries = 1,
+                Action = 3,//action 3 - send link
+                RoleId = 3,
+            };
+            if (sent)
+            {
+                em.IsEmailSent[0] = true;
+            };
+            _context.EmailLogs.Add(em);
+            _context.SaveChanges();
             return true;
         }
         #endregion
@@ -1378,7 +1453,7 @@ namespace HaloDocRepository.Repositories
         #region ProviderMenu
         public ProviderMenu ProviderMenu(int Region, int pageinfo)
         {
-             var pageSize = 3;
+            var pageSize = 3;
             if (pageinfo == 0)
             {
                 pageinfo = 1;
@@ -1401,7 +1476,7 @@ namespace HaloDocRepository.Repositories
                                    Notification = (bool)phyid.IsNotificationStopped
                                };
 
-            
+
             int totalItemCount = providerMenu.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
             List<ProviderList> list1 = providerMenu.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
@@ -1448,11 +1523,40 @@ namespace HaloDocRepository.Repositories
         #region sendemailprovider
         public bool SendEmailProvider(string Email, string Message)
         {
-            _emailConfig.SendMail(Email, "Message From Admin ~ Provider ", Message);
+            var subject = "Message From Admin ~ Contact Provider ";
+            var EmailTemplate = Message;
+            bool sent = _emailConfig.SendMail(Email, subject, EmailTemplate);
+            EmailLog em = new EmailLog
+            {
+                //RequestId = sendAgreement.ReqId,
+                EmailTemplate = EmailTemplate,
+                SubjectName = subject,
+                EmailId = Email,
+                //ConfirmationNumber = _context.Requests.Where(req => req.RequestId == sendAgreement.ReqId).Select(req => req.ConfirmationNumber).FirstOrDefault(),
+                CreateDate = DateTime.Now,
+                SentDate = DateTime.Now,
+                IsEmailSent = new BitArray(1),
+                SentTries = 1,
+                Action = 7,//action 7 - contact provider
+                RoleId = 3,
+            };
+            if (sent)
+            {
+                em.IsEmailSent[0] = true;
+            };
+            _context.EmailLogs.Add(em);
+            _context.SaveChanges();
+            return true;
             return true;
         }
 
         #endregion
+        public bool SendMessage(string? Message)
+        {
+            string contact = "+919313474649";
+            bool sms = _emailConfig.SendSMS(contact, Message).Result;
+            return sms;
+        }
 
         #region ProviderRoleViewBag
         public List<Role> ProviderRole()
@@ -1965,6 +2069,7 @@ namespace HaloDocRepository.Repositories
             return true;
         }
         #endregion
+
         #region DeleteRole
         public bool DeleteRole(int RoleId)
         {
@@ -2151,7 +2256,7 @@ namespace HaloDocRepository.Repositories
             _context.BlockRequests.Update(r);
             _context.SaveChanges();
 
-            Request req = _context.Requests.Where(x => x.RequestId == reqId).FirstOrDefault();
+            HaloDocDataAccess.DataModels.Request req = _context.Requests.Where(x => x.RequestId == reqId).FirstOrDefault();
             req.Status = 1;
             req.ModifiedDate = DateTime.Now;
             _context.Requests.Update(req);
@@ -2209,7 +2314,7 @@ namespace HaloDocRepository.Repositories
                                            join nts in _context.RequestNotes
                                            on req.RequestId equals nts.RequestId into ntsgrp
                                            from nt in ntsgrp.DefaultIfEmpty()
-                                           where ( req.IsDeleted == new BitArray(1)&&rm.ReqStatus == 0 || req.Status == rm.ReqStatus) &&
+                                           where (req.IsDeleted == new BitArray(1) && rm.ReqStatus == 0 || req.Status == rm.ReqStatus) &&
                                                     (rm.RequestTypeID == 0 || req.RequestTypeId == rm.RequestTypeID) &&
                                                     (!rm.StartDOS.HasValue || req.CreatedDate >= rm.StartDOS.Value.Date) &&
                                                     (!rm.EndDOS.HasValue || req.CreatedDate <= rm.EndDOS.Value.Date) &&
@@ -2237,7 +2342,7 @@ namespace HaloDocRepository.Repositories
                                                Modifieddate = req.ModifiedDate
                                            }).ToList();
 
-            
+
 
             for (int i = 0; i < allData.Count; i++)
             {
@@ -2266,7 +2371,7 @@ namespace HaloDocRepository.Repositories
                 TotalPages = totalPages,
                 PageSize = rm.PageSize,
             };
-            
+
             return datanew;
         }
 
@@ -2276,11 +2381,53 @@ namespace HaloDocRepository.Repositories
         #region deleterecords
         public bool RecordsDelete(int reqId)
         {
-            Request hp = _context.Requests.Where(x => x.RequestId == reqId).FirstOrDefault();
+            HaloDocDataAccess.DataModels.Request hp = _context.Requests.Where(x => x.RequestId == reqId).FirstOrDefault();
             hp.IsDeleted[0] = true;
             _context.Requests.Update(hp);
             _context.SaveChanges();
             return true;
+        }
+
+        #endregion
+
+        #region emailogs
+        public SearchInputs EmailLogs(SearchInputs rm)
+        {
+            List<EmailLogRecords> allData = (from em in _context.EmailLogs
+                                             join req in _context.Requests
+                                             on em.RequestId equals req.RequestId into Group
+                                             from rc in Group.DefaultIfEmpty()
+                                             where (rm.Role == 0 || em.RoleId == rm.Role) &&
+                                                   (!rm.StartDOS.HasValue || em.CreateDate == rm.StartDOS.Value.Date) &&
+                                                   (!rm.EndDOS.HasValue || em.SentDate == rm.EndDOS.Value.Date) &&
+                                                   (rm.FirstName.IsNullOrEmpty() || (rc.FirstName).ToLower().Contains(rm.FirstName.ToLower())) &&
+                                                   (rm.Email.IsNullOrEmpty() || em.EmailId.ToLower().Contains(rm.Email.ToLower()))
+                                             select new EmailLogRecords
+                                             {
+                                                 Recipient = rc.FirstName,
+                                                 ConfirmationNumber = em.ConfirmationNumber,
+                                                 CreateDate = em.CreateDate,
+                                                 SentDate = (DateTime)em.SentDate,
+                                                 RoleId = (AccountType)em.RoleId,
+                                                 EmailId = em.EmailId,
+                                                 IsEmailSent = (em.IsEmailSent == new BitArray(0) ? "No" : "Yes"),
+                                                 SentTries = em.SentTries,
+                                                 Action = (EmailAction)em.Action,
+
+                                             }).ToList();
+
+            int totalItemCount = allData.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)rm.PageSize);
+            List<EmailLogRecords> list1 = allData.Skip((rm.CurrentPage - 1) * rm.PageSize).Take(rm.PageSize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                el = list1,
+                CurrentPage = rm.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = rm.PageSize,
+            };
+
+            return datanew;
         }
 
         #endregion

@@ -35,7 +35,6 @@ namespace HaloDocWeb.Controllers
             var res = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
             return View("../Admin/Access/Index", res);
         }
-
         #endregion
 
         #region CreateRoleAccess

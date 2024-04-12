@@ -2,7 +2,7 @@
     Layout = "_AdminLayout";
 }
 @using static HaloDocDataAccess.ViewModels.Constant;
-@model List<HaloDocDataAccess.ViewModels.PatientProfile>;
+@model HaloDocDataAccess.ViewModels.SearchInputs;
 <div class=" d-flex justify-content-center row mx-3 ">
     @* heading *@
     <div class="d-flex justify-content-between mt-5 p-2">
@@ -13,8 +13,7 @@
         <form class="mt-2" method="post" id="myform">
             <div class="row p-2">
                 <div class="col-2">
-                    <select class="form-select form-select-md " placeholder="All Requests">
-                        <option value="0">All Status</option>
+                    <select class="form-select form-select-md " placeholder="All Requests" asp-for="Role">
                         @foreach (var item in Enum.GetValues(typeof(AccountType)))
                         {
                             <option value="@((int)item)"> @item.ToString() </option>
@@ -22,16 +21,16 @@
                     </select>
                 </div>
                 <div class="col-2">
-                    <input type="text" class="form-control" placeholder="Receiver Name" name="" id="" />
+                    <input type="text" class="form-control" placeholder="Receiver Name" asp-for="FirstName" id="" />
                 </div>
                 <div class="col-2">
-                    <input type="email" class="form-control" placeholder="Email" name="" id="" />
+                    <input type="email" class="form-control" placeholder="Email" asp-for="Email" id="" />
                 </div>
                 <div class="col-2">
-                    <input class="form-control rounded" type="date" placeholder="Created Date">
+                    <input class="form-control rounded" type="date" placeholder="Created Date" asp-for="StartDOS">
                 </div>
                 <div class="col-2">
-                    <input class="form-control rounded" type="date" placeholder="Sent Date">
+                    <input class="form-control rounded" type="date" placeholder="Sent Date" asp-for="EndDOS">
                 </div>
                 <div class="col-2 ">
                     <a class="btn p-2 py-2 btn-info text-white" onclick="searchbtn(event)">
@@ -40,58 +39,92 @@
                     <a class="btn p-2 py-2 btn-outline-info bg-white" type="reset" id="clear" onclick="searchbtn(event)">
                         Clear
                     </a>
-                    
+
                 </div>
             </div>
         </form>
         <div class="mt-3">
             <table class="table table-responsive">
-                <colgroup>
-                    <col span="1" style="width: 12%;">
-                    <col span="1" style="width: 20%;">
-                    <col span="1" style="width: 20%;">
-                    <col span="1" style="width: 20%;">
-                    <col span="1" style="width: 30%;">
-                    <col span="1" style="width: 40%;">
 
-                </colgroup>
                 @* table Head *@
                 <thead class="table-head align-middle table-secondary">
                     <tr>
                         @{
                             <th class="text-center">Recipient</th>
-                            <th class="text-center">Last Name</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Phone</th>
-                            <th class="text-center">Address</th>
-                            <th class="text-center">Actions</th>
+                            <th class="text-center">Action</th>
+                            <th class="text-center">Role Name</th>
+                            <th class="text-center">Email ID</th>
+                            <th class="text-center">Created date</th>
+                            <th class="text-center">Sent date</th>
+                            <th class="text-center">Sent</th>
+                            <th class="text-center">Sent Tries</th>
+                            <th class="text-center">Confirmation Number</th>
+
                         }
                     </tr>
                 </thead>
                 @* table body *@
-                <tbody class="table-body align-middle t-tab" id="providerbody">
-                    @* @foreach (var item in Model)
+                <tbody class="table-body align-middle t-tab" id="emailbody">
+                    @foreach (var item in Model.el)
                     {
                         <tr class="table-row border-bottom">
-                            <td class="text-center">@item.FirstName</td>
-                            <td class="text-center">@item.LastName</td>
-                            <td class="text-center">@item.Email</td>
-                            <td class="text-center">@item.Phone</td>
-                            <td class="text-center">@item.Address</td>
-                            <td class="text-center">
-                                <a class="btn btn-sm  btn-outline-info" asp-action="RecordsPatientExplore" asp-controller="Records" asp-route-UserId="@item.UserId">
-                                    Explore
-                                </a>
-                            </td>
+                            <td class="text-center">@item.Recipient</td>
+                            <td class="text-center">@item.Action</td>
+                            <td class="text-center">@item.RoleId</td>
+                            <td class="text-center">@item.EmailId</td>
+                            <td class="text-center">@item.CreateDate</td>
+                            <td class="text-center">@item.SentDate</td>
+                            <td class="text-center">@item.IsEmailSent</td>
+                            <td class="text-center">@item.SentTries</td>
+                            <td class="text-center">@item.ConfirmationNumber</td>
+
 
                         </tr>
-                    } *@
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+@* Pagination  *@
+<div class="m-2 d-flex justify-content-center">
+    <nav aria-label="Page navigation example" class="pagenav" id="Pagination">
+        <ul class="pagination pagination-container">
+            @{
+                int i;
+                <form id="pageform" asp-action="EmailLogs" asp-controller="Records" novalidate="novalidate" class="d-flex">
+                    <input type="hidden" asp-for="PageSize" />
+                    <input type="hidden" asp-for="TotalPages" />
+                    <input type="hidden" asp-for="CurrentPage" id="currentpagevalue" />
+                  
+                    @if (@Model.CurrentPage > 1)
+                    {
+                    <li class="page-item me-2"><button class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</button></li>
+                    }
+                    else
+                    {
+                    <li class="me-2 page-item"><button class="disabled btn border-0">&lt;</button></li>
+                    }
+                    @for (i = 1; i <= @Model.TotalPages; i++)
+                    {
+                    <li class="page-item me-2"><button class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</button></li>
+                    }
+                    @if (@Model.TotalPages > @Model.CurrentPage)
+                    {
+                    <li class="page-item me-2"><button class="btn shadow-none " onclick="setpagenumber('next')">&gt;</button></li>
+                    }
+                    else
+                    {
+                    <li class="me-2 page-item">
+                        <button class="btn disabled border-0">&gt;</button>
 
+                    </li>
+                    }
+                </form>
+            }
+        </ul>
+    </nav>
+</div>
 @* Generic Search  *@
 <script>
     function searchbtn(event) {
@@ -100,19 +133,17 @@
         if (btnid == "clear") {
             $('#myform').trigger('reset');
         }
-        var fname = $('#fname').val();
-        var lname = $('#lname').val();
-        var email = $('#email').val();
-        var phone = $('#phone').val();
-        console.log(fname);
+        var formData = $('#myform').serialize();
+        console.log(formData);// Serialize form data
         $.ajax({
             type: "POST",
-            url: '@Url.Action("PatientHistory", "Records")',
-            data: { firstname: fname, lastname: lname, email: email, phone: phone },
+            url: '@Url.Action("EmailLogs", "Records")',
+            data: formData, // Send serialized form data
             success: function (data) {
                 var bodyContent = $(data).find('tbody').html();
-                $('#providerbody').html(bodyContent);
-
+                var pagination = $(data).find('.pagenav').html();
+                $('#emailbody').html(bodyContent);
+                $('#Pagination').html(pagination);
             },
             error: function (error) {
                 console.log("Error:", error);
@@ -120,3 +151,24 @@
         });
     }
 </script>
+<script>
+    function setpagenumber(e) {
+
+        if (e == 'previous') {
+            var cp = @Model.CurrentPage-1;
+            $('#currentpagevalue').val(cp);
+
+        }
+        else if (e == 'next') {
+            var cp = @Model.CurrentPage + 1;
+            $('#currentpagevalue').val(cp);
+        }
+        else {
+            $('#currentpagevalue').val(e);
+        }
+        console.log($('#currentpagevalue').val());
+        $('#pageform').submit();
+
+    }
+</script>
+

@@ -67,9 +67,10 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("RecordsSearch");
         }
 
-        public IActionResult EmailLogs()
+        public IActionResult EmailLogs(SearchInputs emaillog)
         {
-            return View("../Admin/Records/EmailLogs");
+            var res = _adminservice.EmailLogs(emaillog);
+            return View("../Admin/Records/EmailLogs",res);
         }
     }
 }

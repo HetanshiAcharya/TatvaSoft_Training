@@ -21,11 +21,8 @@
         <div class="d-flex align-self-center">
             <h4><strong>Provider Location</strong></h4>
         </div>
-        <a asp-controller="Admin" asp-action="Index" class="btn border border-info bg-light rounded mt-3 mb-1">
-            <span class="text-info">
-                <i class="fa fa-angle-left align-middle"></i>
-                <b>&nbsp;&nbsp;Back</b>
-            </span>
+        <a class="btn border border-info text-info shadow-none backButton mt-3 mb-1">
+            <i class="fa fa-angle-left pe-1 text-info "> </i> Back
         </a>
     </div>
     <div id="mapAreash"></div>
@@ -83,4 +80,10 @@
             moveMapTo(response.results[0].position);
         }
     }
+
+      document.addEventListener('click', function (event) {
+      if (event.target.classList.contains('backButton')) {
+          history.back();
+      }
+  });
 </script>

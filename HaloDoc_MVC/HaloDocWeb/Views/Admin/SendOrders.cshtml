@@ -10,9 +10,9 @@
         <div class="d-flex justify-content-evenly">
             <h3 class="">Send Orders</h3>
         </div>
-        <button onclick="backbtn()" class="btn btn-outline-info shadow-none night-mode-btn">
-            <span><a class="link" asp-controller="Admin" asp-action="Index">Back</a></span>
-        </button>
+        <a class="btn border border-info text-info shadow-none backButton">
+            <i class="fa fa-angle-left pe-1 text-info "> </i> Back
+        </a>
     </div>
     <form method="post" id="sendorders" class="bg-white p-5 shadow needs-validation" novalidate>
         <input type="hidden" asp-for="RequestId" />
@@ -121,4 +121,9 @@
             }
         });
     }
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('backButton')) {
+            history.back();
+        }
+    });
 </script>

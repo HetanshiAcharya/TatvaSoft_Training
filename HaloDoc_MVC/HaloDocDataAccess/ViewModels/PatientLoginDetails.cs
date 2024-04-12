@@ -1,5 +1,6 @@
 ﻿using HaloDocDataAccess.DataModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -107,9 +108,13 @@ namespace HaloDocDataAccess.ViewModels
         public List<SearchRecords> sr { get; set; }
         public List<PatientProfile> pp { get; set; }
         public List<Partners> pt { get; set; }
+        public List<EmailLogRecords> el { get; set; }
+        public List<Role> role { get; set; }
+        public List<UserAccessData> ud { get; set; }
 
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public int Role { get; set; }
     }
 
     public class SearchRecords
@@ -131,6 +136,19 @@ namespace HaloDocDataAccess.ViewModels
         public string? AdminNotes { get; set; }
         public string? PatientNotes { get; set; }
         public DateTime? Modifieddate { get; set; }
+    }
+
+    public class EmailLogRecords
+    {
+        public string Recipient { get; set; }
+        public string EmailId { get; set; } = null!;
+        public string? ConfirmationNumber { get; set; }
+        public AccountType RoleId { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime SentDate { get; set; }
+        public string IsEmailSent { get; set; }
+        public int? SentTries { get; set; }
+        public EmailAction Action { get; set; }
     }
 
 }
