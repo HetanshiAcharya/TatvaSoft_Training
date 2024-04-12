@@ -2089,10 +2089,28 @@ namespace HaloDocRepository.Repositories
             return (Role);
         }
         #endregion
+        //public SearchInputs AccessAccount(int page)
+        //{
+        //    var list = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
+        //    var pagesixe = 5;
+        //    int totalItemCount = result.Count();
+        //    int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
+        //    List<UserAccessData> list1 = result.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
+        //    SearchInputs datanew = new SearchInputs
+        //    {
+        //        ud = list1,
+        //        CurrentPage = pageinfo,
+        //        TotalPages = totalPages,
+        //        PageSize = pageSize,
+        //    };
+
+        //    return datanew;
+        //}
 
         #region UserAccess
-        public List<UserAccessData> UserAccessData(string AccountType)
+        public SearchInputs UserAccessData(string AccountType, int pageinfo)
         {
+            var pageSize = 5;
             var result = (from aspuser in _context.AspNetUsers
                           join admin in _context.Admins
                           on aspuser.Id equals admin.AspNetUserId into AdminGroup
@@ -2115,7 +2133,20 @@ namespace HaloDocRepository.Repositories
             {
                 result = result.Where(req => req.AccountType == AccountType).ToList();
             }
-            return result;
+         
+          
+            int totalItemCount = result.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
+            List<UserAccessData> list1 = result.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
+            SearchInputs datanew = new SearchInputs
+            {
+                ud = list1,
+                CurrentPage = pageinfo,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+            };
+
+            return datanew;
         }
         #endregion
 

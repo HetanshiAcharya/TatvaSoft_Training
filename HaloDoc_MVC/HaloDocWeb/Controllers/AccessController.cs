@@ -95,10 +95,10 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region useraccess
-        public IActionResult UserAccess(string AccountType)
+        public IActionResult UserAccess(string AccountType, int pageinfo)
         {
             ViewBag.role = _adminservice.Role();
-            var res = _adminservice.UserAccessData(AccountType);
+            var res = _adminservice.UserAccessData(AccountType, pageinfo);
             return View("../Admin/Access/UserAccess", res);
         }
         #endregion

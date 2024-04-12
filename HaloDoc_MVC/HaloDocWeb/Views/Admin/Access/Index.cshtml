@@ -2,7 +2,7 @@
     Layout = "_AdminLayout";
 
 }
-@model List<HaloDocDataAccess.DataModels.Role>;
+@model HaloDocDataAccess.ViewModels.SearchInputs;
 @using static HaloDocDataAccess.ViewModels.Constant;
 <div class="container-fluid d-flex justify-content-center row ">
     <div class="col-8">
@@ -51,7 +51,7 @@
                     </thead>
                     @* table body *@
                     <tbody class="table-body align-middle t-tab" id="providerbody">
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.role)
                         {
                             <tr class="table-row border-bottom">
                                 <td class="text-center">@item.Name</td>
@@ -109,4 +109,6 @@
 
             });
         });
+
+
 </script>
