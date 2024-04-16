@@ -33,7 +33,7 @@ namespace HaloDocDataAccess.Controllers
         private readonly IJwtService _jwtService;
         private readonly INotyfService _notyf;
 
-        public AdminController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, ILoginRepository loginRepository,IJwtService jwtService, INotyfService notyf)
+        public AdminController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, ILoginRepository loginRepository, IJwtService jwtService, INotyfService notyf)
         {
             _context = context;
             _patientService = patientService;
@@ -59,7 +59,16 @@ namespace HaloDocDataAccess.Controllers
             {
                 var jwttoken = _jwtService.GenerateJWTAuthetication(u);
                 Response.Cookies.Append("jwt", jwttoken);
-                return RedirectToAction("Index", "Admin");
+                Response.Cookies.Append("Status", "1");
+                if (u.Role == "Patient")
+                {
+                    return RedirectToAction("Dashboard", "PatientDashboard");
+                }
+                else if (u.Role == "Physician")
+                {
+                    return Redirect("../Admin/Index");
+                }
+                return Redirect("../Admin/Index");
             }
             else
             {
@@ -67,12 +76,11 @@ namespace HaloDocDataAccess.Controllers
                 return View("../Admin/IndexPlatformLogin");
             }
         }
-
         public IActionResult IndexForgotPass()
         {
             return View();
         }
-        #region end_session
+        #region end_sessionLogout
         public async Task<IActionResult> Logout()
         {
             Response.Cookies.Delete("jwt");
@@ -114,25 +122,28 @@ namespace HaloDocDataAccess.Controllers
             }
             return View(patientresetpass);
         }
-        [CheckPhysicianAccess("Admin")]
+        [CheckAccess("Admin,Physician")]
         public IActionResult Index()
         {
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
+            PaginatedViewModel sm = _adminservice.Indexdata(-1);
+            if (CV.role() == "Physician")
+            {
+                sm = _adminservice.Indexdata(Convert.ToInt32(CV.UserId()));
+            }
 
 
-            PaginatedViewModel sm = _adminservice.Indexdata();
-
-            return View(sm);
+            return View("../Admin/Index",sm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> _SearchResult(PaginatedViewModel data)
+        public async Task<IActionResult> _SearchResult(PaginatedViewModel data, String Status)
         {
-            if (data.Status == null)
+            if (Status == null)
             {
-                data.Status = CV.CurrentStatus();
+                Status = CV.CurrentStatus();
 
             }
 
@@ -208,7 +219,7 @@ namespace HaloDocDataAccess.Controllers
             _adminservice.CancelCaseInfo(casetagId, Notes, RequestId);
             _notyf.Success("Case Cancelled Successfully");
             return RedirectToAction("Index", "Admin");
-            
+
         }
         public IActionResult BlockCase(int RequestId, string Notes)
         {
@@ -225,7 +236,7 @@ namespace HaloDocDataAccess.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ViewNotes(int RequestID, string? adminnotes, string? physiciannotes)
         {
-                        if (adminnotes != null || physiciannotes != null)
+            if (adminnotes != null || physiciannotes != null)
             {
                 bool result = _adminservice.ViewNotesUpdate(adminnotes, physiciannotes, RequestID);
                 if (result)
@@ -260,7 +271,7 @@ namespace HaloDocDataAccess.Controllers
                 ConfirmationNumber = req.ConfirmationNumber,
                 UserName = request.FirstName + " " + request.LastName,
             };
-            return View(document);
+            return View("../Admin/ViewUploads", document);
         }
         [HttpPost]
         public IActionResult ViewUploads(ViewDocument viewdata)
@@ -271,7 +282,7 @@ namespace HaloDocDataAccess.Controllers
             if (viewdata.File != null)
             {
                 var fileName = Path.GetFileName(viewdata.File.FileName);
-                string rootPath = "wwwroot\\Upload"; 
+                string rootPath = "wwwroot\\Upload";
                 string requestId = obj.RequestId.ToString();
                 string userFolder = Path.Combine(rootPath, requestId);
 
@@ -361,7 +372,7 @@ namespace HaloDocDataAccess.Controllers
         [HttpPost]
         public IActionResult SendAgreement(int ReqId, string PhoneNumber, string Email)
         {
-            var agreementlink = Url.Action("ReviewAgreement", "Home" , new { ReqId = ReqId },Request.Scheme);
+            var agreementlink = Url.Action("ReviewAgreement", "Home", new { ReqId = ReqId }, Request.Scheme);
             sendAgreement sendAgreement = new()
             {
                 ReqId = ReqId,
@@ -410,9 +421,9 @@ namespace HaloDocDataAccess.Controllers
         [HttpPost]
         public IActionResult Encounter(EncounterInfo _viewencounterinfo)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-                _adminservice.EncounterInfoPost( _viewencounterinfo);
+                _adminservice.EncounterInfoPost(_viewencounterinfo);
                 _notyf.Success("Saved Successfully...");
 
                 return View();
@@ -441,8 +452,8 @@ namespace HaloDocDataAccess.Controllers
 
         }
         #endregion
- 
-       
+
+
 
         [HttpPost]
         public IActionResult SendAgreementModalFromUploads(int Reqid)
@@ -477,7 +488,7 @@ namespace HaloDocDataAccess.Controllers
             sendAgreement sendAgreement = new()
             {
                 Email = Email,
-                ReqId=_context.Requests.Where(req=>req.Email==Email).Select(req=>req.RequestId).FirstOrDefault()
+                ReqId = _context.Requests.Where(req => req.Email == Email).Select(req => req.RequestId).FirstOrDefault()
             };
             _adminservice.SendLink(sendAgreement);
             _notyf.Success("Mail Sent Successfully");

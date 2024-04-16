@@ -12,14 +12,18 @@
                 <div class="modal-body">
                     <p><small>To assign this request, search and select another physician.</small> </p>
                     <div>
-                        <select class="form-select mb-3 needs-validation" id="region1" onchange="AssignPhysician1()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" required>
+                        <select class="form-select mb-1 needs-validation" id="region1" onchange="AssignPhysician1()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" required>
                             <option value="">Search by Region</option>
                         </select>
-                       
-                        <select class="form-select mb-3" id="provider" name="PhysicianId" required>
+                        <span class="invalid-feedback mt-0">
+                        Please choose a Region.
+                        </span>
+                        <select class="form-select mb-1" id="provider" name="PhysicianId" required>
                             <option value="">Please Select</option>
-
                         </select>
+                        <span class="invalid-feedback mt-0">
+                        Please choose a Physician.
+                        </span>
                     </div>
                     <textarea name="Notes" class="form-control" id="exampleFormControlTextarea1" rows="4"
                               placeholder="Description"></textarea>

@@ -23,9 +23,9 @@ namespace HaloDocWeb.Controllers
             _adminservice = adminservice;
         }
         #endregion
-     
+
         #region Index
-        public IActionResult Index(int pageinfo=1,int Region=-1)
+        public IActionResult Index(int pageinfo = 1, int Region = -1)
         {
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
@@ -35,7 +35,7 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region channgenoti
-        public IActionResult changeNoti(int[] files, int region=-1)
+        public IActionResult changeNoti(int[] files, int region = -1)
         {
             bool res = _adminservice.ChangeNoti(files, region);
             if (res == true)
@@ -52,7 +52,7 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region sendEmail
-        public IActionResult SendEmailProvider(string Email, string Message,int radio)
+        public IActionResult SendEmailProvider(string Email, string Message, int radio)
         {
             bool result = false;
             bool sms = false;
@@ -77,23 +77,23 @@ namespace HaloDocWeb.Controllers
             {
                 _notyf.Success("Message sent Successfully.");
             }
-            
+
             return RedirectToAction("Index");
 
         }
         #endregion
 
         #region addphysician
-        public IActionResult AddPhysician(ProviderList PhysiciansData, int[] checkboxes, string UserId)
+        public IActionResult AddPhysician()
         {
             ViewBag.Status = _adminservice.ProviderRole();
             ViewBag.AssignCase = _adminservice.AssignCase();
             ViewData["Heading"] = "Add";
-            return View("../Admin/Provider/EditPhysician");
+            return View("../Admin/Provider/AddPhysician");
         }
         #endregion
-        [HttpPost]
-        #region addphysician
+
+        #region AddPhysicianPost
         public IActionResult AddPhysicianPost(ProviderList PhysiciansData, int[] checkboxes, string UserId)
         {
             ViewBag.Status = _adminservice.ProviderRole();
@@ -101,7 +101,7 @@ namespace HaloDocWeb.Controllers
             ViewData["Heading"] = "Add";
             var res = _adminservice.AddProviderAccount(PhysiciansData, checkboxes, UserId);
             _notyf.Success("Physician Added Successfully");
-            return View("../Admin/Provider/EditPhysician");
+            return View("../Admin/Provider/AddPhysician");
         }
         #endregion
 
@@ -170,7 +170,7 @@ namespace HaloDocWeb.Controllers
         {
             if (await _adminservice.ProviderProfileInfo(p))
             {
-                _notyf.Success("Password changed Successfully...");
+                _notyf.Success("Data changed Successfully...");
             }
             else
             {
@@ -183,7 +183,7 @@ namespace HaloDocWeb.Controllers
         #region SaveProvider
         [HttpPost]
         public async Task<IActionResult> SaveProvider(int[] checkboxes, int physicianid)
-        {       
+        {
             bool res = _adminservice.SaveProvider(checkboxes, physicianid);
             _notyf.Success("Information changed Successfully...");
             return RedirectToAction("EditPhysician", "Provider", new { pId = physicianid });

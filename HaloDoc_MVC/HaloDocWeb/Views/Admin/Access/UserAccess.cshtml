@@ -11,10 +11,20 @@
             <h4>User Access</h4>
         </div>
         <div class="shadow p-3 dashboard-card mt-4">
-            <div class="d-flex justify-content-start col-3 ">
-                <select class="form-select mb-3" data-allow-clear="true" tabindex="-1" id="roledropdown" asp-items="@(new SelectList(ViewBag.Role,"Name","Name"))" data-control="select2" data-placeholder="Select Level" onchange="providersByregion()" id="regiondropdown">
-                    <option value="">All</option>
-                </select>
+            <div class="d-flex justify-content-between">
+                <div class="col-3 ">
+                    <select class="form-select mb-3" data-allow-clear="true" tabindex="-1" id="roledropdown" asp-items="@(new SelectList(ViewBag.Role,"Name","Name"))" data-control="select2" data-placeholder="Select Level" onchange="providersByregion()" id="regiondropdown">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn p-2 py-2 btn-info">
+                        <a class="text-decoration-none text-white" asp-controller="Provider" asp-action="AddPhysician">Create Provider Account</a>
+                    </button>
+                    <button class="btn p-2 py-2 btn-info">
+                        <a class="text-decoration-none text-white" asp-controller="AdminProfile" asp-action="AddAdmin">Create Admin Account</a>
+                    </button>
+                </div>
             </div>
             <div class="mt-3">
                 <table class="table table-responsive">
@@ -49,7 +59,8 @@
                                 <td class="text-center">@item.Phone</td>
                                 <td class="text-center">@Enum.GetName(typeof(ProviderStatus),@item.Status)</td>
                                 <td class="text-center">@item.OpenReq</td>
-                                @if(item.isAdmin){
+                                @if (item.isAdmin)
+                                {
                                     <td>
                                         <button class="btn p-2 py-2 btn border-info">
                                             <a class="text-decoration-none text-info" asp-action="Index" asp-controller="AdminProfile" asp-route-UserId="@item.Id">Edit</a>
@@ -122,7 +133,7 @@
         $.ajax({
             type: "GET",
             url: '@Url.Action("UserAccess", "Access")',
-            data: { AccountType: region,pageinfo:currentpage },
+            data: { AccountType: region, pageinfo: currentpage },
             success: function (data) {
                 console.log("AJAX success");
                 var bodyContent = $(data).find('tbody').html();

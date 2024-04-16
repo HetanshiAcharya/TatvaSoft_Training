@@ -16,6 +16,9 @@
                         <select class="form-select mb-1" id="casetagid" onchange="()" name="CaseTagId" asp-items="@(new SelectList(ViewBag.CancelCase,"CaseTagId","Name"))" required>
                             <option value="">Reason for Cancellation</option>
                         </select>
+                        <span class="invalid-feedback">
+                        Please choose a valid reason for cancellation.
+                        </span>
                     </div>
                     <textarea name="Notes" class="form-control" id="exampleFormControlTextarea1" rows="4"
                               placeholder="Description"></textarea>

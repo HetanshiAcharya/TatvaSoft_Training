@@ -16,11 +16,15 @@
                         <select class="form-select mb-1 " id="region3" onchange="AssignPhysician()" name="Region" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" required>
                             <option value="">Search by Region</option>
                         </select>
-                       
+                        <span class="invalid-feedback">
+                            Please choose a Region.
+                        </span>
                         <select class="form-select mb-1" id="provider1" name="PhysicianId" required>
                             <option value="">Please Select</option>
                         </select>
-                      
+                        <span class="invalid-feedback">
+                            Please choose a Physician.
+                        </span>
                     </div>
                     <textarea name="Notes" class="form-control" id="exampleFormControlTextarea1" rows="4"
                               placeholder="Description"></textarea>

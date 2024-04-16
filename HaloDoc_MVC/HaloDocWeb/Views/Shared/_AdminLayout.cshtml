@@ -1,6 +1,8 @@
 ﻿@{
     string path = Context.Request.Path;
 }
+@using HaloDocRepository.Interface;
+@inject ILoginRepository loginRepository
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,11 +68,21 @@
                 <a class="nav-link px-3 text-dark  @(path.EndsWith("/ProviderLocation") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="ProviderLocation">ProviderLocation</a>
             </li>
         </ul>
-        <ul class="nav-item">
+        @* <ul class="nav-item">
             <li class="nav-link">
                 <a class="nav-link px-3 text-dark  @(path.EndsWith("/AdminProfile") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="AdminProfile">MyProfile</a>
             </li>
-        </ul>
+        </ul> *@
+        @if (loginRepository.isAccessGranted((int)CV.RoleID(), "My Profile"))
+        {
+            <ul class="nav-item">
+                <li class="nav-link">
+                    <a class="nav-link px-3 text-dark  @(path.EndsWith("/AdminProfile") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="AdminProfile">MyProfile</a>
+                </li>
+            </ul>
+           
+        }
+
         <ul class="nav-item dropdown ">
             @{
                 var activePaths = new[] { "/Provider", "/Scheduling" };
@@ -105,7 +117,7 @@
         </ul>
         <ul class="nav-item">
             @{
-                var activepath = new[] { "/RecordsSearch", "/PatientHistory", "RecordsBlock" };
+                var activepath = new[] { "/RecordsSearch", "/PatientHistory", "RecordsBlock","/EmailLogs" };
                 var activeclass = activepath.Any(path.EndsWith) ? "activeNav" : "";
             }
             <a class="nav-link dropdown px-2 text-dark @activeclass" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

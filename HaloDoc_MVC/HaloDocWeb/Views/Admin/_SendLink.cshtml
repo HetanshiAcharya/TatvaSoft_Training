@@ -17,6 +17,10 @@
                             <input class="form-control mb-2" type="text" name="Lastname" placeholder="Lastname" />
                             <input class="form-control mb-4" type="tel" name="Phone" id="phone" placeholder="Phonenumber" />
                             <input class="form-control mb-2 mt-2" type="email" name="Email" placeholder ="Enter Email" required/>
+                            <span class="invalid-feedback">
+                                Please enter a valid email address.
+                            </span>
+
                         </div>
                     </div>
                 </div>
@@ -34,5 +38,19 @@
     const phoneInput = window.intlTelInput(phoneInputField, {
         utilsScript:
             "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    })
+    });
+    document.getElementById('phone').addEventListener('input', function (e) {
+        var x = e.target.value.replace(/\D/g, ''); // Remove every non-digit character
+        e.target.value = x; // Update the input field with the cleaned value
+
+        // Check if the phone number is valid (example: US phone numbers)
+        var pattern = /^\d{10}$/; // Adjust the pattern to fit the phone number format you need
+        if (pattern.test(x)) {
+            console.log('Phone number is valid');
+            e.target.setCustomValidity(''); // Clear any custom validity message
+        } else {
+            console.log('Phone number is not valid');
+            e.target.setCustomValidity('Invalid phone number'); // Set a custom validity message
+        }
+    });
 </script>

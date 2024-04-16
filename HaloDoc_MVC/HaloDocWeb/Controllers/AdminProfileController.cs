@@ -100,6 +100,20 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("Index", "AdminProfile");
         }
         #endregion
-
+        #region AddAdminPost
+        public IActionResult AddAdminPost(AdminProfile adminData)
+        {
+            bool res = _adminservice.AddAdminAccount(adminData);
+            return RedirectToAction("AdminProfile");
+        }
+        #endregion
+        #region AddAdmin
+        public IActionResult AddAdmin()
+        {
+            ViewBag.Role = _adminservice.ProviderRoleAdmin();
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            return View("../Admin/AdminProfile/AddAdmin");
+        }
+        #endregion
     }
 }

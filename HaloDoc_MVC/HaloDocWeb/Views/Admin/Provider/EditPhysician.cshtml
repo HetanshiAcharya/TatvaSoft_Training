@@ -1,4 +1,4 @@
-﻿﻿@{
+﻿﻿﻿@{
     Layout = "_AdminLayout";
 }
 @model HaloDocDataAccess.ViewModels.ProviderList;
@@ -38,11 +38,14 @@
             <div class="row">
                 <div class="dropdown col-lg-6 mt-4">
                     <select asp-for="Status" type="text" class="form-select mb-3" placeholder="Status" disabled asp-items="@new SelectList(Enum.GetNames(typeof(ProviderStatus)))"></select>
-                    
+
                 </div>
                 <div class="dropdown col-lg-6 mt-4">
                     <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))" data-control="" data-placeholder="Select Role" id="role" disabled>
+                        
                     </select>
+                        
+                    
                 </div>
 
             </div>
@@ -252,18 +255,18 @@
         </form>
         @* Onboarding *@
         <p class="h5 p-1"><b>Onboarding </b></p>
-        <input type="hidden" asp-for="PhysicianId" id="PhysicianId"/>
+        <input type="hidden" asp-for="PhysicianId" id="PhysicianId" />
         <table class="w-auto m-1">
             <tbody>
                 <tr>
                     <td>
-                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="1" disabled @(Model != null &&Model.isAgreementDoc==true ? "checked" : "")>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="1" disabled @(Model != null && Model.isAgreementDoc == true ? "checked" : "")>
                     </td>
                     <td>Independent Contractor Agreement</td>
                     <td>
                         <input type="file" id="files2" class="d-none form-control doc_uploder file-input" data-target="choosenfile">
                         <button type="submit" class="btn btn-info text-white upload-btn shadow-none">
-                            <span onclick="document.getElementById('files2').click()" > Upload </span>
+                            <span onclick="document.getElementById('files2').click()"> Upload </span>
                         </button>
                     </td>
                     <td>
@@ -274,7 +277,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="2" disabled @(Model!= null && Model.isBackgroundDoc ? "checked" : "")>
+                        <input type="checkbox" class="form-check-input row-checkbox" name="boardcheck" value="2" disabled @(Model != null && Model.isBackgroundDoc ? "checked" : "")>
                     </td>
                     <td>Background Check</td>
                     <td>
@@ -346,8 +349,8 @@
         <div class=" d-flex justify-content-end">
             <input type="button" class="input btn bg-info text-white rounded px-3 me-2 save" value="Save" onclick="saveChng()" />
             <input type="button" class="input btn bg-danger text-white rounded px-3 dltacc" onclick="DeleteAccount()" value="Delete Account">
-            <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
-
+@*             <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
+ *@
         </div>
     </div>
 </div>
@@ -368,57 +371,57 @@
 </script>
 <script>
     //Add and Edit difference
-    $(document).ready(function () {
-        console.log("abcjsbhfjd");
-        if ("@ViewData["Heading"]" == "Add") {
-            $(".editprofile,.reset,.save, .dltacc").css("display", "none");
-            $("input, textarea, button,select").removeAttr('disabled');
-            $(".form-check-input").prop("disabled", false);
-        }
-    });
-    $(document).ready(function () {
-        console.log("abcjsbhfjd");
-        if ("@ViewData["Heading"]" == "Edit") {
-            $(".crtacc").css("display", "none");
-        }
-    });
-    $('.submit-all').click(function () {
-        var physicianData = {}; // This will hold all the form data
+    // $(document).ready(function () {
+    //     console.log("abcjsbhfjd");
+    //     if ("@@ViewData["Heading"]" == "Add") {
+    //         $(".editprofile,.reset,.save, .dltacc").css("display", "none");
+    //         $("input, textarea, button,select").removeAttr('disabled');
+    //         $(".form-check-input").prop("disabled", false);
+    //     }
+    // });
+    // $(document).ready(function () {
+    //     console.log("abcjsbhfjd");
+    //     if ("@@ViewData["Heading"]" == "Edit") {
+    //         $(".crtacc").css("display", "none");
+    //     }
+    // });
+    // $('.submit-all').click(function () {
+    //     var physicianData = {}; // This will hold all the form data
 
-        $('form').each(function () {
-            var formData = $(this).serializeArray();
-            formData.forEach(function (item) {
-                // Handle the possibility of form fields having the same name
-                if (physicianData[item.name]) {
-                    if (!Array.isArray(physicianData[item.name])) {
-                        physicianData[item.name] = [physicianData[item.name]];
-                    }
-                    physicianData[item.name].push(item.value);
-                } else {
-                    physicianData[item.name] = item.value;
-                }
-            });
-        });
-        var checkboxes = [];
-        $('input[name="boardcheck"]:checked').each(function () {
-            checkboxes.push(this.value);
-        });
-        console.log(physicianData);
-        // Now send this data to the server
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("AddPhysicianPost", "Provider")', // Replace with your actual URL
-            data: { PhysiciansData: physicianData, checkboxes: checkboxes },
-            success: function (response) {
-                // Handle success
-                console.log('Data sent successfully', response);
-            },
-            error: function (error) {
-                // Handle error
-                console.log('Error sending data', error);
-            }
-        });
-    });
+    //     $('form').each(function () {
+    //         var formData = $(this).serializeArray();
+    //         formData.forEach(function (item) {
+    //             // Handle the possibility of form fields having the same name
+    //             if (physicianData[item.name]) {
+    //                 if (!Array.isArray(physicianData[item.name])) {
+    //                     physicianData[item.name] = [physicianData[item.name]];
+    //                 }
+    //                 physicianData[item.name].push(item.value);
+    //             } else {
+    //                 physicianData[item.name] = item.value;
+    //             }
+    //         });
+    //     });
+    //     var checkboxes = [];
+    //     $('input[name="boardcheck"]:checked').each(function () {
+    //         checkboxes.push(this.value);
+    //     });
+    //     console.log(physicianData);
+    //     // Now send this data to the server
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '@@Url.Action("EditPhysicianPost", "Provider")', // Replace with your actual URL
+    //         data: { PhysiciansData: physicianData, checkboxes: checkboxes },
+    //         success: function (response) {
+    //             // Handle success
+    //             console.log('Data sent successfully', response);
+    //         },
+    //         error: function (error) {
+    //             // Handle error
+    //             console.log('Error sending data', error);
+    //         }
+    //     });
+    // });
     // edit and save
     function enable_disable1() {
         $("#username").removeAttr('disabled');

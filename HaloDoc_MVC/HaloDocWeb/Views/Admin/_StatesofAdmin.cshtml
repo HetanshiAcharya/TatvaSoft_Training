@@ -3,13 +3,13 @@
 @Html.Partial("_SendLink.cshtml")
 
 <form id="filterForm" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#SearchResult" asp-action="_SearchResult" asp-controller="Admin" novalidate="novalidate" class="mt-5">
-    <input type="hidden" asp-for="Status" id="hiddenfirst" />
+    <input type="hidden" asp-for="Status" id="hiddenfirst" class="form-control" />
     <input type="hidden" asp-for="IsAscending" id="sortcol" />
     <input type="hidden" asp-for="SortedColumn" id="issort" />
     @* <input type="hidden" name="region" id="Regionid" /> *@
     <div class="row mb-2 " style="--bs-gutter-x: 0rem;">
         @* --------------- New --------------------------  *@
-        <button onclick="changeStatus('1')" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
+        <button onclick="changeStatus('1')"  class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded new ps-2 pt-3 as">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-plus me-2 align-self-center d-none d-sm-block"></i>
@@ -21,7 +21,7 @@
             </div>
         </button>
         @* --------------- Pending --------------------------  *@
-        <button onclick="changeStatus('2')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('2')"  class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded pending ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-user-clock me-2 align-self-center d-none d-sm-block"></i>
@@ -33,7 +33,7 @@
             </div>
         </button>
         @* ---------------Active --------------------------  *@
-        <button onclick="changeStatus('4,5')" name="Status" class="btn col-4 col-md-2 text-start shadow-none ">
+        <button onclick="changeStatus('4,5')"  class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded active ps-2 pt-3 activetext">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-check me-2 align-self-center d-none d-sm-block"></i>
@@ -45,7 +45,7 @@
             </div>
         </button>
         @* --------------- Conclude --------------------------  *@
-        <button onclick="changeStatus('6')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('6')"  class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded conclude ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-clock-rotate-left me-2 align-self-center d-none d-sm-block"></i>
@@ -57,7 +57,7 @@
             </div>
         </button>
         @* --------------- To Close --------------------------  *@
-        <button onclick="changeStatus('3,7,8')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('3,7,8')"  class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded toClose ps-2 pt-3 toclose">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-user-xmark me-2 align-self-center d-none d-sm-block"></i>
@@ -69,7 +69,7 @@
             </div>
         </button>
         @* --------------- Unpaid --------------------------  *@
-        <button onclick="changeStatus('9')" name="Status" class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('9')"  class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded unpaid ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-dollar-to-slot me-2 align-self-center d-none d-sm-block"></i>

@@ -34,7 +34,9 @@ namespace HaloDocRepository.Repositories
             new Claim("FirstName", userinfo.FirstName),
             new Claim("UserId", userinfo.UserId.ToString()),
             new Claim("Username", userinfo.Username.ToString()),
-            new Claim("AspNetUserId", userinfo.AspNetUserId.ToString())
+            new Claim("AspNetUserId", userinfo.AspNetUserId.ToString()),
+            new Claim("RoleID", userinfo.RoleID.ToString()),
+            new Claim("Role", userinfo.Role.ToString()),
         };
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]));

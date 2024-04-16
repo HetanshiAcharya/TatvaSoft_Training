@@ -230,16 +230,28 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region Indexdata
-        public PaginatedViewModel Indexdata()
+        public PaginatedViewModel Indexdata(int ProviderId)
         {
+            if (ProviderId < 0)
+            {
+                return new PaginatedViewModel
+                {
+                    NewRequest = _context.Requests.Where(r => r.Status == 1 && r.IsDeleted == new BitArray(1)).Count(),
+                    PendingRequest = _context.Requests.Where(r => r.Status == 2 && r.IsDeleted == new BitArray(1)).Count(),
+                    ActiveRequest = _context.Requests.Where((r => (r.Status == 4 || r.Status == 5) && r.IsDeleted == new BitArray(1))).Count(),
+                    ConcludeRequest = _context.Requests.Where(r => r.Status == 6 && r.IsDeleted == new BitArray(1)).Count(),
+                    ToCloseRequest = _context.Requests.Where((r => (r.Status == 3 || r.Status == 7 || r.Status == 8) && r.IsDeleted == new BitArray(1))).Count(),
+                    UnpaidRequest = _context.Requests.Where(r => r.Status == 9 && r.IsDeleted == new BitArray(1)).Count()
+                };
+            }
             return new PaginatedViewModel
             {
-                NewRequest = _context.Requests.Where(r => r.Status == 1).Count(),
-                PendingRequest = _context.Requests.Where(r => r.Status == 2).Count(),
-                ActiveRequest = _context.Requests.Where(r => (r.Status == 4 || r.Status == 5)).Count(),
-                ConcludeRequest = _context.Requests.Where(r => r.Status == 6).Count(),
-                ToCloseRequest = _context.Requests.Where(r => (r.Status == 3 || r.Status == 7 || r.Status == 8)).Count(),
-                UnpaidRequest = _context.Requests.Where(r => r.Status == 9).Count(),
+                NewRequest = _context.Requests.Where(r => r.Status == 1 && r.PhysicianId == ProviderId && r.IsDeleted == new BitArray(1)).Count(),
+                PendingRequest = _context.Requests.Where(r => r.Status == 2 && r.PhysicianId == ProviderId && r.IsDeleted == new BitArray(1)).Count(),
+                ActiveRequest = _context.Requests.Where(r => (r.Status == 4 || r.Status == 5) && r.PhysicianId == ProviderId && r.IsDeleted == new BitArray(1)).Count(),
+                ConcludeRequest = _context.Requests.Where(r => r.Status == 6 && r.PhysicianId == ProviderId && r.IsDeleted == new BitArray(1)).Count(),
+                ToCloseRequest = _context.Requests.Where(r => (r.Status == 3 || r.Status == 7 || r.Status == 8) && r.PhysicianId == ProviderId && r.IsDeleted == new BitArray(1)).Count(),
+                UnpaidRequest = _context.Requests.Where(r => r.Status == 9 && r.PhysicianId == ProviderId && r.IsDeleted == new BitArray(1)).Count(),
 
             };
         }
@@ -968,54 +980,33 @@ namespace HaloDocRepository.Repositories
         }
         public ViewCloseCaseModel CloseCaseData(int RequestID)
         {
-            ViewCloseCaseModel alldata = new ViewCloseCaseModel();
-
-            var result = from requestWiseFile in _context.RequestWiseFiles
-                         join request in _context.Requests on requestWiseFile.RequestId equals request.RequestId
-                         join physician in _context.Physicians on request.PhysicianId equals physician.PhysicianId into physicianGroup
-                         from phys in physicianGroup.DefaultIfEmpty()
-                         join admin in _context.Admins on requestWiseFile.AdminId equals admin.AdminId into adminGroup
-                         from adm in adminGroup.DefaultIfEmpty()
-                         where request.RequestId == RequestID
-                         select new
-                         {
-
-                             Uploader = requestWiseFile.PhysicianId != null ? phys.FirstName :
-                             (requestWiseFile.AdminId != null ? adm.FirstName : request.FirstName),
-                             requestWiseFile.FileName,
-                             requestWiseFile.CreatedDate,
-                             requestWiseFile.RequestWiseFileId
-
-                         };
-            List<ViewDocument> doc = new List<ViewDocument>();
-            foreach (var item in result)
-            {
-                doc.Add(new ViewDocument
+            ViewCloseCaseModel? list =
+                 _context.RequestClients
+                .Where(req => req.Request.RequestId == RequestID)
+                .Select(req => new ViewCloseCaseModel()
                 {
-                    CreatedDate = item.CreatedDate,
-                    FileName = item.FileName,
-                    Uploader = item.Uploader,
-                    RequestwisefilesId = item.RequestWiseFileId
+                    RequestID = RequestID,
+                    ConfirmationNumber = req.Address.Substring(0, 2) + req.IntDate.ToString() + req.StrMonth + req.IntYear.ToString() + req.LastName.Substring(0, 2) + req.FirstName.Substring(0, 2) + "002",
+                    FirstName = req.FirstName,
+                    LastName = req.LastName,
+                    RC_Dob = new DateTime((int)req.IntYear, Convert.ToInt32(req.StrMonth.Trim()), (int)req.IntDate),
+                    RC_PhoneNumber = req.PhoneNumber,
+                    RC_Email = req.Email,
+                }).FirstOrDefault();
 
-                });
+            List<RequestWiseFile> list1 = _context.RequestWiseFiles
+                     .Where(r => r.RequestId == RequestID && r.IsDeleted == new BitArray(1))
+                     .OrderByDescending(x => x.CreatedDate)
+                     .Select(r => new RequestWiseFile
+                     {
+                         CreatedDate = r.CreatedDate,
+                         FileName = r.FileName,
+                         RequestWiseFileId = r.RequestWiseFileId,
+                         RequestId = r.RequestId
 
-            }
-            alldata.documentslist = doc;
-            HaloDocDataAccess.DataModels.Request req = _context.Requests.FirstOrDefault(r => r.RequestId == RequestID);
-
-            alldata.FirstName = req.FirstName;
-            alldata.RequestID = req.RequestId;
-            alldata.ConfirmationNumber = req.ConfirmationNumber;
-            alldata.LastName = req.LastName;
-
-            var reqcl = _context.RequestClients.FirstOrDefault(e => e.RequestId == RequestID);
-
-            alldata.RC_Email = reqcl.Email;
-            //alldata.RC_Dob = new DateTime((int)reqcl.IntYear, DateTime.ParseExact(reqcl.StrMonth, "MMMM", new CultureInfo("en-US")).Month, (int)reqcl.IntDate);
-            alldata.RC_FirstName = reqcl.FirstName;
-            alldata.RC_LastName = reqcl.LastName;
-            alldata.RC_PhoneNumber = reqcl.PhoneNumber;
-            return alldata;
+                     }).ToList();
+            list.documentslist = list1;
+            return list;
         }
         public bool EditForCloseCase(ViewCloseCaseModel model)
         {
@@ -1075,7 +1066,6 @@ namespace HaloDocRepository.Repositories
             }
 
         }
-
 
         #region enounterinfo
         public EncounterInfo Encounterinfo(int rId)
@@ -1453,7 +1443,7 @@ namespace HaloDocRepository.Repositories
         #region ProviderMenu
         public ProviderMenu ProviderMenu(int Region, int pageinfo)
         {
-            var pageSize = 3;
+            var pageSize = 5;
             if (pageinfo == 0)
             {
                 pageinfo = 1;
@@ -1476,13 +1466,13 @@ namespace HaloDocRepository.Repositories
                                    Notification = (bool)phyid.IsNotificationStopped
                                };
 
-
             int totalItemCount = providerMenu.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
-            List<ProviderList> list1 = providerMenu.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
+            List<ProviderList> list1 = providerMenu.Skip((pageinfo - 1) * pageSize).ToList();
+            List<ProviderList> list2 =list1.Take(pageSize).ToList();
             ProviderMenu datanew = new ProviderMenu
             {
-                ProviderLists = list1,
+                ProviderLists = list2,
                 CurrentPage = pageinfo,
                 TotalPages = totalPages,
                 PageSize = pageSize,
@@ -1583,7 +1573,13 @@ namespace HaloDocRepository.Repositories
             return (role);
         }
         #endregion
-
+        #region ProviderRoleViewBag
+        public List<Role> ProviderRoleAdmin()
+        {
+            var role = _context.Roles.Where(r => r.AccountType == 3).ToList();
+            return (role);
+        }
+        #endregion
         #region GetProviderProfileDetails
         public async Task<ProviderList> GetProviderProfileDetails(int id)
         {
@@ -1644,14 +1640,15 @@ namespace HaloDocRepository.Repositories
             {
                 if (req != null)
                 {
-
                     req.Status = (short?)(ProviderStatus)p.Status;
-                    req.RoleId = p.RoleId;
+                    if (int.TryParse(p.Role, out int intvar)) {
+                        req.RoleId = intvar;
+                    }
                     _context.Physicians.Update(req);
                     _context.SaveChanges();
                 }
                 U.PasswordHash = GenerateSHA256(p.Password);
-                U.Email = p.Email;
+                //U.Email = p.Email;
                 _context.AspNetUsers.Update(U);
                 _context.SaveChanges();
                 return true;
@@ -1678,6 +1675,10 @@ namespace HaloDocRepository.Repositories
                         DataForChange.FirstName = p.FirstName;
                         DataForChange.LastName = p.LastName;
                         DataForChange.Mobile = p.Phone;
+                        DataForChange.MedicalLicense = p.MedLicence;
+                        DataForChange.Npinumber = p.NpiNum;
+                        DataForChange.SyncEmailAddress = p.SyncEmail;
+
                         _context.Physicians.Update(DataForChange);
                         _context.SaveChanges();
                         List<int> regions = await _context.PhysicianRegions.Where(r => r.PhysicianId == p.PhysicianId).Select(req => req.RegionId).ToListAsync();
@@ -2517,6 +2518,60 @@ namespace HaloDocRepository.Repositories
             };
 
             return datanew;
+        }
+        public bool AddAdminAccount(AdminProfile admindata)
+        {
+            var Aspnetuser = new AspNetUser();
+            var AspNetUserRoles = new AspNetUserRole();
+            Guid g = Guid.NewGuid();
+            Aspnetuser.Id = g.ToString();
+            Aspnetuser.UserName = admindata.UserName;
+            Aspnetuser.PasswordHash = admindata.Password;
+            Aspnetuser.Email = admindata.Email;
+            Aspnetuser.PhoneNumber = admindata.Mobile;
+            Aspnetuser.CreatedDate = DateTime.Now;
+            _context.AspNetUsers.Add(Aspnetuser);
+            _context.SaveChanges();
+
+            AspNetUserRoles.UserId = Aspnetuser.Id;
+            AspNetUserRoles.RoleId = "2";
+            _context.AspNetUserRoles.Add(AspNetUserRoles);
+            _context.SaveChanges();
+
+            var Admin = new Admin();
+            Admin.AspNetUserId = Aspnetuser.Id;
+            Admin.FirstName = admindata.FirstName;
+            Admin.LastName = admindata.LastName;
+            Admin.Status = 1;
+            Admin.RoleId = Int32.Parse(admindata.Role);
+            Admin.Email = admindata.Email;
+            Admin.Mobile = admindata.Mobile;
+            Admin.IsDeleted = new BitArray(1);
+            Admin.IsDeleted[0] = false;
+            Admin.Address1 = admindata.Address1;
+            Admin.Address2 = admindata.Address2;
+            Admin.City = admindata.City;
+            Admin.Zip = admindata.ZipCode;
+            Admin.CreatedDate = DateTime.Now;
+            Admin.CreatedBy = Aspnetuser.Id;
+            _context.Admins.Add(Admin);
+            _context.SaveChanges();
+
+            if (admindata.RegionIds != null)
+            {
+                List<int> Regionsid = admindata.RegionIdList.Split(',').Select(int.Parse).ToList();
+                foreach (var item in Regionsid)
+                {
+                    AdminRegion ar = new()
+                    {
+                        RegionId = item,
+                        AdminId = Admin.AdminId
+                    };
+                    _context.AdminRegions.Add(ar);
+                    _context.SaveChanges();
+                }
+            }
+            return true;
         }
     }
 }

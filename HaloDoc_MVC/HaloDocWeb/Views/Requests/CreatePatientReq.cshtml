@@ -22,8 +22,10 @@
     <div class="container-fluid">
         <form asp-controller="Requests" asp-action="CreatePatientReq" class="form-group row" method="post" enctype="multipart/form-data">
             <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn p-2 py-2 btn-outline-info bg-white" id="save" onclick="">
-                    <a class="text-decoration-none text-info" asp-controller="Home" asp-action="SubmitReq">Back</a>
+                <button class="btn p-2 py-2 border-info text-info backButton" id="save" onclick="">
+                    <a class="text-decoration-none text-info">
+                        <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                    </a>
                 </button>
             </div>
             <h4 class="mt-4 m">Patient Information</h4>
@@ -124,6 +126,11 @@
 </body>
 
 <script src="~/js/dark.js"></script>
-
-
 </html>
+<script>
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('backButton')) {
+            history.back();
+        }
+    });
+</script>

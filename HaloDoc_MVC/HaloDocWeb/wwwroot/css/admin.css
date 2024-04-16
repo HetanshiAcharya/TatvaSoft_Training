@@ -46,6 +46,9 @@ div .viewnotes{
     position:relative;
     top:250px;
 }
+div .cust-height{
+    height:42px;
+}
 /*States  admin*/
 .new {
     background-color: #e9eaef;

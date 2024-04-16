@@ -43,8 +43,8 @@
                     {
                         @if (item.onCallStatus == 1)
                         {
-                            <div class="col-md-4 my-2">
-                                <img src="/Upload/Physician/@item.PhysicianId/@item.Photo" style="height: 50px;">
+                            <div class="col-md-4 my-2 fs-6">
+                                <i class="fa-solid fa-user me-1 mt-1"></i>
                                 <span> @item.FirstName @item.LastName</span>
                             </div>
                         }
@@ -61,8 +61,8 @@
                     {
                         @if (item.onCallStatus == 0)
                         {
-                            <div class="col-md-4 my-2">
-                                <img src="/Upload/Physician/@item.PhysicianId/@item.Photo" style="height: 50px;">
+                            <div class="col-md-4 my-2 fs-6">
+                                <i class="fa-solid fa-user me-1 mt-1"></i>
                                 @item.FirstName @item.LastName
                             </div>
                         }

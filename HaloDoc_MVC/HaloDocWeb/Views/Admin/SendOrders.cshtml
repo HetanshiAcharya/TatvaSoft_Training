@@ -19,21 +19,23 @@
         <div class=" p-3">
             <div class="row">
                 <div class="dropdown col-lg-6">
-                    <select class="form-select mb-3" id="Profession" onchange="ProfessionType()"  asp-items="@(new SelectList(ViewBag.Professions,"HealthProfessionalId","ProfessionName"))" required>
+                    <select class="form-select mb-2" id="Profession" onchange="ProfessionType()"  asp-items="@(new SelectList(ViewBag.Professions,"HealthProfessionalId","ProfessionName"))" required>
                         <option value="">Select Profession</option>
                     </select>
+                    <span class="invalid-feedback">
+                        Please choose a Profession.
+                    </span>
                 </div>
-                <span class="invalid-feedback">
-                    Please choose a Profession.
-                </span>
+               
                 <div class="col-lg-6">
-                    <select asp-for="VendorId" class="form-select mb-3" id="businesspersons" onchange="GetData()" required>
+                    <select asp-for="VendorId" class="form-select mb-2" id="businesspersons" onchange="GetData()" required>
                         <option value="">Select Professionals</option>
                     </select>
+                    <span class="invalid-feedback">
+                        Please choose a Professionals.
+                    </span>
                 </div>
-                <span class="invalid-feedback">
-                    Please choose a Professionals.
-                </span>
+                
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -42,6 +44,9 @@
                            asp-for="BusinessContact"
                            id="BusinessContact"
                            placeholder="Business contact" required />
+                    <span class="invalid-feedback">
+                        Please choose a Business contact.
+                    </span>
                 </div>
                 <div class="col-sm-6">
                     <input class="form-control form-control-md col-md col-sm mt-4"
@@ -49,6 +54,9 @@
                            asp-for="Email"
                            id="Email"
                            placeholder="Email contact" required />
+                    <span class="invalid-feedback">
+                        Please mention correct Email address.
+                    </span>
                 </div>
             </div>
             <div class="col-sm-6">

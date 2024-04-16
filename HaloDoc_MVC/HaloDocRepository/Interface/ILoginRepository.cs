@@ -11,5 +11,6 @@ namespace HaloDocRepository.Interface
     public interface ILoginRepository
     {
         Task<UserInfo> CheckAccessLogin(AspNetUser aspNetUser);
+        public bool isAccessGranted(int roleId, string menuName);
     }
 }

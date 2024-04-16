@@ -22,8 +22,10 @@
     <form class="container-fluid" asp-controller="Requests" asp-action="CreateBusReq">
         <div class="form-group row">
             <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn p-2 py-2 btn-outline-info bg-white" id="save" onclick="">
-                    <a class="text-decoration-none text-info" asp-controller="Home" asp-action="SubmitReq">Back</a>
+                <button class="btn p-2 py-2 b" id="save" onclick="">
+                    <a class="btn border border-info text-info shadow-none  p-2 py-2 backButton">
+                        <i class="fa fa-angle-left pe-1 text-info "> </i> Back
+                    </a>
                 </button>
             </div>
             <h4 class="mt-2 mb-6">Business Information</h4>
@@ -152,5 +154,12 @@
     const phoneInput = window.intlTelInput(phoneInputField, {
         utilsScript:
             "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>
+<script>
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('backButton')) {
+            history.back();
+        }
     });
 </script>

@@ -124,6 +124,7 @@ namespace HaloDocDataAccess.ViewModels
         public int? RegionId { get; set; }
         public int? RequestType { get; set; }
         public string? Status { get; set; }
+        public DateTime? DOB { get; set; }
         public int NewRequest { get; set; }
         public int PendingRequest { get; set; }
         public int ActiveRequest { get; set; }

@@ -16,7 +16,7 @@ namespace HaloDocRepository.Interface
     {
        //bool AdminAuthentication(AdminLogin userDetails);
         public List<AdminDashboardList> NewRequestData();
-        public PaginatedViewModel Indexdata();
+        public PaginatedViewModel Indexdata(int ProviderId);
         public PaginatedViewModel GetRequests(PaginatedViewModel data);
         public ViewCaseData GetRequestForViewCase(int id);
         public ViewCaseData NewRequestData(int? RId, int? RTId);
@@ -88,7 +88,8 @@ namespace HaloDocRepository.Interface
         public SearchInputs EmailLogs(SearchInputs emaillog);
         public bool SendMessage(string? Message);
         public SearchInputs RecordsSMSLog(SearchInputs rm);
-
+        public bool AddAdminAccount(AdminProfile admindata);
+        public List<Role> ProviderRoleAdmin();
     }
 
 }
