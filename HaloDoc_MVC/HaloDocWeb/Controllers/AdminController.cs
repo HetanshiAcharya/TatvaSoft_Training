@@ -150,7 +150,10 @@ namespace HaloDocDataAccess.Controllers
             Response.Cookies.Delete("Status");
             Response.Cookies.Append("Status", data.Status);
             PaginatedViewModel contacts = _adminservice.GetRequests(data);
-
+            if (CV.role() == "Physician")
+            {
+                contacts = _adminservice.GetRequests(Status, data, Convert.ToInt32(CV.UserId()));
+            }
             switch (data.Status)
             {
                 case "1":

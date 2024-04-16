@@ -140,7 +140,72 @@ namespace HaloDocRepository.Repositories
             return list;
         }
         #endregion
+        public PaginatedViewModel GetRequests(string Status, PaginatedViewModel data, int ProviderId)
+        {
+            if (data.SearchInput != null)
+            {
+                data.SearchInput = data.SearchInput.Trim();
 
+            }
+            List<int> statusdata = data.Status.Split(',').Select(int.Parse).ToList();
+            List<AdminDashboardList> allData = (from req in _context.Requests
+                                                join reqClient in _context.RequestClients
+                                                on req.RequestId equals reqClient.RequestId into reqClientGroup
+                                                from rc in reqClientGroup.DefaultIfEmpty()
+                                                join phys in _context.Physicians
+                                                on req.PhysicianId equals phys.PhysicianId into physGroup
+                                                from p in physGroup.DefaultIfEmpty()
+                                                join reg in _context.Regions
+                                                on rc.RegionId equals reg.RegionId into RegGroup
+                                                from rg in RegGroup.DefaultIfEmpty()
+                                                where statusdata.Contains((int)req.Status) && (data.SearchInput == null ||
+                                                rc.FirstName.Contains(data.SearchInput) || rc.LastName.Contains(data.SearchInput) ||
+                                                req.FirstName.Contains(data.SearchInput) || req.LastName.Contains(data.SearchInput) ||
+                                                rc.Email.Contains(data.SearchInput) || rc.PhoneNumber.Contains(data.SearchInput) ||
+                                                rc.Street.Contains(data.SearchInput) || rc.Notes.Contains(data.SearchInput) ||
+                                                p.FirstName.Contains(data.SearchInput) || p.LastName.Contains(data.SearchInput) || rc.Street.Contains(data.SearchInput) || rc.City.Contains(data.SearchInput) || rc.State.Contains(data.SearchInput) || rc.ZipCode.Contains(data.SearchInput) ||
+                                                rg.Name.Contains(data.SearchInput)) && (data.RegionId == null || rc.RegionId == data.RegionId)
+                                                && (data.RequestType == null || req.RequestTypeId == data.RequestType) && req.PhysicianId == ProviderId
+                                                orderby req.CreatedDate descending
+                                                select new AdminDashboardList
+                                                {
+                                                    Requestclientid = rc.RequestClientId,
+                                                    RequestID = req.RequestId,
+                                                    RequestTypeID = req.RequestTypeId,
+                                                    Requestor = req.FirstName + " " + req.LastName,
+                                                    PatientName = rc.FirstName + " " + rc.LastName,
+                                                    Bdate = rc.IntDate,
+                                                    BMonth = rc.StrMonth,
+                                                    BYear = rc.IntYear,
+                                                    City = rc.City,
+                                                    State = rc.State,
+                                                    Street = rc.Street,
+                                                    ZipCode = rc.ZipCode,
+                                                    RequestedDate = (DateTime)req.CreatedDate,
+                                                    Email = rc.Email,
+                                                    Region = rg.Name,
+                                                    ProviderName = p.FirstName + " " + p.LastName,
+                                                    PhoneNumber = rc.PhoneNumber,
+                                                    Address = rc.Address + "," + rc.Street + "," + rc.City + "," + rc.State + "," + rc.ZipCode,
+                                                    Notes = rc.Notes,
+                                                    ProviderID = req.PhysicianId,
+                                                    RequestorPhoneNumber = req.PhoneNumber
+                                                }).ToList();
+            int totalItemCount = allData.Count();
+            int totalPages = (int)Math.Ceiling(totalItemCount / (double)data.PageSize);
+            List<AdminDashboardList> list1 = allData.Skip((data.CurrentPage - 1) * data.PageSize).Take(data.PageSize).ToList();
+            PaginatedViewModel paginatedViewModel = new PaginatedViewModel
+            {
+                adl = list1,
+                CurrentPage = data.CurrentPage,
+                TotalPages = totalPages,
+                PageSize = data.PageSize,
+                SearchInput = data.SearchInput,
+                IsAscending = data.IsAscending,
+                SortedColumn = data.SortedColumn
+            };
+            return paginatedViewModel;
+        }
         #region GetRequests
         public PaginatedViewModel GetRequests(PaginatedViewModel data)
         {
@@ -835,7 +900,7 @@ namespace HaloDocRepository.Repositories
         #region sendagreement
         public bool SendAgreement(sendAgreement sendAgreement)
         {
-            var agreementUrl = "https://localhost:7299/Home/ReviewAgreement?ReqId=" + sendAgreement.ReqId;           
+            var agreementUrl = "https://localhost:7299/Home/ReviewAgreement?ReqId=" + sendAgreement.ReqId;
             var subject = "Agreement for your request";
             var EmailTemplate = $"Agreement for your request <a href='{agreementUrl}'>Agree/Disagree</a>";
             bool sent = _emailConfig.SendMail(sendAgreement.Email, subject, EmailTemplate);
@@ -1469,7 +1534,7 @@ namespace HaloDocRepository.Repositories
             int totalItemCount = providerMenu.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
             List<ProviderList> list1 = providerMenu.Skip((pageinfo - 1) * pageSize).ToList();
-            List<ProviderList> list2 =list1.Take(pageSize).ToList();
+            List<ProviderList> list2 = list1.Take(pageSize).ToList();
             ProviderMenu datanew = new ProviderMenu
             {
                 ProviderLists = list2,
@@ -1641,7 +1706,8 @@ namespace HaloDocRepository.Repositories
                 if (req != null)
                 {
                     req.Status = (short?)(ProviderStatus)p.Status;
-                    if (int.TryParse(p.Role, out int intvar)) {
+                    if (int.TryParse(p.Role, out int intvar))
+                    {
                         req.RoleId = intvar;
                     }
                     _context.Physicians.Update(req);
@@ -2152,8 +2218,8 @@ namespace HaloDocRepository.Repositories
             {
                 result = result.Where(req => req.AccountType == AccountType).ToList();
             }
-         
-          
+
+
             int totalItemCount = result.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
             List<UserAccessData> list1 = result.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();

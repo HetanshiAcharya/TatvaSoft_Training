@@ -18,6 +18,7 @@ namespace HaloDocRepository.Interface
         public List<AdminDashboardList> NewRequestData();
         public PaginatedViewModel Indexdata(int ProviderId);
         public PaginatedViewModel GetRequests(PaginatedViewModel data);
+        public PaginatedViewModel GetRequests(string Status, PaginatedViewModel data, int ProviderId);
         public ViewCaseData GetRequestForViewCase(int id);
         public ViewCaseData NewRequestData(int? RId, int? RTId);
         public ViewNotes ViewNotes(int RequestId);

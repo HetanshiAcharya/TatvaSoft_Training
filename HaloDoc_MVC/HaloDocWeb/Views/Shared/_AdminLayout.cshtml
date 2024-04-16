@@ -58,21 +58,23 @@
     </header>
     @*----------Admin Pages Header--------------*@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 mt-4 subnav">
-        <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
-            </li>
-        </ul>
-        <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/ProviderLocation") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="ProviderLocation">ProviderLocation</a>
-            </li>
-        </ul>
-        @* <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/AdminProfile") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="AdminProfile">MyProfile</a>
-            </li>
-        </ul> *@
+        @if (loginRepository.isAccessGranted((int)CV.RoleID(), "DashBoard"))
+        {
+            <ul class="nav-item">
+                <li class="nav-link">
+                    <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
+                </li>
+            </ul>
+        }
+        @if (loginRepository.isAccessGranted((int)CV.RoleID(), "ProviderLocations"))
+        {
+            <ul class="nav-item">
+                <li class="nav-link">
+                    <a class="nav-link px-3 text-dark  @(path.EndsWith("/ProviderLocation") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="ProviderLocation">ProviderLocation</a>
+                </li>
+            </ul>
+        }
+
         @if (loginRepository.isAccessGranted((int)CV.RoleID(), "My Profile"))
         {
             <ul class="nav-item">
@@ -80,57 +82,113 @@
                     <a class="nav-link px-3 text-dark  @(path.EndsWith("/AdminProfile") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="AdminProfile">MyProfile</a>
                 </li>
             </ul>
-           
+
+        }
+        @if (CV.role() == "Admin")
+        {
+            <ul class="nav-item dropdown ">
+                @{
+                    var activePaths = new[] { "/Provider", "/Scheduling" };
+                    var activeClass = activePaths.Any(path.EndsWith) ? "activeNav" : "";
+                }
+                <a class="nav-link dropdown px-2 text-dark @activeClass " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Providers
+                </a>
+                <li class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "Provider"))
+                    {
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Provider">Provider</a>
+                    }
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "Scheduling"))
+                    {
+                        <a class="dropdown-item" asp-action="Index" asp-controller="Scheduling">Scheduling</a>
+                    }
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "Invoicing"))
+                    {
+                        <a class="dropdown-item" href="#"> Invoicing</a>
+                    }
+                </li>
+            </ul>
+        }
+        @if (CV.role() == "Physician")
+        {
+            @if (loginRepository.isAccessGranted((int)CV.RoleID(), "MySchedule"))
+            {
+                <ul class="nav-item">
+                    <li class="nav-link">
+                        <a class="nav-link px-2 text-dark" asp-action="Index" asp-controller="Scheduling">My Schedule</a>
+                    </li>
+                </ul>
+            }
+            @if (loginRepository.isAccessGranted((int)CV.RoleID(), "Invoicing"))
+            {
+                <ul class="nav-item">
+                    <li class="nav-link">
+                        <a class="nav-link px-2 text-dark">Invoicing</a>
+                    </li>
+                </ul>
+            }
         }
 
-        <ul class="nav-item dropdown ">
-            @{
-                var activePaths = new[] { "/Provider", "/Scheduling" };
-                var activeClass = activePaths.Any(path.EndsWith) ? "activeNav" : "";
-            }
-            <a class="nav-link dropdown px-2 text-dark @activeClass " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Providers
-            </a>
-            <li class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" asp-action="Index" asp-controller="Provider">Provider</a>
-                <a class="dropdown-item" asp-action="Index" asp-controller="Scheduling">Scheduling</a>
-                <a class="dropdown-item" href="#"> Invoicing</a>
-            </li>
-        </ul>
-        <ul class="nav-item">
-            <li class="nav-link">
-                <a class="nav-link px-3 text-dark  @(path.EndsWith("/Partners") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Partners">Partners</a>
-            </li>
-        </ul>
-        <ul class="nav-item">
-            @{
-                var activePath = new[] { "/Access", "/UserAccess" };
-                var activeClasses = activePath.Any(path.EndsWith) ? "activeNav" : "";
-            }
-            <a class="nav-link dropdown px-2 text-dark @activeClasses" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Access
-            </a>
-            <li class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" asp-action="Index" asp-controller="Access">Account Access</a>
-                <a class="dropdown-item" asp-action="UserAccess" asp-controller="Access">User Access</a>
-            </li>
-        </ul>
-        <ul class="nav-item">
-            @{
-                var activepath = new[] { "/RecordsSearch", "/PatientHistory", "RecordsBlock","/EmailLogs" };
-                var activeclass = activepath.Any(path.EndsWith) ? "activeNav" : "";
-            }
-            <a class="nav-link dropdown px-2 text-dark @activeclass" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Records
-            </a>
-            <li class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" asp-action="RecordsSearch" asp-controller="Records">Search Records</a>
-                <a class="dropdown-item" asp-action="EmailLogs" asp-controller="Records">Email Logs</a>
-                <a class="dropdown-item" asp-action="RecordsSMSLog" asp-controller="Records">SMS Logs</a>
-                <a class="dropdown-item" asp-action="PatientHistory" asp-controller="Records">Patient Records</a>
-                <a class="dropdown-item" asp-action="RecordsBlock" asp-controller="Records">Blocked History</a>
-            </li>
-        </ul>
+        @if (loginRepository.isAccessGranted((int)CV.RoleID(), "VendorsInfo"))
+        {
+            <ul class="nav-item">
+                <li class="nav-link">
+                    <a class="nav-link px-3 text-dark  @(path.EndsWith("/Partners") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Partners">Partners</a>
+                </li>
+            </ul>
+        }
+        @if (loginRepository.isAccessGranted((int)CV.RoleID(), "Role"))
+        {
+            <ul class="nav-item">
+                @{
+                    var activePath = new[] { "/Access", "/UserAccess" };
+                    var activeClasses = activePath.Any(path.EndsWith) ? "activeNav" : "";
+                }
+                <a class="nav-link dropdown px-2 text-dark @activeClasses" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Access
+                </a>
+                <li class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-action="Index" asp-controller="Access">Account Access</a>
+                    <a class="dropdown-item" asp-action="UserAccess" asp-controller="Access">User Access</a>
+                </li>
+            </ul>
+        }
+        @if (CV.role() == "Admin")
+        {
+            <ul class="nav-item">
+                @{
+                    var activepath = new[] { "/RecordsSearch", "/PatientHistory", "RecordsBlock", "/EmailLogs" };
+                    var activeclass = activepath.Any(path.EndsWith) ? "activeNav" : "";
+                }
+                <a class="nav-link dropdown px-2 text-dark @activeclass" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Records
+                </a>
+                <li class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "History"))
+                    {
+                        <a class="dropdown-item" asp-action="RecordsSearch" asp-controller="Records">Search Records</a>
+                    }
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "EmailLogs"))
+                    {
+                        <a class="dropdown-item" asp-action="EmailLogs" asp-controller="Records">Email Logs</a>
+                    }
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "SMSLogs"))
+                    {
+                        <a class="dropdown-item" asp-action="RecordsSMSLog" asp-controller="Records">SMS Logs</a>
+                    }
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "PatientRecords"))
+                    {
+                        <a class="dropdown-item" asp-action="PatientHistory" asp-controller="Records">Patient Records</a>
+                    }
+                    @if (loginRepository.isAccessGranted((int)CV.RoleID(), "BlockedHistory"))
+                    {
+                        <a class="dropdown-item" asp-action="RecordsBlock" asp-controller="Records">Blocked History</a>
+                    }
+                </li>
+            </ul>
+        }
+
     </nav>
     <main class="main">
         @RenderBody()

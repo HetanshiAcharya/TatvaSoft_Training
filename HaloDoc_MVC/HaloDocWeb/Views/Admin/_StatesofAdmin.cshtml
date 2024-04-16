@@ -9,7 +9,7 @@
     @* <input type="hidden" name="region" id="Regionid" /> *@
     <div class="row mb-2 " style="--bs-gutter-x: 0rem;">
         @* --------------- New --------------------------  *@
-        <button onclick="changeStatus('1')"  class="btn col-4 col-md-2 text-start shadow-none ">
+        <button onclick="changeStatus('1')" class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded new ps-2 pt-3 as">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-plus me-2 align-self-center d-none d-sm-block"></i>
@@ -21,7 +21,8 @@
             </div>
         </button>
         @* --------------- Pending --------------------------  *@
-        <button onclick="changeStatus('2')"  class="btn col-4 col-md-2 text-start shadow-none">
+
+        <button onclick="changeStatus('2')" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded pending ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-user-clock me-2 align-self-center d-none d-sm-block"></i>
@@ -33,7 +34,7 @@
             </div>
         </button>
         @* ---------------Active --------------------------  *@
-        <button onclick="changeStatus('4,5')"  class="btn col-4 col-md-2 text-start shadow-none ">
+        <button onclick="changeStatus('4,5')" class="btn col-4 col-md-2 text-start shadow-none ">
             <div class="p-1 rounded active ps-2 pt-3 activetext">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-circle-check me-2 align-self-center d-none d-sm-block"></i>
@@ -45,7 +46,7 @@
             </div>
         </button>
         @* --------------- Conclude --------------------------  *@
-        <button onclick="changeStatus('6')"  class="btn col-4 col-md-2 text-start shadow-none">
+        <button onclick="changeStatus('6')" class="btn col-4 col-md-2 text-start shadow-none">
             <div class="p-1 rounded conclude ps-2 pt-3">
                 <div class="d-inline-flex">
                     <i class="fa-solid fa-clock-rotate-left me-2 align-self-center d-none d-sm-block"></i>
@@ -57,29 +58,35 @@
             </div>
         </button>
         @* --------------- To Close --------------------------  *@
-        <button onclick="changeStatus('3,7,8')"  class="btn col-4 col-md-2 text-start shadow-none">
-            <div class="p-1 rounded toClose ps-2 pt-3 toclose">
-                <div class="d-inline-flex">
-                    <i class="fa-solid fa-user-xmark me-2 align-self-center d-none d-sm-block"></i>
-                    TO CLOSE
+        @if (CV.role() == "Admin")
+        {
+            <button onclick="changeStatus('3,7,8')" class="btn col-4 col-md-2 text-start shadow-none">
+                <div class="p-1 rounded toClose ps-2 pt-3 toclose">
+                    <div class="d-inline-flex">
+                        <i class="fa-solid fa-user-xmark me-2 align-self-center d-none d-sm-block"></i>
+                        TO CLOSE
+                    </div>
+                    <div class="mt-2">
+                        <span class="h4 fw-bold">@Model.ToCloseRequest</span>
+                    </div>
                 </div>
-                <div class="mt-2">
-                    <span class="h4 fw-bold">@Model.ToCloseRequest</span>
-                </div>
-            </div>
-        </button>
+            </button>
+        }
         @* --------------- Unpaid --------------------------  *@
-        <button onclick="changeStatus('9')"  class="btn col-4 col-md-2 text-start shadow-none">
-            <div class="p-1 rounded unpaid ps-2 pt-3">
-                <div class="d-inline-flex">
-                    <i class="fa-solid fa-circle-dollar-to-slot me-2 align-self-center d-none d-sm-block"></i>
-                    UNPAID
+        @if (CV.role() == "Admin")
+        {
+            <button onclick="changeStatus('9')" class="btn col-4 col-md-2 text-start shadow-none">
+                <div class="p-1 rounded unpaid ps-2 pt-3">
+                    <div class="d-inline-flex">
+                        <i class="fa-solid fa-circle-dollar-to-slot me-2 align-self-center d-none d-sm-block"></i>
+                        UNPAID
+                    </div>
+                    <div class="mt-2">
+                        <span class="h4 fw-bold">@Model.UnpaidRequest</span>
+                    </div>
                 </div>
-                <div class="mt-2">
-                    <span class="h4 fw-bold">@Model.UnpaidRequest</span>
-                </div>
-            </div>
-        </button>
+            </button>
+        }
     </div>
 
     @* 5 buttons *@
@@ -89,7 +96,7 @@
             <strong class="fs-6">Patients</strong> <small>(New) </small>
         </div>
         <div>
-            <button class="btn btn-info text-white shadow-none mb-2" >
+            <button class="btn btn-info text-white shadow-none mb-2">
                 <small>
                     <i class="bi bi-send"></i>
                     <span class="adminIcon" data-bs-toggle="modal" data-bs-target=" #sendlinkpopup">Send Link</span>
@@ -101,42 +108,49 @@
                     <span class="adminIcon">Create Requests</span>
                 </small>
             </a>
-            <button class="btn btn-info text-white shadow-none mb-2" onclick="Export(@CV.CurrentStatus())">
-                <small>
-                    <i class="fa-solid fa-share"></i>
-                    <span class="adminIcon">Export</span>
-                </small>
-            </button>
-            <button class="btn btn-info text-white shadow-none mb-2" onclick="Export('1,2,3,4,5,6,7,8,9,10,11')">
-                <small>
-                    <i class="fa-solid fa-share-from-square"></i>
-                    <span class="adminIcon">Export All</span>
-                </small>
-            </button>
-            <button class="btn btn-info text-white shadow-none mb-2">
-                <small>
-                    <i class="fa-solid fa-user-nurse"></i>
-                    <span class="adminIcon">Request DIY Support</span>
-                </small>
-            </button>
+            @if (CV.role() == "Admin")
+            {
+                <button class="btn btn-info text-white shadow-none mb-2" onclick="Export(@CV.CurrentStatus())">
+                    <small>
+                        <i class="fa-solid fa-share"></i>
+                        <span class="adminIcon">Export</span>
+                    </small>
+                </button>
+                <button class="btn btn-info text-white shadow-none mb-2" onclick="Export('1,2,3,4,5,6,7,8,9,10,11')">
+                    <small>
+                        <i class="fa-solid fa-share-from-square"></i>
+                        <span class="adminIcon">Export All</span>
+                    </small>
+                </button>
+                <button class="btn btn-info text-white shadow-none mb-2">
+                    <small>
+                        <i class="fa-solid fa-user-nurse"></i>
+                        <span class="adminIcon">Request DIY Support</span>
+                    </small>
+                </button>
+            }
         </div>
     </div>
     @* --------------- Search Bar --------------------------  *@
 
     <div class="mt-2 mx-2 rounded-top bg-white">
         <div class="searchBar px-2">
+
             <div class="searchPatientRegion py-2">
                 <div class="search m-1 shadow-none">
                     <i class="fa fa-search" id="searchicon"></i>
                     <input type="text" class="form-control" asp-for="SearchInput" placeholder="Search Patients">
                 </div>
-                <div class="search m-1 shadow-none">
-                    <i class="fa fa-search"></i>
-                    @* <input type="hidden" id="regionvalue" /> *@
-                    <select class="form-select mb-3" asp-for="RegionId" data-allow-clear="true" tabindex="-1" id="regiondropdown" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level">
-                        <option>All Region</option>
-                    </select>
-                </div>
+                @if (CV.role() == "Admin")
+                {
+                    <div class="search m-1 shadow-none">
+                        <i class="fa fa-search"></i>
+                        @* <input type="hidden" id="regionvalue" /> *@
+                        <select class="form-select mb-3" asp-for="RegionId" data-allow-clear="true" tabindex="-1" id="regiondropdown" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level">
+                            <option>All Region</option>
+                        </select>
+                    </div>
+                }
                 <div class="search m-1 shadow-none">
                     <span class="spantxt">Page Size</span>
                     <select class="form-select mb-3 pagedropdown" asp-for="PageSize" data-allow-clear="true" tabindex="-1" id="pagesizedropdown" data-control="select2" data-placeholder="Select Level">
@@ -147,8 +161,9 @@
                     </select>
                 </div>
             </div>
+
             <div class="requestType">
-                <input type="hidden" id="requesttypevalue" asp-for="RequestType"/>
+                <input type="hidden" id="requesttypevalue" asp-for="RequestType" />
                 <button class="me-3 btn filterborder shadow-none" onclick="assignrequesttype()">
                     <small>All</small>
                 </button>
