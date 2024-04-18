@@ -31,7 +31,7 @@ namespace HaloDocRepository.Interface
         public List<CaseTag> CancelCase();
         public List<HealthProfessionalType> Professions();
         public bool SendOrders(int requestid, OrderDetail o);
-        public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes);
+        public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes, string adminId);
         public void CancelCaseInfo(int casetagId, string Notes, int RequestId);
         public bool BlockCaseInfo(int requestId, string notes);
         public void DeleteFile(int requestid, int reqwisefileid);
@@ -60,7 +60,7 @@ namespace HaloDocRepository.Interface
         ProviderMenu ProviderMenu(int Region, int pageinfo);
         public bool ChangeNoti(int[] files, int region);
         public bool SendEmailProvider(string Email, string Message);
-        public Task<ProviderList> GetProviderProfileDetails(int id);
+        public ProviderList GetProviderProfileDetails(int id);
         public List<Role> ProviderRole();
         public Task<bool> EditProviderAccInfo(ProviderList p);
         public Task<bool> EditProviderInfo(ProviderList p);
@@ -91,6 +91,12 @@ namespace HaloDocRepository.Interface
         public SearchInputs RecordsSMSLog(SearchInputs rm);
         public bool AddAdminAccount(AdminProfile admindata);
         public List<Role> ProviderRoleAdmin();
+        public bool AcceptCase(int RequestId, string PhysicianId, string Notes);
+        public bool RejectCase(int RequestId, string Notes);
+        public bool Consult(int RequestId);
+        public bool HouseCall(int RequestId);
+        public bool concludecare(int RequestID, string Notes);
+        public bool RequestToAdmin(int obj, string Notes);
     }
 
 }

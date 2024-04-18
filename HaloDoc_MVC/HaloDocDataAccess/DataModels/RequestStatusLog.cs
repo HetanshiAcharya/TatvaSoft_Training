@@ -17,7 +17,7 @@ public partial class RequestStatusLog
 
     public short Status { get; set; }
 
-    public int PhysicianId { get; set; }
+    public int? PhysicianId { get; set; } 
 
     public int AdminId { get; set; }
 

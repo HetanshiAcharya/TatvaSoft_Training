@@ -1,0 +1,49 @@
+﻿@using static HaloDocWeb.Models.CV;
+
+<div class="modal fade" id="acceptcase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header  bg-info text-white">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Accept Request</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method=post asp-action="AcceptCase" asp-controller="Admin" class="needs-validation" novalidate>
+                <input type="hidden" value=" " id="RequestID_ModelAcceptCase" name="RequestId" />
+                @* <input type="hidden" value=" " id="" name="@CV.UserId()" /> *@
+                <div class="modal-body">
+                    <h6>
+                        For accepting this Patient Request click on
+                        Accept button and for transfer case to admin click on Reject button.
+                    </h6>
+                    <textarea name="Notes" class="form-control" id="notes" rows="4"
+                              placeholder="Description"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class=" btn btn-info text-white">Accept</button>
+                    <a class="btn btn-outline-info" data-bs-dismiss="modal" onclick="RejectCase()">Reject</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function RejectCase() {
+        var reqId = $("#RequestID_ModelAcceptCase").val();
+        var notes = $("#notes").val();
+       
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("RejectCase", "Admin")',
+            data: { RequestId: reqId, Notes: notes },
+            cache: false,
+            success: function (response) {
+                console.log('Data sent successfully', response);
+                location.reload();
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    }
+</script>
+

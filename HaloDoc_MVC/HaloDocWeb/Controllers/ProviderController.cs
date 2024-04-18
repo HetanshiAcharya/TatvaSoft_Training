@@ -106,12 +106,12 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region editphysician
-        public async Task<IActionResult> EditPhysician(int pId)
+        public IActionResult EditPhysician(int pId)
         {
             ViewBag.Status = _adminservice.ProviderRole();
             ViewBag.AssignCase = _adminservice.AssignCase();
-            ViewData["Heading"] = "Edit";
-            var res = await _adminservice.GetProviderProfileDetails(pId);
+            ViewData["Heading"] = "Edit Physician Account";
+            var res = _adminservice.GetProviderProfileDetails(pId);
             return View("../Admin/Provider/EditPhysician", res);
         }
         #endregion
@@ -197,6 +197,24 @@ namespace HaloDocWeb.Controllers
             bool res = _adminservice.DeleteProvider(PhysicianId);
             _notyf.Success("Information changed Successfully...");
             return RedirectToAction("Index", "Provider");
+        }
+        #endregion
+        #region editphysician
+        public IActionResult ProviderProfile(int pId)
+        {
+            ViewBag.Status = _adminservice.ProviderRole();
+            ViewBag.AssignCase = _adminservice.AssignCase();
+            ViewData["Heading"] = "My Profile";
+            var res = _adminservice.GetProviderProfileDetails(pId);
+            return View("../Admin/Provider/EditPhysician", res);
+        }
+        #endregion
+        #region editphysician
+        public IActionResult RequestToAdmin(string Notes)
+        {
+            int obj = Convert.ToInt32(CV.UserId());
+            bool res = _adminservice.RequestToAdmin(obj, Notes);
+            return View("../Admin/Provider/EditPhysician", res);
         }
         #endregion
     }

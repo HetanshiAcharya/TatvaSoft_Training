@@ -18,30 +18,27 @@ namespace HaloDocDataAccess.ViewModels
         public DateTime Dob { get; set; }
         public string? PatientId { get; set; }
         public string? BMonth { get; set; }
-
         public int? Bdate { get; set; }
-
         public int? BYear { get; set; }
         public string? Street { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }
         public string? ZipCode { get; set; }
-
         public string? Requestor { get; set; }
         public DateTime RequestedDate { get; set; }
         public string? PhoneNumber { get; set; }
         public string Email { get; set; }
         public string? RequestorPhoneNumber { get; set; }
-
         public int? RequestID { get; set; }
         public int? RequestTypeID { get; set; }
         public string? Address { get; set; }
         public string? Notes { get; set; }
-
         public int? ProviderID { get; set; }
+        public int? Status { get; set; }
         public string? ProviderName { get; set; }
         public string? Region { get; set; }
         public short ADStatus { get; set; }
+        
     }
     public class CountStatusWiseRequestModel
     {

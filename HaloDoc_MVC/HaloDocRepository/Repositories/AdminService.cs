@@ -189,7 +189,10 @@ namespace HaloDocRepository.Repositories
                                                     Address = rc.Address + "," + rc.Street + "," + rc.City + "," + rc.State + "," + rc.ZipCode,
                                                     Notes = rc.Notes,
                                                     ProviderID = req.PhysicianId,
-                                                    RequestorPhoneNumber = req.PhoneNumber
+                                                    RequestorPhoneNumber = req.PhoneNumber,
+                                                    Status = req.Status,
+
+
                                                 }).ToList();
             int totalItemCount = allData.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)data.PageSize);
@@ -548,20 +551,21 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region AssignCaseInfo
-        public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes)
+        public void AssignCaseInfo(int RequestId, int PhysicianId, string Notes, string adminId)
         {
             var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
             request.PhysicianId = PhysicianId;
-            request.Status = 2;
+            request.Status = 1;
             //_context.Requests.Update(request);
             _context.SaveChanges();
 
             RequestStatusLog rsl = new RequestStatusLog();
             rsl.RequestId = RequestId;
+            rsl.AdminId = Convert.ToInt32(adminId);
             rsl.PhysicianId = PhysicianId;
             rsl.Notes = Notes;
             rsl.CreatedDate = DateTime.Now;
-            rsl.Status = 2;
+            rsl.Status = 1;
             _context.RequestStatusLogs.Update(rsl);
             _context.SaveChanges();
 
@@ -1646,49 +1650,49 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
         #region GetProviderProfileDetails
-        public async Task<ProviderList> GetProviderProfileDetails(int id)
+        public ProviderList GetProviderProfileDetails(int id)
         {
-            ProviderList? v = await (from r in _context.Physicians
-                                     join Aspnetuser in _context.AspNetUsers
-                                     on r.AspNetUserId equals Aspnetuser.Id
-                                     where r.PhysicianId == id
-                                     select new ProviderList
-                                     {
-                                         RoleId = r.RoleId,
-                                         PhysicianId = r.PhysicianId,
-                                         UserName = Aspnetuser.UserName,
-                                         Password = Aspnetuser.PasswordHash,
-                                         LastName = r.LastName,
-                                         FirstName = r.FirstName,
-                                         Email = r.Email,
-                                         Phone = r.Mobile,
-                                         MedLicence = r.MedicalLicense,
-                                         NpiNum = r.Npinumber,
-                                         SyncEmail = r.SyncEmailAddress,
-                                         Add1 = r.Address1,
-                                         Add2 = r.Address2,
-                                         PhoneForBill = r.AltPhone,
-                                         City = r.City,
-                                         Regionid = r.RegionId,
-                                         Status = (ProviderStatus)r.Status,
-                                         Zip = r.Zip,
-                                         Bname = r.BusinessName,
-                                         Bwebsite = r.BusinessWebsite,
-                                         isAgreementDoc = r.IsAgreementDoc[0],
-                                         isLicenseDoc = r.IsLicenseDoc[0],
-                                         isBackgroundDoc = r.IsBackgroundDoc[0],
-                                         isCredentialDoc = r.IsCredentialDoc[0],
-                                         isNonDisclosureDoc = (bool)r.IsNonDisclosureDoc
-                                     }).FirstOrDefaultAsync();
+            ProviderList? v = (from r in _context.Physicians
+                               join Aspnetuser in _context.AspNetUsers
+                               on r.AspNetUserId equals Aspnetuser.Id
+                               where r.PhysicianId == id
+                               select new ProviderList
+                               {
+                                   RoleId = r.RoleId,
+                                   PhysicianId = r.PhysicianId,
+                                   UserName = Aspnetuser.UserName,
+                                   Password = Aspnetuser.PasswordHash,
+                                   LastName = r.LastName,
+                                   FirstName = r.FirstName,
+                                   Email = r.Email,
+                                   Phone = r.Mobile,
+                                   MedLicence = r.MedicalLicense,
+                                   NpiNum = r.Npinumber,
+                                   SyncEmail = r.SyncEmailAddress,
+                                   Add1 = r.Address1,
+                                   Add2 = r.Address2,
+                                   PhoneForBill = r.AltPhone,
+                                   City = r.City,
+                                   Regionid = r.RegionId,
+                                   Status = (ProviderStatus)r.Status,
+                                   Zip = r.Zip,
+                                   Bname = r.BusinessName,
+                                   Bwebsite = r.BusinessWebsite,
+                                   isAgreementDoc = r.IsAgreementDoc[0],
+                                   isLicenseDoc = r.IsLicenseDoc[0],
+                                   isBackgroundDoc = r.IsBackgroundDoc[0],
+                                   isCredentialDoc = r.IsCredentialDoc[0],
+                                   isNonDisclosureDoc = (bool)r.IsNonDisclosureDoc
+                               }).FirstOrDefault();
             List<HaloDocDataAccess.DataModels.Region> regions = new List<HaloDocDataAccess.DataModels.Region>();
-            regions = await _context.PhysicianRegions
+            regions = _context.PhysicianRegions
                   .Where(r => r.PhysicianId == id)
                   .Select(req => new HaloDocDataAccess.DataModels.Region()
                   {
                       RegionId = req.RegionId
 
                   })
-                  .ToListAsync();
+                  .ToList();
             v.Regionids = regions;
             return v;
 
@@ -2639,6 +2643,154 @@ namespace HaloDocRepository.Repositories
             }
             return true;
         }
+
+        #region AcceptCase
+        public bool AcceptCase(int RequestId, string PhysicianId, string Notes)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+
+            request.Status = 2;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.PhysicianId = Convert.ToInt32(PhysicianId);
+            rsl.Notes = Notes;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 2;
+            _context.RequestStatusLogs.Update(rsl);
+            _context.SaveChanges();
+            return true;
+
+        }
+        #endregion
+
+        #region RejectCase
+        public bool RejectCase(int RequestId, string Notes)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.Status = 1;
+            request.PhysicianId = null;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.TransToAdmin = new BitArray(1);
+            rsl.TransToAdmin[0] = true;
+            rsl.PhysicianId = null;
+            rsl.Notes = Notes;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 1;
+            _context.RequestStatusLogs.Update(rsl);
+            _context.SaveChanges();
+            return true;
+        }
+
+        #endregion
+
+        #region Housecall
+        public bool HouseCall(int RequestId)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.Status = 5;
+            request.ModifiedDate = DateTime.Now;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 5;
+            _context.RequestStatusLogs.Add(rsl);
+            _context.SaveChanges();
+            return true;
+        }
+        #endregion
+
+        #region Consult
+        public bool Consult(int RequestId)
+        {
+            var request = _context.Requests.FirstOrDefault(req => req.RequestId == RequestId);
+            request.Status = 6;
+            request.ModifiedDate = DateTime.Now;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = RequestId;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.Status = 6;
+            _context.RequestStatusLogs.Add(rsl);
+            _context.SaveChanges();
+            return true;
+        }
+        #endregion
+        #region concludecare
+        public bool concludecare(int RequestID, string Notes)
+        {
+            try
+            {
+                var requestData = _context.Requests.FirstOrDefault(e => e.RequestId == RequestID);
+                if (requestData != null)
+                {
+                    requestData.Status = 8;
+                    requestData.ModifiedDate = DateTime.Now;
+                    _context.Requests.Update(requestData);
+                    _context.SaveChanges();
+
+                    RequestStatusLog rsl = new RequestStatusLog
+                    {
+                        RequestId = RequestID,
+                        Notes = Notes,
+                        Status = 8,
+                        CreatedDate = DateTime.Now
+
+                    };
+                    _context.RequestStatusLogs.Add(rsl);
+                    _context.SaveChanges();
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+        #endregion
+
+        #region requesttoadmin
+        public bool RequestToAdmin(int obj, string Notes)
+        {
+            var res = _context.Physicians.FirstOrDefault(e => e.PhysicianId == obj);
+            var subject = "Request to Edit Profile";
+            var EmailTemplate = $"I want to Edit this much of details: {Notes}";
+            bool sent = _emailConfig.SendMail(res.Email, subject, EmailTemplate);
+            EmailLog em = new EmailLog
+            {
+                EmailTemplate = EmailTemplate,
+                SubjectName = subject,
+                EmailId = res.Email,
+                CreateDate = DateTime.Now,
+                SentDate = DateTime.Now,
+                IsEmailSent = new BitArray(1),
+                SentTries = 1,
+                Action = 2, //action 4 - srequest
+                RoleId = 2, //role admin 
+            };
+            if (sent)
+            {
+                em.IsEmailSent[0] = true;
+            };
+            _context.EmailLogs.Add(em);
+            _context.SaveChanges();
+            return true;
+        }
+
+        #endregion
     }
 }
 

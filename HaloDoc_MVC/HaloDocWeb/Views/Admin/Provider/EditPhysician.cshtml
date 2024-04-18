@@ -8,7 +8,7 @@
     @* --------------- Modal Header --------------------------  *@
     <div class="d-flex justify-content-between mb-4">
         <div class="d-flex justify-content-evenly">
-            <h5 class="mt-3"><strong>@ViewData["Heading"] Physician</strong></h5>
+            <h5 class="mt-3"><strong>@ViewData["Heading"]</strong></h5>
         </div>
         <div>
             <a class="btn border border-info text-info shadow-none backButton">
@@ -17,8 +17,15 @@
         </div>
     </div>
     <div class="p-3 bg-white">
+        <div class="d-flex justify-content-end">
+            <button id="reqtoadminbtn" class=" btn border border-info text-info" style="display:none" data-bs-toggle="modal" data-bs-target="#requestToadmin" />Request To Admin</button>
+        </div>
         @* Account Information  *@
+        <div>
+            @Html.Partial("../RequestToAdminModal.cshtml")
+        </div>
         <form method="post" asp-action="EditProviderAccInfo" asp-controller="Provider">
+            
             <div class="row">
                 <input type="hidden" asp-for="PhysicianId" />
                 <h6><strong>Account Information</strong></h6>
@@ -42,10 +49,9 @@
                 </div>
                 <div class="dropdown col-lg-6 mt-4">
                     <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))" data-control="" data-placeholder="Select Role" id="role" disabled>
-                        
                     </select>
-                        
-                    
+
+
                 </div>
 
             </div>
@@ -349,8 +355,8 @@
         <div class=" d-flex justify-content-end">
             <input type="button" class="input btn bg-info text-white rounded px-3 me-2 save" value="Save" onclick="saveChng()" />
             <input type="button" class="input btn bg-danger text-white rounded px-3 dltacc" onclick="DeleteAccount()" value="Delete Account">
-@*             <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
- *@
+            @*             <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
+            *@
         </div>
     </div>
 </div>
@@ -576,4 +582,20 @@
             history.back();
         }
     });
+    $(document).ready(function () {
+
+        if ("@ViewData["Heading"]" == "My Profile") {
+            $(".editprofile,  .save, .dltacc, .upload-btn").css("display", "none");
+            $("#reqtoadminbtn").css("display", "block");
+        }
+    });
+    $(document).ready(function () {
+        console.log("abcjsbhfjd");
+        if ("@ViewData["Heading"]" == "Edit Physician Account") {
+            $(".crtacc").css("display", "none");
+        }
+    });
+   
+    
+    
 </script>

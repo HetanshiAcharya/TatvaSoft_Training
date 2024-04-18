@@ -19,14 +19,17 @@
                         <small>Date Of Birth</small>
                         <span class="dt-column-order"></span>
                     </th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Requestor" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Requestor')">
-                        <small>Requestor</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "RequestedDate" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('RequestedDate')">
-                        <small>Requested Date</small>
-                        <span class="dt-column-order"></span>
-                    </th>
+                    @if (CV.role() == "Admin")
+                    {
+                        <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Requestor" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Requestor')">
+                            <small>Requestor</small>
+                            <span class="dt-column-order"></span>
+                        </th>
+                        <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "RequestedDate" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('RequestedDate')">
+                            <small>Requested Date</small>
+                            <span class="dt-column-order"></span>
+                        </th>
+                    }
                     <th scope="col">
                         <small>Phone</small>
                     </th>
@@ -37,9 +40,7 @@
                     <th scope="col">
                         <small>Notes</small>
                     </th>
-                    <th scope="col">
-                        <small>Chat With</small>
-                    </th>
+                    
                     <th scope="col">
                         <small>Actions</small>
                     </th>
@@ -60,8 +61,11 @@
                     <td>
                         <small>@item.Bdate/@item.BMonth/@item.BYear</small>
                     </td>
-                    <td><small>@item.Requestor</small></td>
-                    <td><small>@item.RequestedDate.ToString("MMM d , yyyy")</small></td>
+                    @if (CV.role() == "Admin")
+                    {
+                        <td><small>@item.Requestor</small></td>
+                        <td><small>@item.RequestedDate.ToString("MMM d , yyyy")</small></td>
+                    }
                     <td>
                         <button class="btn border border-white text-white mt-2">
                             <i class="fa-solid fa-phone pe-2"></i>
@@ -86,24 +90,30 @@
                     </td>
                     <td><small>@item.Street,@item.City,@item.State-@item.ZipCode</small></td>
                     <td><small>@item.Notes</small></td>
-                    <td>
-                        <button class="btn border border-white text-white my-2">
-                            <small>Patient</small>
-                        </button>
-                        <button class="btn border border-white text-white my-2">
-                            <small>Provider</small>
-                        </button>
-                    </td>
+                   
                     <td>
                         <button class="btn border border-white text-white my-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <small>Actions</small>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Assign Case</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID"><i class="bi bi-x-circle me-1"></i>Cancel Case</a></li>
+                            @if (CV.role() == "Physician")
+                            {
+                                <li><a class="dropdown-item" data-bs-toggle="modal" onclick="ProviderAcceptModal(@item.RequestID)" data-bs-target=" #acceptcase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Accept</a></li>
+                            }
+                            @if (CV.role() == "Admin")
+                            {
+                                <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Assigncaseid(@item.RequestID)" data-bs-target=" #assigncase" data-id="@item.RequestID"><i class="bi bi-card-checklist me-1"></i>Assign Case</a></li>
+                            }
+                            @if (CV.role() == "Admin")
+                            {
+                                <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Cancelcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #cancelcase" data-id="@item.RequestID"><i class="bi bi-x-circle me-1"></i>Cancel Case</a></li>
+                            }
                             <li><a asp-controller="Admin" asp-action="ViewCase" asp-route-RId="@item.RequestID" asp-route-RTId="@item.RequestTypeID" class="dropdown-item"><i class="bi bi-journal-text me-1"></i>View Case</a></li>
                             <li><a class="dropdown-item" href="@Url.Action("ViewNotes", new {RequestId = item.RequestID})"><i class="bi bi-journals me-1"></i>View Notes</a></li>
+                            @if (CV.role() == "Admin")
+                            {
                             <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban me-1"></i>Block Case</a></li>
+                            }
                         </ul>
 
                     </td>
@@ -292,6 +302,11 @@
         document.getElementById('RequestID_ModelBlockCase').value = RequestId;
         document.getElementById('RequestID_PatientNameBlockCase').innerText = patientname;
 
+    }
+    function ProviderAcceptModal(id) {
+        var RequestId = id;
+        console.log(RequestId);
+        document.getElementById('RequestID_ModelAcceptCase').value = RequestId;
     }
     function InfoByRegion() {
         // var region = $("#region3").val();

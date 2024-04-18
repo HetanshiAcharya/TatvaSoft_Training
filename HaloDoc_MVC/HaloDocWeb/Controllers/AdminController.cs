@@ -20,6 +20,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.Extensions.Hosting;
 using OfficeOpenXml;
 using System.Reflection.Metadata;
+using Org.BouncyCastle.Utilities;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -134,7 +135,7 @@ namespace HaloDocDataAccess.Controllers
             }
 
 
-            return View("../Admin/Index",sm);
+            return View("../Admin/Index", sm);
         }
 
         [HttpPost]
@@ -211,7 +212,8 @@ namespace HaloDocDataAccess.Controllers
         [HttpPost]
         public IActionResult AssignCase(int RequestId, int PhysicianId, string Notes)
         {
-            _adminservice.AssignCaseInfo(RequestId, PhysicianId, Notes);
+            var adminId = CV.UserId();
+            _adminservice.AssignCaseInfo(RequestId, PhysicianId, Notes, adminId);
             _notyf.Success("Case Assigned Successfully");
             return RedirectToAction("Index", "Admin");
         }
@@ -436,6 +438,7 @@ namespace HaloDocDataAccess.Controllers
             return View(_viewencounterinfo);
         }
         #endregion
+
         #region encounterfinalize
         [HttpPost]
         public IActionResult EncounterFinalize(EncounterInfo _viewencounterinfo)
@@ -455,8 +458,6 @@ namespace HaloDocDataAccess.Controllers
 
         }
         #endregion
-
-
 
         [HttpPost]
         public IActionResult SendAgreementModalFromUploads(int Reqid)
@@ -541,8 +542,103 @@ namespace HaloDocDataAccess.Controllers
                 return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             }
         }
+        public IActionResult AcceptCase(int RequestId, string Notes)
+        {
+            string PhysicianId = CV.UserId();
+            _adminservice.AcceptCase(RequestId, PhysicianId, Notes);
+            _notyf.Success("Request Accepted Successfully");
+            return RedirectToAction("Index", "Admin");
+        }
+        [HttpPost]
+        public IActionResult RejectCase(int RequestId, string Notes)
+        {
+            _adminservice.RejectCase(RequestId, Notes);
+            _notyf.Success("Request Rejected Successfully");
+            return RedirectToAction("Index", "Admin");
+        }
+        public IActionResult HouseCall(int RequestId)
+        {
+            _adminservice.HouseCall(RequestId);
+            _notyf.Success("Request Rejected Successfully");
+            return RedirectToAction("Index", "Admin");
+        }
+        public IActionResult Consult(int RequestId)
+        {
+            _adminservice.Consult(RequestId);
+            _notyf.Success("Request Rejected Successfully");
+            return RedirectToAction("Index", "Admin");
+        }
+        public IActionResult ConcludeCare(int RequestID)
+        {
+            RequestClient request = _context.RequestClients.FirstOrDefault(r => r.RequestId == RequestID);
+            Request req = _context.Requests.FirstOrDefault(r => r.RequestId == RequestID);
+            List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == RequestID && reqFile.IsDeleted == new BitArray(1)).ToList();
 
+            ViewDocument document = new()
+            {
+                requestwisefiles = fileList,
+                RequestId = RequestID,
+                ConfirmationNumber = req.ConfirmationNumber,
+                UserName = request.FirstName + " " + request.LastName,
+            };
+            return View("ConcludeCare", document);
+        }
+        [HttpPost]
+        public IActionResult ConcludeCarePost(int RequestID, string Notes)
+        {
+            bool sm = _adminservice.concludecare(RequestID,Notes);
+            if (sm)
+            {
+                _notyf.Success("Case Concluded...");
 
+            }
+            else
+            {
+                _notyf.Error("there is some error in CloseCase...");
+            }
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpPost]
+        public IActionResult ConcludeCareViewUploads(ViewDocument viewdata)
+        {
+            string UploadImage = "";
+            var obj = _context.Requests.FirstOrDefault(x => x.RequestId == viewdata.RequestId);
+
+            if (viewdata.File != null)
+            {
+                var fileName = Path.GetFileName(viewdata.File.FileName);
+                string rootPath = "wwwroot\\Upload";
+                string requestId = obj.RequestId.ToString();
+                string userFolder = Path.Combine(rootPath, requestId);
+
+                if (!Directory.Exists(userFolder))
+                    Directory.CreateDirectory(userFolder);
+                string fileNameWithPath = Path.Combine(userFolder, viewdata.File.FileName);
+                UploadImage = viewdata.File.FileName;
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    viewdata.File.CopyTo(stream);
+                }
+                var requestwisefile = new RequestWiseFile
+                {
+                    RequestId = viewdata.RequestId,
+                    FileName = viewdata.File.FileName,
+                    CreatedDate = DateTime.Now,
+                    IsDeleted = new BitArray(1)
+                };
+                _context.RequestWiseFiles.Add(requestwisefile);
+                _context.SaveChanges();
+            }
+
+            return ConcludeCare(viewdata.RequestId);
+        }
+        public IActionResult ConcludeDeleteFile(int requestid, int reqwisefileid)
+        {
+            _adminservice.DeleteFile(requestid, reqwisefileid);
+            _notyf.Success("File Deleted Successfully");
+            return RedirectToAction("ConcludeCare", new { requestId = requestid });
+        }
     }
 }
 
