@@ -1,0 +1,21 @@
+﻿<div class="modal fade" id="EncounterFinalizeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="staticBackdropLabel">Encounter Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="GeneratePdf" asp-controller="Provider">
+                    <input type="hidden" id="EncounterFormID" name="RequestId" />
+                    <p>Encounter form is finalized successfully</p>
+                    <div class="justify-content-center">
+                        <button class="btn btn-info text-white" type="submit" onclick="DownloadEncForm()">Download</button>
+                    </div>
+                </form>
+               
+            </div>
+           
+        </div>
+    </div>
+</div>

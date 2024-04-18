@@ -97,6 +97,7 @@ namespace HaloDocRepository.Interface
         public bool HouseCall(int RequestId);
         public bool concludecare(int RequestID, string Notes);
         public bool RequestToAdmin(int obj, string Notes);
+        public bool isEncounterFinalize(int RequestId);
     }
 
 }

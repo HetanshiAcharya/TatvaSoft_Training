@@ -102,6 +102,10 @@ namespace HaloDocWeb.Controllers
                     {
                         month.shiftdetails = _context.ShiftDetails.Include(u => u.Shift).ThenInclude(u => u.Physician).Where(u => u.IsDeleted == new BitArray(new[] { false })).ToList();
                     }
+                    if (CV.role() == "Physician")
+                    {
+                        month.shiftdetails = _context.ShiftDetails.Include(u => u.Shift).Where(u => u.IsDeleted == new BitArray(new[] { false }) && u.Shift.PhysicianId == Int32.Parse(CV.UserId())).ToList();
+                    }
                     return PartialView("../Admin/Scheduling/_MonthWise", month);
 
                 default:
@@ -112,6 +116,10 @@ namespace HaloDocWeb.Controllers
         {
             string adminId = CV.Id();
             var chk = Request.Form["repeatdays"].ToList();
+            if (model.physicianid == 0)
+            {
+                model.physicianid = Int32.Parse(CV.UserId());
+            }
             _scheduling.AddShift(model, chk);
             _notyf.Success("Shift Added Sucessfully");
             return RedirectToAction("Index");

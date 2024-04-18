@@ -4,6 +4,7 @@ using HaloDocRepository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using HaloDocDataAccess.ViewModels;
 using HaloDocDataAccess.DataModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace HaloDocWeb.Controllers
 {
@@ -92,6 +93,24 @@ namespace HaloDocWeb.Controllers
 
             }
             return View(viewdata);
+        }
+        [HttpPost]
+        public IActionResult CheckEmail(string email)
+        {
+            string message;
+            var aspnetuser =  _context.AspNetUsers.FirstOrDefault(m => m.Email == email);
+            if (aspnetuser == null)
+            {
+                message = "Failure";
+            }
+            else
+            {
+                message = "success";
+            }
+            return Json(new
+            {
+                Message = message
+            });
         }
     }
 }

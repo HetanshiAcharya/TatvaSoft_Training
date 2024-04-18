@@ -431,21 +431,6 @@ namespace HaloDocRepository.Repositories
             }
         }
 
-        //#region PatientRecordsinAdminPage
-        //public List<PatientProfile> PatientHistory()
-        //{
-        //    var pHis = (from req in _context.Users
-        //                select new PatientProfile
-        //                {
-        //                    FirstName= req.FirstName,
-        //                    LastName= req.LastName,
-        //                    Email=req.Email,
-        //                    Phone=req.Mobile,
-        //                    Address= req.Street + req.City + req.State
-        //                }).ToList();
-        //    return pHis;
-        //}
-        //#endregion
         #region PatientRecordsinAdminPage
         public SearchInputs PatientHistory(SearchInputs search)
         {

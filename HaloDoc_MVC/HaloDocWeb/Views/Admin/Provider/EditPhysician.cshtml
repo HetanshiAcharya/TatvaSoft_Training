@@ -11,7 +11,7 @@
             <h5 class="mt-3"><strong>@ViewData["Heading"]</strong></h5>
         </div>
         <div>
-            <a class="btn border border-info text-info shadow-none backButton">
+            <a class="btn border border-info text-info shadow-none " onclick="history.back();">
                 <i class="fa fa-angle-left pe-1 text-info "> </i> Back
             </a>
         </div>
@@ -120,7 +120,7 @@
                            asp-for="SyncEmail"
                            placeholder="Synchronization Email Address" required disabled />
                 </div>
-                <div class="col-sm-5 mt-4 form-check d-flex flex-wrap justify-content-between">
+                <div class="col-sm-5 mt-4 form-check d-flex flex-wrap ">
                     @foreach (var cb in ViewBag.AssignCase)
                     {
                         @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))

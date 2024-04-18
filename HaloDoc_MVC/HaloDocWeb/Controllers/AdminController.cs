@@ -594,7 +594,7 @@ namespace HaloDocDataAccess.Controllers
             }
             else
             {
-                _notyf.Error("there is some error in CloseCase...");
+                _notyf.Error("First finalize the encounter form");
             }
             return RedirectToAction("Index", "Admin");
         }

@@ -9,8 +9,8 @@
     <div class="col-8">
         <div class="d-flex justify-content-between mt-5">
             <h4>Create Role</h4>
-            <a class="btn border border-info text-info shadow-none backButton">
-                <i class="fa fa-angle-left pe-1 text-info "> </i> Back
+            <a class="btn border border-info text-info shadow-none" asp-action="Index" asp-controller="Access">
+                <i class="fa fa-angle-left pe-1 text-info"> </i> Back
             </a>
         </div>
         <div class="shadow p-3 bg-white mt-4">
@@ -57,14 +57,14 @@
                 </div>
                 <div class="d-flex justify-content-end">
                     @* save btn  *@
-                    <div class="search m-2 shadow-none">
+                    <div class="m-2 shadow-none">
                         <button type="submit" class="btn p-2 py-2 btn-info text-decoration-none text-white" onclick="saveedit()">
                             Save
                         </button>
                     </div>
                     @* cancel btn *@
-                    <div class="search m-2 shadow-none">
-                        <button class="btn p-2 py-2 btn-outline-info bg-white " id="save" onclick="">
+                    <div class="m-2 shadow-none">
+                        <button class="btn p-2 py-2 btn-outline-info bg-white" type="reset">
                             <a class="text-decoration-none text-info">Cancel</a>
                         </button>
                     </div>

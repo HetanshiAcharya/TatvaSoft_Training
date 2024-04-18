@@ -1245,6 +1245,10 @@ namespace HaloDocRepository.Repositories
             _context.SaveChanges();
         }
         #endregion
+        public bool isEncounterFinalize(int RequestId)
+        {
+            return _context.EncounterForms.Any(en => en.RequestId == RequestId && en.IsFinalize == true);
+        }
 
         #region GetProfile
         public async Task<AdminDetailsInfo> GetProfileDetails(int id)
@@ -1363,32 +1367,33 @@ namespace HaloDocRepository.Repositories
                         _context.Admins.Update(DataForChange);
                         _context.SaveChanges();
                         List<int> regions = await _context.AdminRegions.Where(r => r.AdminId == _viewAdminProfile.AdminId).Select(req => req.RegionId).ToListAsync();
-                        List<int> priceList = _viewAdminProfile.Regionsid.Split(',').Select(int.Parse).ToList();
-                        foreach (var item in priceList)
+
+                        foreach (var item in regions)
                         {
-                            if (regions.Contains(item))
-                            {
-                                regions.Remove(item);
-                            }
-                            else
-                            {
-                                AdminRegion ar = new()
-                                {
-                                    RegionId = item,
-                                    AdminId = (int)_viewAdminProfile.AdminId
-                                };
-                                _context.AdminRegions.Update(ar);
-                                await _context.SaveChangesAsync();
-                                regions.Remove(item);
-                            }
+                            AdminRegion ar = await _context.AdminRegions.Where(r => r.AdminId == _viewAdminProfile.AdminId && r.RegionId == item).FirstAsync();
+                            _context.AdminRegions.Remove(ar);
+                            await _context.SaveChangesAsync();
                         }
-                        if (regions.Count > 0)
+                        if (!(_viewAdminProfile.Regionids.IsNullOrEmpty()))
                         {
-                            foreach (var item in regions)
+                            List<int> priceList = _viewAdminProfile.Regionsid.Split(',').Select(int.Parse).ToList();
+                            foreach (var item in priceList)
                             {
-                                AdminRegion ar = await _context.AdminRegions.Where(r => r.AdminId == _viewAdminProfile.AdminId && r.RegionId == item).FirstAsync();
-                                _context.AdminRegions.Remove(ar);
-                                await _context.SaveChangesAsync();
+                                if (regions.Contains(item))
+                                {
+                                    regions.Remove(item);
+                                }
+                                else
+                                {
+                                    AdminRegion ar = new()
+                                    {
+                                        RegionId = item,
+                                        AdminId = (int)_viewAdminProfile.AdminId
+                                    };
+                                    _context.AdminRegions.Update(ar);
+                                    await _context.SaveChangesAsync();
+                                    regions.Remove(item);
+                                }
                             }
                         }
                         return true;
@@ -1752,14 +1757,19 @@ namespace HaloDocRepository.Repositories
                         _context.Physicians.Update(DataForChange);
                         _context.SaveChanges();
                         List<int> regions = await _context.PhysicianRegions.Where(r => r.PhysicianId == p.PhysicianId).Select(req => req.RegionId).ToListAsync();
-                        List<int> priceList = p.Regionsid.Split(',').Select(int.Parse).ToList();
-                        foreach (var item in priceList)
+                        foreach (var item in regions)
                         {
-                            if (regions.Contains(item))
-                            {
-                                regions.Remove(item);
-                            }
-                            else
+                            PhysicianRegion ar = await _context.PhysicianRegions.Where(r => r.PhysicianId == p.PhysicianId && r.RegionId == item).FirstAsync();
+                            _context.PhysicianRegions.Remove(ar);
+                            await _context.SaveChangesAsync();
+                        }
+
+                        if (!(p.Regionids.IsNullOrEmpty()))
+                        {
+                            List<int> priceList = p.Regionsid.Split(',').Select(int.Parse).ToList();
+
+
+                            foreach (var item in priceList)
                             {
                                 PhysicianRegion ar = new()
                                 {
@@ -1770,15 +1780,7 @@ namespace HaloDocRepository.Repositories
                                 await _context.SaveChangesAsync();
                                 regions.Remove(item);
                             }
-                        }
-                        if (regions.Count > 0)
-                        {
-                            foreach (var item in regions)
-                            {
-                                PhysicianRegion ar = await _context.PhysicianRegions.Where(r => r.PhysicianId == p.PhysicianId && r.RegionId == item).FirstAsync();
-                                _context.PhysicianRegions.Remove(ar);
-                                await _context.SaveChangesAsync();
-                            }
+
                         }
                         return true;
                     }
@@ -1787,6 +1789,7 @@ namespace HaloDocRepository.Repositories
                         return false;
                     }
                 }
+
             }
             catch (Exception ex)
             {
@@ -2063,7 +2066,7 @@ namespace HaloDocRepository.Repositories
         public List<Menu> RolebyAccountType(AccountType Account)
         {
             int accounttype = (int)Account;
-            if (accounttype == 4)
+            if (accounttype == 0)
             {
                 var result = _context.Menus.ToList();
                 return result;
@@ -2732,24 +2735,33 @@ namespace HaloDocRepository.Repositories
         {
             try
             {
-                var requestData = _context.Requests.FirstOrDefault(e => e.RequestId == RequestID);
-                if (requestData != null)
+                var isencounterfinalize = (from en in _context.EncounterForms
+                                           where en.RequestId == RequestID
+                                           select en.IsFinalize).FirstOrDefault();
+                if (isencounterfinalize)
                 {
-                    requestData.Status = 8;
-                    requestData.ModifiedDate = DateTime.Now;
-                    _context.Requests.Update(requestData);
-                    _context.SaveChanges();
-
-                    RequestStatusLog rsl = new RequestStatusLog
+                    var requestData = _context.Requests.FirstOrDefault(e => e.RequestId == RequestID);
+                    if (requestData != null)
                     {
-                        RequestId = RequestID,
-                        Notes = Notes,
-                        Status = 8,
-                        CreatedDate = DateTime.Now
+                        requestData.Status = 8;
+                        requestData.ModifiedDate = DateTime.Now;
+                        requestData.CompletedByPhysician = new BitArray(1);
+                        requestData.CompletedByPhysician[0] = true;
+                        _context.Requests.Update(requestData);
+                        _context.SaveChanges();
 
-                    };
-                    _context.RequestStatusLogs.Add(rsl);
-                    _context.SaveChanges();
+                        RequestStatusLog rsl = new RequestStatusLog
+                        {
+                            RequestId = RequestID,
+                            Notes = Notes,
+                            Status = 8,
+                            CreatedDate = DateTime.Now
+
+                        };
+                        _context.RequestStatusLogs.Add(rsl);
+                        _context.SaveChanges();
+
+                    }
                     return true;
                 }
                 else { return false; }

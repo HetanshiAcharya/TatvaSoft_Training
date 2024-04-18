@@ -64,18 +64,25 @@
 
     <div class="mt-3">
         <div class="mt-3 d-flex justify-content-between">
-            <div class="search m-1">
-                <a id="regionicon">
-                    <i class="fa fa-search"></i>
-                </a>
-                <select class="form-select" data-allow-clear="true" tabindex="-1" id="schedulingRegions" asp-items="@(new SelectList(ViewBag.AssignCAse,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" style="padding-left:5px">
-                    <option value="0">All Region</option>
-                </select>
-            </div>
+            @if (CV.role() == "Admin")
+            {
+                <div class="search m-1">
+                    <a id="regionicon">
+                        <i class="fa fa-search"></i>
+                    </a>
+                    <select class="form-select" data-allow-clear="true" tabindex="-1" id="schedulingRegions" asp-items="@(new SelectList(ViewBag.AssignCAse,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" style="padding-left:5px">
+                        <option value="0">All Region</option>
+                    </select>
+                </div>
+
+            }
 
             <div class="btns">
-                <a asp-action="MDSOnCall" asp-controller="Scheduling" class="btn btn-info text-white">Providers On Call</a>
-                <a asp-action="RequestedShift" asp-controller="Scheduling" class="btn btn-info text-white">Shifts For Review</a>
+                @if (CV.role() == "Admin")
+                {
+                    <a asp-action="MDSOnCall" asp-controller="Scheduling" class="btn btn-info text-white">Providers On Call</a>
+                    <a asp-action="RequestedShift" asp-controller="Scheduling" class="btn btn-info text-white">Shifts For Review</a>
+                }
                 <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#addShiftModal">Add New Shifts</button>
             </div>
         </div>
@@ -104,11 +111,15 @@
                 </span>
                 <span class="dot bg-info text-center text-white ms-1" id="nextDateBtn" style="height:27px;width:27px"><i class="fa-solid fa-chevron-right"></i></span>
             </div>
-            <div class="d-flex">
-                <button type="button" onclick="loadSchedulingPartial('_DayWise')" class="btn btn-outline-info removeactive" id="Day">Day</button>
-                <button type="button" onclick="loadSchedulingPartial('_WeekWise')" class="btn btn-outline-info ms-2 removeactive" id="Week">Week</button>
-                <button type="button" onclick="loadSchedulingPartial('_MonthWise')" class="btn btn-outline-info ms-2 removeactive" id="Month">Month</button>
-            </div>
+            @if (CV.role() == "Admin")
+            {
+                <div class="d-flex">
+
+                    <button type="button" onclick="loadSchedulingPartial('_DayWise')" class="btn btn-outline-info removeactive" id="Day">Day</button>
+                    <button type="button" onclick="loadSchedulingPartial('_WeekWise')" class="btn btn-outline-info ms-2 removeactive" id="Week">Week</button>
+                    <button type="button" onclick="loadSchedulingPartial('_MonthWise')" class="btn btn-outline-info ms-2 removeactive" id="Month">Month</button>
+                </div>
+            }
         </div>
         <div class="calander mt-4">
         </div>
@@ -129,9 +140,12 @@
                             <option id="defaultreason" value="">All Region</option>
                         </select>
                     </div>
-                    <select class="form-select form-select-sm mt-3 p-2" required asp-for="physicianid" data-allow-clear="true" tabindex="-1" id="Physician" data-control="select2" data-placeholder="Select Physician">
-                        <option>Select Physician</option>
-                    </select>
+                    @if (CV.role() == "Admin")
+                    {
+                        <select class="form-select form-select-sm mt-3 p-2" required asp-for="physicianid" data-allow-clear="true" tabindex="-1" id="Physician" data-control="select2" data-placeholder="Select Physician">
+                            <option>Select Physician</option>
+                        </select>
+                    }
                     <div class="form-floating mt-3">
                         <input asp-for="shiftdate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" placeholder="Date">
                         <label for="floatingInput">Shift Date</label>
@@ -242,8 +256,9 @@
     // Load View accoeding to day,month, week
     var regionid;
     var filterDate = new Date($('#currentDateValue').text());
-    loadSchedulingPartial('_DayWise');
+    loadSchedulingPartial('_MonthWise');
     var currentPartial = localStorage.getItem("currentPartial");
+    console.log(currentPartial);
     function loadSchedulingPartial(PartialName) {
         currentPartial = PartialName;
 
@@ -280,6 +295,7 @@
     }
     // Change Physician according to Region
     $(document).ready(function () {
+        localStorage.setItem("currentPartial", "_MonthWise");
         localStorage.getItem("currentPartial");
         $('#schedulingRegions').on('change', function () {
             regionid = $(this).val();
@@ -300,10 +316,11 @@
         //loadSchedulingPartial('_DayWise');
         localStorage.getItem("currentPartial");
         $('#prevDateBtn').on('click', function () {
-            if (currentPartial == "_MonthWise") {
-                var date = filterDate.setMonth(filterDate.getMonth() - 1);
+            if (currentPartial == "_WeekWise") {
+                var date = filterDate.setDate(filterDate.getDate() - 7);
                 localStorage.setItem("currentPartial", currentPartial);
                 loadSchedulingPartial(currentPartial);
+               
             }
             else if (currentPartial == "_DayWise") {
                 var date = filterDate.setDate(filterDate.getDate() - 1);
@@ -311,16 +328,17 @@
                 loadSchedulingPartial(currentPartial);
             }
             else {
-                var date = filterDate.setDate(filterDate.getDate() - 7);
+                var date = filterDate.setMonth(filterDate.getMonth() - 1);
                 localStorage.setItem("currentPartial", currentPartial);
                 loadSchedulingPartial(currentPartial);
             }
         });
         $('#nextDateBtn').on('click', function () {
-            if (currentPartial == "_MonthWise") {
-                var date = filterDate.setMonth(filterDate.getMonth() + 1);
+            if (currentPartial == "_WeekWise") {
+                var date = filterDate.setDate(filterDate.getDate() + 7);
                 localStorage.setItem("currentPartial", currentPartial);
                 loadSchedulingPartial(currentPartial);
+               
             }
             else if (currentPartial == "_DayWise") {
                 var date = filterDate.setDate(filterDate.getDate() + 1);
@@ -328,7 +346,7 @@
                 loadSchedulingPartial(currentPartial);
             }
             else {
-                var date = filterDate.setDate(filterDate.getDate() + 7);
+                var date = filterDate.setMonth(filterDate.getMonth() + 1);
                 localStorage.setItem("currentPartial", currentPartial);
                 loadSchedulingPartial(currentPartial);
             }

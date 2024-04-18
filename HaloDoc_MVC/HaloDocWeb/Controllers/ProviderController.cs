@@ -3,8 +3,15 @@ using HaloDocDataAccess.ViewModels;
 using HaloDocRepository.Interface;
 using HaloDocRepository.Repositories;
 using HaloDocWeb.Models;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
+using iText.Layout;
+using Document = iText.Layout.Document;
 
 namespace HaloDocWeb.Controllers
 {
@@ -199,7 +206,8 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("Index", "Provider");
         }
         #endregion
-        #region editphysician
+
+        #region ProviderProfile
         public IActionResult ProviderProfile(int pId)
         {
             ViewBag.Status = _adminservice.ProviderRole();
@@ -209,12 +217,139 @@ namespace HaloDocWeb.Controllers
             return View("../Admin/Provider/EditPhysician", res);
         }
         #endregion
-        #region editphysician
+
+        #region RequestToAdmin
         public IActionResult RequestToAdmin(string Notes)
         {
             int obj = Convert.ToInt32(CV.UserId());
             bool res = _adminservice.RequestToAdmin(obj, Notes);
-            return View("../Admin/Provider/EditPhysician", res);
+            _notyf.Success("Mail Sent Successfully");
+            return RedirectToAction("ProviderProfile", new { pId = obj });
+        }
+        #endregion
+
+        #region isEncounterFinalize
+        public IActionResult isEncounterFinalize(int RequestId)
+        {
+            var res = _adminservice.isEncounterFinalize(RequestId);
+            return Json(res);
+        }
+        #endregion
+
+        #region GeneratePdf
+        public IActionResult GeneratePdf(int RequestId)
+        {
+            try
+            {
+                if (RequestId == 0 || RequestId < 0)
+                {
+                    throw new Exception("Invalid Request");
+                }
+                EncounterInfo model = _adminservice.Encounterinfo(RequestId);
+                if (model == null) throw new Exception("Medical Report Not Exist For this Request");
+                using (var ms = new MemoryStream())
+                {
+                    var writer = new PdfWriter(ms);
+                    var pdf = new PdfDocument(writer);
+                    var document = new Document(pdf);
+
+                    // Add a title
+                    var title = new Paragraph("Medical Report")
+                        .SetTextAlignment(TextAlignment.CENTER)
+                        .SetFontSize(20);
+                    document.Add(title);
+                    // Add a table
+                    var table = new iText.Layout.Element.Table(new float[] { 4, 6 });
+                    table.SetWidth(UnitValue.CreatePercentValue(100));
+
+                    table.AddHeaderCell("Property");
+                    table.AddHeaderCell("Value");
+
+                    // Add properties
+                    table.AddCell("RequestId");
+                    table.AddCell(model.RequestID.ToString());
+                    table.AddCell("FirstName");
+                    table.AddCell(model.FirstName);
+                    table.AddCell("LastName");
+                    table.AddCell(model.LastName);
+                    table.AddCell("Location");
+                    table.AddCell(model.Location ?? "");
+                    table.AddCell("DateOfBirth");
+                    table.AddCell(model.Bdate.ToString());
+                    table.AddCell("DateOfService");
+                    table.AddCell(model.CreatedDate.ToString());
+                    table.AddCell("Mobile");
+                    table.AddCell(model.PhoneNumber);
+                    table.AddCell("Email");
+                    table.AddCell(model.Email);
+                    table.AddCell("HistoryOfPresentIllness");
+                    table.AddCell(model.HistoryOfIllness ?? "");
+                    table.AddCell("MedicalHistory");
+                    table.AddCell(model.MedicalHist ?? "");
+                    table.AddCell("Medication");
+                    table.AddCell(model.Medications ?? "");
+                    table.AddCell("Allergies");
+                    table.AddCell(model.Allergies ?? "");
+                    table.AddCell("Temprature");
+                    table.AddCell(model.Temp ?? "");
+                    table.AddCell("HeartRate");
+                    table.AddCell(model.HR ?? "");
+                    table.AddCell("RespiratoryRate");
+                    table.AddCell(model.RR ?? "");
+                    table.AddCell("BloodPressureDiastolic");
+                    table.AddCell(model.BPD ?? "");
+                    table.AddCell("BloodPressureSystolic");
+                    table.AddCell(model.BPS ?? "");
+                    table.AddCell("O2Level");
+                    table.AddCell(model.O2 ?? "");
+                    table.AddCell("Pain");
+                    table.AddCell(model.Pain ?? "");
+                    table.AddCell("HEENT");
+                    table.AddCell(model.heent ?? "");
+                    table.AddCell("CvReading");
+                    table.AddCell(model.CV ?? "");
+                    table.AddCell("Chest");
+                    table.AddCell(model.Chest ?? "");
+                    table.AddCell("ABD");
+                    table.AddCell(model.ABD ?? "");
+                    table.AddCell("Extr");
+                    table.AddCell(model.Extr ?? "");
+                    table.AddCell("Skin");
+                    table.AddCell(model.Skin ?? "");
+                    table.AddCell("Neuro");
+                    table.AddCell(model.Neuro ?? "");
+                    table.AddCell("Other");
+                    table.AddCell(model.Other ?? "");
+                    table.AddCell("Diagnosis");
+                    table.AddCell(model.Diagnosis ?? "");
+                    table.AddCell("TreatmentPlan");
+                    table.AddCell(model.TrtPlan ?? "");
+                    table.AddCell("MedicationDispensed");
+                    table.AddCell(model.MedDispensed ?? "");
+                    table.AddCell("Procedures");
+                    table.AddCell(model.Procedures ?? "");
+                    table.AddCell("FollowUp");
+                    table.AddCell(model.Followup ?? "");
+                    document.Add(table);
+
+                    // Close the document
+                    document.Close();
+
+                    // Return the PDF as a file
+                    byte[] pdfBytes = ms.ToArray();
+                    string filename = "Medical-Report-" + RequestId + DateTime.Now.ToString("_dd-MM-yyyy-hh-mm-ss-fff") + ".pdf";
+                    
+                    return File(pdfBytes, "application/pdf", filename);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { error = ex.Message })
+                {
+                    
+                    StatusCode = 500
+                };
+            }
         }
         #endregion
     }

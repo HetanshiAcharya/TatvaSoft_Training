@@ -62,9 +62,32 @@
             <h4 class="mt-4 mb-2">Patient Contact Information</h4>
             <div class="col-sm-6">
                 <input asp-for="Email" class="form-control form-control-md col-md mt-4"
-                       type="email"
+                       type="email" id="email"
                        placeholder="Enter Email" required />
             </div>
+            <!-- username password -->
+            <div class="col-sm-6" id="username">
+                <input asp-for="Pass" type="text" class="form-control shadow-none" placeholder="Username" style="display:none;">
+            </div>
+            <div class="col-sm-6" id="password">
+                <input asp-for="ConfirmPass" type="password" class="form-control shadow-none" placeholder="Password" style="display:none;">
+            </div>
+            @*  <div class="row ">
+            <div class="col-md-6 pb-3" id="username" style="display:none;">
+            <div class="form-floating">
+            <input asp-for="Pass" type="text" class="form-control shadow-none" id="pass" placeholder="Username">
+            <label for="uname">Password</label>
+            <span asp-validation-for="Pass" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="col-md-6 pb-3" id="password" style="display:none;">
+            <div class="form-floating">
+            <input asp-for="ConfirmPass" type="password" class="form-control shadow-none" id="conpass" placeholder="Password">
+            <label for="pass">Conform Password</label>
+            <span asp-validation-for="ConfirmPass" class="text-danger"></span>
+            </div>
+            </div>
+            </div> *@
             <div class="col-sm-6">
                 <input asp-for="PhoneNumber" id="phone"
                        type="tel"
@@ -133,4 +156,33 @@
             history.back();
         }
     });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#email").focusout(function () {
+            var email = $("#email").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CheckEmail")?email=' + email,
+                cache: false,
+                success: function (response) {
+                    var flag = response.message;
+                    var userId = response.data;
+                    console.log(response);
+                    if (flag == "Failure") {
+                        // Show the username and password fields
+                        $("#username").show();
+                        $("#password").show();
+                    } else {
+                        $("#username").hide();
+                        $("#password").hide();
+                    }
+                },
+                error: function () {
+                    alert("Error while checking email.");
+                }
+            });
+        });
+    });
+
 </script>

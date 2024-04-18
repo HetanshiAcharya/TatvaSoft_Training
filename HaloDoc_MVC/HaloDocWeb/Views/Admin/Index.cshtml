@@ -14,6 +14,7 @@
 @Html.Partial("AcceptCase.cshtml")
 @Html.Partial("TransferToAdmin.cshtml")
 @Html.Partial("EncounterPhysician.cshtml")
+@Html.Partial("_EncounterFinalizeModal")
 
 
 @* --------------- States of Admin resultant div ------------------  *@
@@ -27,6 +28,10 @@
 </div>
 @* --------------- Script to call default NEW state ---------------- *@
 <script>
+    var isEncounter;
+    $(document).ready(function () {
+        isEncounter = new bootstrap.Modal("#EncounterFinalizeModal");
+    });
     $(function () {
         var val = 1;
         $("#hiddenfirst").val(val);
@@ -68,4 +73,25 @@
 
     };
    
+
+
+    function isEncounterFinalize(requestId) {
+        $.ajax({
+            url: '/Provider/isEncounterFinalize?RequestId=' + requestId,
+            type: 'Get',
+            data: { RequestId: requestId },
+            success: function (data) {
+                if (data) {
+                    $("#EncounterFormID").val(requestId);
+                    isEncounter.show();
+                }
+                else {
+                    window.location.href = '/Admin/Encounter?RId=' + requestId;
+                }
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
 </script>

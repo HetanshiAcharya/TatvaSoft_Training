@@ -15,7 +15,7 @@
                 <i class="fa fa-angle-left pe-1 text-info "> </i> Back
             </a>
         </div>
-       
+
     </div>
     <div class="form-group row  p-3 card-form">
 
@@ -50,7 +50,7 @@
             <input type="date"
                    asp-for="CreatedDate"
                    class="form-control form-control-md col-md mt-4"
-                   placeholder="Select Date" required    />
+                   placeholder="Select Date" required />
         </div>
         <span class="col-6"></span>
         <span asp-validation-for="CreatedDate" class="text-danger validate col-6"></span>
@@ -235,7 +235,10 @@
         </div>
         <div class="d-flex justify-content-end">
             <button class="btn btn-info text-white rounded me-1" type="submit">Save Changes</button>
-            <button type="button" class="btn rounded me-1 purple-btn" id="finalizebtn">Finalize</button>
+            @if (CV.role() == "Physician")
+            {
+                <button type="button" class="btn rounded me-1 purple-btn" id="finalizebtn">Finalize</button>
+            }
             <a class="btn border-info text-info rounded" asp-controller="Admin" asp-action="Index">Cancel</a>
         </div>
     </div>
@@ -278,7 +281,6 @@
                         success: function () {
                             console.log("success");
                             location.reload();
-
                         },
                         error: function (e) {
                             console.log(e);

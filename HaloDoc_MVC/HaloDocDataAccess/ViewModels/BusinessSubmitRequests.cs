@@ -96,6 +96,9 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class PatientSubmitRequests
     {
+        public string Pass { get; set; }
+        [Compare("Pass", ErrorMessage = "Password doesn't match.")]
+        public string ConfirmPass { get; set; }
         public int Id { get; set; }
         public string? Symptoms { get; set; }
         public string? FirstName { get; set; }
@@ -122,6 +125,7 @@ namespace HaloDocDataAccess.ViewModels
         public int PageSize { get; set; } = 5;
         public string? SearchInput { get; set; }
         public int? RegionId { get; set; }
+        
         public int? RequestType { get; set; }
         public string? Status { get; set; }
         public DateTime? DOB { get; set; }

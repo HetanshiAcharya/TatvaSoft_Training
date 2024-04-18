@@ -83,6 +83,18 @@
             "Twilio.AspNet.Mvc": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "itext": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-fips-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.pdfhtml": {
+              "target": "Package",
+              "version": "[5.0.3, )"
             }
           },
           "imports": [
@@ -188,6 +200,18 @@
             "Twilio.AspNet.Mvc": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "itext": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-fips-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.pdfhtml": {
+              "target": "Package",
+              "version": "[5.0.3, )"
             }
           },
           "imports": [
@@ -293,6 +317,18 @@
             "Twilio.AspNet.Mvc": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "itext": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-fips-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.pdfhtml": {
+              "target": "Package",
+              "version": "[5.0.3, )"
             }
           },
           "imports": [
