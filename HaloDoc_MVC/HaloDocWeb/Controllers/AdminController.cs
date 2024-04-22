@@ -21,6 +21,8 @@ using Microsoft.Extensions.Hosting;
 using OfficeOpenXml;
 using System.Reflection.Metadata;
 using Org.BouncyCastle.Utilities;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace HaloDocDataAccess.Controllers
 {
@@ -44,16 +46,37 @@ namespace HaloDocDataAccess.Controllers
             _jwtService = jwtService;
             _notyf = notyf;
         }
+        #region GenerateSHA256
+        public static string GenerateSHA256(string input)
+        {
+            var bytes = Encoding.UTF8.GetBytes(input);
+            using (var hashEngine = SHA256.Create())
+            {
+                var hashedBytes = hashEngine.ComputeHash(bytes, 0, bytes.Length);
+                var sb = new StringBuilder();
+                foreach (var b in hashedBytes)
+                {
+                    var hex = b.ToString("x2");
+                    sb.Append(hex);
+                }
+                return sb.ToString();
+            }
+        }
+        #endregion
         //GET
         public IActionResult IndexPlatformLogin()
         {
-            return View();
+                return View();
+
+          
         }
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IndexPlatformLogin(AspNetUser aspNetUser)
         {
+            aspNetUser.PasswordHash = GenerateSHA256(aspNetUser.PasswordHash);
+            
             UserInfo u = await _loginRepository.CheckAccessLogin(aspNetUser);
 
             if (u != null)
@@ -81,13 +104,6 @@ namespace HaloDocDataAccess.Controllers
         {
             return View();
         }
-        #region end_sessionLogout
-        public async Task<IActionResult> Logout()
-        {
-            Response.Cookies.Delete("jwt");
-            return RedirectToAction("Index", "Home");
-        }
-        #endregion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult IndexForgotPass(PatientForgotPassword model)
@@ -126,6 +142,7 @@ namespace HaloDocDataAccess.Controllers
         [CheckAccess("Admin,Physician")]
         public IActionResult Index()
         {
+
             ViewBag.CancelCase = _adminservice.CancelCase();
             ViewBag.AssignCase = _adminservice.AssignCase();
             PaginatedViewModel sm = _adminservice.Indexdata(-1);
@@ -137,9 +154,7 @@ namespace HaloDocDataAccess.Controllers
 
             return View("../Admin/Index", sm);
         }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> _SearchResult(PaginatedViewModel data, String Status)
         {
             if (Status == null)
@@ -147,10 +162,9 @@ namespace HaloDocDataAccess.Controllers
                 Status = CV.CurrentStatus();
 
             }
-
             Response.Cookies.Delete("Status");
-            Response.Cookies.Append("Status", data.Status);
-            PaginatedViewModel contacts = _adminservice.GetRequests(data);
+            Response.Cookies.Append("Status", Status);
+             PaginatedViewModel contacts = _adminservice.GetRequests(data,Status);
             if (CV.role() == "Physician")
             {
                 contacts = _adminservice.GetRequests(Status, data, Convert.ToInt32(CV.UserId()));
@@ -373,7 +387,6 @@ namespace HaloDocDataAccess.Controllers
             };
             return View("SendAgreement", sendAgreement);
         }
-
         [HttpPost]
         public IActionResult SendAgreement(int ReqId, string PhoneNumber, string Email)
         {
@@ -391,7 +404,6 @@ namespace HaloDocDataAccess.Controllers
         }
         public IActionResult infoByregion(int Regionid)
         {
-
             var v = _adminservice.InfoByRegion(Regionid);
             return Json(v);
         }
@@ -458,7 +470,6 @@ namespace HaloDocDataAccess.Controllers
 
         }
         #endregion
-
         [HttpPost]
         public IActionResult SendAgreementModalFromUploads(int Reqid)
         {
@@ -499,7 +510,6 @@ namespace HaloDocDataAccess.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
-
         public IActionResult Export(string status)
         {
             var requestData = _adminservice.Export(status);
@@ -638,6 +648,15 @@ namespace HaloDocDataAccess.Controllers
             _adminservice.DeleteFile(requestid, reqwisefileid);
             _notyf.Success("File Deleted Successfully");
             return RedirectToAction("ConcludeCare", new { requestId = requestid });
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+            Response.Cookies.Delete("jwt");
+            return RedirectToAction("IndexPlatformLogin", "Admin");
         }
     }
 }

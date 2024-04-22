@@ -17,7 +17,7 @@ namespace HaloDocRepository.Interface
        //bool AdminAuthentication(AdminLogin userDetails);
         public List<AdminDashboardList> NewRequestData();
         public PaginatedViewModel Indexdata(int ProviderId);
-        public PaginatedViewModel GetRequests(PaginatedViewModel data);
+        public PaginatedViewModel GetRequests(PaginatedViewModel data, String Status);
         public PaginatedViewModel GetRequests(string Status, PaginatedViewModel data, int ProviderId);
         public ViewCaseData GetRequestForViewCase(int id);
         public ViewCaseData NewRequestData(int? RId, int? RTId);
@@ -98,6 +98,8 @@ namespace HaloDocRepository.Interface
         public bool concludecare(int RequestID, string Notes);
         public bool RequestToAdmin(int obj, string Notes);
         public bool isEncounterFinalize(int RequestId);
+        public bool CreateAccount(PatientSubmitRequests viewPatientReq);
+
     }
 
 }

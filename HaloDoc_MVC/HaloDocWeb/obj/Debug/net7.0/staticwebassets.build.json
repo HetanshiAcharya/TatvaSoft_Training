@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IAx9XNAxH6o9qCP1+TnGBWkzb/TGaR8mdiOWQ80WDQI=",
+  "Hash": "s74FwokEgolIepCZ+9/D6sRj/1nP9MrJdcfLvZiHhb0=",
   "Source": "HaloDocWeb",
   "BasePath": "_content/HaloDocWeb",
   "Mode": "Default",
@@ -168,6 +168,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\mainLogin.css"
+    },
+    {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\css\\new.css",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "css/new.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\new.css"
     },
     {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\css\\patientSubmitReq.css",
@@ -5117,6 +5134,23 @@
       "OriginalItemSpec": "wwwroot\\Upload\\185\\Fig1. Platform login page.jpg"
     },
     {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\185\\Fig18.Clear Case.png",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/185/Fig18.Clear Case.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\185\\Fig18.Clear Case.png"
+    },
+    {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\185\\Fig2. Forgot Password.jpg",
       "SourceId": "HaloDocWeb",
       "SourceType": "Discovered",
@@ -5302,6 +5336,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\7768657_3763028.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig1. Platform login page.jpg",
+      "SourceId": "HaloDocWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\",
+      "BasePath": "_content/HaloDocWeb",
+      "RelativePath": "Upload/Fig1. Platform login page.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Upload\\Fig1. Platform login page.jpg"
     },
     {
       "Identity": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig16. Orders.jpg",

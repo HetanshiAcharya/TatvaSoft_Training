@@ -149,6 +149,10 @@
       "PackagePath": "staticwebassets\\Upload\\185\\Fig1. Platform login page.jpg"
     },
     {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\185\\Fig18.Clear Case.png",
+      "PackagePath": "staticwebassets\\Upload\\185\\Fig18.Clear Case.png"
+    },
+    {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\185\\Fig2. Forgot Password.jpg",
       "PackagePath": "staticwebassets\\Upload\\185\\Fig2. Forgot Password.jpg"
     },
@@ -193,6 +197,10 @@
       "PackagePath": "staticwebassets\\Upload\\7768657_3763028.jpg"
     },
     {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig1. Platform login page.jpg",
+      "PackagePath": "staticwebassets\\Upload\\Fig1. Platform login page.jpg"
+    },
+    {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\Upload\\Fig16. Orders.jpg",
       "PackagePath": "staticwebassets\\Upload\\Fig16. Orders.jpg"
     },
@@ -215,6 +223,10 @@
     {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\css\\mainLogin.css",
       "PackagePath": "staticwebassets\\css\\mainLogin.css"
+    },
+    {
+      "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\css\\new.css",
+      "PackagePath": "staticwebassets\\css\\new.css"
     },
     {
       "Id": "C:\\Users\\pci68\\source\\repos\\HaloDoc_MVC\\HaloDocWeb\\wwwroot\\css\\pLogin.css",

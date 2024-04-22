@@ -29,12 +29,11 @@ namespace HaloDocWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePatientReq(PatientSubmitRequests userdetails)
         {
-            if(ModelState.IsValid)
-            {
+          
                 _patientService.PatientRequest(userdetails);
                 return RedirectToAction("SubmitReq", "Home");
 
-            }
+          
             return View(userdetails);
         }
 

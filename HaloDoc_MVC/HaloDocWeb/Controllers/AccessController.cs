@@ -46,7 +46,7 @@ namespace HaloDocWeb.Controllers
 
         #endregion
 
-        #region CreateRoleAccess
+        #region RolebyAccountType
         [HttpPost]
         public IActionResult RolebyAccountType(AccountType Account)
         {
@@ -62,7 +62,16 @@ namespace HaloDocWeb.Controllers
         {
             var userId = (CV.UserId());
             var v = _adminservice.SaveEditRole(roles, userId);
-            _notyf.Success("Role Created Successfully");
+            if (v)
+            {
+                _notyf.Success("Role Created Successfully");
+
+            }
+            else
+            {
+                _notyf.Error("Role already exist");
+
+            }
             ModelState.Clear();
             return View("../Admin/Access/CreateRoleAccess");
         }
@@ -76,7 +85,7 @@ namespace HaloDocWeb.Controllers
         }
         #endregion
 
-        #region EditRoleAccess
+        #region SaveEditRoleAccess
         public IActionResult SaveEditRoleAccess(AccessModel roles)
         {
             var res = _adminservice.SaveEditRoleAccess(roles);

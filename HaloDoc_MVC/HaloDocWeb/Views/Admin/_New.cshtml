@@ -227,15 +227,15 @@
 
                     @if (@Model.CurrentPage > 1)
                     {
-                    <li class="page-item me-2"><button class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</button></li>
+                    <li class="page-item me-2"><button type="button" class="btn shadow-none" onclick="setpagenumber('previous')">&lt;</button></li>
                     }
                     else
                     {
-                    <li class="me-2 page-item"><button class="disabled btn border-0">&lt;</button></li>
+                    <li class="me-2 page-item"><button  type="button" class="disabled btn border-0">&lt;</button></li>
                     }
                     @for (i = 1; i <= @Model.TotalPages; i++)
                     {
-                    <li class="page-item me-2"><button class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</button></li>
+                    <li class="page-item me-2"><button type="button" class="@(i == @Model.CurrentPage ? "activepagebtn" : "") btn shadow-none" onclick="setpagenumber(@i)">@i</button></li>
                     }
                     @if (@Model.TotalPages > @Model.CurrentPage)
                     {
@@ -349,7 +349,7 @@
             document.getElementById('sortedcol').value = e;
             document.getElementById('isAsc').value = true;
         }
-        $(".sortingform").submit();
+        $("#sortingform").submit();
     }
 </script>
 

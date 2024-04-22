@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HaloDocDataAccess.ViewModels.Constant;
 
 namespace HaloDocDataAccess.ViewModels
 {
@@ -32,10 +33,10 @@ namespace HaloDocDataAccess.ViewModels
         public string? UploadImage { get; set; }
         public string? Street { get; set; }
         public string? City { get; set; }
-        public string? State { get; set; }
+        public StateLists? RegionId { get; set; }
+        public int? State { get; set; }
         public string? ZipCode { get; set; }
         public string? CreatedBy { get; set; }
-        public int RegionId { get; set; }
 
 
 
@@ -65,7 +66,8 @@ namespace HaloDocDataAccess.ViewModels
         public IFormFile? UploadFile { get; set; }
         public string? UploadImage { get; set; }
         public string? Street { get; set; }
-        public string? State { get; set; }
+        public StateLists? RegionId { get; set; }
+        public int? State { get; set; }
         public string? City { get; set; }
         public string? ZipCode { get; set; }
     }
@@ -88,7 +90,8 @@ namespace HaloDocDataAccess.ViewModels
         public string? PhoneNumber { get; set; }
         public string? Street { get; set; }
         public string? City { get; set; }
-        public string? State { get; set; }
+        public StateLists? RegionId { get; set; }
+        public int? State { get; set; }
         public string? ZipCode { get; set; }
         public string? RoomSuite { get; set; }
         public IFormFile? UploadFile { get; set; }
@@ -110,7 +113,8 @@ namespace HaloDocDataAccess.ViewModels
         public string? PhoneNumber { get; set; }
         public string? Street { get; set; }
         public string? City { get; set; }
-        public string? State { get; set; }
+        public StateLists? RegionId { get; set; }
+        public int? State { get; set; }
         public string? ZipCode { get; set; }
         public string? RoomSite { get; set; }
         public string? UploadImage { get; set; }

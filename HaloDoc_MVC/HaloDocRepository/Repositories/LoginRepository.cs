@@ -65,7 +65,7 @@ namespace HaloDocRepository.Repositories
         #region Constructor
         public async Task<UserInfo> CheckAccessLogin(AspNetUser aspNetUser)
         {
-            var user = await _context.AspNetUsers.FirstOrDefaultAsync(u => u.Email == aspNetUser.Email && u.PasswordHash == GenerateSHA256(aspNetUser.PasswordHash));
+            var user = await _context.AspNetUsers.FirstOrDefaultAsync(u => u.Email == aspNetUser.Email && u.PasswordHash == aspNetUser.PasswordHash);
             UserInfo admin = new UserInfo();
             if (user != null)
             {

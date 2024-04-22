@@ -1,12 +1,13 @@
-﻿@model HaloDocDataAccess.ViewModels.PatientSubmitRequests;
+﻿@using static HaloDocDataAccess.ViewModels.Constant
+@model HaloDocDataAccess.ViewModels.PatientSubmitRequests;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Patient Request</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/css/request.css"/>
+    <link rel="stylesheet" href="~/css/request.css" />
 </head>
 <body>
     <!-- navigation  -->
@@ -14,55 +15,68 @@
         <img src="~/images/HaloDoc-Logo.png"
              alt=""
              class="logo-img" />
-        <div class="toggle-btn border-secondary" onclick="myFunction()">
-            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
-        </div>
     </header>
-    <h4 class="mt-4 posheader">Submit Information</h4>
+    <!-- main form  -->
     <div class="container-fluid">
-        <form class="form-group row" method="post" enctype="multipart/form-data">
-            <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn btn-outline-primary mr-4" type="submit">
-                    <a asp-controller="PatientDashBoard" asp-action="DashBoard" class="link-color">Back</a>
-                </button>
-            </div>
+        <div class="col-sm-12 d-flex justify-content-end">
+            <a class="text-decoration-none text-info" asp-action="Dashboard" asp-controller="PatientDashboard">
+                <div class="btn p-2 py-2 border-info text-info">
+                    <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                </div>
+            </a>
+        </div>
+        <form asp-controller="Requests" asp-action="CreatePatientReq" class="form-group row" method="post" enctype="multipart/form-data">
             <h4 class="mt-4 m">Patient Information</h4>
-
             <div class="col-w-100 col-sm-12">
                 <textarea asp-for="Symptoms" class="form-control"
                           id="exampleFormControlTextarea1"
                           rows="3"
                           placeholder="Enter Brief Details of Symptoms"></textarea>
             </div>
-
             <div class="col-sm-6">
-                <input asp-for="FirstName" asp-validation-for="Name" class="form-control form-control-md col-md mt-4"
+                <input asp-for="FirstName" class="form-control form-control-md col-md mt-4"
                        type="text"
-                       placeholder="First Name" />
+                       placeholder="First Name" required />
             </div>
             <div class="col-sm-6">
                 <input asp-for="LastName" class="form-control form-control-md col-md col-sm mt-4"
                        type="text"
-                       placeholder="Last Name" />
+                       placeholder="Last Name" required />
             </div>
-            <div class="w-100"></div>
-            <div class="col-sm-6">
+            <span asp-validation-for="FirstName" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="LastName" class="text-danger fs-6 col-6"></span>
+
+            <div class="col-sm-6 form-floating">
                 <input asp-for="BirthDate" type="date"
                        class="form-control form-control-md col-md mt-4"
-                       placeholder="Select Date" />
+                       placeholder="Select Birthdate" id="Date" required />
+                <span asp-validation-for="BirthDate" class="text-danger fs-6 col-6"></span>
+
             </div>
+
             <h4 class="mt-4 mb-2">Patient Contact Information</h4>
             <div class="col-sm-6">
                 <input asp-for="Email" class="form-control form-control-md col-md mt-4"
-                       type="email"
-                       placeholder="Enter Email" />
+                       type="email" id="email"
+                       placeholder="Enter Email" required />
             </div>
             <div class="col-sm-6">
                 <input asp-for="PhoneNumber" id="phone"
                        type="tel"
-                       name="phone"
-                       class="form-control form-control-md col-md mt-4 iti" />
+                       class="form-control form-control-md col-md mt-4 iti" required />
             </div>
+
+            <span asp-validation-for="Email" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="PhoneNumber" class="text-danger fs-6 col-6"></span>
+            <!-- username password -->
+            <div class="col-sm-6 mt-4" id="username" style="display:none;">
+                <input asp-for="Pass" type="password" class="form-control shadow-none" placeholder="Password">
+            </div>
+            <div class="col-sm-6 mt-4" id="password" style="display:none;">
+                <input asp-for="ConfirmPass" type="password" class="form-control shadow-none" placeholder="Confirm Password">
+            </div>
+            <span asp-validation-for="Pass" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="ConfirmPass" class="text-danger fs-6 col-6"></span>
             <h4 class="mt-4 mb-2">Patient Location</h4>
             <div class="col-sm-6">
                 <input asp-for="Street" class="form-control form-control-md col-md "
@@ -72,12 +86,17 @@
             <div class="col-sm-6">
                 <input asp-for="City" class="form-control form-control-md col-md "
                        type="text"
-                       placeholder="City" />
+                       placeholder="City" required />
             </div>
-            <div class="col-sm-6">
-                <input asp-for="State" class="form-control form-control-md col-md mt-4"
-                       type="text"
-                       placeholder="State" />
+            <span asp-validation-for="Street" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="City" class="text-danger fs-6 col-6"></span>
+            <div class="col-sm-6 mt-4">
+                <select asp-for="State" class="form-select" placeholder="Account">
+                    @foreach (var item in Enum.GetValues(typeof(StateLists)))
+                    {
+                        <option value="@((int)item)">@item.ToString()</option>
+                    }
+                </select>
             </div>
             <div class="col-sm-6">
                 <input asp-for="ZipCode" class="form-control form-control-md col-md mt-4"
@@ -89,15 +108,6 @@
                        type="text"
                        placeholder="Room/ Suite (Optional)" />
             </div>
-            <div class="col mt-4">
-                <button type="button" class="btn btn-outline-info shadow-none night-mode-btn h-100 d-flex align-items-center">
-                    <i class="fa fa-map-marker test-info mx-1" aria-hidden="true"></i>
-                    <div class="d-flex">
-                        <span>Map</span>
-                    </div>
-                </button>
-
-            </div>
             <h4 class="mt-4 mb-6">(Optional) Upload Photo or Document</h4>
             <div class="file-input col">
                 <input asp-for="UploadFile"
@@ -108,14 +118,12 @@
             </div>
             <div class="col-sm-12 d-flex justify-content-end">
                 <button class="btn btn-primary mr-4" type="submit">Submit</button>
-                <button class="btn btn-outline-primary mr-4" type="submit">
+                <button class="btn btn-outline-primary mr-4" type="reset">
                     Cancel
                 </button>
             </div>
         </form>
-
     </div>
-
     <!-- footer  -->
     <footer>
         <div class="footerDiv">
@@ -123,14 +131,41 @@
             <a href="" class="footerLinks">Privacy</a>
         </div>
     </footer>
-    <script src="~/js/dark.js"></script>
-    <script>
-        const phoneInputField = document.querySelector("#phone");
-        const phoneInput = window.intlTelInput(phoneInputField, {
-            utilsScript:
-                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-        });
-    </script>
 </body>
-
 </html>
+<script>
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('backButton')) {
+            history.back();
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#email").focusout(function () {
+            var email = $("#email").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CheckEmail")?email=' + email,
+                cache: false,
+                success: function (response) {
+                    var flag = response.message;
+                    var userId = response.data;
+                    console.log(response);
+                    if (flag == "Failure") {
+                        // Show the username and password fields
+                        $("#username").show();
+                        $("#password").show();
+                    } else {
+                        $("#username").hide();
+                        $("#password").hide();
+                    }
+                },
+                error: function () {
+                    alert("Error while checking email.");
+                }
+            });
+        });
+    });
+
+</script>

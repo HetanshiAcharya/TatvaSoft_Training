@@ -16,36 +16,35 @@
         <img src="~/images/HaloDoc-Logo.png"
              alt=""
              class="logo-img" />
-        <div class="toggle-btn border-secondary" onclick="myFunction()">
-            <i class="fa fa-2x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
-        </div>
+
     </header>
     <!-- main body -->
     <section>
-        
-         <button class="btn p-2 py-2 border-info text-info" id="save" onclick="">
-            <a class="text-decoration-none text-info" asp-controller="Home" asp-action="Index">
+        <button class="btn p-2 py-2 border-info text-info">
+            <a class="text-decoration-none text-info" asp-controller="Home" asp-action="PatientSite">
                 <i class="fa fa-angle-left pe-1 text-info "> </i>Back
             </a>
         </button>
         <h2>I am a ...</h2>
         <div class="sectionLinksDiv">
-            <div class="sectionLinksSubdiv pt">
-                <a asp-controller="Requests" asp-action="CreatePatientReq" class="sectionLinks pt1">Patient</a>
-            </div>
-            <div class="sectionLinksSubdiv fam">
-                <a asp-controller="Requests" asp-action="CreateFamReq" class="sectionLinks fam1">
+            <a asp-controller="Requests" asp-action="CreatePatientReq" class="sectionLinks pt1">
+                <div class="sectionLinksSubdiv pt">Patient</div>
+            </a>
+            <a asp-controller="Requests" asp-action="CreateFamReq" class="sectionLinks fam1">
+                <div class="sectionLinksSubdiv fam">
                     Family/Friend
-                </a>
-            </div>
-            <div class="sectionLinksSubdiv con">
-                <a asp-controller="Requests" asp-action="CreateConReq" class="sectionLinks con1">Conceirge</a>
-            </div>
-            <div class="sectionLinksSubdiv bp">
-                <a asp-controller="Requests" asp-action="CreateBusReq" class="sectionLinks bp1">
+                </div>
+            </a>
+            <a asp-controller="Requests" asp-action="CreateConReq" class="sectionLinks con1">
+                <div class="sectionLinksSubdiv con">
+                    Conceirge
+                </div>
+            </a>
+            <a asp-controller="Requests" asp-action="CreateBusReq" class="sectionLinks bp1">
+                <div class="sectionLinksSubdiv bp">
                     Business Partner
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
     </section>
     <!---- footer-- -->

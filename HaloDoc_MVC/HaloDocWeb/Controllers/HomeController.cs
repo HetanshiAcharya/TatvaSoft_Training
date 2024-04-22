@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using HaloDocDataAccess.ViewModels;
 using HaloDocDataAccess.DataModels;
 using Microsoft.AspNetCore.Http;
-
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace HaloDocWeb.Controllers
 {
@@ -15,13 +15,15 @@ namespace HaloDocWeb.Controllers
         private readonly IPatientService _patientService;
         private readonly IAuthService _authservice;
         private readonly IAdminService _adminservice;
+        private readonly INotyfService _notyf;
 
-        public HomeController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice)
+        public HomeController(HaloDocDbContext context, IPatientService patientService, IAuthService authService, IAdminService adminservice, INotyfService notyf)
         {
             _context = context;
             _patientService = patientService;
             _authservice = authService;
             _adminservice = adminservice;
+            _notyf = notyf;
         }
 
         public IActionResult Index()
@@ -37,25 +39,27 @@ namespace HaloDocWeb.Controllers
         {
             return View();
         }
+        public IActionResult PatientSite()
+        {
+            return View();
+        }
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult PatientLogin(PatientLoginDetails userdetails)
         {
-            if (ModelState.IsValid)
+            if (_authservice.PatientAuthentication(userdetails))
             {
-                if (_authservice.PatientAuthentication(userdetails)){
-                    User user = _context.Users.FirstOrDefault(Au => Au.Email == userdetails.Email);
-                    HttpContext.Session.SetInt32("userId", user.UserId);
-                    return RedirectToAction("Dashboard", "PatientDashboard");
-
-                }
-                else
-                {
-                    ViewData["error"] = "Invalid Id/Password";
-                }
+                User user = _context.Users.FirstOrDefault(Au => Au.Email == userdetails.Email);
+                HttpContext.Session.SetInt32("userId", user.UserId);
+                return RedirectToAction("Dashboard", "PatientDashboard");
 
             }
+            else
+            {
+                ViewData["error"] = "Invalid Id/Password";
+            }
+
             return View(userdetails);
         }
         //GET
@@ -121,6 +125,35 @@ namespace HaloDocWeb.Controllers
         {
             _adminservice.CancelAgreementSubmit(Reqid, Description);
             return RedirectToAction("PatientLogin");
+        }
+        public IActionResult Register(string Email)
+        {
+            PatientSubmitRequests res = new PatientSubmitRequests();
+            res.Email = Email;
+            return View(res);
+        }
+        public IActionResult CreateAccount(PatientSubmitRequests viewPatientReq)
+        {
+            var res = _adminservice.CreateAccount(viewPatientReq);
+            if (res)
+            {
+                _notyf.Success("Account Created successfully");
+                return View("PatientLogin");
+            }
+            else
+            {
+                _notyf.Error("You are already registered...");
+                return View("Register");
+            }
+
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+            return RedirectToAction("PatientLogin", "Home");
         }
     }
 }

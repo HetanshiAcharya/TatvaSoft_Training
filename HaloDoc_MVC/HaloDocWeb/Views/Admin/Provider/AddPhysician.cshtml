@@ -165,10 +165,13 @@
                            type="text" id="city"
                            placeholder="City" required  />
                 </div>
-                <div class="col-lg-6">
-                    <input asp-for="State" class="form-control  mt-4"
-                           type="text" id="state"
-                           placeholder="State" required  />
+                <div class="col-lg-6 mt-4">
+                    <select asp-for="State" class="form-select" placeholder="Account">
+                        @foreach (var item in Enum.GetValues(typeof(StateLists)))
+                        {
+                            <option value="@((int)item)">@item.ToString()</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="row">

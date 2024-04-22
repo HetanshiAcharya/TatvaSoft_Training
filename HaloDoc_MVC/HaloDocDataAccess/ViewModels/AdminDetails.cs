@@ -38,7 +38,7 @@ namespace HaloDocDataAccess.ViewModels
         public string? ProviderName { get; set; }
         public string? Region { get; set; }
         public short ADStatus { get; set; }
-        
+
     }
     public class CountStatusWiseRequestModel
     {
@@ -80,21 +80,21 @@ namespace HaloDocDataAccess.ViewModels
         public enum ProviderStatus
         {
             Active = 1,
-            Pending=2,
-            NotActive=3
+            Pending = 2,
+            NotActive = 3
         }
         public enum onCallStatus
         {
-            UnAvailable=0,
+            UnAvailable = 0,
             Available
         }
         public enum AccountType
         {
-            All=0,
+            All = 0,
             Patient,
             Provider,
             Admin,
-            
+
         }
         public enum EmailAction
         {
@@ -106,7 +106,14 @@ namespace HaloDocDataAccess.ViewModels
             NewRegistration,
             contact
         }
-
+        public enum StateLists
+        {
+            Ahmedabad = 1,
+            Gandhinagar,
+            Pune,
+            Mumbai,
+            Manali
+        }
     }
     public class ViewCaseData
     {
@@ -173,10 +180,10 @@ namespace HaloDocDataAccess.ViewModels
         public string? FaxNumber { get; set; }
         public string? Prescription { get; set; }
         public string? NumberOfRefills { get; set; }
-        
+
     }
     public class sendAgreement
-        {
+    {
         public int ReqId { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
@@ -214,6 +221,7 @@ namespace HaloDocDataAccess.ViewModels
     public class PaginatedViewModel
     {
         public List<AdminDashboardList>? adl { get; set; }
+        public List<PatientDashboard>? pd { get; set; }
         public int CurrentPage { get; set; } = 1;
         public int TotalPages { get; set; } = 1;
         public int PageSize { get; set; } = 5;
@@ -249,7 +257,7 @@ namespace HaloDocDataAccess.ViewModels
         public string? Allergies { get; set; } = string.Empty;
         public string? Temp { get; set; } = string.Empty;
         public string? HR { get; set; } = string.Empty;
-        public string? RR{ get; set; } = string.Empty;
+        public string? RR { get; set; } = string.Empty;
         public string? BPS { get; set; } = string.Empty;
         public string? BPD { get; set; } = string.Empty;
         public string? O2 { get; set; } = string.Empty;
@@ -273,7 +281,7 @@ namespace HaloDocDataAccess.ViewModels
         public int? AdminId { get; set; }
         public string? AspNetUserId { get; set; }
 
-        public string? UserName { get; set; } 
+        public string? UserName { get; set; }
         public string? Password { get; set; }
         public short? Status { get; set; }
         public int? Role { get; set; }
@@ -282,13 +290,13 @@ namespace HaloDocDataAccess.ViewModels
         public string? Email { get; set; }
         public string? ConfEmail { get; set; }
         public string? Phone { get; set; }
-        public int? Regionid { get; set; }
+        public StateLists Regionid { get; set; }
         public string? Regionsid { get; set; }
         public List<Region>? Regionids { get; set; }
         public string? Add1 { get; set; }
         public string? Add2 { get; set; }
         public string? City { get; set; }
-        public string? State { get; set; }
+        public int? State { get; set; }
         public string? Zip { get; set; }
         public string? PhoneForBill { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -317,7 +325,7 @@ namespace HaloDocDataAccess.ViewModels
         public string Password { get; set; }
         public string UserName { get; set; }
         public ProviderStatus Status { get; set; }
-       
+
         public int? shiftid { get; set; }
         public int? RoleId { get; set; }
         public string Phone { get; set; }
@@ -335,7 +343,7 @@ namespace HaloDocDataAccess.ViewModels
         public int? Regionid { get; set; }
         public string? Regionsid { get; set; }
         public List<Region>? Regionids { get; set; }
-        public IFormFile? Photo { get; set; }=null;
+        public IFormFile? Photo { get; set; } = null;
         public IFormFile? signature { get; set; } = null;
         public bool isAgreementDoc { get; set; }
         public bool isBackgroundDoc { get; set; }
@@ -377,7 +385,8 @@ namespace HaloDocDataAccess.ViewModels
 
     }
     public class Partners
-    { public int CurrentPage { get; set; } = 1;
+    {
+        public int CurrentPage { get; set; } = 1;
         public int TotalPages { get; set; } = 1;
         public int PageSize { get; set; } = 5;
         public int VendorId { get; set; }

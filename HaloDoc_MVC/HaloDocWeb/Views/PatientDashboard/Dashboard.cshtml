@@ -58,14 +58,19 @@
                         </div>
                         <div class="modal-body">
                             <p>Here I want to create a new request for...</p>
-                            <button type="button" class="btn btn-outline-primary"><a class="modal-link sec-btn" asp-controller="PatientDashboard" asp-action="SubmitForSomeOneElse">Some one Else</a></button>
+                            <a class="text-decoration-none text-info" asp-action="SubmitForSomeOneElse" asp-controller="PatientDashboard">
+                                <div class="btn p-2 py-2 border-info text-info">
+                                    Some one Else
+                                </div>
+                            </a>
+                            @* <button type="button" class="btn btn-outline-primary"><a class="modal-link " asp-controller="PatientDashboard" asp-action="SubmitForSomeOneElse">Some one Else</a></button> *@
                             <button type="button" class="btn btn-primary"><a class="modal-link " asp-controller="PatientDashboard" asp-action="SubmitForMe">Me</a></button>
                         </div>
-                        <div class="modal-footer">
+                       @*  <div class="modal-footer">
 
                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-primary">Continue</button>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>

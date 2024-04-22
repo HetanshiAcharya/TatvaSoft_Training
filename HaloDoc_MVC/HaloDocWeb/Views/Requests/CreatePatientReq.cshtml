@@ -1,4 +1,5 @@
-﻿@model HaloDocDataAccess.ViewModels.PatientSubmitRequests;
+﻿@using static HaloDocDataAccess.ViewModels.Constant
+@model HaloDocDataAccess.ViewModels.PatientSubmitRequests;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,32 +15,26 @@
         <img src="~/images/HaloDoc-Logo.png"
              alt=""
              class="logo-img" />
-        <div class="toggle-btn border-secondary" onclick="myFunction()">
-            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
-        </div>
     </header>
     <!-- main form  -->
     <div class="container-fluid">
+        <div class="col-sm-12 d-flex justify-content-end">
+            <a class="text-decoration-none text-info" asp-action="SubmitReq" asp-controller="Home">
+                <div class="btn p-2 py-2 border-info text-info">
+                    <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                </div>
+            </a>
+        </div>
         <form asp-controller="Requests" asp-action="CreatePatientReq" class="form-group row" method="post" enctype="multipart/form-data">
-            <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn p-2 py-2 border-info text-info backButton" id="save" onclick="">
-                    <a class="text-decoration-none text-info">
-                        <i class="fa fa-angle-left pe-1 text-info "> </i>Back
-                    </a>
-                </button>
-            </div>
             <h4 class="mt-4 m">Patient Information</h4>
-
             <div class="col-w-100 col-sm-12">
                 <textarea asp-for="Symptoms" class="form-control"
                           id="exampleFormControlTextarea1"
                           rows="3"
-                          placeholder="Enter Brief Details of Symptoms" required></textarea>
+                          placeholder="Enter Brief Details of Symptoms"></textarea>
             </div>
-            <span @* asp-validation-for="Symptoms" *@ class="text-danger validate"></span>
-
             <div class="col-sm-6">
-                <input asp-for="FirstName" asp-validation-for="Name" class="form-control form-control-md col-md mt-4"
+                <input asp-for="FirstName" class="form-control form-control-md col-md mt-4"
                        type="text"
                        placeholder="First Name" required />
             </div>
@@ -48,16 +43,16 @@
                        type="text"
                        placeholder="Last Name" required />
             </div>
-            <span @* asp-validation-for="FirstName" *@ class="text-danger validate col"></span>
-            <span @* asp-validation-for="LastName" *@ class="text-danger validate col"></span>
+            <span asp-validation-for="FirstName" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="LastName" class="text-danger fs-6 col-6"></span>
 
-            <div class="w-100"></div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 form-floating">
                 <input asp-for="BirthDate" type="date"
                        class="form-control form-control-md col-md mt-4"
-                       placeholder="Select Birthdate" required />
+                       placeholder="Select Birthdate" id="Date" required />
+                <span asp-validation-for="BirthDate" class="text-danger fs-6 col-6"></span>
+
             </div>
-            <span @* asp-validation-for="BirthDate" *@ class="text-danger validate"></span>
 
             <h4 class="mt-4 mb-2">Patient Contact Information</h4>
             <div class="col-sm-6">
@@ -65,38 +60,23 @@
                        type="email" id="email"
                        placeholder="Enter Email" required />
             </div>
-            <!-- username password -->
-            <div class="col-sm-6" id="username">
-                <input asp-for="Pass" type="text" class="form-control shadow-none" placeholder="Username" style="display:none;">
-            </div>
-            <div class="col-sm-6" id="password">
-                <input asp-for="ConfirmPass" type="password" class="form-control shadow-none" placeholder="Password" style="display:none;">
-            </div>
-            @*  <div class="row ">
-            <div class="col-md-6 pb-3" id="username" style="display:none;">
-            <div class="form-floating">
-            <input asp-for="Pass" type="text" class="form-control shadow-none" id="pass" placeholder="Username">
-            <label for="uname">Password</label>
-            <span asp-validation-for="Pass" class="text-danger"></span>
-            </div>
-            </div>
-            <div class="col-md-6 pb-3" id="password" style="display:none;">
-            <div class="form-floating">
-            <input asp-for="ConfirmPass" type="password" class="form-control shadow-none" id="conpass" placeholder="Password">
-            <label for="pass">Conform Password</label>
-            <span asp-validation-for="ConfirmPass" class="text-danger"></span>
-            </div>
-            </div>
-            </div> *@
             <div class="col-sm-6">
                 <input asp-for="PhoneNumber" id="phone"
                        type="tel"
                        class="form-control form-control-md col-md mt-4 iti" required />
             </div>
-            <span @* asp-validation-for="Email" *@ class="text-danger validate"></span>
-            <span @* asp-validation-for="PhoneNumber" *@ class="text-danger validate"></span>
 
-
+            <span asp-validation-for="Email" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="PhoneNumber" class="text-danger fs-6 col-6"></span>
+            <!-- username password -->
+            <div class="col-sm-6 mt-4" id="username" style="display:none;">
+                <input asp-for="Pass" type="password" class="form-control shadow-none" placeholder="Password">
+            </div>
+            <div class="col-sm-6 mt-4" id="password" style="display:none;">
+                <input asp-for="ConfirmPass" type="password" class="form-control shadow-none" placeholder="Confirm Password">
+            </div>
+            <span asp-validation-for="Pass" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="ConfirmPass" class="text-danger fs-6 col-6"></span>
             <h4 class="mt-4 mb-2">Patient Location</h4>
             <div class="col-sm-6">
                 <input asp-for="Street" class="form-control form-control-md col-md "
@@ -106,12 +86,17 @@
             <div class="col-sm-6">
                 <input asp-for="City" class="form-control form-control-md col-md "
                        type="text"
-                       placeholder="City" />
+                       placeholder="City" required />
             </div>
-            <div class="col-sm-6">
-                <input asp-for="State" class="form-control form-control-md col-md mt-4"
-                       type="text"
-                       placeholder="State" />
+            <span asp-validation-for="Street" class="text-danger fs-6 col-6"></span>
+            <span asp-validation-for="City" class="text-danger fs-6 col-6"></span>
+            <div class="col-sm-6 mt-4">
+                <select asp-for="State" class="form-select" placeholder="Account">
+                    @foreach (var item in Enum.GetValues(typeof(StateLists)))
+                    {
+                        <option value="@((int)item)">@item.ToString()</option>
+                    }
+                </select>
             </div>
             <div class="col-sm-6">
                 <input asp-for="ZipCode" class="form-control form-control-md col-md mt-4"
@@ -133,7 +118,7 @@
             </div>
             <div class="col-sm-12 d-flex justify-content-end">
                 <button class="btn btn-primary mr-4" type="submit">Submit</button>
-                <button class="btn btn-outline-primary mr-4" type="submit">
+                <button class="btn btn-outline-primary mr-4" type="reset">
                     Cancel
                 </button>
             </div>
@@ -147,8 +132,6 @@
         </div>
     </footer>
 </body>
-
-<script src="~/js/dark.js"></script>
 </html>
 <script>
     document.addEventListener('click', function (event) {

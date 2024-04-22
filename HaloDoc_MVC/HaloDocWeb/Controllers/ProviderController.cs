@@ -107,8 +107,18 @@ namespace HaloDocWeb.Controllers
             ViewBag.AssignCase = _adminservice.AssignCase();
             ViewData["Heading"] = "Add";
             var res = _adminservice.AddProviderAccount(PhysiciansData, checkboxes, UserId);
-            _notyf.Success("Physician Added Successfully");
-            return View("../Admin/Provider/AddPhysician");
+            if (res)
+            {
+                _notyf.Success("Physician Added Successfully");
+                return View("../Admin/Provider/AddPhysician");
+
+            }
+            else
+            {
+                _notyf.Error("Physician already exist");
+                return View("../Admin/Provider/AddPhysician");
+
+            }
         }
         #endregion
 

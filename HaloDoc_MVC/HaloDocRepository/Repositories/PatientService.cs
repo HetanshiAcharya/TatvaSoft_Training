@@ -14,108 +14,104 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.IO;
 using System.Reflection.Emit;
-
+using static HaloDocDataAccess.ViewModels.Constant;
+using iText.Html2pdf.Attach;
 
 namespace HaloDocRepository.Repositories
 {
     public class PatientService : IPatientService
     {
         private readonly HaloDocDbContext _context;
+        private readonly EmailConfiguration _emailconfig;
         private int IntDate;
         private int IntYear;
 
-        public PatientService(HaloDocDbContext context)
+        public PatientService(HaloDocDbContext context, EmailConfiguration emailconfig)
         {
             _context = context;
+            _emailconfig = emailconfig;
         }
-        //REQUEST SUBMIT BY PATIENT//
-        public void PatientRequest(PatientSubmitRequests viewpatientcreaterequest)
+        //Pateint Request
+        public void PatientRequest(PatientSubmitRequests viewPatientReq)
         {
+
             var Aspnetuser = new AspNetUser();
-            var AspNetUserRoles = new AspNetUserRole();
+            var role = new AspNetUserRole();
             var User = new User();
             var Request = new Request();
             var Requestclient = new RequestClient();
-            var isexist = _context.Users.FirstOrDefault(x => x.Email == viewpatientcreaterequest.Email);
+            var isexist = _context.Users.FirstOrDefault(x => x.Email == viewPatientReq.Email);
+
             if (isexist == null)
             {
-                // Aspnetuser
                 Guid g = Guid.NewGuid();
                 Aspnetuser.Id = g.ToString();
-                Aspnetuser.UserName = (viewpatientcreaterequest.FirstName + ' ' + viewpatientcreaterequest.LastName);
-                Aspnetuser.PasswordHash = viewpatientcreaterequest.LastName;
-                Aspnetuser.PhoneNumber = viewpatientcreaterequest.PhoneNumber;
+                Aspnetuser.UserName = viewPatientReq.FirstName;
+                Aspnetuser.PasswordHash = viewPatientReq.Pass;
+                Aspnetuser.Email = viewPatientReq.Email;
+                Aspnetuser.PhoneNumber = viewPatientReq.PhoneNumber;
                 Aspnetuser.CreatedDate = DateTime.Now;
-                Aspnetuser.Email = viewpatientcreaterequest.Email;
                 _context.AspNetUsers.Add(Aspnetuser);
                 _context.SaveChanges();
-
-                AspNetUserRoles.UserId = Aspnetuser.Id;
-                AspNetUserRoles.RoleId = "1";
-                _context.AspNetUserRoles.Add(AspNetUserRoles);
+                role.UserId = Aspnetuser.Id;
+                role.RoleId = "1";
+                _context.AspNetUserRoles.Add(role);
                 _context.SaveChanges();
-
                 User.AspNetUserId = Aspnetuser.Id;
-                User.FirstName = viewpatientcreaterequest.FirstName;
-                User.LastName = viewpatientcreaterequest.LastName;
-                User.Email = viewpatientcreaterequest.Email;
-                User.Street = viewpatientcreaterequest.Street;
-                User.City = viewpatientcreaterequest.City;
-                User.State = viewpatientcreaterequest.State;
-                User.ZipCode = viewpatientcreaterequest.ZipCode;
-                User.Mobile = viewpatientcreaterequest.PhoneNumber;
-                User.StrMonth = (viewpatientcreaterequest.BirthDate.Month).ToString();
-                User.IntDate = viewpatientcreaterequest.BirthDate.Day;
-                User.IntYear = viewpatientcreaterequest.BirthDate.Year;
+                User.FirstName = viewPatientReq.FirstName;
+                User.LastName = viewPatientReq.LastName;
+                User.Email = viewPatientReq.Email;
+                User.Mobile = viewPatientReq.PhoneNumber;
+                User.Street = viewPatientReq.Street;
+                User.City = viewPatientReq.City;
+                User.RegionId = viewPatientReq.State;
+                User.State = Enum.GetName(typeof(StateLists), viewPatientReq.State);
+                User.ZipCode = viewPatientReq.ZipCode;
+                User.StrMonth = viewPatientReq.BirthDate.Month.ToString();
+                User.IntDate = viewPatientReq.BirthDate.Day;
+                User.IntYear = viewPatientReq.BirthDate.Year;
+                User.Status = 1; //for new request
                 User.CreatedBy = Aspnetuser.Id;
                 User.CreatedDate = DateTime.Now;
                 _context.Users.Add(User);
                 _context.SaveChanges();
             }
-            Request.RequestTypeId = 1;
+            Request.RequestTypeId = 2;
             Request.Status = 1;
-
-            if (isexist == null)
-            {
-                Request.UserId = User.UserId;
-            }
-            else
+            if (isexist != null)
             {
                 Request.UserId = isexist.UserId;
             }
-            Request.FirstName = viewpatientcreaterequest.FirstName;
-            Request.LastName = viewpatientcreaterequest.LastName;
-            Request.Email = viewpatientcreaterequest.Email;
-            Request.PhoneNumber = viewpatientcreaterequest.PhoneNumber;
-            Request.IsUrgentEmailSent = new BitArray(1);
+
+            Request.FirstName = viewPatientReq.FirstName;
+            Request.LastName = viewPatientReq.LastName;
+            Request.Email = viewPatientReq.Email;
+            Request.PhoneNumber = viewPatientReq.PhoneNumber;
             Request.CreatedDate = DateTime.Now;
-            Request.ConfirmationNumber = viewpatientcreaterequest.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewpatientcreaterequest.LastName.Substring(0, 2) + viewpatientcreaterequest.FirstName.Substring(0, 2) + "002";
+            Request.IsUrgentEmailSent = new BitArray(1);
+            Request.ConfirmationNumber = viewPatientReq.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewPatientReq.LastName.Substring(0, 2) + viewPatientReq.FirstName.Substring(0, 2) + "002";
 
             _context.Requests.Add(Request);
             _context.SaveChanges();
-
             Requestclient.RequestId = Request.RequestId;
-            Requestclient.FirstName = viewpatientcreaterequest.FirstName;
-            Requestclient.Address = viewpatientcreaterequest.Street;
-            Requestclient.LastName = viewpatientcreaterequest.LastName;
-            Requestclient.Email = viewpatientcreaterequest.Email;
-            Requestclient.PhoneNumber = viewpatientcreaterequest.PhoneNumber;
-            Requestclient.Notes = viewpatientcreaterequest.Symptoms;
-            Requestclient.StrMonth = (viewpatientcreaterequest.BirthDate.Month).ToString();
-            Requestclient.IntDate = viewpatientcreaterequest.BirthDate.Day;
-            Requestclient.IntYear = viewpatientcreaterequest.BirthDate.Year;
-            Requestclient.Street = viewpatientcreaterequest.Street;
-            Requestclient.City = viewpatientcreaterequest.City;
-            Requestclient.State = viewpatientcreaterequest.State;
-            Requestclient.ZipCode = viewpatientcreaterequest.ZipCode;
-            Requestclient.StrMonth = (viewpatientcreaterequest.BirthDate.Month).ToString();
-            Requestclient.IntDate = viewpatientcreaterequest.BirthDate.Day;
-            Requestclient.IntYear = viewpatientcreaterequest.BirthDate.Year;
-
+            Requestclient.FirstName = viewPatientReq.FirstName;
+            Requestclient.LastName = viewPatientReq.LastName;
+            Requestclient.Address = viewPatientReq.Street + "," + viewPatientReq.City + "," + viewPatientReq.State + "," + viewPatientReq.ZipCode;
+            Requestclient.Email = viewPatientReq.Email;
+            Requestclient.Street = viewPatientReq.Street;
+            Requestclient.City = viewPatientReq.City;
+            Requestclient.State = Enum.GetName(typeof(StateLists), viewPatientReq.State);
+            Requestclient.RegionId = viewPatientReq.State;
+            Requestclient.ZipCode = viewPatientReq.ZipCode;
+            Requestclient.PhoneNumber = viewPatientReq.PhoneNumber;
+            Requestclient.Notes = viewPatientReq.Symptoms;
+            Requestclient.IntDate = viewPatientReq.BirthDate.Day;
+            Requestclient.IntYear = viewPatientReq.BirthDate.Year;
+            Requestclient.StrMonth = (viewPatientReq.BirthDate.Month).ToString();
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
 
-            if (viewpatientcreaterequest.UploadFile != null)
+            if (viewPatientReq.UploadFile != null)
             {
                 string FilePath = "wwwroot\\Upload";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
@@ -124,18 +120,18 @@ namespace HaloDocRepository.Repositories
                 {
                     Directory.CreateDirectory(path);
                 }
-                string fileNameWithPath = Path.Combine(path, viewpatientcreaterequest.UploadFile.FileName);
-                viewpatientcreaterequest.UploadImage = "~" + FilePath.Replace("wwwroot\\", "/") + "/" + viewpatientcreaterequest.UploadFile.FileName;
+                string fileNameWithPath = Path.Combine(path, viewPatientReq.UploadFile.FileName);
+                viewPatientReq.UploadImage = "~" + FilePath.Replace("wwwroot\\", "/") + "/" + viewPatientReq.UploadFile.FileName;
 
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
-                    viewpatientcreaterequest.UploadFile.CopyTo(stream);
+                    viewPatientReq.UploadFile.CopyTo(stream);
                 }
 
                 var requestwisefile = new RequestWiseFile
                 {
                     RequestId = Request.RequestId,
-                    FileName = viewpatientcreaterequest.UploadFile.FileName,
+                    FileName = viewPatientReq.UploadFile.FileName,
                     CreatedDate = DateTime.Now,
                     IsDeleted = new BitArray(1)
 
@@ -143,14 +139,41 @@ namespace HaloDocRepository.Repositories
                 _context.RequestWiseFiles.Add(requestwisefile);
                 _context.SaveChanges();
             }
+
         }
         //REQUEST SUBMIT BY FAMILY//
-
-
         public void FamilyRequest(FamilySubmitRequests viewdata)
         {
             var isexist = _context.Users.FirstOrDefault(x => x.Email == viewdata.Email);
             var User = new User();
+            if (isexist == null)
+            {
+                var Subject = "Create Account";
+                var agreementUrl = "https://localhost:7299/Home/Register?Email=" + viewdata.Email;
+                var template = $"<a href='{agreementUrl}'>Create Account</a>";
+                var sent = _emailconfig.SendMail(viewdata.Email, Subject, template);
+                EmailLog em = new EmailLog
+                {
+
+                    EmailTemplate = template,
+                    SubjectName = Subject,
+                    EmailId = viewdata.Email,
+                    CreateDate = DateTime.Now,
+                    SentDate = DateTime.Now,
+                    IsEmailSent = new BitArray(1),
+                    SentTries = 1,
+                    Action = 6,// action 6 for registration
+                    RoleId = 1,// role 1 for patient
+                };
+
+                if (sent)
+                {
+                    em.IsEmailSent[0] = true;
+                };
+                _context.EmailLogs.Add(em);
+                _context.SaveChanges();
+            }
+
             var Request = new Request
             {
                 RequestTypeId = 3,
@@ -162,11 +185,12 @@ namespace HaloDocRepository.Repositories
                 PhoneNumber = viewdata.FF_PhoneNumber,
                 CreatedDate = DateTime.Now,
                 IsUrgentEmailSent = new BitArray(1),
-                UserId=isexist.UserId,
                 ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002"
-
-
-        };
+            };
+            if (isexist != null)
+            {
+                Request.UserId = isexist.UserId;
+            }
             _context.Requests.Add(Request);
             _context.SaveChanges();
 
@@ -180,7 +204,8 @@ namespace HaloDocRepository.Repositories
                 PhoneNumber = viewdata.PhoneNumber,
                 Email = viewdata.Email,
                 Street = viewdata.Street,
-                State = viewdata.State,
+                State = Enum.GetName(typeof(StateLists), viewdata.State),
+                RegionId = viewdata.State,
                 City = viewdata.City,
                 ZipCode = viewdata.ZipCode,
                 StrMonth = (viewdata.BirthDate.Month).ToString(),
@@ -221,15 +246,41 @@ namespace HaloDocRepository.Repositories
         }
 
         //REQUEST SUBMIT BY concierge//
-
         public void ConciergeRequest(ConciergeSubmitRequests viewdata)
         {
             var Concierge = new Concierge();
             var Request = new Request();
+            var User = new User();
             var Requestclient = new RequestClient();
             var Requestconcierge = new RequestConcierge();
             var isexist = _context.Users.FirstOrDefault(x => x.Email == viewdata.Email); Concierge.ConciergeName = viewdata.CON_FirstName + " " + viewdata.CON_LastName;
+            if (isexist == null)
+            {
+                var Subject = "Create Account";
+                var agreementUrl = "https://localhost:7299/Home/Register?Email=" + viewdata.Email;
+                var template = $"<a href='{agreementUrl}'>Create Account</a>";
+                var sent = _emailconfig.SendMail(viewdata.Email, Subject, template);
+                EmailLog em = new EmailLog
+                {
 
+                    EmailTemplate = template,
+                    SubjectName = Subject,
+                    EmailId = viewdata.Email,
+                    CreateDate = DateTime.Now,
+                    SentDate = DateTime.Now,
+                    IsEmailSent = new BitArray(1),
+                    SentTries = 1,
+                    Action = 6,// action 6 for registration
+                    RoleId = 1,// role 1 for patient
+                };
+
+                if (sent)
+                {
+                    em.IsEmailSent[0] = true;
+                };
+                _context.EmailLogs.Add(em);
+                _context.SaveChanges();
+            }
 
             Concierge.Street = viewdata.CON_Street;
             Concierge.City = viewdata.CON_City;
@@ -251,9 +302,12 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
-            Request.UserId = isexist.UserId;
-            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
 
+            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
+            if (isexist != null)
+            {
+                Request.UserId = isexist.UserId;
+            }
 
             _context.Requests.Add(Request);
             _context.SaveChanges();
@@ -265,7 +319,8 @@ namespace HaloDocRepository.Repositories
             Requestclient.Email = viewdata.Email;
             Requestclient.PhoneNumber = viewdata.PhoneNumber;
             Requestclient.Street = viewdata.Street;
-            Requestclient.State = viewdata.State;
+            Requestclient.State = Enum.GetName(typeof(StateLists), viewdata.State);
+            Requestclient.RegionId = viewdata.State;
             Requestclient.City = viewdata.City;
             Requestclient.Notes = viewdata.Symptoms;
             Requestclient.ZipCode = viewdata.ZipCode;
@@ -321,6 +376,35 @@ namespace HaloDocRepository.Repositories
             var Requestclient = new RequestClient();
             var Requestbusiness = new RequestBusiness();
             var isexist = _context.Users.FirstOrDefault(x => x.Email == viewdata.Email);
+            var User = new User();
+
+            if (isexist == null)
+            {
+                var Subject = "Create Account";
+                var agreementUrl = "https://localhost:7299/Home/Register?Email=" + viewdata.Email;
+                var template = $"<a href='{agreementUrl}'>Create Account</a>";
+                var sent = _emailconfig.SendMail(viewdata.Email, Subject, template);
+                EmailLog em = new EmailLog
+                {
+
+                    EmailTemplate = template,
+                    SubjectName = Subject,
+                    EmailId = viewdata.Email,
+                    CreateDate = DateTime.Now,
+                    SentDate = DateTime.Now,
+                    IsEmailSent = new BitArray(1),
+                    SentTries = 1,
+                    Action = 6,// action 6 for registration
+                    RoleId = 1,// role 1 for patient
+                };
+
+                if (sent)
+                {
+                    em.IsEmailSent[0] = true;
+                };
+                _context.EmailLogs.Add(em);
+                _context.SaveChanges();
+            }
             Random _random = new Random();
 
             Business.Name = viewdata.bus_FirstName + viewdata.bus_LastName;
@@ -341,9 +425,12 @@ namespace HaloDocRepository.Repositories
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
             Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
-            Request.UserId = isexist.UserId;
             _context.Requests.Add(Request);
             _context.SaveChanges();
+            if (isexist != null)
+            {
+                Request.UserId = isexist.UserId;
+            }
             int id2 = Request.RequestId;
 
             Requestclient.RequestId = Request.RequestId;
@@ -352,7 +439,8 @@ namespace HaloDocRepository.Repositories
             Requestclient.Email = viewdata.Email;
             Requestclient.PhoneNumber = viewdata.PhoneNumber;
             Requestclient.Street = viewdata.Street;
-            Requestclient.State = viewdata.State;
+            Requestclient.State = Enum.GetName(typeof(StateLists), viewdata.State);
+            Requestclient.RegionId = viewdata.State;
             Requestclient.City = viewdata.City;
             Requestclient.Notes = viewdata.Symptoms;
             Requestclient.ZipCode = viewdata.ZipCode;
@@ -434,7 +522,7 @@ namespace HaloDocRepository.Repositories
         #region PatientRecordsinAdminPage
         public SearchInputs PatientHistory(SearchInputs search)
         {
-            var pHis  = _context.Users.
+            var pHis = _context.Users.
                         Select(req => new PatientProfile
                         {
                             FirstName = req.FirstName,
@@ -442,13 +530,13 @@ namespace HaloDocRepository.Repositories
                             Email = req.Email,
                             Phone = req.Mobile,
                             Address = req.Street + req.City + req.State,
-                            UserId= req.UserId
+                            UserId = req.UserId
                         }).Where(pp => string.IsNullOrEmpty(search.FirstName) || pp.FirstName.Contains(search.FirstName))
                           .Where(pp => string.IsNullOrEmpty(search.LastName) || pp.LastName.Contains(search.LastName))
                           .Where(pp => string.IsNullOrEmpty(search.Email) || pp.Email.Contains(search.Email))
                           .Where(pp => string.IsNullOrEmpty(search.Mobile) || pp.Phone.Contains(search.Mobile))
                           .ToList();
-            
+
             int totalItemCount = pHis.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)search.PageSize);
             List<PatientProfile> list1 = pHis.Skip((search.CurrentPage - 1) * search.PageSize).Take(search.PageSize).ToList();

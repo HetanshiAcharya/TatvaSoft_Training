@@ -56,6 +56,10 @@ namespace HaloDocDataAccess.ViewModels
         public string? Mobile { get; set; }
         public string? Notes { get; set; }
         public bool? IsActive { get; set; }
+        public int CurrentPage { get; set; } = 1;
+        public int TotalPages { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
+
     }
     public class PatientProfile
     {

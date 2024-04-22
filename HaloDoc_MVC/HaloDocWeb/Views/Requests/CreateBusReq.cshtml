@@ -1,4 +1,5 @@
 ﻿@model HaloDocDataAccess.ViewModels.BusinessSubmitRequests;
+@using static HaloDocDataAccess.ViewModels.Constant
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,20 +15,18 @@
         <img src="~/images/HaloDoc-Logo.png"
              alt=""
              class="logo-img" />
-        <div class="toggle-btn border-secondary" onclick="myFunction()">
-            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
-        </div>
+
     </header>
     <!-- main form  -->
-    <form class="container-fluid" asp-controller="Requests" asp-action="CreateBusReq">
-        <div class="form-group row">
-            <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn p-2 py-2 b" id="save" onclick="">
-                    <a class="btn border border-info text-info shadow-none  p-2 py-2 backButton">
-                        <i class="fa fa-angle-left pe-1 text-info "> </i> Back
-                    </a>
-                </button>
-            </div>
+    <div class="container-fluid">
+        <div class="col-sm-12 d-flex justify-content-end">
+            <a class="text-decoration-none text-info" asp-action="SubmitReq" asp-controller="Home">
+                <div class="btn p-2 py-2 border-info text-info">
+                    <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                </div>
+            </a>
+        </div>
+        <form class="form-group row" asp-controller="Requests" asp-action="CreateBusReq">
             <h4 class="mt-2 mb-6">Business Information</h4>
             <div class="col-sm-6">
                 <input asp-for="bus_FirstName" class="form-control form-control-md col-md mt-4"
@@ -70,7 +69,7 @@
                 <textarea asp-for="Symptoms" class="form-control"
                           id="exampleFormControlTextarea1"
                           rows="3"
-                          placeholder="Enter Brief Details of Symptoms" required></textarea>
+                          placeholder="Enter Brief Details of Symptoms"></textarea>
             </div>
             <span asp-validation-for="Symptoms" class="text-danger validate col-12"></span>
 
@@ -106,7 +105,7 @@
             <span asp-validation-for="BirthDate" class="text-danger validate col-6"></span>
             <span asp-validation-for="FirstName" class="text-danger validate col-6"></span>
 
-          
+
             <h4 class="mt-4 mb-6">Patient Location</h4>
             <div class="col-sm-6">
                 <input asp-for="Street" class="form-control form-control-md col-md mt-4"
@@ -116,12 +115,15 @@
             <div class="col-sm-6">
                 <input asp-for="City" class="form-control form-control-md col-md mt-4"
                        type="text"
-                       placeholder="City" />
+                       placeholder="City" required />
             </div>
-            <div class="col-sm-6">
-                <input asp-for="State" class="form-control form-control-md col-md mt-4"
-                       type="text"
-                       placeholder="State" />
+            <div class="col-sm-6 mt-4">
+                <select asp-for="State" class="form-select" placeholder="Account">
+                    @foreach (var item in Enum.GetValues(typeof(StateLists)))
+                    {
+                        <option value="@((int)item)">@item.ToString()</option>
+                    }
+                </select>
             </div>
             <div class="col-sm-6 mb-3">
                 <input asp-for="ZipCode" class="form-control form-control-md col-md mt-4"
@@ -135,8 +137,8 @@
                     Cancel
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     <!-- footer  -->
     <footer>

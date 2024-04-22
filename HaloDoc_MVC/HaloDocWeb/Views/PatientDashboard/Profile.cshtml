@@ -20,10 +20,11 @@
     <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="d-flex justify-content-between">
             <h3>User Profile</h3>
-
-            <button onclick="history.go(-1)" class="btn btn-outline-info shadow-none night-mode-btn">
-                <span>Back</span>
-            </button>
+                <a class="text-decoration-none text-info" asp-action="Dashboard" asp-controller="PatientDashboard">
+                    <div class="btn p-2 py-2 border-info text-info">
+                        <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                    </div>
+                </a>
         </div>
         <form class="form-group row shadow dashboard-card mt-3 p-3" enctype="multipart/form-data" method="post">
             <h5 class="mt-4 m">General Information</h5>
@@ -90,14 +91,7 @@
                        type="text"
                        placeholder="Zip Code" disabled />
             </div>
-            <div class="col mt-4">
-                <button type="button" class="btn btn-outline-info shadow-none night-mode-btn h-100 d-flex align-items-center">
-                    <i class="fa fa-map-marker test-info mx-1" aria-hidden="true"></i>
-                    <div class="d-flex">
-                        <span>Map</span>
-                    </div>
-                </button>
-            </div>
+            
 
             <div class="col-sm-12 d-flex justify-content-end">
 

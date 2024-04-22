@@ -1,4 +1,5 @@
 ﻿@model HaloDocDataAccess.ViewModels.ConciergeSubmitRequests;
+@using static HaloDocDataAccess.ViewModels.Constant
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,20 +16,18 @@
         <img src="~/images/HaloDoc-Logo.png"
              alt=""
              class="logo-img" />
-        <div class="toggle-btn border-secondary" onclick="myFunction()">
-            <i class="fa fa-x fa-moon-o moon text-info border rounded p-2" aria-hidden="true"></i>
-        </div>
+        
     </header>
     <!-- main form  -->
-    <form class="container-fluid" asp-controller="Requests" asp-action="CreateConReq" onsubmit="customValidation()">
-        <div class="form-group row">
-            <div class="col-sm-12 d-flex justify-content-end">
-                <button class="btn p-2 py-2 btn-outline-info bg-white" id="save" onclick="">
-                    <a class="text-decoration-none text-info" >
-                        <i class="fa fa-angle-left pe-1 text-info "> </i>Back
-                    </a>
-                </button>
-            </div>
+    <div class="container-fluid" >
+        <div class="col-sm-12 d-flex justify-content-end">
+            <a class="text-decoration-none text-info" asp-action="SubmitReq" asp-controller="Home">
+                <div class="btn p-2 py-2 border-info text-info">
+                    <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                </div>
+            </a>
+        </div>
+        <form class="form-group row" asp-controller="Requests" asp-action="CreateConReq" onsubmit="customValidation()">
             <h4 class="mt-4 mb-6">Concierge Information</h4>
             <div class="col-sm-6">
                 <input asp-for="CON_FirstName" class="form-control form-control-md col-md mt-4"
@@ -75,10 +74,13 @@
                        type="text"
                        placeholder="City" />
             </div>
-            <div class="col-sm-6">
-                <input asp-for="CON_State" class="form-control form-control-md col-md mt-4"
-                       type="text"
-                       placeholder="State" />
+            <div class="col-sm-6 mt-4">
+                <select asp-for="State" class="form-select" placeholder="Account">
+                    @foreach (var item in Enum.GetValues(typeof(StateLists)))
+                    {
+                        <option value="@((int)item)">@item.ToString()</option>
+                    }
+                </select>
             </div>
             <div class="col-sm-6">
                 <input asp-for="CON_ZipCode" class="form-control form-control-md col-md mt-4"
@@ -91,7 +93,7 @@
                 <textarea asp-for="Symptoms" class="form-control"
                           id="exampleFormControlTextarea1"
                           rows="3"
-                          placeholder="Enter Brief Details of Symptoms" required></textarea>
+                          placeholder="Enter Brief Details of Symptoms" ></textarea>
             </div>
             <span asp-validation-for="Symptoms" class="text-danger validate col-12"></span>
 
@@ -147,12 +149,12 @@
             </div>
             <div class="col-sm-12 d-flex justify-content-end">
                 <button class="btn btn-primary mr-4" type="submit">Submit</button>
-                <button class="btn btn-outline-primary mr-4" type="submit">
+                <button class="btn btn-outline-primary mr-4" type="reset">
                     Cancel
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <!-- //////  -->
     <!-- footer  -->
     <footer>

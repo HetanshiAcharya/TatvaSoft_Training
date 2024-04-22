@@ -55,9 +55,9 @@ namespace HaloDocWeb.Controllers
             return View("../Admin/AdminProfile/Index", p);
         }
         #region EditPassword
-        public async Task<IActionResult> EditPassword(string password)
+        public async Task<IActionResult> EditPassword(string password, int adminId)
         {
-            if (await _adminservice.EditPassword(password, Convert.ToInt32(CV.UserId())))
+            if (await _adminservice.EditPassword(password, adminId))
             {
                 _notyf.Success("Password changed Successfully...");
             }
@@ -104,7 +104,19 @@ namespace HaloDocWeb.Controllers
         public IActionResult AddAdminPost(AdminProfile adminData)
         {
             bool res = _adminservice.AddAdminAccount(adminData);
-            return RedirectToAction("AdminProfile");
+            if (res)
+            {
+                _notyf.Success("Admin Added Successfully");
+
+                return RedirectToAction("AddAdmin", "Admin");
+
+            }
+            else
+            {
+                _notyf.Error("Admin already exist");
+
+                return View("AddAdmin", "AdminProfile");
+            }
         }
         #endregion
         #region AddAdmin

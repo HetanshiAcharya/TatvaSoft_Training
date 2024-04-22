@@ -2,6 +2,7 @@
     Layout = "_AdminLayout";
 }
 @model HaloDocDataAccess.ViewModels.AdminDetailsInfo
+@using static HaloDocDataAccess.ViewModels.Constant;
 @* --------------- Main Form --------------------------  *@
 <div class="container viewcasecard">
     @* --------------- Modal Header --------------------------  *@
@@ -19,6 +20,7 @@
     <div class="p-3 bg-white">
         @* Account Information  *@
         <form method="post" asp-action="EditPassword" asp-controller="AdminProfile" class="needs-validation" novalidate>
+            <input type="hidden" asp-for="AdminId" />
             <div class="row">
                 <input type="hidden" asp-for="AdminId" />
                 <h6><strong>Account Information</strong></h6>
@@ -153,10 +155,13 @@
                            type="text" id="city"
                            placeholder="City" required disabled />
                 </div>
-                <div class="col-lg-6">
-                    <input asp-for="State" class="form-control  mt-4"
-                           type="text" id="state"
-                           placeholder="State" required disabled />
+                <div class="col-lg-6 mt-4">
+                    <select asp-for="State" class="form-select" placeholder="Account" id="state" onchange="rolemenu()" disabled>
+                        @foreach (var item in Enum.GetValues(typeof(StateLists)))
+                        {
+                            <option value="@((int)item)">@item.ToString()</option>
+                        }
+                    </select>
                 </div>
             </div>
             <div class="row">

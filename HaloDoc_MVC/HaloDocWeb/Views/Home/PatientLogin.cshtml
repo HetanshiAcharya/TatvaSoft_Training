@@ -18,11 +18,12 @@
                 <div class="col-sm d-flex justify-content-center">
                     <img src="~/images/HaloDoc-Logo.png" alt="" />
                 </div>
-                <div class="col-sm-12 mt-4 mb-4">
-                    <button class="btn p-2 py-2 btn-outline-info bg-white" id="save" onclick="">
-                        <a class="text-decoration-none text-info" asp-controller="Home" asp-action="Index">Back</a>
-                    </button>
-                </div>
+
+                <a class="text-decoration-none text-info" asp-action="PatientSite" asp-controller="Home">
+                    <div class="btn p-2 py-2 border-info text-info">
+                        <i class="fa fa-angle-left pe-1 text-info "> </i>Back
+                    </div>
+                </a>
                 <h3>Log into your Account</h3>
                 @* ------------Form------------- *@
                 <form method="post">
