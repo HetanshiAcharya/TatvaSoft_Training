@@ -1769,8 +1769,6 @@ namespace HaloDocRepository.Repositories
                         if (!(p.Regionids.IsNullOrEmpty()))
                         {
                             List<int> priceList = p.Regionsid.Split(',').Select(int.Parse).ToList();
-
-
                             foreach (var item in priceList)
                             {
                                 PhysicianRegion ar = new()
