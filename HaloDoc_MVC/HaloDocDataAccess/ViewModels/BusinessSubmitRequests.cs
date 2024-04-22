@@ -110,6 +110,7 @@ namespace HaloDocDataAccess.ViewModels
         public string? LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public string? Email { get; set; }
+        [RegularExpression(@"([0-9]{10})", ErrorMessage = "It must be of 10 numerics")]
         public string? PhoneNumber { get; set; }
         public string? Street { get; set; }
         public string? City { get; set; }

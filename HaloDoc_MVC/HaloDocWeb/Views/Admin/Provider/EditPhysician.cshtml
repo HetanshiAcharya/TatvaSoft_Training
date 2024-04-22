@@ -231,19 +231,13 @@
                 <div class="col-md-5 mt-4 pb-3">
                     <div class="d-flex justify-content-between border border-secondary rounded input4">
                         <button type="button" id="signature" class="col btn text-start fileSelect form-control" onclick="document.getElementById('file').click()" disabled>
-                            Select Photo
+                            Select Signature
                         </button>
                         <input id="file1" type="file" class="d-none form-control doc_uploder" asp-for="signature" data-target="signature">
                         <button type="submit" class="btn btn-info text-white" value="Upload" onclick="document.getElementById('file1').click()" disabled>
                             <i class="fa fa-cloud-upload"></i>
                             <span> Upload </span>
                         </button>
-                    </div>
-                </div>
-                <div class="col-md-1 mt-4">
-                    <div class="btn btn-info align-items-center text-white d-flex p-2">
-                        <i class="fa-solid fa-pen fa-xs mx-1"></i>
-                        <span class="d-none d-sm-inline mr-2">Create</span>
                     </div>
                 </div>
             </div>
@@ -270,7 +264,7 @@
                     </td>
                     <td>Independent Contractor Agreement</td>
                     <td>
-                        <input type="file" id="files2" class="d-none form-control doc_uploder file-input" data-target="choosenfile">
+                        <input type="file" id="files2" class="d-none form-control doc_uploder_files file-input" data-target="choosenfile">
                         <button type="submit" class="btn btn-info text-white upload-btn shadow-none">
                             <span onclick="document.getElementById('files2').click()"> Upload </span>
                         </button>
@@ -355,8 +349,6 @@
         <div class=" d-flex justify-content-end">
             <input type="button" class="input btn bg-info text-white rounded px-3 me-2 save" value="Save" onclick="saveChng()" />
             <input type="button" class="input btn bg-danger text-white rounded px-3 dltacc" onclick="DeleteAccount()" value="Delete Account">
-            @*             <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
-            *@
         </div>
     </div>
 </div>
@@ -376,58 +368,7 @@
     });
 </script>
 <script>
-    //Add and Edit difference
-    // $(document).ready(function () {
-    //     console.log("abcjsbhfjd");
-    //     if ("@@ViewData["Heading"]" == "Add") {
-    //         $(".editprofile,.reset,.save, .dltacc").css("display", "none");
-    //         $("input, textarea, button,select").removeAttr('disabled');
-    //         $(".form-check-input").prop("disabled", false);
-    //     }
-    // });
-    // $(document).ready(function () {
-    //     console.log("abcjsbhfjd");
-    //     if ("@@ViewData["Heading"]" == "Edit") {
-    //         $(".crtacc").css("display", "none");
-    //     }
-    // });
-    // $('.submit-all').click(function () {
-    //     var physicianData = {}; // This will hold all the form data
-
-    //     $('form').each(function () {
-    //         var formData = $(this).serializeArray();
-    //         formData.forEach(function (item) {
-    //             // Handle the possibility of form fields having the same name
-    //             if (physicianData[item.name]) {
-    //                 if (!Array.isArray(physicianData[item.name])) {
-    //                     physicianData[item.name] = [physicianData[item.name]];
-    //                 }
-    //                 physicianData[item.name].push(item.value);
-    //             } else {
-    //                 physicianData[item.name] = item.value;
-    //             }
-    //         });
-    //     });
-    //     var checkboxes = [];
-    //     $('input[name="boardcheck"]:checked').each(function () {
-    //         checkboxes.push(this.value);
-    //     });
-    //     console.log(physicianData);
-    //     // Now send this data to the server
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '@@Url.Action("EditPhysicianPost", "Provider")', // Replace with your actual URL
-    //         data: { PhysiciansData: physicianData, checkboxes: checkboxes },
-    //         success: function (response) {
-    //             // Handle success
-    //             console.log('Data sent successfully', response);
-    //         },
-    //         error: function (error) {
-    //             // Handle error
-    //             console.log('Error sending data', error);
-    //         }
-    //     });
-    // });
+   
     // edit and save
     function enable_disable1() {
         $("#username").removeAttr('disabled');
@@ -506,16 +447,6 @@
             row.find('.row-checkbox').prop('disabled', true);
         });
     });
-    //onboarding checkbox trigger upload
-    //$(document).ready(function () {
-    //    $(document).on('change', '.row-checkbox', function () {
-    //        var checkbox = $(this);
-    //        var row = checkbox.closest('tr');
-    //        var uploadBtn = row.find('.upload-btn');
-    //        uploadBtn.prop('disabled', !checkbox.prop('checked'));
-    //    });
-    //});
-
     //save btn
     function saveChng() {
         var checkboxes = [];
@@ -595,7 +526,4 @@
             $(".crtacc").css("display", "none");
         }
     });
-   
-    
-    
 </script>

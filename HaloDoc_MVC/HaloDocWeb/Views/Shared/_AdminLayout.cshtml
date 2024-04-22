@@ -54,11 +54,15 @@
     </header>
     @*----------Admin Pages Header--------------*@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 mt-4 subnav">
+        @{
+            var activePathAdmin = new[] { "/Admin", "/Index" };
+            var activeClassAdmin = activePathAdmin.Any(path.EndsWith) ? "activeNav" : "";
+        }
         @if (loginRepository.isAccessGranted((int)CV.RoleID(), "DashBoard"))
         {
             <ul class="nav-item">
                 <li class="nav-link">
-                    <a class="nav-link px-3 text-dark  @(path.EndsWith("/Admin") ? "activeNav" : "")" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
+                    <a class="nav-link px-3 text-dark @activeClassAdmin" aria-current="page" asp-action="Index" asp-controller="Admin">Dashboard</a>
                 </li>
             </ul>
         }

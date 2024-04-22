@@ -14,10 +14,10 @@
                     <p><small>To Send Agreement please make sure you are uploading the correct contact information below for the responsible party</small> </p>
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <input class="form-control" id="SendAgreement_phone"  asp-for="PhoneNumber" id="phone" disabled/>
+                            <input class="form-control" id="SendAgreement_phone"  asp-for="PhoneNumber" id="phone" disabled />
                         </div>
                         <div class="col-lg-12 mt-4">
-                            <input class="form-control" id="SendAgreement_email" type="email" asp-for="Email" required /> 
+                            <input class="form-control" id="SendAgreement_email" type="email" asp-for="Email" required disabled />
                             <span asp-validation-for="Email" class="text-danger validate col-6"></span>
                         </div>
                     </div>
@@ -56,18 +56,5 @@
             },
         });
     });
-    //phone validation
-    document.getElementById('phone').addEventListener('input', function (e) {
-        var x = e.target.value.replace(/\D/g, ''); 
-        e.target.value = x;
-
-        var pattern = /^\d{10}$/;
-        if (pattern.test(x)) {
-            console.log('Phone number is valid');
-            e.target.setCustomValidity(''); 
-        } else {
-            console.log('Phone number is not valid');
-            e.target.setCustomValidity('Invalid phone number');
-        }
-    });
+    
 </script>

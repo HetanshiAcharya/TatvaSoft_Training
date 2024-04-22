@@ -116,6 +116,10 @@ namespace HaloDocWeb.Controllers
         public IActionResult ViewDocument(int requestId)
         {
             RequestClient request = _context.RequestClients.FirstOrDefault(r => r.RequestId == requestId);
+            if(request == null)
+            {
+                return NotFound();
+            }
             Request req = _context.Requests.FirstOrDefault(r => r.RequestId == requestId);
             List<RequestWiseFile> fileList = _context.RequestWiseFiles.Where(reqFile => reqFile.RequestId == requestId).ToList();
 

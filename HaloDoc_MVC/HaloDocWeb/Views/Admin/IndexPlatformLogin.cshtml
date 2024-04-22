@@ -21,11 +21,9 @@
                          class="w-100 vh-100"
                          style="object-fit: cover;" />
                 </div>
-
                 <!-- right side  -->
                 <div class="col-sm-6 align-items-center d-flex flex-column right-side">
                     <partial name="_PartialLoader" />
-
                     <img src="~/images/HaloDoc-Logo.png"
                          alt=""
                          class="logo-img-platformLogin" />
@@ -38,13 +36,11 @@
                                asp-for="Email"
                                required />
                         <span asp-validation-for="Email" class="text-danger validate col-12"></span>
-
                         <input type="password" value="admin"
                                class="form-control form-group mt-4"
                                asp-for="PasswordHash"
                                placeholder="Password" />
                         <span asp-validation-for="PasswordHash" class="text-danger validate col-12"></span>
-
                         <button type="submit" class="form-group btn btn-primary mt-4 loginbtn" onclick="displayBusyIndicator()">
                             Log in
                         </button>

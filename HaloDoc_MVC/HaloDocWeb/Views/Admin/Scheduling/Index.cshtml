@@ -126,7 +126,7 @@
     </div>
 </div>
 @*Add New Shift Modal*@
-<div class="modal fade" id="addShiftModal" tabindex="-1" aria-labelledby="addShiftModalLabel1" aria-hidden="true">
+<div class="modal fade" id="addShiftModal" tabindex="-1" aria-labelledby="addShiftModalLabel1" aria-hidden="true" class="needs-validation" novalidate>
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-info text-white">
@@ -136,10 +136,13 @@
             <form asp-action="AddShift" asp-controller="Scheduling">
                 <div class="modal-body">
                     <div class="form-floating">
-                        <select class="form-select form-select-sm mt-3 p-2" required data-allow-clear="true" tabindex="-1" onchange="myFunction()" id="region1" asp-for="regionid" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level">
+                        <select class="form-select form-select-sm mt-3 p-2" required data-allow-clear="true" tabindex="-1" onchange="myFunction()" id="region1" asp-for="regionid" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" >
                             <option id="defaultreason" value="">All Region</option>
                         </select>
                     </div>
+                    <span class="invalid-feedback mt-0">
+                        Please choose a Region.
+                    </span>
                     @if (CV.role() == "Admin")
                     {
                         <select class="form-select form-select-sm mt-3 p-2" required asp-for="physicianid" data-allow-clear="true" tabindex="-1" id="Physician" data-control="select2" data-placeholder="Select Physician">

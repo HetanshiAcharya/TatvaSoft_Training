@@ -6,36 +6,30 @@
     <table class="w-100 dataTable">
         <thead class="py-2">
             <tr>
-                @{
-                    var i1 = @Model.SortedColumn;
-                    var J1 = @Model.IsAscending;
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "PatientName" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('PatientName')">
-                        <small>Name</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    <th></th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "ProviderName" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('ProviderName')">
-                        <small>Physician Name</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "RequestedDate" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('RequestedDate')">
-                        <small>Date Of Service</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    <th scope="col">
-                        <small>Phone</small>
-                    </th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Address" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Address')">
-                        <small>Address</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    <th scope="col">
-                        <small>Chat With</small>
-                    </th>
-                    <th scope="col">
-                        <small>Actions</small>
-                    </th>
-                }
+
+                <th scope="col" onclick="SetColumValue('PatientName')">
+                    <small>Name</small>
+                </th>
+                <th></th>
+                <th scope="col" onclick="SetColumValue('ProviderName')">
+                    <small>Physician Name</small>
+                </th>
+                <th scope="col" onclick="SetColumValue('RequestedDate')">
+                    <small>Date Of Service</small>
+                </th>
+                <th scope="col">
+                    <small>Phone</small>
+                </th>
+                <th scope="col" onclick="SetColumValue('Address')">
+                    <small>Address</small>
+                </th>
+                <th scope="col">
+                    <small>Chat With</small>
+                </th>
+                <th scope="col">
+                    <small>Actions</small>
+                </th>
+                
             </tr>
         </thead>
         @* --------------- Table Content --------------------------  *@
@@ -61,7 +55,7 @@
                             <small>(Patient)</small>
                         </div>
 
-                        @if (item.RequestTypeID != 2)
+                        @if (item.RequestTypeID != 1)
                         {
                             <button class="btn border border-white text-white mt-2">
                                 <i class="fa-solid fa-phone pe-2"></i>

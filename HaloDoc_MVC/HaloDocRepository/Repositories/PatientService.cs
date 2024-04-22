@@ -76,7 +76,7 @@ namespace HaloDocRepository.Repositories
                 _context.Users.Add(User);
                 _context.SaveChanges();
             }
-            Request.RequestTypeId = 2;
+            Request.RequestTypeId = 1;
             Request.Status = 1;
             if (isexist != null)
             {

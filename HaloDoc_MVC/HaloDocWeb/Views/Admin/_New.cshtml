@@ -7,44 +7,36 @@
     <table class="w-100 dataTable ">
         <thead>
             <tr>
-                @{
-                    var i1 = @Model.SortedColumn;
-                    var J1 = @Model.IsAscending;
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "PatientName" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('PatientName')">
-                        <small>Name</small>
-                        <span class="dt-column-order"></span>
+                <th scope="col">
+                    <small>Name</small>
+                </th>
+                <th></th>
+                <th scope="col" onclick="SetColumValue('Dob')">
+                    <small>Date Of Birth</small>
+                </th>
+                @if (CV.role() == "Admin")
+                {
+                    <th scope="col" onclick="SetColumValue('Requestor')">
+                        <small>Requestor</small>
                     </th>
-                    <th></th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Dob" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Dob')">
-                        <small>Date Of Birth</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    @if (CV.role() == "Admin")
-                    {
-                        <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Requestor" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Requestor')">
-                            <small>Requestor</small>
-                            <span class="dt-column-order"></span>
-                        </th>
-                        <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "RequestedDate" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('RequestedDate')">
-                            <small>Requested Date</small>
-                            <span class="dt-column-order"></span>
-                        </th>
-                    }
-                    <th scope="col">
-                        <small>Phone</small>
-                    </th>
-                    <th scope="col" style="position:relative;" class="dt-orderable-asc dt-orderable-desc @(i1 == "Address" ? (J1 == true ?"dt-ordering-asc" : "dt-ordering-desc" ) : "")" onclick="SetColumValue('Address')">
-                        <small>Address</small>
-                        <span class="dt-column-order"></span>
-                    </th>
-                    <th scope="col">
-                        <small>Notes</small>
-                    </th>
-                    
-                    <th scope="col">
-                        <small>Actions</small>
+                    <th scope="col" onclick="SetColumValue('RequestedDate')">
+                        <small>Requested Date</small>
                     </th>
                 }
+                <th scope="col">
+                    <small>Phone</small>
+                </th>
+                <th scope="col" onclick="SetColumValue('Address')">
+                    <small>Address</small>
+                </th>
+                <th scope="col">
+                    <small>Notes</small>
+                </th>
+
+                <th scope="col">
+                    <small>Actions</small>
+                </th>
+
             </tr>
         </thead>
         @* Table Content *@
@@ -75,7 +67,7 @@
                             <small>(Patient)</small>
                         </div>
 
-                        @if (item.RequestTypeID != 2)
+                        @if (item.RequestTypeID != 1)
                         {
                             <button class="btn border border-white text-white mt-2 justify-content-center align-items-center">
                                 <i class="fa-solid fa-phone pe-2"></i>
@@ -90,7 +82,7 @@
                     </td>
                     <td><small>@item.Street,@item.City,@item.State-@item.ZipCode</small></td>
                     <td><small>@item.Notes</small></td>
-                   
+
                     <td>
                         <button class="btn border border-white text-white my-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <small>Actions</small>
@@ -112,7 +104,7 @@
                             <li><a class="dropdown-item" href="@Url.Action("ViewNotes", new {RequestId = item.RequestID})"><i class="bi bi-journals me-1"></i>View Notes</a></li>
                             @if (CV.role() == "Admin")
                             {
-                            <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban me-1"></i>Block Case</a></li>
+                                <li><a class="dropdown-item" data-bs-toggle="modal" onclick="Blockcaseid('@item.RequestID', '@item.PatientName')" data-bs-target=" #blockcase" data-id="@item.RequestID"><i class="bi bi-ban me-1"></i>Block Case</a></li>
                             }
                         </ul>
 
@@ -231,7 +223,7 @@
                     }
                     else
                     {
-                    <li class="me-2 page-item"><button  type="button" class="disabled btn border-0">&lt;</button></li>
+                    <li class="me-2 page-item"><button type="button" class="disabled btn border-0">&lt;</button></li>
                     }
                     @for (i = 1; i <= @Model.TotalPages; i++)
                     {

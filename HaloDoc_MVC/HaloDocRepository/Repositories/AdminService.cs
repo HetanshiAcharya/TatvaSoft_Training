@@ -1380,11 +1380,11 @@ namespace HaloDocRepository.Repositories
                             List<int> priceList = _viewAdminProfile.Regionsid.Split(',').Select(int.Parse).ToList();
                             foreach (var item in priceList)
                             {
-                                if (regions.Contains(item))
-                                {
-                                    regions.Remove(item);
-                                }
-                                else
+                                //if (regions.Contains(item))
+                                //{
+                                //    regions.Remove(item);
+                                //}
+                                //else
                                 {
                                     AdminRegion ar = new()
                                     {

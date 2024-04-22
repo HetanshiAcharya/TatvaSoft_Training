@@ -41,7 +41,7 @@
                                 @if (Model.DocumentCount[i] >= 0)
                                 {
                                     <a asp-action="ViewDocument" asp-controller="PatientDashboard" asp-route-requestId="@Model.Requests[i].RequestId" class="btn btn-outline-info btn-sm document-button">
-                                        Document(@Model.DocumentCount[i])<i class="fa fa-arrow-circle-down px-1" aria-hidden="true"></i>
+                                        Document(@Model.DocumentCount[i])
                                     </a>
                                 }
                             </td>

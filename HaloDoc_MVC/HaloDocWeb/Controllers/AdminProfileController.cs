@@ -44,6 +44,7 @@ namespace HaloDocWeb.Controllers
             _jwtService = jwtService;
             _notyf = notyf;
         }
+        #region Index
         public async Task<IActionResult> Index(string UserId)
         {
             ViewBag.AssignCase = _adminservice.AssignCase();
@@ -54,6 +55,8 @@ namespace HaloDocWeb.Controllers
             AdminDetailsInfo p = await _adminservice.GetProfileDetails(Convert.ToInt32(UserId));
             return View("../Admin/AdminProfile/Index", p);
         }
+        #endregion
+
         #region EditPassword
         public async Task<IActionResult> EditPassword(string password, int adminId)
         {
@@ -100,6 +103,7 @@ namespace HaloDocWeb.Controllers
             return RedirectToAction("Index", "AdminProfile");
         }
         #endregion
+
         #region AddAdminPost
         public IActionResult AddAdminPost(AdminProfile adminData)
         {
@@ -108,7 +112,7 @@ namespace HaloDocWeb.Controllers
             {
                 _notyf.Success("Admin Added Successfully");
 
-                return RedirectToAction("AddAdmin", "Admin");
+                return View("AddAdmin", "Admin");
 
             }
             else
@@ -119,6 +123,7 @@ namespace HaloDocWeb.Controllers
             }
         }
         #endregion
+
         #region AddAdmin
         public IActionResult AddAdmin()
         {

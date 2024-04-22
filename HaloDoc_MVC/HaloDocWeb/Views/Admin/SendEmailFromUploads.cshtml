@@ -26,35 +26,6 @@
         </div>
     </div>
 </div>
-@* --------------- Script and Ajax for Assign Case nbn --------------------------  *@
-@* <script>
-    $('#send-agreement-submit-btn').click(function () {
-        var phoneNumber = $("#SendAgreement_phone").val();
-        var email = $("#SendAgreement_email").val();
-        var reqId = $("#SendAgreement_id").val();
-
-        $.ajax({
-            url: "/Admin/SendAgreement",
-            data: {
-                Reqid: reqId,
-                PhoneNumber: phoneNumber,
-                Email: email,
-            },
-            type: 'POST',
-            success: function (result) {
-                $('#display').html(result);
-                $('#sendAgreementModal').modal('show');
-                location.reload();
-            },
-            error: function (error) {
-                console.log(error);
-                alert('Error Fetching Request abcd  ')
-            },
-        });
-    });
-</script> *@
-
- 
 <script>
     $(function () {
         $('#finalizebtn').on('click', function () {

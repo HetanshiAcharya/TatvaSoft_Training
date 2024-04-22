@@ -46,16 +46,7 @@
                 </div>
 
             </div>
-            @* edit button ~ acc info *@
-            @* <div class="d-flex justify-content-end align-items-center mt-2">
-                <div class="d-flex justify-content-end ">
-                    <a id="edit1" onclick="enable_disable1()" class="btn btn-info text-white rounded py-2 px-3 me-2 editprofile">Edit</a>
-                    <input type="submit" id="submit1" class="input btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
-                </div>
-                <div>
-                    <input type="submit" value="Reset Password" id="resetpassbtn" class=" reset btn border border-info text-info" />
-                </div>
-            </div> *@
+            
         </form>
         @* Physician Information  *@
         <form method="post" asp-action="EditProviderInfo" asp-controller="Provider" id="abcdefghi">
@@ -135,13 +126,6 @@
                     }
                 </div>
             </div>
-
-            @* edit button ~ phy Info *@
-            @* <div class="d-flex justify-content-end mt-4">
-                <a id="edit2" onclick="enable_disable2()" class="input btn btn-info text-white rounded py-2 px-3 me-2 editprofile">Edit</a>
-                <a id="submit2" class="input btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">Save</a>
-            </div> *@
-
         </form>
         @* Mailing Information *@
         <form method="post" asp-action="EditProviderMailingInfo" asp-controller="Provider">
@@ -187,11 +171,6 @@
                            class="form-control  iti"  />
                 </div>
             </div>
-            @* edit button ~ bilinginfo *@
-           @*  <div class="d-flex justify-content-end mt-4">
-                <a id="edit3" onclick="enable_disable3()" class="input btn btn-info text-white rounded py-2 px-3 me-2 editprofile">Edit</a>
-                <input type="submit" id="submit3" class="input btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
-            </div> *@
         </form>
         @* Provider Profile *@
         <form method="post" asp-action="ProviderProfileInfo" asp-controller="Provider" enctype="multipart/form-data" id="formprofile">
@@ -234,12 +213,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-1 mt-4">
-                    <div class="btn btn-info align-items-center text-white d-flex p-2">
-                        <i class="fa-solid fa-pen fa-xs mx-1"></i>
-                        <span class="d-none d-sm-inline mr-2">Create</span>
-                    </div>
-                </div>
+                
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -247,11 +221,7 @@
                               placeholder="Message" asp-for="Message" ></textarea>
                 </div>
             </div>
-            @* edit button ~ profile *@
-           @*  <div class="d-flex justify-content-end mt-5">
-                <a id="edit4" onclick="enable_disable4()" class="input btn btn-info text-white rounded py-2 px-3 me-2 editprofile">Edit</a>
-                <input id="submit4" type="submit" class="input btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">
-            </div> *@
+           
         </form>
         @* Onboarding *@
         <p class="h5 p-1"><b>Onboarding </b></p>
@@ -347,8 +317,6 @@
         </table>
         <hr />
         <div class=" d-flex justify-content-end">
-           @*  <input type="button" class="input btn bg-info text-white rounded px-3 me-2 save" value="Save" onclick="saveChng()" />
-            <input type="button" class="input btn bg-danger text-white rounded px-3 dltacc" onclick="DeleteAccount()" value="Delete Account"> *@
             <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
 
         </div>
@@ -370,28 +338,13 @@
     });
 </script>
 <script>
-    //Add and Edit difference
-    // $(document).ready(function () {
-    //     console.log("abcjsbhfjd");
-    //     if ("@@ViewData["Heading"]" == "Add") {
-    //         $(".editprofile,.reset,.save, .dltacc").css("display", "none");
-    //         $("input, textarea, button,select").removeAttr('disabled');
-    //         $(".form-check-input").prop("disabled", false);
-    //     }
-    // });
-    // $(document).ready(function () {
-    //     console.log("abcjsbhfjd");
-    //     if ("@@ViewData["Heading"]" == "Edit") {
-    //         $(".crtacc").css("display", "none");
-    //     }
-    // });
+    
     $('.submit-all').click(function () {
-        var physicianData = {}; // This will hold all the form data
+        var physicianData = {}; 
 
         $('form').each(function () {
             var formData = $(this).serializeArray();
             formData.forEach(function (item) {
-                // Handle the possibility of form fields having the same name
                 if (physicianData[item.name]) {
                     if (!Array.isArray(physicianData[item.name])) {
                         physicianData[item.name] = [physicianData[item.name]];
@@ -407,62 +360,19 @@
             checkboxes.push(this.value);
         });
         console.log(physicianData);
-        // Now send this data to the server
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("AddPhysicianPost", "Provider")', // Replace with your actual URL
+            url: '@Url.Action("AddPhysicianPost", "Provider")',
             data: { PhysiciansData: physicianData, checkboxes: checkboxes },
             success: function (response) {
-                // Handle success
                 console.log('Data sent successfully', response);
             },
             error: function (error) {
-                // Handle error
                 console.log('Error sending data', error);
             }
         });
     });
-    // edit and save
-    // function enable_disable1() {
-    //     $("#username").removeAttr('disabled');
-    //     $("#status").removeAttr('disabled');
-    //     $("#role").removeAttr('disabled');
-    //     $("#submit1").css("display", "block");
-    //     $("#edit1").css("display", "none");
-    // }
-    // function enable_disable2() {
-    //     $("#fname").removeAttr('disabled');
-    //     $("#lname").removeAttr('disabled');
-    //     $("#email").removeAttr('disabled');
-    //     $("#phone1").removeAttr('disabled');
-    //     $("#medLicense").removeAttr('disabled');
-    //     $("#npi").removeAttr('disabled');
-    //     $("#syncemail").removeAttr('disabled');
-    //     $(".form-check-input").prop("disabled", false);
-
-    //     $("#submit2").css("display", "block");
-    //     $("#edit2").css("display", "none");
-    // }
-    // function enable_disable3() {
-    //     $("#add1").removeAttr('disabled');
-    //     $("#add2").removeAttr('disabled');
-    //     $("#city").removeAttr('disabled');
-    //     $("#state").removeAttr('disabled');
-    //     $("#zip").removeAttr('disabled');
-    //     $("#phone2").removeAttr('disabled');
-    //     $("#submit3").css("display", "block");
-    //     $("#edit3").css("display", "none");
-    // }
-    // function enable_disable4() {
-    //     $("#bname").removeAttr('disabled');
-    //     $("#bwebsite").removeAttr('disabled');
-    //     $("#photo").removeAttr('disabled');
-    //     $("#signature").removeAttr('disabled');
-    //     $("#message").removeAttr('disabled');
-
-    //     $("#submit4").css("display", "block");
-    //     $("#edit4").css("display", "none");
-    // }
+    
     // provider info submit
     $(function () {
         $('#submit2').on('click', function () {
@@ -500,76 +410,7 @@
             row.find('.row-checkbox').prop('disabled', true);
         });
     });
-    //onboarding checkbox trigger upload
-    //$(document).ready(function () {
-    //    $(document).on('change', '.row-checkbox', function () {
-    //        var checkbox = $(this);
-    //        var row = checkbox.closest('tr');
-    //        var uploadBtn = row.find('.upload-btn');
-    //        uploadBtn.prop('disabled', !checkbox.prop('checked'));
-    //    });
-    //});
-
-    //save btn
-    // function saveChng() {
-    //     var checkboxes = [];
-    //     var physicianid = $("#PhysicianId").val();
-    //     $('input[name="boardcheck"]:checked').each(function () {
-    //         checkboxes.push(this.value);
-    //     });
-    //     console.log(checkboxes);
-    //     $.ajax({
-    //         type: "POST",
-    //         url: '@Url.Action("SaveProvider", "Provider")',
-    //         data: { checkboxes: checkboxes, physicianid: physicianid },
-    //         success: function (data) {
-    //             console.log("AJAX success");
-    //             location.reload();
-    //         },
-    //         error: function (error) {
-    //             console.log("Error:", error);
-    //         }
-    //     });
-    // }
-    //delete account
-    // function DeleteAccount() {
-    //     var pId = $("#PhysicianId").val();
-
-    //     const swalWithBootstrapButtons = Swal.mixin({
-    //         customClass: {
-    //             confirmButton: "btn btn-info m-2 shadow-none text-white",
-    //             cancelButton: "btn btn-outline-info m-2"
-    //         },
-    //         buttonsStyling: false
-    //     });
-
-    //     swalWithBootstrapButtons.fire({
-    //         title: "Are you sure you want to delete this account?",
-    //         text: "Once deleted you cannot retrieve",
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonText: "Clear",
-    //         cancelButtonText: "Cancel",
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             console.log("Success2");
-    //             $.ajax({
-    //                 method: "POST",
-    //                 url: "/Provider/DeleteProviderAccount?PhysicianId=" + pId,
-    //                 success: function (result) {
-    //                     console.log(result);
-    //                     window.location.href("https:localhost:7299/Provider");
-    //                 },
-
-    //                 error: function () {
-    //                     console.log("error");
-    //                 }
-    //             });
-    //         }
-
-    //     });
-
-    // };
+    
     //back btn different
     document.addEventListener('click', function (event) {
         if (event.target.classList.contains('backButton')) {
