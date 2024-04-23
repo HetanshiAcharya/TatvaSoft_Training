@@ -318,7 +318,7 @@ namespace HaloDocDataAccess.ViewModels
     public class ProviderList
     {
         public DateTime? CreatedDate;
-
+        public int[] checkboxes { get; set; }
         public string Role { get; set; }
         public int? onCallStatus { get; set; } = 0;
         public string Email { get; set; }

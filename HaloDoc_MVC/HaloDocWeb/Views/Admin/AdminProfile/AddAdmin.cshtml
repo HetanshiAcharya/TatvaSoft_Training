@@ -19,7 +19,7 @@
     </div>
     <div class="p-3 bg-white">
         @* Account Information  *@
-        <form method="post" asp-action="EditPassword" asp-controller="AdminProfile" class="needs-validation" novalidate>
+        <form method="post" class="needs-validation" novalidate asp-action="AddAdminPost" asp-controller="AdminProfile">
             <div class="row">
                 <input type="hidden" asp-for="AdminId" />
                 <h6><strong>Account Information</strong></h6>
@@ -47,9 +47,7 @@
                     </select>
                 </div>
             </div>
-        </form>
-        @* Administrator Information  *@
-        <form method="post" asp-action="EditAdministratorInfo" asp-controller="AdminProfile" id="abcdefghi" class="needs-validation" novalidate>
+            @* Administrator Information  *@
             <input type="hidden" asp-for="AdminId" />
             <div class="row">
                 <h6><strong>Administrator Information</strong></h6>
@@ -71,9 +69,7 @@
                     <input asp-for="Email" class="form-control  mt-4"
                            type="email" id="email"
                            placeholder="Enter Email" required />
-                    <span class="invalid-feedback">
-                        Please enter the Email.
-                    </span>
+
                 </div>
                 <div class="col-lg-6">
                     <input asp-for="ConfEmail" class="form-control  mt-4"
@@ -89,14 +85,13 @@
                            class="form-control iti" />
                 </div>
                 <input asp-for="Regionsid" type="hidden" id="regionids" />
-
                 <div class="col-sm-6 mt-1 form-check d-flex flex-wrap fs-5">
                     @foreach (var cb in ViewBag.AssignCase)
                     {
                         @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
                         {
                             <div class="form-check mx-2">
-                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region" id="flexCheckDefault" checked>
+                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="RegionId" id="flexCheckDefault" checked>
                                 <label class="form-check-label" for="flexCheckDefault">
                                     @cb.Name
                                 </label>
@@ -115,8 +110,8 @@
                 </div>
             </div>
 
-        </form>
-        <form method="post" asp-action="BillingInfoEdit" asp-controller="AdminProfile">
+            @* </form> *@
+            @* <form method="post" asp-action="BillingInfoEdit" asp-controller="AdminProfile"> *@
             <input type="hidden" asp-for="AdminId" />
 
             <div class="row">
@@ -163,52 +158,35 @@
             </div>
             @* edit button *@
             <div class="d-flex justify-content-end mt-4">
-                <input type="button" class="input btn-success  rounded px-3 py-2 submit-all crtacc" value="Create Account">
+                <input type="submit" class="input btn-success  rounded px-3 py-2  crtacc" value="Create Account">
             </div>
         </form>
     </div>
 </div>
 
-<script>
-    const phoneInputField = document.querySelector("#phone1");
-    const phoneInput = window.intlTelInput(phoneInputField, {
-        utilsScript:
-            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    });
-</script>
-<script>
-    const phoneInputField = document.querySelector("#phone30");
-    const phoneInput = window.intlTelInput(phoneInputField, {
-        utilsScript:
-            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    });
-</script>
-<script>
 
-    $('.submit-all').click(function () {
-        var physicianData = {};
-        $('form').each(function () {
-            var formData = $(this).serializeArray();
-            formData.forEach(function (item) {
-                if (physicianData[item.name]) {
-                    if (!Array.isArray(physicianData[item.name])) {
-                        physicianData[item.name] = [physicianData[item.name]];
-                    }
-                    physicianData[item.name].push(item.value);
-                } else {
-                    physicianData[item.name] = item.value;
-                }
-            });
+<script>
+    $('#submitform').on('submit', function (e) {
+        event.preventDefault();
+
+        var clonedForm = $(this).clone();
+        if (!$('#submitform')[0].checkValidity()) {
+            return;
+        }
+        let checkboxes = document.querySelectorAll('input[name="RegionId"]:checked');
+
+        let RegionIdList = [];
+        checkboxes.forEach((checkbox) => {
+            RegionIdList.push(checkbox.value);
         });
-        var checkboxes = [];
-        $('input[name="boardcheck"]:checked').each(function () {
-            checkboxes.push(this.value);
-        });
-        console.log(physicianData);
+        console.log(RegionIdList);
+        document.querySelector('#regionids').value = RegionIdList.join(',');
+        var physiciandata = $('#submitform').serialize();
+        console.log(physiciandata);
         $.ajax({
             type: 'POST',
             url: '@Url.Action("AddAdminPost", "AdminProfile")',
-            data: { adminData: physicianData, checkboxes: checkboxes },
+            data: physiciandata,
             success: function (response) {
                 console.log('Data sent successfully', response);
             },
@@ -216,23 +194,5 @@
                 console.log('Error sending data', error);
             }
         });
-    });
-    $(function () {
-        $('#submit').on('click', function () {
-            let checkboxes = document.querySelectorAll('input[name="Region"]:checked');
-            let regionIds = [];
-            checkboxes.forEach((checkbox) => {
-                regionIds.push(checkbox.value);
-            });
-            document.querySelector('#regionids').value = regionIds.join(',');
-            console.log(document.querySelector('#regionids').value)
-            $('#abcdefghi').submit();
-        });
-    });
-    //back button
-    document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('backButton')) {
-            history.back();
-        }
     });
 </script>

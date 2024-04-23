@@ -111,15 +111,12 @@ namespace HaloDocWeb.Controllers
             if (res)
             {
                 _notyf.Success("Admin Added Successfully");
-
-                return View("AddAdmin", "Admin");
-
+                return RedirectToAction("AddAdmin", "AdminProfile");
             }
             else
             {
                 _notyf.Error("Admin already exist");
-
-                return View("AddAdmin", "AdminProfile");
+                return RedirectToAction("AddAdmin", "AdminProfile");
             }
         }
         #endregion

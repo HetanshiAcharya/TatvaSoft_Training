@@ -1766,7 +1766,7 @@ namespace HaloDocRepository.Repositories
                             await _context.SaveChangesAsync();
                         }
 
-                        if (!(p.Regionids.IsNullOrEmpty()))
+                        if (!(p.Regionsid.IsNullOrEmpty()))
                         {
                             List<int> priceList = p.Regionsid.Split(',').Select(int.Parse).ToList();
                             foreach (var item in priceList)
@@ -1911,7 +1911,7 @@ namespace HaloDocRepository.Repositories
         #endregion
 
         #region AddProviderAccount
-        public bool AddProviderAccount(ProviderList PhysiciansData, int[] checkboxes, string UserId)
+        public bool AddProviderAccount(ProviderList PhysiciansData)
         {
             var isexist = _context.AspNetUsers.Where(r => r.Email == PhysiciansData.Email).Any();
             if (isexist)
@@ -1988,9 +1988,9 @@ namespace HaloDocRepository.Repositories
 
                     Data.Photo = PhysiciansData.Photo.FileName;
                 }
-                if (checkboxes != null)
+                if (PhysiciansData.checkboxes != null)
                 {
-                    foreach (var i in checkboxes)
+                    foreach (var i in PhysiciansData.checkboxes)
                     {
                         switch (i)
                         {

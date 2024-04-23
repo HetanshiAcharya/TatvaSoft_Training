@@ -101,22 +101,22 @@ namespace HaloDocWeb.Controllers
         #endregion
 
         #region AddPhysicianPost
-        public IActionResult AddPhysicianPost(ProviderList PhysiciansData, int[] checkboxes, string UserId)
+        public IActionResult AddPhysicianPost(ProviderList physiciandata)
         {
             ViewBag.Status = _adminservice.ProviderRole();
             ViewBag.AssignCase = _adminservice.AssignCase();
             ViewData["Heading"] = "Add";
-            var res = _adminservice.AddProviderAccount(PhysiciansData, checkboxes, UserId);
+            var res = _adminservice.AddProviderAccount(physiciandata);
             if (res)
             {
                 _notyf.Success("Physician Added Successfully");
-                return View("../Admin/Provider/AddPhysician");
+                return RedirectToAction("AddPhysician", "Provider");
 
             }
             else
             {
                 _notyf.Error("Physician already exist");
-                return View("../Admin/Provider/AddPhysician");
+                return RedirectToAction("AddPhysician", "Provider");
 
             }
         }
