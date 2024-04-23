@@ -11,7 +11,7 @@
             <h5 class="mt-3"><strong>Encounter Form</strong></h5>
         </div>
         <div>
-            <a class="btn border border-info text-info shadow-none">
+            <a class="btn border border-info text-info shadow-none" asp-action="Index" asp-controller="Admin">
                 <i class="fa fa-angle-left pe-1 text-info "> </i> Back
             </a>
         </div>
@@ -52,7 +52,7 @@
         <span asp-validation-for="CreatedDate" class="text-danger validate col-6"></span>
 
         <div class="col-sm-6 mt-4">
-            <input asp-for="PhoneNumber" id="phone5"
+            <input asp-for="PhoneNumber" id="phone"
                    type="tel"
                    class="form-control form-control-md col-md mt-4 iti" placeholder="PhoneNumber" />
         </div>
