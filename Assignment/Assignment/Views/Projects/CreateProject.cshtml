@@ -1,0 +1,29 @@
+﻿@model AssignmentEntity.ViewModels.ProjectDetails;
+
+<div class="container">
+    <form method="post" asp-action="CreateProjectPost" asp-controller="Projects" class="needs-validation" novalidate>
+        <div class="d-flex mx-2">
+            <input asp-for="ProjectName" class="form-control col-6 me-2" placeholder="Task Name" />
+            <input asp-for="Assignee" class="form-control col-6" placeholder="Assignee" />
+        </div>
+        <div class="d-flex mx-2 mt-2">
+            <input asp-for="Description" class="form-control col-6 me-2" placeholder="Description" />
+            <input asp-for="DueDate" class="form-control col-6" placeholder="Due Date" type="date" />
+        </div>
+        <div class="d-flex mx-2 mt-2">
+            <input asp-for="City" class="form-control col-6 me-2" placeholder="City" />
+            <select class="form-select form-control"  asp-for="Domain">
+                <option value="1">TaskEase.com</option>
+                <option value="2">ProPlan.io</option>
+                <option value="3">TeamUpHub.com</option>
+                <option value="4">TaskFlow.io</option>
+                <option value="5">ProjectEase.io</option>
+                <option value="6">TaskBuddy.com</option>
+                <option value="7">Trackpro.io</option>
+            </select>
+        </div>
+
+    <button type="submit" class="btn btn-outline-info">save</button>
+    <a type="button" class="btn btn-outline-info" asp-action="Index" asp-controller="Projects">Cancel</a>
+    </form>
+</div>

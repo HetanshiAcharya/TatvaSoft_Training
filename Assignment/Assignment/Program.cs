@@ -1,8 +1,12 @@
+using AssignmentEntity.DataContext;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<AssignmentDbContext>(options =>
+options.UseNpgsql(builder.Configuration.GetConnectionString("AssignmentDbContext")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

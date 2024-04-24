@@ -1,0 +1,14 @@
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\bin\Debug\net7.0\AssignmentEntity.deps.json
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\bin\Debug\net7.0\AssignmentEntity.runtimeconfig.json
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\bin\Debug\net7.0\AssignmentEntity.dll
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\bin\Debug\net7.0\AssignmentEntity.pdb
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.csproj.AssemblyReference.cache
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.AssemblyInfoInputs.cache
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.AssemblyInfo.cs
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.csproj.CoreCompileInputs.cache
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.dll
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\refint\AssignmentEntity.dll
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.pdb
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\AssignmentEntity.genruntimeconfig.cache
+C:\Users\pci68\Desktop\Assignment\AssignmentEntity\obj\Debug\net7.0\ref\AssignmentEntity.dll
