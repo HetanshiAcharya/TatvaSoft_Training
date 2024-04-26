@@ -29,12 +29,11 @@
             </div>
             <div class="w-100"></div>
             <div class="col-sm-6">
-                <input asp-for="Date" type="date"
+                <input asp-for="DOB" type="date"
                        class="form-control form-control-md col-md mt-4"
                        placeholder="Select Date" disabled />
             </div>
             <h5 class="mt-4 mb-2">Contact Information</h5>
-
             <div class="dropdown col col-md-auto mt-4">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     Mobile Type
@@ -45,7 +44,6 @@
                     <li><a class="dropdown-item" href="#">Mobile</a></li>
                 </ul>
             </div>
-
             <div class="col">
                 <input asp-for="Phone" id="phone"
                        type="tel"
@@ -56,7 +54,6 @@
                 <input asp-for="Email" class="form-control form-control-md col-md mt-4"
                        type="email"
                        placeholder="Enter Email" disabled />
-
             </div>
             <h5 class="mt-4 mb-2">Location</h5>
             <div class="col-sm-6">
@@ -69,7 +66,6 @@
                        type="text"
                        placeholder="City" disabled />
             </div>
-
             <div class="col-sm-6">
                 <input asp-for="State" class="form-control form-control-md col-md mt-4"
                        type="text"
@@ -80,18 +76,13 @@
                        type="text"
                        placeholder="Zip Code" disabled />
             </div>
-            
-
             <div class="col-sm-12 d-flex justify-content-end">
-
                 <button id="saveBtn" onclick="changeCountryCode()" type="submit" class="btn my-4 py-2 px-4" style="background-color: #10bce9; color: white; display:none;">
                     Save
                 </button>
-
                 <button id="editBtn" type="button" onclick="editDetails()" style="background-color: #10bce9; color: white;" class="btn my-4 py-2 px-4" type="submit">Edit</button>
             </div>
         </form>
-
     </div>
 </div>
 <script>

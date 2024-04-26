@@ -60,14 +60,14 @@ namespace HaloDocDataAccess.ViewModels
         public string? PhoneNumber { get; set; }
         public string? CON_Street { get; set; }
         public string? CON_City { get; set; }
-        public string? CON_State { get; set; }
+        public int? CON_State { get; set; }
         public string? CON_ZipCode { get; set; }
         public string? RoomSuite { get; set; }
         public IFormFile? UploadFile { get; set; }
         public string? UploadImage { get; set; }
         public string? Street { get; set; }
         public StateLists? RegionId { get; set; }
-        public int? State { get; set; }
+        public int State { get; set; }
         public string? City { get; set; }
         public string? ZipCode { get; set; }
     }
@@ -99,6 +99,16 @@ namespace HaloDocDataAccess.ViewModels
     }
     public class PatientSubmitRequests
     {
+       
+       /*  [Required(ErrorMessage = "Start date and time cannot be empty")]
+        //validate:Must be greater than current date
+        [DataType(DataType.DateTime)]
+        public DateTime StartDateTime { get; set; }
+
+        [Required(ErrorMessage = "End date and time cannot be empty")]
+        //validate:must be greater than StartDate
+        [DataType(DataType.DateTime)]
+        public DateTime EndDateTime { get; set; } */
         public string Pass { get; set; }
         [Compare("Pass", ErrorMessage = "Password doesn't match.")]
         public string ConfirmPass { get; set; }

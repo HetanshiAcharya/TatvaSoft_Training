@@ -89,7 +89,7 @@
             <div class="col-sm-6">
                 <input asp-for="BirthDate" type="date"
                        class="form-control form-control-md col-md mt-4"
-                       placeholder="Select Date" required />
+                       placeholder="Select Date" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
             </div>
             <h4 class="mt-4 mb-6">Patient Contact Information</h4>
             <div class="col-sm">

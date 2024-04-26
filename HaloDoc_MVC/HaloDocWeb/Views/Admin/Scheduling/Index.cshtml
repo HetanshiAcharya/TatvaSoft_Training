@@ -114,7 +114,6 @@
             @if (CV.role() == "Admin")
             {
                 <div class="d-flex">
-
                     <button type="button" onclick="loadSchedulingPartial('_DayWise')" class="btn btn-outline-info removeactive" id="Day">Day</button>
                     <button type="button" onclick="loadSchedulingPartial('_WeekWise')" class="btn btn-outline-info ms-2 removeactive" id="Week">Week</button>
                     <button type="button" onclick="loadSchedulingPartial('_MonthWise')" class="btn btn-outline-info ms-2 removeactive" id="Month">Month</button>
@@ -136,7 +135,7 @@
             <form asp-action="AddShift" asp-controller="Scheduling">
                 <div class="modal-body">
                     <div class="form-floating">
-                        <select class="form-select form-select-sm mt-3 p-2" required data-allow-clear="true" tabindex="-1" onchange="myFunction()" id="region1" asp-for="regionid" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" >
+                        <select class="form-select form-select-sm mt-3 p-2" required data-allow-clear="true" tabindex="-1" onchange="myFunction()" id="region1" asp-for="regionid" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level">
                             <option id="defaultreason" value="">All Region</option>
                         </select>
                     </div>
@@ -210,20 +209,21 @@
                 <h1 class="modal-title fs-5" id="viewShiftModalLabel">View Shift</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="ViewShiftreturn" asp-controller="Scheduling" id="ViewShiftForm">
+            <form asp-action="ViewShiftreturn" asp-controller="Scheduling" id="ViewShiftForm" class="needs-validation" novalidate>
                 <input asp-for="shiftdetailid" type="hidden" id="shiftmodalid" />
                 <div class="modal-body">
                     <div class="form-floating">
-                        <select class="form-select" data-allow-clear="true" tabindex="-1" id="" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" disabled>
+                        <select class="form-select" data-allow-clear="true" tabindex="-1" id="" asp-items="@(new SelectList(ViewBag.AssignCase,"RegionId","Name"))" data-control="select2" data-placeholder="Select Level" disabled required>
                             <option value="">Select Region</option>
                         </select>
                         <label for="floatingSelect" class="text-info">
                             Region
                         </label>
                     </div>
-                    <select asp-for="physicianid" class="form-select mt-4" id="physelect2" aria-label="Floating label select example" style="height:58px" readonly>
+                    <select asp-for="physicianid" class="form-select mt-4" id="physelect2" aria-label="Floating label select example" style="height:58px" readonly required>
                         <option id="shiftmodalPhysician" selected>Select Physician</option>
                     </select>
+
                     <div class="form-floating mt-3">
                         <input asp-for="shiftdate" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" id="shiftmodalDate" class="form-control disable" placeholder="Date" readonly>
                         <label for="floatingInput">Shift Date</label>
@@ -323,7 +323,7 @@
                 var date = filterDate.setDate(filterDate.getDate() - 7);
                 localStorage.setItem("currentPartial", currentPartial);
                 loadSchedulingPartial(currentPartial);
-               
+
             }
             else if (currentPartial == "_DayWise") {
                 var date = filterDate.setDate(filterDate.getDate() - 1);
@@ -341,7 +341,7 @@
                 var date = filterDate.setDate(filterDate.getDate() + 7);
                 localStorage.setItem("currentPartial", currentPartial);
                 loadSchedulingPartial(currentPartial);
-               
+
             }
             else if (currentPartial == "_DayWise") {
                 var date = filterDate.setDate(filterDate.getDate() + 1);

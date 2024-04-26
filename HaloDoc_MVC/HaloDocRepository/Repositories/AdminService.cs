@@ -103,12 +103,6 @@ namespace HaloDocRepository.Repositories
         }
         #endregion
 
-        /*public bool AdminAuthentication(AdminLogin adminDetails)
-        {
-            string hashPassword = GenerateSHA256(adminDetails.Password);
-            return _context.AspNetUsers.Any(Au => Au.Email == adminDetails.Email && Au.PasswordHash == hashPassword);
-        }*/
-
         #region NewRequestData
         public List<AdminDashboardList> NewRequestData()
         {
@@ -208,6 +202,7 @@ namespace HaloDocRepository.Repositories
             };
             return paginatedViewModel;
         }
+
         #region GetRequests
         public PaginatedViewModel GetRequests(PaginatedViewModel data, string Status)
         {
@@ -650,6 +645,7 @@ namespace HaloDocRepository.Repositories
         #region blockcaseinfo
         public bool BlockCaseInfo(int requestId, string notes)
         {
+
             try
             {
                 var requestData = _context.Requests.FirstOrDefault(e => e.RequestId == requestId);
@@ -658,8 +654,10 @@ namespace HaloDocRepository.Repositories
                     requestData.Status = 11;
                     _context.Requests.Update(requestData);
                     _context.SaveChanges();
+
                     BlockRequest blc = new BlockRequest
                     {
+                        IsActive = new BitArray(1),
                         RequestId = requestData.RequestId,
                         PhoneNumber = requestData.PhoneNumber,
                         Email = requestData.Email,
@@ -1277,7 +1275,7 @@ namespace HaloDocRepository.Repositories
                                              State = (int?)(StateLists)r.RegionId ?? 0,
                                              LastName = r.LastName,
                                              FirstName = r.FirstName,
-                                             Status = r.Status,
+                                             Status = (ProviderStatus)r.Status,
                                              Zip = r.Zip,
                                          }).FirstOrDefaultAsync();
             List<HaloDocDataAccess.DataModels.Region> regions = new List<HaloDocDataAccess.DataModels.Region>();
@@ -1665,7 +1663,6 @@ namespace HaloDocRepository.Repositories
                                select new ProviderList
                                {
                                    RoleId = r.RoleId,
-
                                    PhysicianId = r.PhysicianId,
                                    UserName = Aspnetuser.UserName,
                                    Password = Aspnetuser.PasswordHash,
@@ -1918,142 +1915,142 @@ namespace HaloDocRepository.Repositories
             {
                 return false;
             }
-           
-                var Data = new Physician();
-                var Aspnetuser = new AspNetUser();
-                var AspNetUserRoles = new AspNetUserRole();
-                var phyNoti = new PhysicianNotification();
-                Guid g = Guid.NewGuid();
-                Aspnetuser.Id = g.ToString();
-                Aspnetuser.UserName = PhysiciansData.FirstName;
-                Aspnetuser.PasswordHash = PhysiciansData.Password;
-                Aspnetuser.Email = PhysiciansData.Email;
-                Aspnetuser.PhoneNumber = PhysiciansData.Phone;
-                Aspnetuser.CreatedDate = DateTime.Now;
-                _context.AspNetUsers.Add(Aspnetuser);
+
+            var Data = new Physician();
+            var Aspnetuser = new AspNetUser();
+            var AspNetUserRoles = new AspNetUserRole();
+            var phyNoti = new PhysicianNotification();
+            Guid g = Guid.NewGuid();
+            Aspnetuser.Id = g.ToString();
+            Aspnetuser.UserName = PhysiciansData.FirstName;
+            Aspnetuser.PasswordHash = GenerateSHA256(PhysiciansData.Password);
+            Aspnetuser.Email = PhysiciansData.Email;
+            Aspnetuser.PhoneNumber = PhysiciansData.Phone;
+            Aspnetuser.CreatedDate = DateTime.Now;
+            _context.AspNetUsers.Add(Aspnetuser);
+            _context.SaveChanges();
+
+            AspNetUserRoles.UserId = Aspnetuser.Id;
+            AspNetUserRoles.RoleId = "3";
+            _context.AspNetUserRoles.Add(AspNetUserRoles);
+            _context.SaveChanges();
+
+            Data.AspNetUserId = Aspnetuser.Id;
+            Data.FirstName = PhysiciansData.FirstName;
+            Data.LastName = PhysiciansData.LastName;
+            Data.Mobile = PhysiciansData.Phone;
+            Data.Email = PhysiciansData.Email;
+            Data.MedicalLicense = PhysiciansData.MedLicence;
+            Data.Npinumber = PhysiciansData.NpiNum;
+            Data.SyncEmailAddress = PhysiciansData.SyncEmail;
+            Data.Address1 = PhysiciansData.Add1;
+            Data.Address2 = PhysiciansData.Add2;
+            Data.City = PhysiciansData.City;
+            Data.Zip = PhysiciansData.Zip;
+            Data.Mobile = PhysiciansData.Phone;
+            Data.BusinessName = PhysiciansData.Bname;
+            Data.BusinessWebsite = PhysiciansData.Bwebsite;
+            Data.AdminNotes = PhysiciansData.Message;
+            Data.RoleId = Convert.ToInt32(PhysiciansData.Role);
+            Data.IsDeleted = new BitArray(1);
+            Data.Status = 1;
+            Data.CreatedBy = "0d15d42d-2f13-4d03-bc8a-2c57c34969ac";
+            Data.AltPhone = PhysiciansData.PhoneForBill;
+            Data.CreatedDate = DateTime.Now;
+
+            if (PhysiciansData.signature != null)
+            {
+                string FilePath = "wwwroot\\Upload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+                string fileNameWithPath = Path.Combine(path, PhysiciansData.signature.FileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    PhysiciansData.signature.CopyTo(stream);
+                }
+
+                Data.Signature = PhysiciansData.signature.FileName;
+
+            }
+            if (PhysiciansData.Photo != null)
+            {
+                string FilePath = "wwwroot\\Upload";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+                string fileNameWithPath = Path.Combine(path, PhysiciansData.Photo.FileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    PhysiciansData.Photo.CopyTo(stream);
+                }
+
+                Data.Photo = PhysiciansData.Photo.FileName;
+            }
+            if (PhysiciansData.checkboxes != null)
+            {
+                foreach (var i in PhysiciansData.checkboxes)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            Data.IsAgreementDoc = new BitArray(1);
+                            Data.IsAgreementDoc[0] = true; break;
+                        case 2:
+                            Data.IsBackgroundDoc = new BitArray(1);
+                            Data.IsBackgroundDoc[0] = true; break;
+                        case 3:
+                            Data.IsCredentialDoc = new BitArray(1);
+                            Data.IsCredentialDoc[0] = true; break;
+                        case 4:
+                            Data.IsNonDisclosureDoc = true; break;
+                        case 5:
+                            Data.IsLicenseDoc = new BitArray(1);
+                            Data.IsLicenseDoc[0] = true; break;
+                    }
+                }
+
+                _context.Physicians.Add(Data);
                 _context.SaveChanges();
 
-                AspNetUserRoles.UserId = Aspnetuser.Id;
-                AspNetUserRoles.RoleId = "3";
-                _context.AspNetUserRoles.Add(AspNetUserRoles);
-                _context.SaveChanges();
-
-                Data.AspNetUserId = Aspnetuser.Id;
-                Data.FirstName = PhysiciansData.FirstName;
-                Data.LastName = PhysiciansData.LastName;
-                Data.Mobile = PhysiciansData.Phone;
-                Data.Email = PhysiciansData.Email;
-                Data.MedicalLicense = PhysiciansData.MedLicence;
-                Data.Npinumber = PhysiciansData.NpiNum;
-                Data.SyncEmailAddress = PhysiciansData.SyncEmail;
-                Data.Address1 = PhysiciansData.Add1;
-                Data.Address2 = PhysiciansData.Add2;
-                Data.City = PhysiciansData.City;
-                Data.Zip = PhysiciansData.Zip;
-                Data.Mobile = PhysiciansData.Phone;
-                Data.BusinessName = PhysiciansData.Bname;
-                Data.BusinessWebsite = PhysiciansData.Bwebsite;
-                Data.AdminNotes = PhysiciansData.Message;
-                Data.RoleId = Convert.ToInt32(PhysiciansData.Role);
-                Data.IsDeleted = new BitArray(1);
-                Data.Status = (short?)(ProviderStatus)PhysiciansData.Status;
-                Data.CreatedBy = "0d15d42d-2f13-4d03-bc8a-2c57c34969ac";
-                Data.AltPhone = PhysiciansData.PhoneForBill;
-                Data.CreatedDate = DateTime.Now;
-
-                if (PhysiciansData.signature != null)
+            }
+            if (PhysiciansData.Regionsid != null)
+            {
+                List<int> regions = _context.PhysicianRegions.Where(r => r.PhysicianId == Data.PhysicianId).Select(req => req.RegionId).ToList();
+                List<int> priceList = PhysiciansData.Regionsid.Split(',').Select(int.Parse).ToList();
+                foreach (var item in priceList)
                 {
-                    string FilePath = "wwwroot\\Upload";
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
-                    string fileNameWithPath = Path.Combine(path, PhysiciansData.signature.FileName);
-
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    if (regions.Contains(item))
                     {
-                        PhysiciansData.signature.CopyTo(stream);
+                        regions.Remove(item);
                     }
-
-                    Data.Signature = PhysiciansData.signature.FileName;
-
-                }
-                if (PhysiciansData.Photo != null)
-                {
-                    string FilePath = "wwwroot\\Upload";
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
-                    string fileNameWithPath = Path.Combine(path, PhysiciansData.Photo.FileName);
-
-                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    else
                     {
-                        PhysiciansData.Photo.CopyTo(stream);
-                    }
-
-                    Data.Photo = PhysiciansData.Photo.FileName;
-                }
-                if (PhysiciansData.checkboxes != null)
-                {
-                    foreach (var i in PhysiciansData.checkboxes)
-                    {
-                        switch (i)
+                        PhysicianRegion ar = new()
                         {
-                            case 1:
-                                Data.IsAgreementDoc = new BitArray(1);
-                                Data.IsAgreementDoc[0] = true; break;
-                            case 2:
-                                Data.IsBackgroundDoc = new BitArray(1);
-                                Data.IsBackgroundDoc[0] = true; break;
-                            case 3:
-                                Data.IsCredentialDoc = new BitArray(1);
-                                Data.IsCredentialDoc[0] = true; break;
-                            case 4:
-                                Data.IsNonDisclosureDoc = true; break;
-                            case 5:
-                                Data.IsLicenseDoc = new BitArray(1);
-                                Data.IsLicenseDoc[0] = true; break;
-                        }
-                    }
-
-                    _context.Physicians.Add(Data);
-                    _context.SaveChanges();
-
-                }
-                if (PhysiciansData.Regionsid != null)
-                {
-                    List<int> regions = _context.PhysicianRegions.Where(r => r.PhysicianId == Data.PhysicianId).Select(req => req.RegionId).ToList();
-                    List<int> priceList = PhysiciansData.Regionsid.Split(',').Select(int.Parse).ToList();
-                    foreach (var item in priceList)
-                    {
-                        if (regions.Contains(item))
-                        {
-                            regions.Remove(item);
-                        }
-                        else
-                        {
-                            PhysicianRegion ar = new()
-                            {
-                                RegionId = item,
-                                PhysicianId = (int)Data.PhysicianId
-                            };
-                            _context.PhysicianRegions.Add(ar);
-                            _context.SaveChanges();
-                            regions.Remove(item);
-                        }
-                    }
-                    if (regions.Count > 0)
-                    {
-                        foreach (var item in regions)
-                        {
-                            PhysicianRegion ar = _context.PhysicianRegions.Where(r => r.PhysicianId == Data.PhysicianId && r.RegionId == item).First();
-                            _context.PhysicianRegions.Remove(ar);
-                            _context.SaveChanges();
-                        }
+                            RegionId = item,
+                            PhysicianId = (int)Data.PhysicianId
+                        };
+                        _context.PhysicianRegions.Add(ar);
+                        _context.SaveChanges();
+                        regions.Remove(item);
                     }
                 }
-                phyNoti.IsNotificationStopped = false;
-                phyNoti.PhysicianId = Data.PhysicianId;
-                _context.PhysicianNotifications.Add(phyNoti);
-                _context.SaveChanges();
+                if (regions.Count > 0)
+                {
+                    foreach (var item in regions)
+                    {
+                        PhysicianRegion ar = _context.PhysicianRegions.Where(r => r.PhysicianId == Data.PhysicianId && r.RegionId == item).First();
+                        _context.PhysicianRegions.Remove(ar);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            phyNoti.IsNotificationStopped = false;
+            phyNoti.PhysicianId = Data.PhysicianId;
+            _context.PhysicianNotifications.Add(phyNoti);
+            _context.SaveChanges();
 
-                return true;
-            
+            return true;
+
         }
         #endregion
 
@@ -2197,6 +2194,8 @@ namespace HaloDocRepository.Repositories
             return (Role);
         }
         #endregion
+
+        #region AccessAccount
         public SearchInputs AccessAccount(int pageinfo)
         {
             var list = _context.Roles.Where(r => r.IsDeleted == new BitArray(1)).ToList();
@@ -2214,6 +2213,7 @@ namespace HaloDocRepository.Repositories
 
             return datanew;
         }
+        #endregion
 
         #region UserAccess
         public SearchInputs UserAccessData(string AccountType, int pageinfo)
@@ -2241,8 +2241,6 @@ namespace HaloDocRepository.Repositories
             {
                 result = result.Where(req => req.AccountType == AccountType).ToList();
             }
-
-
             int totalItemCount = result.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);
             List<UserAccessData> list1 = result.Skip((pageinfo - 1) * pageSize).Take(pageSize).ToList();
@@ -2415,6 +2413,7 @@ namespace HaloDocRepository.Repositories
                            && (formData.createdDate == null || req.CreatedDate.Value.Date == formData.createdDate)
                            && (string.IsNullOrEmpty(formData.Email) || req.Email.Contains(formData.Email))
                            && (string.IsNullOrEmpty(formData.Mobile) || req.PhoneNumber.Contains(formData.Mobile))
+                           && (req.IsActive==new BitArray(1))
                         select new PatientDashboard
                         {
                             PatientName = r.FirstName,
@@ -2608,7 +2607,7 @@ namespace HaloDocRepository.Repositories
 
             return datanew;
         }
-        public bool AddAdminAccount(AdminProfile admindata)
+        public bool AddAdminAccount(AdminDetailsInfo admindata)
         {
             var isexist = _context.AspNetUsers.Where(r => r.Email == admindata.Email).Any();
             if (isexist)
@@ -2620,15 +2619,15 @@ namespace HaloDocRepository.Repositories
             Guid g = Guid.NewGuid();
             Aspnetuser.Id = g.ToString();
             Aspnetuser.UserName = admindata.UserName;
-            Aspnetuser.PasswordHash = admindata.Password;
+            Aspnetuser.PasswordHash = GenerateSHA256(admindata.Password);
             Aspnetuser.Email = admindata.Email;
-            Aspnetuser.PhoneNumber = admindata.Mobile;
+            Aspnetuser.PhoneNumber = admindata.Phone;
             Aspnetuser.CreatedDate = DateTime.Now;
             _context.AspNetUsers.Add(Aspnetuser);
             _context.SaveChanges();
 
             AspNetUserRoles.UserId = Aspnetuser.Id;
-            AspNetUserRoles.RoleId = "2";
+            AspNetUserRoles.RoleId = "3";
             _context.AspNetUserRoles.Add(AspNetUserRoles);
             _context.SaveChanges();
 
@@ -2637,23 +2636,24 @@ namespace HaloDocRepository.Repositories
             Admin.FirstName = admindata.FirstName;
             Admin.LastName = admindata.LastName;
             Admin.Status = 1;
-            Admin.RoleId = Int32.Parse(admindata.Role);
+            Admin.RoleId = admindata.Role;
             Admin.Email = admindata.Email;
-            Admin.Mobile = admindata.Mobile;
+            Admin.Mobile = admindata.Phone;
             Admin.IsDeleted = new BitArray(1);
             Admin.IsDeleted[0] = false;
-            Admin.Address1 = admindata.Address1;
-            Admin.Address2 = admindata.Address2;
+            Admin.Address1 = admindata.Add1;
+            Admin.Address2 = admindata.Add2;
             Admin.City = admindata.City;
-            Admin.Zip = admindata.ZipCode;
+            Admin.Zip = admindata.Zip;
+            Admin.AltPhone = admindata.PhoneForBill;
             Admin.CreatedDate = DateTime.Now;
             Admin.CreatedBy = Aspnetuser.Id;
             _context.Admins.Add(Admin);
             _context.SaveChanges();
 
-            if (admindata.RegionIdList != null)
+            if (admindata.Regionsid != null)
             {
-                List<int> Regionsid = admindata.RegionIdList.Split(',').Select(int.Parse).ToList();
+                List<int> Regionsid = admindata.Regionsid.Split(',').Select(int.Parse).ToList();
                 foreach (var item in Regionsid)
                 {
                     AdminRegion ar = new()
@@ -2887,6 +2887,8 @@ namespace HaloDocRepository.Repositories
             }
             return true;
         }
+
+       
     }
 }
 

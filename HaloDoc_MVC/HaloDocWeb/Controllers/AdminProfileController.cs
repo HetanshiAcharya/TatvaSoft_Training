@@ -84,7 +84,7 @@ namespace HaloDocWeb.Controllers
             {
                 _notyf.Error("Information not Changed...");
             }
-            return RedirectToAction("Index", "AdminProfile");
+            return RedirectToAction("AddAdmin", "AdminProfile");
         }
         #endregion
 
@@ -100,12 +100,12 @@ namespace HaloDocWeb.Controllers
             {
                 _notyf.Error("Information not Changed...");
             }
-            return RedirectToAction("Index", "AdminProfile");
+            return RedirectToAction("AddAdmin", "AdminProfile");
         }
         #endregion
 
         #region AddAdminPost
-        public IActionResult AddAdminPost(AdminProfile adminData)
+        public IActionResult AddAdminPost(AdminDetailsInfo adminData)
         {
             bool res = _adminservice.AddAdminAccount(adminData);
             if (res)

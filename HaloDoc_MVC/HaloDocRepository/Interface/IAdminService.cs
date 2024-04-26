@@ -89,7 +89,7 @@ namespace HaloDocRepository.Interface
         public SearchInputs EmailLogs(SearchInputs emaillog);
         public bool SendMessage(string? Message);
         public SearchInputs RecordsSMSLog(SearchInputs rm);
-        public bool AddAdminAccount(AdminProfile admindata);
+        public bool AddAdminAccount(AdminDetailsInfo admindata);
         public List<Role> ProviderRoleAdmin();
         public bool AcceptCase(int RequestId, string PhysicianId, string Notes);
         public bool RejectCase(int RequestId, string Notes);

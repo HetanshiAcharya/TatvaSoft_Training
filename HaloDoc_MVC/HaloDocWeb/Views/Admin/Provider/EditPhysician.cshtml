@@ -45,7 +45,6 @@
             <div class="row">
                 <div class="dropdown col-lg-6 mt-4">
                     <select asp-for="Status" type="text" class="form-select mb-3" placeholder="Status" disabled asp-items="@new SelectList(Enum.GetNames(typeof(ProviderStatus)))"></select>
-
                 </div>
                 <div class="dropdown col-lg-6 mt-4">
                     <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))" data-control="" data-placeholder="Select Role" id="role" disabled>
@@ -93,7 +92,7 @@
                            placeholder="Enter Email" required disabled />
                 </div>
                 <div class="col-lg-6 mt-4">
-                    <input id="phone1"
+                    <input id="phone"
                            asp-for="Phone"
                            type="tel"
                            class="form-control iti" disabled />
@@ -114,13 +113,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <input class="form-control mt-4"
                            type="text" id="syncemail"
                            asp-for="SyncEmail"
                            placeholder="Synchronization Email Address" required disabled />
                 </div>
-                <div class="col-sm-5 mt-4 form-check d-flex flex-wrap ">
+                <div class="col-sm-9 mt-4 form-check d-flex flex-wrap fs-6">
                     @foreach (var cb in ViewBag.AssignCase)
                     {
                         @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
@@ -187,7 +186,7 @@
                            placeholder="Zip" required disabled />
                 </div>
                 <div class="col-lg-6">
-                    <input id="phone2"
+                    <input id="phone1"
                            type="tel"
                            asp-for="PhoneForBill"
                            class="form-control  iti" disabled />
@@ -367,7 +366,7 @@
         $("#fname").removeAttr('disabled');
         $("#lname").removeAttr('disabled');
         $("#email").removeAttr('disabled');
-        $("#phone1").removeAttr('disabled');
+        $("#phone").removeAttr('disabled');
         $("#medLicense").removeAttr('disabled');
         $("#npi").removeAttr('disabled');
         $("#syncemail").removeAttr('disabled');
@@ -382,7 +381,7 @@
         $("#city").removeAttr('disabled');
         $("#state").removeAttr('disabled');
         $("#zip").removeAttr('disabled');
-        $("#phone2").removeAttr('disabled');
+        $("#phone1").removeAttr('disabled');
         $("#submit3").css("display", "block");
         $("#edit3").css("display", "none");
     }

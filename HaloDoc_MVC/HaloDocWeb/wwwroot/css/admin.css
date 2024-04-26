@@ -296,12 +296,18 @@ div .fs{
     }
 .pagination li button {
     text-decoration: none;
+    border:0.5px solid groove !important;
 }
 
 .pagination button:hover,
 .activepagebtn {
     background-color: #0dcaf0;
     color: #ffffff;
+    border: 0.5px solid groove !important;
+}
+.dropdown-item:hover {
+    background-color: #0dcaf0;
+    color:white;
 }
 
 .filterborder {

@@ -19,112 +19,113 @@
     <div class="p-3 bg-white">
         @* Account Information  *@
         <form method="post" class="needs-validation" novalidate asp-action="AddPhysicianPost" asp-controller="Provider">
-            <div class="row">
-                <input type="hidden" asp-for="PhysicianId" id="PhysicianId" />
-                <h6><strong>Account Information</strong></h6>
-                <div class="col-lg-6">
-                    <input asp-for="UserName" class="form-control col-md mt-4"
-                           type="text"
-                           id="username"
-                           placeholder="UserName" required />
-                    <span class="invalid-feedback">
-                        Please enter the Username.
-                    </span>
+            <div class="mb-5">
+                <div class="row">
+                    <input type="hidden" asp-for="PhysicianId" id="PhysicianId" />
+                    <h6><strong>Account Information</strong></h6>
+                    <div class="col-lg-6">
+                        <input asp-for="UserName" class="form-control col-md mt-4"
+                               type="text"
+                               id="username"
+                               placeholder="UserName" required />
+                        <span class="invalid-feedback">
+                            Please enter the Username.
+                        </span>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <input asp-for="Password" class="form-control form-control-md col-md col-sm mt-4"
+                               type="password"
+                               id="password"
+                               placeholder="Password" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="dropdown col-lg-6 mt-4">
+                        <select asp-for="Status" type="text" class="form-select mb-3" placeholder="Status" asp-items="@new SelectList(Enum.GetNames(typeof(ProviderStatus)))"></select>
+                    </div>
+                    @*< div class="dropdown col-lg-6 mt-4">
+                        <select class="form-select mb-3"  asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))"  data-placeholder="Select Role" id="role">
+                        </select>
+                    </div> *@
                 </div>
 
-                <div class="col-lg-6">
-                    <input asp-for="Password" class="form-control form-control-md col-md col-sm mt-4"
-                           type="password"
-                           id="password"
-                           placeholder="Password" />
+                @* Physician Information  *@
+                <input asp-for="Regionsid" type="hidden" id="regionids" />
+                <div class="row">
+                    <h6><strong>Physician Information</strong></h6>
+                    <div class="col-lg-6">
+                        <input asp-for="FirstName" class="form-control mt-4"
+                               type="text"
+                               id="fname"
+                               placeholder="FirstName" required />
+                    </div>
+                    <div class="col-lg-6">
+                        <input class="form-control   mt-4"
+                               type="text"
+                               asp-for="LastName"
+                               id="lname"
+                               placeholder="LastName" required />
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="dropdown col-lg-6 mt-4">
-                    <select asp-for="Status" type="text" class="form-select mb-3" placeholder="Status" asp-items="@new SelectList(Enum.GetNames(typeof(ProviderStatus)))"></select>
-
+                <div class="row">
+                    <div class="col-lg-6">
+                        <input asp-for="Email" class="form-control  mt-4"
+                               type="email" id="email"
+                               placeholder="Enter Email" required />
+                    </div>
+                    <div class="col-lg-6 mt-4">
+                        <input id="phone1"
+                               asp-for="Phone"
+                               type="tel"
+                               class="form-control iti" />
+                    </div>
                 </div>
-                <div class="dropdown col-lg-6 mt-4">
-                    <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))" data-control="" data-placeholder="Select Role" id="role">
-                    </select>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <input asp-for="MedLicence" class="form-control mt-4"
+                               type="text"
+                               id="medLicense"
+                               placeholder="Medical License" />
+                    </div>
+                    <div class="col-lg-6">
+                        <input class="form-control mt-4"
+                               type="text" id="npi"
+                               asp-for="NpiNum"
+                               placeholder="NPI Number" />
+                    </div>
                 </div>
-            </div>
-
-            @* Physician Information  *@
-            <input asp-for="Regionsid" type="hidden" id="regionids" />
-            <div class="row">
-                <h6><strong>Physician Information</strong></h6>
-                <div class="col-lg-6">
-                    <input asp-for="FirstName" class="form-control mt-4"
-                           type="text"
-                           id="fname"
-                           placeholder="FirstName" required />
-                </div>
-                <div class="col-lg-6">
-                    <input class="form-control   mt-4"
-                           type="text"
-                           asp-for="LastName"
-                           id="lname"
-                           placeholder="LastName" required />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <input asp-for="Email" class="form-control  mt-4"
-                           type="email" id="email"
-                           placeholder="Enter Email" required />
-                </div>
-                <div class="col-lg-6 mt-4">
-                    <input id="phone1"
-                           asp-for="Phone"
-                           type="tel"
-                           class="form-control iti" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <input asp-for="MedLicence" class="form-control mt-4"
-                           type="text"
-                           id="medLicense"
-                           placeholder="Medical License" />
-                </div>
-                <div class="col-lg-6">
-                    <input class="form-control mt-4"
-                           type="text" id="npi"
-                           asp-for="NpiNum"
-                           placeholder="NPI Number" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <input class="form-control mt-4"
-                           type="text" id="syncemail"
-                           asp-for="SyncEmail"
-                           placeholder="Synchronization Email Address" required />
-                </div>
-                <div class="col-sm-5 mt-4 form-check d-flex flex-wrap justify-content-between">
-                    <input type="hidden" asp-for="Regionsid" id="regionidlist" />
-                    @foreach (var cb in ViewBag.AssignCase)
-                    {
-                        @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
+                <div class="row">
+                    <div class="col-lg-3">
+                        <input class="form-control mt-4"
+                               type="text" id="syncemail"
+                               asp-for="SyncEmail"
+                               placeholder="Synchronization Email Address" required />
+                    </div>
+                    <div class="col-sm-9 mt-4 fs-6 form-check d-flex flex-wrap">
+                        <input type="hidden" asp-for="Regionsid" id="regionidlist" />
+                        @foreach (var cb in ViewBag.AssignCase)
                         {
-                            <div class="form-check mx-2">
-                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="RegionId" checked>
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    @cb.Name
-                                </label>
-                            </div>
+                            @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
+                            {
+                                <div class="form-check mx-2">
+                                    <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="RegionId" checked>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        @cb.Name
+                                    </label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-check mx-2">
+                                    <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="RegionId">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        @cb.Name
+                                    </label>
+                                </div>
+                            }
                         }
-                        else
-                        {
-                            <div class="form-check mx-2">
-                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="RegionId" >
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    @cb.Name
-                                </label>
-                            </div>
-                        }
-                    }
+                    </div>
                 </div>
             </div>
             @* Mailing Information *@
@@ -337,7 +338,7 @@
         $.ajax({
             type: 'POST',
             url: '@Url.Action("AddPhysicianPost", "Provider")',
-            data:  physiciandata,
+            data: physiciandata,
             success: function (response) {
                 console.log('Data sent successfully', response);
             },

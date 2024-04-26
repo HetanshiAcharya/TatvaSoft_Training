@@ -92,16 +92,15 @@
                            placeholder="Confirm Email" required disabled />
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6 mt-1">
-                    <input id="phone1"
-                           asp-for="Phone"
-                           type="tel"
-                           class="form-control iti" disabled />
+            <div class="row ">
+                <div class="col-lg-3 mt-1">
+                    <input asp-for="Phone" id="phone"
+                             type="tel"
+                           class="form-control form-control-md col-md mt-4 iti" required disabled />
                 </div>
                 <input asp-for="Regionsid" type="hidden" id="regionids" />
 
-                <div class="col-sm-5 mt-1 form-check d-flex flex-wrap fs-5">
+                <div class="col-sm-9 mt-1 mb-3  form-check d-flex flex-wrap fs-6">
                     @foreach (var cb in ViewBag.AssignCase)
                     {
                         @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
@@ -116,7 +115,7 @@
                         else
                         {
                             <div class="form-check mx-2">
-                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region" id="flexCheckDefault">
+                                <input class="form-check-input" value="@cb.RegionId" type="checkbox" name="Region">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     @cb.Name
                                 </label>
@@ -126,11 +125,10 @@
                 </div>
             </div>
             @* edit button 1 *@
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-end mt-5">
                 <a id="edit" onclick="enable_disable()" class="btn btn-info text-white rounded py-2 px-3 me-2">Edit</a>
                 <a id="submit" class="btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">Save</a>
             </div>
-
         </form>
         <form method="post" asp-action="BillingInfoEdit" asp-controller="AdminProfile">
             <input type="hidden" asp-for="AdminId" />
@@ -171,10 +169,9 @@
                            placeholder="Zip" required disabled />
                 </div>
                 <div class="col-lg-6">
-                    <input id="phone2"
+                    <input asp-for="PhoneForBill" id="phone1"
                            type="tel"
-                           asp-for="PhoneForBill"
-                           class="form-control  iti" disabled />
+                           class="form-control form-control-md col-md iti" required disabled />
                 </div>
             </div>
             @* edit button 2 *@
@@ -192,7 +189,7 @@
     }
     function enable_disable() {
         $("#email").removeAttr('disabled');
-        $("#phone1").removeAttr('disabled');
+        $("#phone").removeAttr('disabled');
         $("#cemail").removeAttr('disabled');
         $("#uname").removeAttr('disabled');
         $("#pwd").removeAttr('disabled');
@@ -206,7 +203,7 @@
 <script>
     function enable_disable2() {
         $("#add1").removeAttr('disabled');
-        $("#phone2").removeAttr('disabled');
+        $("#phone1").removeAttr('disabled');
         $("#add2").removeAttr('disabled');
         $("#city").removeAttr('disabled');
         $("#state").removeAttr('disabled');

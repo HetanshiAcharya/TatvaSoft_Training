@@ -55,7 +55,7 @@
             <div class="col-sm-6 form-floating">
                 <input asp-for="BirthDate" type="date"
                        class="form-control form-control-md col-md mt-4"
-                       placeholder="Select Birthdate" id="Date" required />
+                       placeholder="Select Birthdate" id="Date" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
                 <span asp-validation-for="BirthDate" class="text-danger fs-6 col-6"></span>
 
             </div>

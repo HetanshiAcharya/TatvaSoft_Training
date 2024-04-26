@@ -31,7 +31,6 @@ namespace HaloDocWeb.Models
             if (_httpContextAccessor.HttpContext.Request.Cookies["jwt"] != null)
             {
                 cookieValue = _httpContextAccessor.HttpContext.Request.Cookies["jwt"].ToString();
-
                 UserName = DecodedToken.DecodeJwt(DecodedToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "Username").Value;
             }
 
@@ -46,7 +45,6 @@ namespace HaloDocWeb.Models
             if (_httpContextAccessor.HttpContext.Request.Cookies["jwt"] != null)
             {
                 cookieValue = _httpContextAccessor.HttpContext.Request.Cookies["jwt"].ToString();
-
                 UserID = DecodedToken.DecodeJwt(DecodedToken.ConvertJwtStringToJwtSecurityToken(cookieValue)).claims.FirstOrDefault(t => t.Key == "UserId").Value;
             }
 

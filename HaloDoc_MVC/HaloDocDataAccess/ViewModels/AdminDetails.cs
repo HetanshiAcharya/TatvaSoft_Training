@@ -108,11 +108,34 @@ namespace HaloDocDataAccess.ViewModels
         }
         public enum StateLists
         {
-            Ahmedabad = 1,
-            Gandhinagar,
-            Pune,
-            Mumbai,
-            Manali
+            AndhraPradesh=1,
+            ArunachalPradesh,
+            Assam,
+            Chattisgarh,
+            Goa,
+            Gujarat,
+            Haryana,
+            HimachalPradesh,
+            Jharkhand,
+            Karnataka,
+            Kerala,
+            MadhyaPradesh,
+            Maharashtra,
+            Manipur,
+            Meghalaya,
+            Mizoram,
+            Nagaland,
+            Odisha,
+            Punjab,
+            Rajasthan,
+            Sikkim,
+            TamilNadu,
+            Telangana,
+            Tripura,
+            Uttarakhand,
+            UttarPradesh,
+            WestBengal
+
         }
     }
     public class ViewCaseData
@@ -283,7 +306,7 @@ namespace HaloDocDataAccess.ViewModels
 
         public string? UserName { get; set; }
         public string? Password { get; set; }
-        public short? Status { get; set; }
+        public ProviderStatus Status { get; set; }
         public int? Role { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

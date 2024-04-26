@@ -23,6 +23,7 @@
                 <div class="mb-3 col-lg-6 p-1 form-floating">
                     <input  type="text" class="form-control" placeholder="Status" asp-for="Role" required />
                     <label for="Status" class="form-label">Role Name </label>
+                    <span asp-validation-for="Role" class="text-danger fs-6"></span>
                 </div>
                 <div class="mb-3 col-lg-6 p-1  form-floating">
                     <input id="menus" asp-for="files" type="hidden" />

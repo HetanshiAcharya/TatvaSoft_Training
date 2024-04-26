@@ -6,6 +6,8 @@ using HaloDocDataAccess.ViewModels;
 using HaloDocDataAccess.DataModels;
 using System.Collections;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using System.Globalization;
+using Org.BouncyCastle.Ocsp;
 
 namespace HaloDocWeb.Controllers
 {
@@ -26,8 +28,6 @@ namespace HaloDocWeb.Controllers
             _adminservice = adminservice;
             _notyf = notyf;
         }
-
-
         public IActionResult Dashboard()
         {
             int? userId = HttpContext.Session.GetInt32("userId");
@@ -36,7 +36,6 @@ namespace HaloDocWeb.Controllers
             {
                 return View("Error");
             }
-
             User? user = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
             if (user != null)
@@ -52,26 +51,21 @@ namespace HaloDocWeb.Controllers
                     fileCounts.Add(count);
                 }
                 dashboardVM.DocumentCount = fileCounts;
-                // Set cache-control headers to prevent caching of this page
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 Response.Headers["Pragma"] = "no-cache";
                 Response.Headers["Expires"] = "0";
                 return View("Dashboard", dashboardVM);
             }
-
             return View("Error");
         }
-        //GET
         public IActionResult Profile()
         {
             int? userId = HttpContext.Session.GetInt32("userId");
             User? user = _context.Users.FirstOrDefault(u => u.UserId == userId);
             HttpContext.Session.SetString("username", user.FirstName);
-
             if (user != null)
             {
                 string dobDate = user.IntYear + "-" + user.StrMonth + "-" + user.IntDate;
-
                 PatientProfile model = new()
                 {
                     UserId = user.UserId,
@@ -83,13 +77,13 @@ namespace HaloDocWeb.Controllers
                     Street = user.Street,
                     City = user.City,
                     State = user.State,
+                    DOB = new DateTime((int)user.IntYear, int.Parse(user.StrMonth), (int)user.IntDate),
                 };
 
                 return View("Profile", model);
             }
             return RedirectToAction("Error");
         }
-        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Profile(PatientProfile newdetails)
@@ -112,7 +106,6 @@ namespace HaloDocWeb.Controllers
         {
             return View();
         }
-    
         public IActionResult ViewDocument(int requestId)
         {
             RequestClient request = _context.RequestClients.FirstOrDefault(r => r.RequestId == requestId);

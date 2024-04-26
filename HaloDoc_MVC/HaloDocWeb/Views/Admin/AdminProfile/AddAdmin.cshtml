@@ -40,7 +40,6 @@
             <div class="row">
                 <div class="dropdown col-lg-6 mt-4">
                     <select asp-for="Status" type="text" class="form-select mb-3" placeholder="Status" asp-items="@new SelectList(Enum.GetNames(typeof(ProviderStatus)))"></select>
-
                 </div>
                 <div class="dropdown col-lg-6 mt-4">
                     <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Role, "RoleId", "Name"))" data-control="" data-placeholder="Select Role" id="role">
@@ -78,14 +77,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 mt-1">
-                    <input id="phone1"
+                <div class="col-lg-3 mt-1">
+                    <input id="phone"
                            asp-for="Phone"
                            type="tel"
                            class="form-control iti" />
                 </div>
                 <input asp-for="Regionsid" type="hidden" id="regionids" />
-                <div class="col-sm-6 mt-1 form-check d-flex flex-wrap fs-5">
+                <div class="col-sm-9 fs-6 mt-1 form-check d-flex flex-wrap">
                     @foreach (var cb in ViewBag.AssignCase)
                     {
                         @if (Model != null && Model.Regionids.Count > 0 && Model.Regionids.Exists(id => id.RegionId == cb.RegionId))
@@ -150,7 +149,7 @@
                            placeholder="Zip" required />
                 </div>
                 <div class="col-lg-6">
-                    <input id="phone2"
+                    <input id="phone1"
                            type="tel"
                            asp-for="PhoneForBill"
                            class="form-control  iti" />

@@ -16,6 +16,7 @@ using System.IO;
 using System.Reflection.Emit;
 using static HaloDocDataAccess.ViewModels.Constant;
 using iText.Html2pdf.Attach;
+using System.Security.Cryptography;
 
 namespace HaloDocRepository.Repositories
 {
@@ -31,6 +32,25 @@ namespace HaloDocRepository.Repositories
             _context = context;
             _emailconfig = emailconfig;
         }
+        Random random = new Random();
+
+        #region GenerateSHA256
+        public static string GenerateSHA256(string input)
+        {
+            var bytes = Encoding.UTF8.GetBytes(input);
+            using (var hashEngine = SHA256.Create())
+            {
+                var hashedBytes = hashEngine.ComputeHash(bytes, 0, bytes.Length);
+                var sb = new StringBuilder();
+                foreach (var b in hashedBytes)
+                {
+                    var hex = b.ToString("x2");
+                    sb.Append(hex);
+                }
+                return sb.ToString();
+            }
+        }
+        #endregion
         //Pateint Request
         public void PatientRequest(PatientSubmitRequests viewPatientReq)
         {
@@ -47,7 +67,7 @@ namespace HaloDocRepository.Repositories
                 Guid g = Guid.NewGuid();
                 Aspnetuser.Id = g.ToString();
                 Aspnetuser.UserName = viewPatientReq.FirstName;
-                Aspnetuser.PasswordHash = viewPatientReq.Pass;
+                Aspnetuser.PasswordHash = GenerateSHA256(viewPatientReq.Pass);
                 Aspnetuser.Email = viewPatientReq.Email;
                 Aspnetuser.PhoneNumber = viewPatientReq.PhoneNumber;
                 Aspnetuser.CreatedDate = DateTime.Now;
@@ -82,6 +102,11 @@ namespace HaloDocRepository.Repositories
             {
                 Request.UserId = isexist.UserId;
             }
+            else
+            {
+                Request.UserId = User.UserId;
+
+            }
 
             Request.FirstName = viewPatientReq.FirstName;
             Request.LastName = viewPatientReq.LastName;
@@ -89,7 +114,7 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewPatientReq.PhoneNumber;
             Request.CreatedDate = DateTime.Now;
             Request.IsUrgentEmailSent = new BitArray(1);
-            Request.ConfirmationNumber = viewPatientReq.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewPatientReq.LastName.Substring(0, 2) + viewPatientReq.FirstName.Substring(0, 2) + "002";
+            Request.ConfirmationNumber = viewPatientReq.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewPatientReq.LastName.Substring(0, 2) + viewPatientReq.FirstName.Substring(0, 2) + random.Next(0,100);
 
             _context.Requests.Add(Request);
             _context.SaveChanges();
@@ -185,11 +210,16 @@ namespace HaloDocRepository.Repositories
                 PhoneNumber = viewdata.FF_PhoneNumber,
                 CreatedDate = DateTime.Now,
                 IsUrgentEmailSent = new BitArray(1),
-                ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002"
+                ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + random.Next(0, 100)
             };
             if (isexist != null)
             {
                 Request.UserId = isexist.UserId;
+            }
+            else
+            {
+                Request.UserId = User.UserId;
+
             }
             _context.Requests.Add(Request);
             _context.SaveChanges();
@@ -284,9 +314,9 @@ namespace HaloDocRepository.Repositories
 
             Concierge.Street = viewdata.CON_Street;
             Concierge.City = viewdata.CON_City;
-            Concierge.State = viewdata.CON_State;
+            Concierge.State = Enum.GetName(typeof(StateLists), viewdata.CON_State);
+            Concierge.RegionId = viewdata.State; 
             Concierge.ZipCode = "38585";
-            Concierge.RegionId = 1;
             Concierge.Address = Concierge.Street + " " + Concierge.City + " " + Concierge.State;
             Concierge.CreatedDate = DateTime.Now;
             _context.Concierges.Add(Concierge);
@@ -303,10 +333,15 @@ namespace HaloDocRepository.Repositories
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
 
-            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
+            Request.ConfirmationNumber = viewdata.CON_City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + random.Next(0, 100);
             if (isexist != null)
             {
                 Request.UserId = isexist.UserId;
+            }
+            else
+            {
+                Request.UserId = User.UserId;
+
             }
 
             _context.Requests.Add(Request);
@@ -318,16 +353,16 @@ namespace HaloDocRepository.Repositories
             Requestclient.LastName = viewdata.LastName;
             Requestclient.Email = viewdata.Email;
             Requestclient.PhoneNumber = viewdata.PhoneNumber;
-            Requestclient.Street = viewdata.Street;
-            Requestclient.State = Enum.GetName(typeof(StateLists), viewdata.State);
-            Requestclient.RegionId = viewdata.State;
-            Requestclient.City = viewdata.City;
+            Requestclient.Street = viewdata.CON_Street;
+            Requestclient.State = Enum.GetName(typeof(StateLists), viewdata.CON_State);
+            Requestclient.RegionId = viewdata.CON_State;
+            Requestclient.City = viewdata.CON_City;
             Requestclient.Notes = viewdata.Symptoms;
-            Requestclient.ZipCode = viewdata.ZipCode;
+            Requestclient.ZipCode = viewdata.CON_ZipCode;
             Requestclient.StrMonth = (viewdata.BirthDate.Month).ToString();
             Requestclient.IntDate = viewdata.BirthDate.Day;
             Requestclient.IntYear = viewdata.BirthDate.Year;
-            Requestclient.Address = viewdata.Street + viewdata.City + viewdata.State + viewdata.ZipCode;
+            Requestclient.Address = viewdata.CON_Street + viewdata.CON_City + viewdata.CON_State + viewdata.CON_ZipCode;
 
             _context.RequestClients.Add(Requestclient);
             _context.SaveChanges();
@@ -424,12 +459,17 @@ namespace HaloDocRepository.Repositories
             Request.PhoneNumber = viewdata.PhoneNumber;
             Request.IsUrgentEmailSent = new BitArray(1);
             Request.CreatedDate = DateTime.Now;
-            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + "002";
+            Request.ConfirmationNumber = viewdata.City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + random.Next(0, 100);
             _context.Requests.Add(Request);
             _context.SaveChanges();
             if (isexist != null)
             {
                 Request.UserId = isexist.UserId;
+            }
+            else
+            {
+                Request.UserId = User.UserId;
+
             }
             int id2 = Request.RequestId;
 
