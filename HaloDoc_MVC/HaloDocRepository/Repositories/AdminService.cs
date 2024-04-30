@@ -2542,7 +2542,7 @@ namespace HaloDocRepository.Repositories
                                                    (rm.Email.IsNullOrEmpty() || em.EmailId.ToLower().Contains(rm.Email.ToLower()))
                                              select new EmailLogRecords
                                              {
-                                                 Recipient = rc.FirstName,
+                                                 Recipient = _context.AspNetUsers.Where(req => req.Email == em.EmailId).Select(req => req.UserName).FirstOrDefault(),
                                                  ConfirmationNumber = em.ConfirmationNumber,
                                                  CreateDate = em.CreateDate,
                                                  SentDate = (DateTime)em.SentDate,
@@ -2583,7 +2583,7 @@ namespace HaloDocRepository.Repositories
                                                    (rm.Mobile.IsNullOrEmpty() || em.MobileNumber.ToLower().Contains(rm.Mobile.ToLower()))
                                              select new EmailLogRecords
                                              {
-                                                 Recipient = rc.FirstName,
+                                                 Recipient =rc.FirstName,
                                                  ConfirmationNumber = em.ConfirmationNumber,
                                                  CreateDate = em.CreateDate,
                                                  SentDate = (DateTime)em.SentDate,

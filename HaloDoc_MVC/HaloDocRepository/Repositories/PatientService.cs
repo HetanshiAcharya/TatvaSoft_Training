@@ -214,11 +214,8 @@ namespace HaloDocRepository.Repositories
             };
             if (isexist != null)
             {
+           
                 Request.UserId = isexist.UserId;
-            }
-            else
-            {
-                Request.UserId = User.UserId;
 
             }
             _context.Requests.Add(Request);
@@ -336,11 +333,8 @@ namespace HaloDocRepository.Repositories
             Request.ConfirmationNumber = viewdata.CON_City.Substring(0, 2) + DateTime.Now.ToString("yyyyMM") + viewdata.LastName.Substring(0, 2) + viewdata.FirstName.Substring(0, 2) + random.Next(0, 100);
             if (isexist != null)
             {
+
                 Request.UserId = isexist.UserId;
-            }
-            else
-            {
-                Request.UserId = User.UserId;
 
             }
 
@@ -464,11 +458,8 @@ namespace HaloDocRepository.Repositories
             _context.SaveChanges();
             if (isexist != null)
             {
+
                 Request.UserId = isexist.UserId;
-            }
-            else
-            {
-                Request.UserId = User.UserId;
 
             }
             int id2 = Request.RequestId;
