@@ -127,9 +127,6 @@ public partial class Request
     [InverseProperty("Requests")]
     public virtual RequestType RequestType { get; set; } = null!;
 
-    [InverseProperty("Request")]
-    public virtual ICollection<Smslog> Smslogs { get; set; } = new List<Smslog>();
-
     [ForeignKey("UserId")]
     [InverseProperty("Requests")]
     public virtual User? User { get; set; }

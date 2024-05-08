@@ -12,6 +12,7 @@ using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using iText.Layout;
 using Document = iText.Layout.Document;
+using System.Globalization;
 
 namespace HaloDocWeb.Controllers
 {
@@ -348,7 +349,7 @@ namespace HaloDocWeb.Controllers
                     // Return the PDF as a file
                     byte[] pdfBytes = ms.ToArray();
                     string filename = "Medical-Report-" + RequestId + DateTime.Now.ToString("_dd-MM-yyyy-hh-mm-ss-fff") + ".pdf";
-                    
+
                     return File(pdfBytes, "application/pdf", filename);
                 }
             }
@@ -356,11 +357,34 @@ namespace HaloDocWeb.Controllers
             {
                 return new JsonResult(new { error = ex.Message })
                 {
-                    
+
                     StatusCode = 500
                 };
             }
         }
         #endregion
+
+        #region Invoicing
+        public IActionResult Invoicing()
+        {
+            return View("../Admin/Provider/Invoicing");
+        }
+        #endregion
+        
+        public IActionResult FinalizeTime(string startDate, string endDate)
+        {
+            var provider = CultureInfo.InvariantCulture;
+            DateTime sd = DateTime.ParseExact(startDate, "dd/MM/yyyy", provider);
+            DateTime ed = DateTime.ParseExact(endDate, "dd/MM/yyyy", provider);
+            var res = _adminservice.TimeSheetData(sd, ed);
+            return View("../Admin/Provider/FinalizeTime", res);
+        }
+
+        [HttpPost]
+        public IActionResult TimeSheetSave(TimesheetModel sendInfo)
+        {
+            var res = _adminservice.TimeSheetSave(sendInfo);
+            return RedirectToAction("FinalizeTime", new { sendInfo.startDate, sendInfo.endDate });
+        }
     }
 }

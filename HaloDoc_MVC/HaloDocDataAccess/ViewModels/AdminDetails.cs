@@ -451,5 +451,18 @@ namespace HaloDocDataAccess.ViewModels
         public string? RegionIdList { get; set; }
         public int AdminId { get; set; }
     }
+    public class TimesheetModel
+    {
+        public string DateRange { get; set; }
+        public bool isFinalize { get; set; } = false;
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+        public List<TimeSheetDetail> TimeSheetData { get; set; }
+        public List<string> OnCallHours { get; set; }
+        public List<string> TotalHours { get; set; }
+        public List<bool> IsWeekend { get; set; }
+        public List<string> NoofHousecall { get; set; }
+        public List<string> NoofPhoneConsult { get; set; }
 
+    }
 }

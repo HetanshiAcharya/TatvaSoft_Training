@@ -152,9 +152,7 @@
     </script>
     <script>
         $(document).on('click', function AccessByRole() {
-
             var currentpage = $('#currentpagevalue').val();
-           
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("Index", "Access")',
@@ -174,7 +172,6 @@
     </script>
     <script>
         function setpagenumber(e) {
-
             if (e == 'previous') {
                 var cp = @Model.CurrentPage-1;
                 $('#currentpagevalue').val(cp);

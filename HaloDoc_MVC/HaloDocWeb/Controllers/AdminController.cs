@@ -656,7 +656,7 @@ namespace HaloDocDataAccess.Controllers
             Response.Headers.Add("Pragma", "no-cache");
             Response.Headers.Add("Expires", "0");
             Response.Cookies.Delete("jwt");
-            return RedirectToAction("IndexPlatformLogin", "Admin");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

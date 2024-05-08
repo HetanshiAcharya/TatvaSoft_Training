@@ -14,7 +14,7 @@ namespace HaloDocRepository.Interface
 {
     public interface IAdminService
     {
-       //bool AdminAuthentication(AdminLogin userDetails);
+        //bool AdminAuthentication(AdminLogin userDetails);
         public List<AdminDashboardList> NewRequestData();
         public PaginatedViewModel Indexdata(int ProviderId);
         public PaginatedViewModel GetRequests(PaginatedViewModel data, String Status);
@@ -50,9 +50,9 @@ namespace HaloDocRepository.Interface
         public EncounterInfo Encounterinfo(int rId);
         public Task<AdminDetailsInfo> GetProfileDetails(int id);
         public Task<bool> EditPassword(string password, int adminId);
-        public  Task<bool> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile);
-        public  Task<bool> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile);
-        public EncounterInfo EncounterInfoPost( EncounterInfo ve);
+        public Task<bool> BillingInfoEdit(AdminDetailsInfo _viewAdminProfile);
+        public Task<bool> EditAdministratorInfo(AdminDetailsInfo _viewAdminProfile);
+        public EncounterInfo EncounterInfoPost(EncounterInfo ve);
         public void EncounterFinalize(EncounterInfo ve);
         public bool SendLink(sendAgreement sendAgreement);
         List<AdminDashboardList> Export(string status);
@@ -99,6 +99,10 @@ namespace HaloDocRepository.Interface
         public bool RequestToAdmin(int obj, string Notes);
         public bool isEncounterFinalize(int RequestId);
         public bool CreateAccount(PatientSubmitRequests viewPatientReq);
+        public TimesheetModel TimeSheetData(DateTime startDate, DateTime endDate);
+        public bool TimeSheetSave(TimesheetModel model);
+
+
 
     }
 

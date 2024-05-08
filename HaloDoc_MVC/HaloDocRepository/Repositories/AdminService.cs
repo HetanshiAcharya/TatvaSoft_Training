@@ -251,30 +251,30 @@ namespace HaloDocRepository.Repositories
                                                     ProviderID = req.PhysicianId,
                                                     RequestorPhoneNumber = req.PhoneNumber
                                                 }).ToList();
-            if (data.IsAscending == true)
-            {
-                allData = data.SortedColumn switch
-                {
-                    "PatientName" => allData.OrderBy(x => x.PatientName).ToList(),
-                    "Requestor" => allData.OrderBy(x => x.Requestor).ToList(),
-                    //"Dob" => allData.OrderBy(x => x.Dob).ToList(),
-                    "Address" => allData.OrderBy(x => x.Address).ToList(),
-                    "RequestedDate" => allData.OrderBy(x => x.RequestedDate).ToList(),
-                    _ => allData.OrderBy(x => x.RequestedDate).ToList()
-                };
-            }
-            else
-            {
-                allData = data.SortedColumn switch
-                {
-                    "PatientName" => allData.OrderByDescending(x => x.PatientName).ToList(),
-                    "Requestor" => allData.OrderByDescending(x => x.Requestor).ToList(),
-                    //"Dob" => allData.OrderByDescending(x => x.Dob).ToList(),
-                    "Address" => allData.OrderByDescending(x => x.Address).ToList(),
-                    "RequestedDate" => allData.OrderByDescending(x => x.RequestedDate).ToList(),
-                    _ => allData.OrderByDescending(x => x.RequestedDate).ToList()
-                };
-            }
+            //if (data.IsAscending == true)
+            //{
+            //    allData = data.SortedColumn switch
+            //    {
+            //        "PatientName" => allData.OrderBy(x => x.PatientName).ToList(),
+            //        "Requestor" => allData.OrderBy(x => x.Requestor).ToList(),
+            //        //"Dob" => allData.OrderBy(x => x.Dob).ToList(),
+            //        "Address" => allData.OrderBy(x => x.Address).ToList(),
+            //        "RequestedDate" => allData.OrderBy(x => x.RequestedDate).ToList(),
+            //        _ => allData.OrderBy(x => x.RequestedDate).ToList()
+            //    };
+            //}
+            //else
+            //{
+            //    allData = data.SortedColumn switch
+            //    {
+            //        "PatientName" => allData.OrderByDescending(x => x.PatientName).ToList(),
+            //        "Requestor" => allData.OrderByDescending(x => x.Requestor).ToList(),
+            //        //"Dob" => allData.OrderByDescending(x => x.Dob).ToList(),
+            //        "Address" => allData.OrderByDescending(x => x.Address).ToList(),
+            //        "RequestedDate" => allData.OrderByDescending(x => x.RequestedDate).ToList(),
+            //        _ => allData.OrderByDescending(x => x.RequestedDate).ToList()
+            //    };
+            //}
             int totalItemCount = allData.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)data.PageSize);
             List<AdminDashboardList> list1 = allData.Skip((data.CurrentPage - 1) * data.PageSize).Take(data.PageSize).ToList();
@@ -2705,7 +2705,7 @@ namespace HaloDocRepository.Repositories
             rsl.RequestId = RequestId;
             rsl.TransToAdmin = new BitArray(1);
             rsl.TransToAdmin[0] = true;
-            rsl.PhysicianId = null;
+            rsl.PhysicianId = 0;
             rsl.Notes = Notes;
             rsl.CreatedDate = DateTime.Now;
             rsl.Status = 1;
@@ -2887,8 +2887,112 @@ namespace HaloDocRepository.Repositories
             }
             return true;
         }
+        public TimesheetModel TimeSheetData(DateTime startDate, DateTime endDate)
+        {
+            var result = _context.TimeSheetDetails.Where(r => r.Date >= startDate.Date && r.Date <= endDate.Date).
+                ToList();
+            //var data = _context.TimeSheetReceipts.Where(r => r.Date >= startDate.Date && r.Date <= endDate.Date).
+            //    ToList();
+            TimesheetModel t = new();
+            t.TimeSheetData = result;
+           // t.TimesheetRecieptData = data;
+            t.endDate = endDate;
+            t.startDate = startDate;
+            return t;
+        }
+        public bool TimeSheetSave(TimesheetModel model)
+        {
+            var count = 0;
+            try
+            {
+                var timesheet = _context.TimeSheets
+                .FirstOrDefault(r => r.StartDate == model.startDate && r.EndDate == model.endDate);
+                if (timesheet == null)
+                {
+                    return false;
+                }
+                var timesheetId = timesheet.TimeSheetId;
+                for (var i = model.startDate; i <= model.endDate; i = i.AddDays(1))
+                {
+                    var detail = _context.TimeSheetDetails.FirstOrDefault(x => x.Date == i && x.TimeSheetId == timesheetId);
+                    //var reciept = _context.TimeSheetReceipts.FirstOrDefault(x => x.Date == i && x.TimeSheetDetailsId == detail.TimeSheetDetailsId);
+                    if (detail != null)
+                    {
+                        detail.Date = default;
+                        if (model.TotalHours[count] != null)
+                        {
+                            detail.Date = i;
+                            detail.TotalHours = Convert.ToInt32(model.TotalHours[count]);
+                        }
+                        if (model.IsWeekend[count] != false)
+                        {
+                            detail.Date = i;
+                            detail.IsWeekend = model.IsWeekend[count];
+                        }
+                        if (model.NoofPhoneConsult[count] != null)
+                        {
+                            detail.Date = i;
+                            detail.NumberOfPhoneConsult = Convert.ToInt32(model.NoofPhoneConsult[count]);
+                        }
+                        if (model.NoofHousecall[count] != null)
+                        {
+                            detail.Date = i;
+                            detail.NumberOfHouseCalls = Convert.ToInt32(model.NoofHousecall[count]);
+                        }
+                        if (detail.Date != default)
+                        {
+                            detail.TimeSheetId = timesheetId;
+                            detail.ModifiedDate = DateTime.Now;
+                            _context.TimeSheetDetails.Update(detail);
+                            _context.SaveChanges();
+                        }
 
-       
+                    }
+                    else
+                    {
+                        detail = new TimeSheetDetail();
+                        detail.Date = default;
+                        if (model.TotalHours[count] != null)
+                        {
+                            detail.Date = i;
+                            detail.TotalHours = Convert.ToInt32(model.TotalHours[count]);
+                        }
+                        if (model.IsWeekend[count] != false)
+                        {
+                            detail.Date = i;
+                            detail.IsWeekend = model.IsWeekend[count];
+                        }
+                        if (model.NoofPhoneConsult[count] != null)
+                        {
+                            detail.Date = i;
+                            detail.NumberOfPhoneConsult = Convert.ToInt32(model.NoofPhoneConsult[count]);
+                        }
+                        if (model.NoofHousecall[count] != null)
+                        {
+                            detail.Date = i;
+                            detail.NumberOfHouseCalls = Convert.ToInt32(model.NoofHousecall[count]);
+                        }
+                        if (detail.Date != default)
+                        {
+                            detail.TimeSheetId = timesheetId;
+                            detail.CreatedDate = DateTime.Now;
+                            _context.TimeSheetDetails.Add(detail);
+                            _context.SaveChanges();
+                        }
+
+                    }
+                  
+                    count++;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
+
+        }
     }
 }
 
