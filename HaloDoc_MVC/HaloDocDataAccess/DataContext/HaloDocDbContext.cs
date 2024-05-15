@@ -590,22 +590,18 @@ public partial class HaloDocDbContext : DbContext
         modelBuilder.Entity<TimeSheet>(entity =>
         {
             entity.HasKey(e => e.TimeSheetId).HasName("TimeSheet_pkey");
-
-            entity.Property(e => e.TimeSheetId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<TimeSheetDetail>(entity =>
         {
             entity.HasKey(e => e.TimeSheetDetailsId).HasName("TimeSheetDetails_pkey");
-
-            entity.Property(e => e.TimeSheetDetailsId).ValueGeneratedNever();
         });
 
         modelBuilder.Entity<TimeSheetReceipt>(entity =>
         {
             entity.HasKey(e => e.TimeSheetReceiptId).HasName("TimeSheetReceipt_pkey");
 
-            entity.Property(e => e.TimeSheetReceiptId).ValueGeneratedNever();
+            entity.HasOne(d => d.TimeSheet).WithMany(p => p.TimeSheetReceipts).HasConstraintName("TimeSheetReceipt_TimeSheetId_fkey");
         });
 
         modelBuilder.Entity<User>(entity =>

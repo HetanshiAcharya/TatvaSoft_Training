@@ -36,4 +36,13 @@ public partial class TimeSheetReceipt
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? ModifiedDate { get; set; }
+
+    [Column(TypeName = "timestamp without time zone")]
+    public DateTime? Date { get; set; }
+
+    public int? TimeSheetId { get; set; }
+
+    [ForeignKey("TimeSheetId")]
+    [InverseProperty("TimeSheetReceipts")]
+    public virtual TimeSheet? TimeSheet { get; set; }
 }

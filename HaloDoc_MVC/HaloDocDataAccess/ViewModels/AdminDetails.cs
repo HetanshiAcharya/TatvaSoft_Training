@@ -454,10 +454,15 @@ namespace HaloDocDataAccess.ViewModels
     public class TimesheetModel
     {
         public string DateRange { get; set; }
+        public int PhysicianId { get; set; }
+        public int TimesheetId { get; set; }
+        public IFormFile Bill { get; set; }
         public bool isFinalize { get; set; } = false;
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public List<TimeSheetDetail> TimeSheetData { get; set; }
+        public List<TimeSheetReceipt> TimesheetRecieptData { get; set; }
+        public PhysicianPayrate PhysicianPayrateData { get; set; }
         public List<string> OnCallHours { get; set; }
         public List<string> TotalHours { get; set; }
         public List<bool> IsWeekend { get; set; }

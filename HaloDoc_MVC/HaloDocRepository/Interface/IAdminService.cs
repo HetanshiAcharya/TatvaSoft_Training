@@ -99,9 +99,14 @@ namespace HaloDocRepository.Interface
         public bool RequestToAdmin(int obj, string Notes);
         public bool isEncounterFinalize(int RequestId);
         public bool CreateAccount(PatientSubmitRequests viewPatientReq);
-        public TimesheetModel TimeSheetData(DateTime startDate, DateTime endDate);
+        public TimesheetModel TimeSheetData(DateTime? startDate, DateTime? endDate, int PhysicianId);
         public bool TimeSheetSave(TimesheetModel model);
-
+        public bool TimeSheetRecieptSave(TimesheetModel model);
+        public bool FinalizeTimesheet(int timesheetId);
+        public List<Physician> GetAllPhysician();
+        public bool ApproveTimesheet(TimesheetModel formData);
+        public PhysicianPayrate PayrateData(int physicianId);
+        public bool PayratePost(PhysicianPayrate data);
 
 
     }

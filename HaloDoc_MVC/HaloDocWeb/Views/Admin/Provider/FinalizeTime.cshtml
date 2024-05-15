@@ -1,10 +1,5 @@
-﻿]@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@{
-    Layout = "_AdminLAyout";
+﻿@{
+    Layout = "_AdminLayout";
 }
 @using HaloDocDataAccess.ViewModels;
 @model TimesheetModel;
@@ -20,9 +15,18 @@
             </a>
         </div>
     </div>
-    <form>
+    <form enctype="multipart/form-data  ">
+        @{
+            int totalHoursSum = 0;
+            int totalWeekend = 0;
+            int noOfHousecallSum = 0;
+            int noOfPhoneConsultSum = 0;
+
+        }
+        <input type="hidden" asp-for="PhysicianId" value="@Model.PhysicianId" id="PhysicianId" />
         <input type="hidden" asp-for="startDate" value="@Model.startDate" id="startdate" />
         <input type="hidden" asp-for="endDate" value="@Model.endDate" id="endDate" />
+        <input type="hidden" asp-for="TimesheetId" value="@Model.TimesheetId" id="timesheetId" />
         <div class="bg-white reqform container p-3 ">
             <table class="table mt-3">
                 <tr class="table-secondary">
@@ -32,11 +36,23 @@
                     <th>Weekend/Holidays</th>
                     <th>Number of Housecall</th>
                     <th>Number of Consult</th>
+                    @if (CV.role() == "Admin")
+                    {
+                        <th>Total</th>
+                    }
                 </tr>
+
 
                 @for (var i = Model.startDate; i <= Model.endDate; i = i.AddDays(1))
                 {
                     var item = (Model.TimeSheetData != null) ? Model.TimeSheetData.FirstOrDefault(id => id.Date == i) : null;
+                    if (item != null)
+                    {
+                        totalHoursSum += item.TotalHours ?? 0;
+                        totalWeekend += (item.IsWeekend == true ? 1 : 0);
+                        noOfHousecallSum += item.NumberOfHouseCalls ?? 0;
+                        noOfPhoneConsultSum += item.NumberOfPhoneConsult ?? 0;
+                    }
                     <tr>
                         <td>@i.ToString("dd/MM/yyyy")</td>
                         <td class="text-center">0</td>
@@ -51,12 +67,46 @@
                         </td>
                         <td>
                             <input type="number" name="NoofPhoneConsult" class="form-control" value="@(item != null && item.NumberOfPhoneConsult!=null ? item.NumberOfPhoneConsult : "")">
-                        </td> 
+                        </td>
+                        @if (CV.role() == "Admin")
+                        {
+                            <td>  </td>
+                        }
                     </tr>
                 }
-            </table>
+                @if (CV.role() == "Admin")
+                {
+                    var shiftTotal = Model.PhysicianPayrateData.Shift * totalHoursSum;
+                    var nightShiftWeekendTotal = Model.PhysicianPayrateData.NightShiftWeekend * totalWeekend;
+                    var houseCallsTotal = Model.PhysicianPayrateData.HouseCalls * noOfHousecallSum;
+                    var phoneConsultsTotal = Model.PhysicianPayrateData.PhoneConsults * noOfPhoneConsultSum;
+                    var grandTotal = shiftTotal + nightShiftWeekendTotal + houseCallsTotal + phoneConsultsTotal;
+                    <tr>
+                        <td> Payrate </td>
+                        <td>  </td>
+                        <td><input type="text" class="form-control" disabled value="@Model.PhysicianPayrateData.Shift" /></td>
+                        <td><input type="text" class="form-control" disabled value="@Model.PhysicianPayrateData.NightShiftWeekend" /></td>
+                        <td><input type="text" class="form-control" disabled value="@Model.PhysicianPayrateData.HouseCalls" /></td>
+                        <td><input type="text" class="form-control" disabled value="@Model.PhysicianPayrateData.PhoneConsults" /></td>
+                        <td></td>
+                    </tr>
+                    <hr />
+                    <tr>
+                        <td>Invoice Total</td>
+                        <td></td>
+                        <td><input type="text" class="form-control" disabled value="@shiftTotal" /></td>
+                        <td><input type="text" class="form-control" disabled value="@nightShiftWeekendTotal" /></td>
+                        <td><input type="text" class="form-control" disabled value="@houseCallsTotal" /></td>
+                        <td><input type="text" class="form-control" disabled value="@phoneConsultsTotal" /></td>
+                        <td><input type="text" class="form-control" disabled value="@grandTotal" /></td>
+                    </tr>
 
-            <butoon type="button" class="btn btn-info" onclick="submitform()">Submit</butoon>
+                }
+            </table>
+            <div class="d-flex justify-content-end">
+
+                <butoon type="button" class="btn btn-info" onclick="submitform()">Submit</butoon>
+            </div>
         </div>
     </form>
     <button class="btn btn-info mt-2" onclick="toggleTable()">Add Receipts</button>
@@ -70,24 +120,26 @@
                 <th>Action</th>
             </tr>
 
-           @*  @for (var i = Model.startDate.Date; i <= Model.endDate.Date; i = i.AddDays(1))
+            @for (var i = Model.startDate.Date; i <= Model.endDate.Date; i = i.AddDays(1))
             {
 
                 var item = (Model.TimesheetRecieptData != null) ? Model.TimesheetRecieptData.FirstOrDefault(id => id.Date == i) : null;
+                <form class="mainform">
                 <tr>
-                    <td>@i.ToString("dd/MM/yyyy")</td>
+                    <td class="Date">@i.ToString("dd/MM/yyyy")</td>
                     <td>
-                        <input type="text" name="item" class="form-control" value="@(item != null && item.Item !=null ? item.Item : "")">
+                        <input type="text" name="ItemName" class="form-control " value="@(item != null && item.ItemName !=null ? item.ItemName : "")" required>
+
                     </td>
                     <td>
-                        <input type="number" name="Amount" class="form-control" value="@(item != null && item.Amount!=null ? item.Amount : "")">
+                        <input type="number" name="Amount" class="form-control " value="@(item != null && item.Amount!=null ? item.Amount : "")" required>
                     </td>
                     <td>
                         <div class="d-flex justify-content-between bg-light border border-secondary rounded">
-                            <button type="button" id="choosenfile" class="col btn text-start text-secondary" onclick="document.getElementById('files').click()">
-                                Select File
+                            <button type="button" class="col btn text-start text-secondary choosenfile" onclick="document.getElementById('@i').click()">
+                                    @(item != null && item.BillName != null ? item.BillName : "Select File")
                             </button>
-                            <input id="files" type="file" class="d-none form-control doc_uploder" name="UploadFile">
+                            <input id='@i' type="file" class="d-none form-control doc_uploder" name="Bill">
                             <button type="submit" class="btn btn-info text-white py-2" value="Upload">
                                 <i class="fa fa-cloud-upload"></i>
                                 <span class="dNone"> Upload </span>
@@ -95,34 +147,78 @@
                         </div>
                     </td>
                     <td>
-                        <div style="display:none;">
-                            <div class=" btn d-flex justify-content-between">
-                                <a class="btn btn-outline-info shadow-none">
-                                    Edit
+                            @if (item != null)
+                            {
+                            <div>
+                                <div class="  d-flex ">
+                                    <a class="btn btn-outline-info shadow-none me-2 save">
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-outline-info shadow-none me-2">
+                                        Delete
+                                    </a>
+                                    <a target="_blank" href="/Upload/Reciept/@item.BillName" class="btn btn-outline-info shadow-none">
+                                        view
+                                    </a>
+                                </div>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="  d-flex ">
+                                <a class="btn btn-outline-info shadow-none save me-2">
+                                    Save
                                 </a>
                                 <a class="btn btn-outline-info shadow-none">
-                                    Delete
+                                    Cancel
                                 </a>
                             </div>
-                        </div>
-                        <div class=" btn d-flex justify-content-between">
-                            <a class="btn btn-outline-info shadow-none" onclick="SaveReciept()">
-                                Save
-                            </a>
-                            <a class="btn btn-outline-info shadow-none">
-                                Cancel
-                            </a>
-                        </div>
+                            }
+
                     </td>
                 </tr>
+                </form>
             }
-        *@ </table>
+        </table>
     </div>
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-info ">Finalize</button>
-    </div>
+    @if (CV.role() == "Admin")
+    {
+        <div class=" text-end my-2">
+            <form asp-action="ApproveTimesheet" asp-controller="Invoicing" class="d-flex justify-content-end">
+                <input type="hidden" asp-for="PhysicianId" value="@Model.PhysicianId" id="PhysicianId" />
+                <input type="hidden" asp-for="TimesheetId" value="@Model.TimesheetId" id="timesheetId" />
+                <div class="bg-white me-2 form-floating ">
+                    <input name="Bonus" class="form-control rounded numeric-input" type="text" placeholder=Suchtext>
+                    <label for="floatingInput">Bonus Amount</label>
+                </div>
+                <div class="bg-white me-2 form-floating  ">
+                    <input name="AdminNotes" class="form-control rounded " type="text" placeholder=Suchtext>
+                    <label for="floatingInput">Admin Notes </label>
+                </div>
+                <button type="submit" class="btn btn-info">Approve</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-end my-2">
+            <a class="btn btn-info " asp-action="FinalizeTimesheet" asp-controller="Invoicing" asp-route-timesheetId="@Model.TimesheetId" asp-route-physicianId="@Model.PhysicianId">Finalize</a>
+        </div>
+    }
 </div>
 <script>
+    $(".doc_uploder ").change(function () {
+        filename = this.files[0].name;
+        console.log(filename);
+        $("#choosenfile").text(filename);
+    });
+    $(".doc_uploder").change(function () {
+        var filename = this.files[0].name;
+        console.log(filename);
+        var targetButton = $(this).closest('tr').find(".choosenfile");
+        console.log("Target button: ", targetButton);
+        targetButton.text(filename);
+    });
     function submitform() {
         let TotalHoursList = [];
         $('input[name="TotalHours"]').each(function () {
@@ -143,31 +239,20 @@
         $('input[name="NoofPhoneConsult"]').each(function () {
             NoofPhoneConsultList.push($(this).val());
         });
-        let itemsList = [];
-        $('input[name="item"]').each(function () {
-            itemsList.push($(this).val());
-        });
-        console.log(itemsList);
-        let AmountList = [];
-        $('input[name="Amount"]').each(function () {
-            AmountList.push($(this).val());
-        });
-        console.log(AmountList);
         var sendInfo = {
             startDate: $("#startdate").val(),
             endDate: $("#endDate").val(),
+            TimesheetId: $("#TimesheetId").val(),
+            PhysicianId: $("#PhysicianId").val(),
             TotalHours: TotalHoursList,
             IsWeekend: IsWeekendList,
             NoofHousecall: NoofHousecallList,
             NoofPhoneConsult: NoofPhoneConsultList,
-            Amount: AmountList,
-            //Bills:,
-            Items: itemsList
         }
         $.ajax({
             type: "POST",
-            url: '@Url.Action("TimeSheetSave", "Invoicing")',
-            dataType: 'json', // Set the content type as JSON
+            url: '@Url.Action("TimeSheetSave", "Provider")',
+            dataType: 'json',
             data: sendInfo,
             success: function (data) {
                 console.log("AJAX success");
@@ -181,28 +266,39 @@
     function toggleTable() {
         $('#receiptsTable').toggle();
     }
-        //function SaveReciept(){
-        //    let modelList = [];
-        //    function collectData() {
-        //        $('.model-input').each(function () {
-        //            let input = $(this);
-        //            modelList.push({
-        //                propertyName: input.val() // Replace 'propertyName' with the actual property name of your model
-        //            });
-        //        });
-        //    }
-        //    $.ajax({
-        //        type: "POST",
-        //        url: '@Url.Action("SaveRecieptSave", "Invoicing")',
-        //        dataType: 'json', // Set the content type as JSON
-        //        data: sendInfo,
-        //        success: function (data) {
-        //            console.log("AJAX success");
-        //            location.reload();
-        //        },
-        //        error: function (xhr, status, error) {
-        //            console.error("Error: " + status + " - " + xhr.responseText);
-        //        }
-        //    });
-        //}
+
+    $('.save').click(function () {
+        var row = $(this).closest('tr');
+        var dateString = row.find('.Date').text();
+        var sd = moment(dateString, "DD/MM/YYYY").startOf('day').format('YYYY-MM-DD HH:mm:ss');
+        var formData = new FormData();
+        console.log(dateString);
+        console.log(sd);
+        formData.append('TimesheetRecieptData[0].Date', sd);
+        formData.append('TimesheetRecieptData[0].ItemName', row.find('input[name="ItemName"]').val());
+        formData.append('TimesheetRecieptData[0].Amount', parseInt(row.find('input[name="Amount"]').val(), 10));
+        formData.append('TimesheetRecieptData[0].BillName', row.find('input[name="Bill"]').val());
+
+        var fileInput = row.find('input[name="Bill"]')[0];
+        var file = fileInput.files[0];
+        formData.append('Bill', file);
+        formData.append('PhysicianId', $("#PhysicianId").val());
+        formData.append('TimesheetId', $("#timesheetId").val());
+
+        $.ajax({
+            url: '@Url.Action("RecieptSave", "Provider")',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (response) {
+                console.log('Data sent successfully');
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + status + " - " + xhr.responseText);
+            }
+        });
+    });
+
+
 </script>

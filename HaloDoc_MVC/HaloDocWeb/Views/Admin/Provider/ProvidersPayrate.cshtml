@@ -1,0 +1,174 @@
+﻿﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Physician Payrates Information";
+}
+@model HaloDocDataAccess.DataModels.PhysicianPayrate;
+
+<div class="container">
+    <div class="d-flex justify-content-between mt-3">
+        <div class="d-flex align-items-center">
+            <h4 class="pt-2">Payrate</h4>
+        </div>
+        <div class=" btn d-flex justify-content-end">
+            <a class="btn border border-info text-info shadow-none" asp-action="EditProvider" asp-controller="AdminTabs" asp-route-PhysicianId="@Model.PhysicianId">
+                <i class="fa fa-angle-left pe-1 text-info"> </i> Back
+            </a>
+        </div>
+    </div>
+    <div class="card border-0 shadow py-4 mb-5 mt-3 rounded p-3 rounded container">
+        <table class="w-100 mt-3 table">
+            <thead>
+                <tr class="table-secondary">
+                    <th scope="col" style="width:30%">
+                        <small>Category</small>
+                    </th>
+                    <th scope="col" style="width:50%">
+                        <small>Payrate</small>
+                    </th>
+                    <th scope="col" style="width:20%">
+                        <small>Action</small>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="mb-5" id="tableBody">
+                <form class="mt-0" id="payrateForm" asp-action="PayratePost" asp-controller="Provider" method="post">
+                    <input type="hidden" asp-for="PhysicianId" />
+                <tr>
+                    <td>
+                        NightShift_Weekend
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="NightShiftWeekend" type="text" class="form-control shadow-none" id="nsWeekend" placeholder="Payrate">
+                        <label for="nsWeekend">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.NightShiftWeekend != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Shift
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="Shift" type="text" class="form-control shadow-none" id="shift" placeholder="Payrate">
+                        <label for="shift">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.Shift != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        HouseCalls_Nights_Weekend
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="HouseCallsNightWeekend" type="text" class="form-control shadow-none" id="hcnWeekend" placeholder="Payrate">
+                        <label for="hcnWeekend">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.HouseCallsNightWeekend != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PhoneConsults
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="PhoneConsults" type="text" class="form-control shadow-none" id="phoneConsults" placeholder="Payrate">
+                        <label for="phoneConsults">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.PhoneConsults != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PhoneConsults_Nights_Weekend
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="PhoneConsultsNightWeekend" type="text" class="form-control shadow-none" id="pcnWeekend" placeholder="Payrate">
+                        <label for="pcnWeekend">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.PhoneConsultsNightWeekend != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        BatchTesting
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="BatchTesting" type="text" class="form-control shadow-none" id="batchTesting" placeholder="Payrate">
+                        <label for="batchTesting">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.BatchTesting != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        HouseCalls
+                    </td>
+                    <td class="form-floating">
+                        <input asp-for="HouseCalls" type="text" class="form-control shadow-none" id="houseCalls" placeholder="Payrate">
+                        <label for="houseCalls">Payrate</label>
+                    </td>
+                    <td class="text-center align-items-center">
+                            @if (Model != null && Model.HouseCalls != 0)
+                            {
+                            <button class="btn btn-lg btn-info">Edit</button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-lg btn-info">Submit</button>
+                            }
+                    </td>
+                </tr>
+                </form>
+            </tbody>
+        </table>
+    </div>
+</div>

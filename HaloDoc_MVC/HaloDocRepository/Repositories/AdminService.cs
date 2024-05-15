@@ -2413,7 +2413,7 @@ namespace HaloDocRepository.Repositories
                            && (formData.createdDate == null || req.CreatedDate.Value.Date == formData.createdDate)
                            && (string.IsNullOrEmpty(formData.Email) || req.Email.Contains(formData.Email))
                            && (string.IsNullOrEmpty(formData.Mobile) || req.PhoneNumber.Contains(formData.Mobile))
-                           && (req.IsActive==new BitArray(1))
+                           && (req.IsActive == new BitArray(1))
                         select new PatientDashboard
                         {
                             PatientName = r.FirstName,
@@ -2583,7 +2583,7 @@ namespace HaloDocRepository.Repositories
                                                    (rm.Mobile.IsNullOrEmpty() || em.MobileNumber.ToLower().Contains(rm.Mobile.ToLower()))
                                              select new EmailLogRecords
                                              {
-                                                 Recipient =rc.FirstName,
+                                                 Recipient = rc.FirstName,
                                                  ConfirmationNumber = em.ConfirmationNumber,
                                                  CreateDate = em.CreateDate,
                                                  SentDate = (DateTime)em.SentDate,
@@ -2887,17 +2887,23 @@ namespace HaloDocRepository.Repositories
             }
             return true;
         }
-        public TimesheetModel TimeSheetData(DateTime startDate, DateTime endDate)
+        public TimesheetModel TimeSheetData(DateTime? startDate, DateTime? endDate, int PhysicianId)
         {
-            var result = _context.TimeSheetDetails.Where(r => r.Date >= startDate.Date && r.Date <= endDate.Date).
-                ToList();
-            //var data = _context.TimeSheetReceipts.Where(r => r.Date >= startDate.Date && r.Date <= endDate.Date).
-            //    ToList();
-            TimesheetModel t = new();
-            t.TimeSheetData = result;
-           // t.TimesheetRecieptData = data;
-            t.endDate = endDate;
-            t.startDate = startDate;
+            var timesheetId = _context.TimeSheets.Where(r => r.StartDate == startDate && r.EndDate == endDate && r.PhysicianId == PhysicianId).Select(r => r.TimeSheetId).FirstOrDefault();
+            var result = _context.TimeSheetDetails.Where(r => r.TimeSheetId == timesheetId).ToList();
+            var data = _context.TimeSheetReceipts.Where(r => r.TimeSheetId == timesheetId).ToList();
+            var payratedata = _context.PhysicianPayrates.Where(r => r.PhysicianId == PhysicianId).FirstOrDefault();
+
+            TimesheetModel t = new()
+            {
+                TimeSheetData = result,
+                TimesheetRecieptData = data,
+                endDate = (DateTime)endDate,
+                startDate = (DateTime)startDate,
+                TimesheetId = timesheetId,
+                PhysicianPayrateData = payratedata,
+                PhysicianId = PhysicianId,
+            };
             return t;
         }
         public bool TimeSheetSave(TimesheetModel model)
@@ -2909,13 +2915,20 @@ namespace HaloDocRepository.Repositories
                 .FirstOrDefault(r => r.StartDate == model.startDate && r.EndDate == model.endDate);
                 if (timesheet == null)
                 {
-                    return false;
+                    timesheet = new TimeSheet
+                    {
+                        StartDate = model.startDate,
+                        EndDate = model.endDate,
+                        IsFinalized = false,
+                        CreatedDate = DateTime.Now
+                    };
+                    _context.TimeSheets.Add(timesheet);
+                    _context.SaveChanges();
                 }
                 var timesheetId = timesheet.TimeSheetId;
                 for (var i = model.startDate; i <= model.endDate; i = i.AddDays(1))
                 {
                     var detail = _context.TimeSheetDetails.FirstOrDefault(x => x.Date == i && x.TimeSheetId == timesheetId);
-                    //var reciept = _context.TimeSheetReceipts.FirstOrDefault(x => x.Date == i && x.TimeSheetDetailsId == detail.TimeSheetDetailsId);
                     if (detail != null)
                     {
                         detail.Date = default;
@@ -2981,7 +2994,7 @@ namespace HaloDocRepository.Repositories
                         }
 
                     }
-                  
+
                     count++;
                 }
                 return true;
@@ -2992,6 +3005,189 @@ namespace HaloDocRepository.Repositories
 
             }
 
+        }
+        public bool TimeSheetRecieptSave(TimesheetModel model)
+        {
+            try
+            {
+                var data = model.TimesheetRecieptData.FirstOrDefault();
+                var reciept = _context.TimeSheetReceipts.FirstOrDefault(x => x.Date == data.Date); ;
+
+                if (reciept != null)
+                {
+                    reciept.Date = default;
+                    if (data.ItemName != null)
+                    {
+                        reciept.Date = data.Date;
+                        reciept.ItemName = data.ItemName;
+                    }
+                    if (data.BillName != null)
+                    {
+                        reciept.Date = data.Date;
+                        string FilePath = "wwwroot\\Upload\\Reciept";
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+                        string fileNameWithPath = Path.Combine(path, model.Bill.FileName);
+
+                        using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                        {
+                            model.Bill.CopyTo(stream);
+                        }
+
+                        reciept.BillName = model.Bill.FileName;
+                    }
+                    if (data.Amount != null)
+                    {
+                        reciept.Date = data.Date;
+                        reciept.Amount = Convert.ToInt32(data.Amount);
+                    }
+                    if (reciept.Date != default)
+                    {
+                        reciept.ModifiedDate = DateTime.Now;
+                        _context.TimeSheetReceipts.Update(reciept);
+                        _context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    reciept = new TimeSheetReceipt();
+                    reciept.Date = default;
+                    if (data.ItemName != null)
+                    {
+                        reciept.Date = data.Date;
+                        reciept.ItemName = data.ItemName;
+                    }
+                    if (data.BillName != null)
+                    {
+                        reciept.Date = data.Date;
+                        string FilePath = "wwwroot\\Upload\\Reciept";
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
+                        string fileNameWithPath = Path.Combine(path, model.Bill.FileName);
+
+                        using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                        {
+                            model.Bill.CopyTo(stream);
+                        }
+
+                        reciept.BillName = model.Bill.FileName;
+                    }
+                    if (data.Amount != null)
+                    {
+                        reciept.Date = data.Date;
+                        reciept.Amount = Convert.ToInt32(data.Amount);
+                    }
+                    if (reciept.Date != default)
+                    {
+                        reciept.TimeSheetId = model.TimesheetId;
+                        reciept.CreatedDate = DateTime.Now;
+                        _context.TimeSheetReceipts.Add(reciept);
+                        _context.SaveChanges();
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
+        }
+        public bool FinalizeTimesheet(int timesheetId)
+        {
+            try
+            {
+                var data = _context.TimeSheets.Where(e => e.TimeSheetId == timesheetId).FirstOrDefault();
+                if (data != null)
+                {
+                    data.IsFinalized = true;
+                    data.ModifiedDate = DateTime.Now;
+                    _context.TimeSheets.Update(data);
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public bool ApproveTimesheet(TimesheetModel formData)
+        {
+            try
+            {
+                var data = _context.TimeSheets.Where(e => e.TimeSheetId == formData.TimesheetId).FirstOrDefault();
+                if (data != null)
+                {
+                    data.IsApproved = true;
+                    data.ModifiedDate = DateTime.Now;
+                    _context.TimeSheets.Update(data);
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public List<Physician> GetAllPhysician()
+        {
+            var res = _context.Physicians.Select(x => new Physician
+            {
+                PhysicianId = x.PhysicianId,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+            }).ToList();
+            return res;
+        }
+
+        public PhysicianPayrate PayrateData(int physicianId)
+        {
+            var data = _context.PhysicianPayrates.Where(x => x.PhysicianId == physicianId).FirstOrDefault();
+            if (data == null)
+            {
+                data = new PhysicianPayrate();
+                data.PhysicianId = physicianId;
+            }
+            return data;
+        }
+        public bool PayratePost(PhysicianPayrate data)
+        {
+            var res = _context.PhysicianPayrates.Where(req => req.PhysicianId == data.PhysicianId).FirstOrDefault();
+            if (res != null)
+            {
+                res.Shift = data.Shift;
+                res.NightShiftWeekend = data.NightShiftWeekend;
+                res.HouseCalls = data.HouseCalls;
+                res.HouseCallsNightWeekend = data.HouseCallsNightWeekend;
+                res.PhoneConsults = data.PhoneConsults;
+                res.PhoneConsultsNightWeekend = data.PhoneConsultsNightWeekend;
+                res.BatchTesting = data.BatchTesting;
+                res.ModifiedDate = DateTime.Now;
+                _context.PhysicianPayrates.Update(res);
+                _context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                res = new PhysicianPayrate
+                {
+                    PhysicianId = data.PhysicianId,
+                    Shift = data.Shift,
+                    NightShiftWeekend = data.NightShiftWeekend,
+                    HouseCalls = data.HouseCalls,
+                    HouseCallsNightWeekend = data.HouseCallsNightWeekend,
+                    PhoneConsults = data.PhoneConsults,
+                    PhoneConsultsNightWeekend = data.PhoneConsultsNightWeekend,
+                    BatchTesting = data.BatchTesting,
+                    CreatedDate = DateTime.Now,
+                };
+                _context.PhysicianPayrates.Add(res);
+                _context.SaveChanges();
+                return true;
+            }
         }
     }
 }

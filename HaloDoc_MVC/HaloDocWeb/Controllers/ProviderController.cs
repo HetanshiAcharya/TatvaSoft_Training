@@ -13,6 +13,8 @@ using System.Security.Cryptography;
 using iText.Layout;
 using Document = iText.Layout.Document;
 using System.Globalization;
+using HaloDocDataAccess.DataContext;
+using HaloDocDataAccess.DataModels;
 
 namespace HaloDocWeb.Controllers
 {
@@ -22,13 +24,14 @@ namespace HaloDocWeb.Controllers
         private readonly IProviderService _providerservice;
         private readonly INotyfService _notyf;
         private readonly IAdminService _adminservice;
+        private readonly HaloDocDbContext _context;
 
-
-        public ProviderController(IProviderService IProviderRepository, INotyfService notyf, IAdminService adminservice)
+        public ProviderController(IProviderService IProviderRepository, INotyfService notyf, IAdminService adminservice, HaloDocDbContext context)
         {
             _providerservice = IProviderRepository;
             _notyf = notyf;
             _adminservice = adminservice;
+            _context = context;
         }
         #endregion
 
@@ -367,24 +370,89 @@ namespace HaloDocWeb.Controllers
         #region Invoicing
         public IActionResult Invoicing()
         {
+            ViewBag.Physician = _adminservice.GetAllPhysician();
             return View("../Admin/Provider/Invoicing");
         }
         #endregion
-        
-        public IActionResult FinalizeTime(string startDate, string endDate)
+       
+        public IActionResult TimeSheetData(string startDate, string endDate, int PhysicianId)
         {
+            if (PhysicianId == 0)
+            {
+                PhysicianId = Convert.ToInt32(CV.UserId());
+            }
             var provider = CultureInfo.InvariantCulture;
             DateTime sd = DateTime.ParseExact(startDate, "dd/MM/yyyy", provider);
             DateTime ed = DateTime.ParseExact(endDate, "dd/MM/yyyy", provider);
-            var res = _adminservice.TimeSheetData(sd, ed);
-            return View("../Admin/Provider/FinalizeTime", res);
+            var res = _adminservice.TimeSheetData(sd, ed, PhysicianId);
+            return PartialView("../Admin/Provider/_TimeSheet", res);
+        }
+
+        public IActionResult FinalizeTime(int TimesheetId, int PhysicianId)
+        {
+            if (PhysicianId == 0)
+            {
+                PhysicianId = Convert.ToInt32(CV.UserId());
+            }
+            var sd = _context.TimeSheets.Where(r => r.TimeSheetId == TimesheetId).Select(r => r.StartDate).FirstOrDefault();
+            var ed = _context.TimeSheets.Where(r => r.TimeSheetId == TimesheetId).Select(r => r.EndDate).FirstOrDefault();
+            var provider = CultureInfo.InvariantCulture;
+            //DateTime sd = DateTime.ParseExact(startDate, "dd/MM/yyyy", provider);
+            //DateTime ed = DateTime.ParseExact(endDate, "dd/MM/yyyy", provider);
+            var res = _adminservice.TimeSheetData(sd, ed, PhysicianId);
+            return View("../Admin/Provider/FinalizeTime",res);
         }
 
         [HttpPost]
         public IActionResult TimeSheetSave(TimesheetModel sendInfo)
         {
             var res = _adminservice.TimeSheetSave(sendInfo);
-            return RedirectToAction("FinalizeTime", new { sendInfo.startDate, sendInfo.endDate });
+            if (res)
+            {
+                _notyf.Success("Saved Successfully");
+            }
+            else
+            {
+                _notyf.Error("Data not Saved");
+            }
+            return RedirectToAction("../Admin/Provider/FinalizeTime", new { sendInfo.TimesheetId, sendInfo.PhysicianId });
+        }
+
+        [HttpPost]
+        public IActionResult RecieptSave(TimesheetModel formData)
+        {
+            var res = _adminservice.TimeSheetRecieptSave(formData);
+            return RedirectToAction("../Admin/Provider/FinalizeTime", new { formData.TimesheetId, formData.PhysicianId });
+        }
+        public IActionResult FinalizeTimesheet(int timesheetId, int physicianId)
+        {
+            bool res = _adminservice.FinalizeTimesheet(timesheetId);
+            return RedirectToAction("../Admin/Provider/FinalizeTime", new { timesheetId, physicianId });
+
+        }
+        public IActionResult ApproveTimesheet(TimesheetModel formData)
+        {
+            bool res = _adminservice.ApproveTimesheet(formData);
+            return RedirectToAction("../Admin/Provider/FinalizeTime", new { formData.TimesheetId, formData.PhysicianId });
+
+        }
+        public IActionResult ProvidersPayrate(int PhysicianId)
+        {
+            var payratedata = _adminservice.PayrateData(PhysicianId);
+            return View("../Admin/Provider/ProvidersPayrate",payratedata);
+        }
+        public IActionResult PayratePost(PhysicianPayrate data)
+        {
+            bool res = _adminservice.PayratePost(data);
+            if (res)
+            {
+                _notyf.Success("Data Added Successfully");
+            }
+            else
+            {
+                _notyf.Error("Error occured");
+            }
+            return View("../Admin/Provider/ProvidersPayrate", data);
         }
     }
 }

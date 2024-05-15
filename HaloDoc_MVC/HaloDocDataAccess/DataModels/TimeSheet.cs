@@ -42,4 +42,7 @@ public partial class TimeSheet
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? ModifiedDate { get; set; }
+
+    [InverseProperty("TimeSheet")]
+    public virtual ICollection<TimeSheetReceipt> TimeSheetReceipts { get; set; } = new List<TimeSheetReceipt>();
 }

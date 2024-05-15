@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+@model HaloDocDataAccess.ViewModels.TimesheetModel;
+﻿﻿@{
+    Layout = null;
+}
+<input type="hidden" name="TimesheetId" id="TimesheetId" value="@(Model != null ? Model.TimesheetId : 0)" />
+<div class="bg-white reqform container p-3 ">
+    @if (Model.TimeSheetData.Count > 0)
+    {
+        <table class="table mt-3">
+            <tr class="table-secondary">
+                <th>Shift Date</th>
+                <th>Shift</th>
+                <th>Nightshift Weekend</th>
+                <th>Housecall</th>
+                <th>Housecall Nights Weekend</th>
+                <th>Phone Consults</th>
+                <th>Phone Consults Night Weekend</th>
+                <th>Batch Testing</th>
+            </tr>
+
+            @foreach (var item in Model.TimeSheetData)
+            {
+                <tr>
+                    <td>@item.Date</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>
+                        @(item != null && item.NumberOfHouseCalls != null ? item.NumberOfHouseCalls : 0)
+                    </td>
+                    <td>0</td>
+                    <td>
+                        @(item != null && item.NumberOfPhoneConsult != null ? item.NumberOfPhoneConsult : 0)
+                    </td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+            }
+        </table>
+
+    }
+    else
+    {
+        <p> No Record(s) Found.</p>
+    }
+</div>
+
+<div class="bg-white reqform container p-3 mt-3">
+    <h3>Timesheet Reimbursement</h3>
+    @if (Model.TimesheetRecieptData.Count > 0)
+    {
+
+        <table class="table ">
+            <tr class="table-secondary">
+                <th>Date</th>
+                <th>Item</th>
+                <th>Amount</th>
+                <th>Bill</th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model.TimesheetRecieptData)
+            {
+                <tr>
+                    <td>@item.Date</td>
+                    <td>
+                        @(item.ItemName != null ? item.ItemName : "")
+                    </td>
+                    <td>
+                        @(item.Amount != null ? item.Amount : "")
+                    </td>
+                    <td>
+                        @(item.BillName != null ? item.BillName : "")
+                    </td>
+                    <td>
+                        <div class=" btn d-flex justify-content-between">
+                            <a target="_blank" href="/Upload/Reciept/@item.BillName" class="btn btn-outline-info shadow-none">
+                                view
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <p> No Record(s) Found.</p>
+    }
+</div>

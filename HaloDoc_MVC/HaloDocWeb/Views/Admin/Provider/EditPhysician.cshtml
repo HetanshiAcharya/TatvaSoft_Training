@@ -49,8 +49,6 @@
                 <div class="dropdown col-lg-6 mt-4">
                     <select class="form-select mb-3" required asp-for="Role" data-allow-clear="true" tabindex="-1" asp-items="@(new SelectList(ViewBag.Status, "RoleId", "Name"))" data-control="" data-placeholder="Select Role" id="role" disabled>
                     </select>
-
-
                 </div>
 
             </div>
@@ -146,6 +144,7 @@
 
             @* edit button ~ phy Info *@
             <div class="d-flex justify-content-end mt-4">
+                <a class="input btn btn-info text-white rounded py-2 px-3 me-2" asp-action="ProvidersPayrate" asp-controller="Provider" asp-route-PhysicianId="@Model.PhysicianId">Enter Payrate</a>
                 <a id="edit2" onclick="enable_disable2()" class="input btn btn-info text-white rounded py-2 px-3 me-2 editprofile">Edit</a>
                 <a id="submit2" class="input btn btn-info text-white rounded py-2 px-3 me-2" value="Save" style="display:none;">Save</a>
             </div>

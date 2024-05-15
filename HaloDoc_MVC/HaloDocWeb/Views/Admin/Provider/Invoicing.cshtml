@@ -1,84 +1,101 @@
 ﻿@{
     Layout = "_AdminLAyout";
 }
-<div class="d-flex container justify-content-between mt-5">
-    <h5 class="mt-3 mb-2"><strong>Timesheets</strong></h5>
-    <div class="mt-3 mb-2">
-        <a class="btn border border-info text-info shadow-none backButton">
-            <i class="fa fa-angle-left pe-1 text-info "> </i> Back
-        </a>
+@model HaloDocDataAccess.ViewModels.TimesheetModel;
+
+
+<div class="d-flex justify-content-between align-items-center container pb-1 mt-4">
+    <div class="d-flex align-self-center">
+        <h3>Timesheets</h3>
+    </div>
+    <div class=" btn d-flex justify-content-end">
+        <button class="btn border border-info text-info shadow-none backButton">
+            <i class="fa fa-angle-left pe-1 text-info"> </i> Back
+        </button>
     </div>
 </div>
-<div class="container bg-white p-2 d-flex justify-content-between align-items-center">
-    <div class="mb-3 col-lg-6 p-1  form-floating">
-        <select class="form-select" id="daterange">
-            @{
-                string date = @DateTime.Now.ToString("MM") +"/" + @DateTime.Now.ToString("yyyy");
+<div class="bg-white reqform container p-3 ">
+    <form class="d-flex justify-content-between align-items-center">
+
+        <div class=" d-flex me-2">
+            @if (CV.role() == "Admin")
+            {
+                <div class="form-floating me-2">
+                    <select class="form-select" name="PhysicianId" required id="PhysicianId">
+
+                        @foreach (var physician in ViewBag.Physician)
+                        {
+                            <option value="@physician.PhysicianId">@physician.FirstName @physician.LastName</option>
+                        }
+                    </select>
+                    <label class="form-label">Search by Physician </label>
+                </div>
             }
-            <option value="01/@date - 14/@date"> 01/@date - 14/@date</option>
-            <option value="15/@date - @DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)/@date"> 15/@date - @DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)/@date</option>
-        </select>
-        <label for="time" class="form-label">Search By Timeperiod</label>
-    </div>
-    <div>
-        @* @if(!Model.isFinalize)
+            <div class="form-floating">
+                <select class="form-select" id="daterange" onchange="timesheetshow()">
+                    @{
+                        string date = @DateTime.Now.ToString("MM") + "/" + @DateTime.Now.ToString("yyyy");
+                    }
+
+                    <option value="01/@date - 14/@date"> 01/@date - 14/@date</option>
+                    <option value="15/@date - @DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)/@date"> 15/@date - @DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)/@date</option>
+                </select>
+                <label class="form-label">Search by Timesheet </label>
+            </div>
+
+        </div>
+        @*  @if(!Model.isFinalized)
         {*@
-        <a class="btn border border-info text-info shadow-none " onclick="finalizetimesheet()">
-            Finalize Timesheet
-        </a>
-        @*}*@
-    </div>
+        <div>
+            <button type="button" class="btn btn-outline-info" onclick="finalizetimesheet()">Finalize Timesheet</button>
+        </div>
+        @* }*@
+    </form>
 </div>
-<table class="table table-secondary container">
-    <thead>
-        <tr>
-            <th class="h6">Shift Date</th>
-            <th class ="h6">Shift </th>
-            <th class="h6">Night Shift Weekend </th>
-            <th class="h6">Housecall</th>
-            <th class="h6">Housecall Nights Weekend</th>
-            <th class="h6">Phone Consults</th>
-            <th class="h6">Phone Consults NightWeekends</th>
-            <th class="h6">Batch Testing</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        </tr>
-    </tbody>
-</table>
-@* Upload doc table *@
-<table class="table table-secondary container">
-    <thead>
-        <tr>
-            <th class="h6"> Date</th>
-            <th class="h6">Item </th>
-            <th class="h6">Amount </th>
-            <th class="h6">Bills</th>
-            <th class="h6">Action</th>
-           
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        </tr>
-    </tbody>
-</table>
+<div id="timesheet"></div>
+
 <script>
-   
-     function finalizetimesheet() {
+    $(document).ready(function () {
+        timesheetshow();
+    });
+    function timesheetshow() {
         var dateRange = $("#daterange").val();
         let dates = [];
         dates = dateRange.split(" - ");
         var startDate = dates[0];
         var endDate = dates[1];
+        var physicianid = $("#PhysicianId").val();
+        console.log(startDate);
+        console.log(endDate);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("TimeSheetData", "Provider")',
+            data: { startDate: startDate, endDate: endDate, PhysicianId: physicianid },
+            success: function (response) {
+                console.log(response);
+                $("#timesheet").html(response);
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + status + " - " + xhr.responseText);
+            }
+        });
+    }
+    function finalizetimesheet() {
+        var dateRange = $("#daterange").val();
+        let dates = [];
+        dates = dateRange.split(" - ");
+        var startDate = dates[0];
+        var endDate = dates[1];
+        var TimesheetId = $("#TimesheetId").val();
+        var physicianid = $("#PhysicianId").val();
         console.log(startDate);
         console.log(endDate);
         $.ajax({
             type: 'POST',
             url: '@Url.Action("FinalizeTime", "Provider")',
-            data: { startDate: startDate, endDate: endDate },
-            success: function (response){
+            data: { TimesheetId: TimesheetId, PhysicianId: physicianid },
+            success: function (response) {
                 console.log(response);
                 $('body').html(response);
             },
