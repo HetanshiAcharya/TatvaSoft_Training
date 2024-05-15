@@ -32,4 +32,8 @@
     <ProjectReference Include="..\HaloDocRepository\HaloDocRepository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Upload\Reciept\" />
+  </ItemGroup>
+
 </Project>

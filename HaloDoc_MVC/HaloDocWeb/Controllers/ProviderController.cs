@@ -427,13 +427,13 @@ namespace HaloDocWeb.Controllers
         public IActionResult FinalizeTimesheet(int timesheetId, int physicianId)
         {
             bool res = _adminservice.FinalizeTimesheet(timesheetId);
-            return RedirectToAction("../Admin/Provider/FinalizeTime", new { timesheetId, physicianId });
+            return RedirectToAction("FinalizeTime", new { timesheetId, physicianId });
 
         }
         public IActionResult ApproveTimesheet(TimesheetModel formData)
         {
             bool res = _adminservice.ApproveTimesheet(formData);
-            return RedirectToAction("../Admin/Provider/FinalizeTime", new { formData.TimesheetId, formData.PhysicianId });
+            return RedirectToAction("FinalizeTime", new { formData.TimesheetId, formData.PhysicianId });
 
         }
         public IActionResult ProvidersPayrate(int PhysicianId)
