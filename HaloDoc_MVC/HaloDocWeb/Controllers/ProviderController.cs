@@ -370,11 +370,13 @@ namespace HaloDocWeb.Controllers
         #region Invoicing
         public IActionResult Invoicing()
         {
+            
             ViewBag.Physician = _adminservice.GetAllPhysician();
+            ViewBag.isFinalized = _context.TimeSheets.Select(x => x.IsFinalized).FirstOrDefault();
             return View("../Admin/Provider/Invoicing");
         }
         #endregion
-       
+        #region TimeSheetData
         public IActionResult TimeSheetData(string startDate, string endDate, int PhysicianId)
         {
             if (PhysicianId == 0)
@@ -387,7 +389,7 @@ namespace HaloDocWeb.Controllers
             var res = _adminservice.TimeSheetData(sd, ed, PhysicianId);
             return PartialView("../Admin/Provider/_TimeSheet", res);
         }
-
+        #endregion
         public IActionResult FinalizeTime(int TimesheetId, int PhysicianId)
         {
             if (PhysicianId == 0)
@@ -400,7 +402,7 @@ namespace HaloDocWeb.Controllers
             //DateTime sd = DateTime.ParseExact(startDate, "dd/MM/yyyy", provider);
             //DateTime ed = DateTime.ParseExact(endDate, "dd/MM/yyyy", provider);
             var res = _adminservice.TimeSheetData(sd, ed, PhysicianId);
-            return View("../Admin/Provider/FinalizeTime",res);
+            return View("../Admin/Provider/FinalizeTime", res);
         }
 
         [HttpPost]
@@ -439,7 +441,7 @@ namespace HaloDocWeb.Controllers
         public IActionResult ProvidersPayrate(int PhysicianId)
         {
             var payratedata = _adminservice.PayrateData(PhysicianId);
-            return View("../Admin/Provider/ProvidersPayrate",payratedata);
+            return View("../Admin/Provider/ProvidersPayrate", payratedata);
         }
         public IActionResult PayratePost(PhysicianPayrate data)
         {

@@ -44,12 +44,22 @@
             </div>
 
         </div>
-        @*  @if(!Model.isFinalized)
-        {*@
-        <div>
-            <button type="button" class="btn btn-outline-info" onclick="finalizetimesheet()">Finalize Timesheet</button>
-        </div>
-        @* }*@
+        @if (CV.role() == "Physician")
+        {
+            @if (!ViewBag.isFinalized)
+            {
+                <div>
+                    <button type="button" class="btn btn-outline-info" onclick="finalizetimesheet()">Finalize Timesheet</button>
+                </div>
+            }
+        }
+        @if (CV.role() == "Admin")
+        {
+            <div>
+                <button type="button" class="btn btn-outline-info" onclick="finalizetimesheet()">Finalize Timesheet</button>
+            </div>
+        }
+
     </form>
 </div>
 <div id="timesheet"></div>
